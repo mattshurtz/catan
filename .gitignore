@@ -1,1 +1,4 @@
 java/catan.iml
+out/
+*.classpath
+*.project
