@@ -2,3 +2,6 @@ java/catan.iml
 out/
 *.classpath
 *.project
+manifest.mf
+nbbuild.xml
+nbproject/
