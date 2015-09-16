@@ -8,3 +8,4 @@ nbbuild.xml
 bin/
 nbproject/
 demo/logs/
+/build/
