@@ -21,7 +21,7 @@ import shared.model.map.Map;
 *move.,
 *winner (index): This is -1 when nobody's won yet. When they have, it's their order index [0-3]
 */
-public class Facade {
+public class Model {
     ResourceList bank;
     MessageList chat;
     MessageList log;
@@ -32,7 +32,7 @@ public class Facade {
     int version;
     int winner;
             
-    public Facade(){
+    public Model(){
       bank = new ResourceList();
       chat = new MessageList();
       log = new MessageList();
@@ -45,7 +45,7 @@ public class Facade {
       
     }
 
-    public Facade(String serverModel ){
+    public Model(String serverModel ){
         //http://stackoverflow.com/questions/16377754/parse-json-file-using-gson
         //Gson gson = new Gson();
         //this = gson.fromJson(serverModel, Facade.class);
