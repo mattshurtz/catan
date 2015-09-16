@@ -10,5 +10,5 @@ package shared.model;
  * @author karahartley
  */
 public class Player {
-    
+	
 }

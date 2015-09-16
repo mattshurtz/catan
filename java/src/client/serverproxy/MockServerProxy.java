@@ -1,6 +1,5 @@
 package client.serverproxy;
 
-public class MockServerProxy implements IServerProxy 
-{
+public class MockServerProxy implements IServerProxy {
 
 }

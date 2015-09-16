@@ -7,7 +7,6 @@ package client.serverproxy;
  * @author Alex Morris
  *
  */
-public interface IServerProxy 
-{
+public interface IServerProxy {
 	//TODO: Add all functions from TA swagger page
 }
