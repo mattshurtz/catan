@@ -4,4 +4,6 @@ out/
 *.project
 manifest.mf
 nbbuild.xml
+.metadata/
+bin/
 nbproject/
