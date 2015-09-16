@@ -21,4 +21,8 @@ public class Credentials {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
+	public String toString() {
+		return "Credentials w/ username: " + this.username + " and password: " + this.password;
+	}
 }

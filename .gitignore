@@ -7,3 +7,5 @@ nbbuild.xml
 .metadata/
 bin/
 nbproject/
+demo/logs/
+/build/
