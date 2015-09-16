@@ -10,10 +10,10 @@ import shared.model.Model;
 /**
  *
  */
-public class BuildFacade {
+public class BuildGameObjFacade {
     Model model;
     
-    public BuildFacade(Model model) {
+    public BuildGameObjFacade(Model model) {
         this.model = model;
     }
     

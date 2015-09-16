@@ -7,8 +7,24 @@ package Facade;
 
 /**
  *
- * @author karahartley
  */
 public class TradeFacade {
+    
+    public void offerTrade(){
+        
+    }
+    
+    /**
+     * type (acceptTrade),
+     * playerIndex (integer): Who's accepting / rejecting this trade,
+     * willAccept (boolean): Whether you accept the trade or not
+     */
+    public void acceptTrade(){
+        
+    }
+    
+    public void maritimeTrade(){
+        
+    }
     
 }
