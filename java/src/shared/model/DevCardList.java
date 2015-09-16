@@ -11,4 +11,12 @@ package shared.model;
  */
 public class DevCardList {
     
+    DevCardList(){
+        int monopoly = 2;
+        int monument = 5;
+        int roadBuilding = 2;
+        int soldier = 14;
+        int yearOfPlenty = 2;
+    }
+    
 }

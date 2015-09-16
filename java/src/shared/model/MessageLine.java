@@ -5,17 +5,17 @@
  */
 package shared.model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author karahartley
  */
-public class MessageList {
-    
-    public MessageList(){
-        ArrayList<MessageLine> lines = new ArrayList<MessageLine>();
+public class MessageLine {
+
+    public MessageLine() {
+        String message;
+        String source;
     }
+    
     
     
 }

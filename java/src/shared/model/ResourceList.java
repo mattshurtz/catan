@@ -6,9 +6,11 @@
 package shared.model;
 
 /**
- *
- * @author karahartley
  */
 public class ResourceList {
-    
+    int brick;
+    int ore;
+    int sheep;
+    int wheat;
+    int wood;    
 }
