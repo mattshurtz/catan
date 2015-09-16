@@ -10,10 +10,10 @@ package shared.model;
  * @author karahartley
  */
 public class MessageLine {
-
-    public MessageLine() {
         String message;
         String source;
+    public MessageLine() {
+
     }
     
     

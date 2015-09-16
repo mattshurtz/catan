@@ -5,10 +5,13 @@
  */
 package shared.model.map;
 
+import shared.locations.EdgeLocation;
+
 /**
- *
- * @author karahartley
- */
+*owner (index): The index (not id) of the player who owns this piece (0-3),
+*location (EdgeLocation): The location of this road.
+*/
 public class EdgeValue {
-    
+    int owner;
+    EdgeLocation location;
 }

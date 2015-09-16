@@ -5,18 +5,16 @@
  */
 package shared.model;
 
-/**
- *
- * @author karahartley
- */
 public class DevCardList {
-    
-    DevCardList(){
-        int monopoly = 2;
-        int monument = 5;
-        int roadBuilding = 2;
-        int soldier = 14;
-        int yearOfPlenty = 2;
+        // 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument 
+        int monopoly;
+        int monument;
+        int roadBuilding;
+        int soldier;
+        int yearOfPlenty;
+
+    public DevCardList(){
+
     }
     
 }

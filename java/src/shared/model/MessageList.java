@@ -12,10 +12,9 @@ import java.util.ArrayList;
  * @author karahartley
  */
 public class MessageList {
+    ArrayList<MessageLine> lines;
+
+
     
-    public MessageList(){
-        ArrayList<MessageLine> lines = new ArrayList<MessageLine>();
-    }
-    
-    
+      
 }

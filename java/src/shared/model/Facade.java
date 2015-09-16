@@ -10,21 +10,38 @@ import shared.model.map.Map;
 
 
 /**
- *
- * @author karahartley
- */
+*bank (ResourceList): The cards available to be distributed to the players.,
+*chat (MessageList): All the chat messages.,
+*log (MessageList): All the log messages.,
+*map (Map),
+*players (array[Player]),
+*tradeOffer (TradeOffer, optional): The current trade offer, if there is one.,
+*turnTracker (TurnTracker): This tracks who's turn it is and what action's being done.,
+*version (index): The version of the model. This is incremented whenever anyone makes a
+*move.,
+*winner (index): This is -1 when nobody's won yet. When they have, it's their order index [0-3]
+*/
 public class Facade {
-    
+    ResourceList bank;
+    MessageList chat;
+    MessageList log;
+    Map map;
+    ArrayList<Player> players;
+    TradeOffer tradeOffer;
+    TurnTracker turnTracker;
+    int version;
+    int winner;
+            
     public Facade(){
-      ResourceList bank = new ResourceList();
-      MessageList chat = new MessageList();
-      MessageList log = new MessageList();
-      Map map = new Map();
-      ArrayList<Player> players = new ArrayList<Player>();
-      TradeOffer tradeOffer = new TradeOffer();
-      TurnTracker turnTracker = new TurnTracker();
-      int version = 0;
-      int winner = -1;
+      bank = new ResourceList();
+      chat = new MessageList();
+      log = new MessageList();
+      map = new Map();
+      players = new ArrayList<Player>();
+      tradeOffer = new TradeOffer();
+      turnTracker = new TurnTracker();
+      version = 0;
+      winner = -1;
       
     }
 
