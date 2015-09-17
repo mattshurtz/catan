@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package client.facade;
 
 /**
-*
+ *
  */
-public class UtilFacade {
+public class UserFacade {
     
-      public void changeLogLevel(){
-         
-      }  
-      
+    public void login(){
+        
+    }
+    
+    public void register(){
+        
+    }
+    
+
 }

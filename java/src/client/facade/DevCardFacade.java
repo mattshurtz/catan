@@ -3,31 +3,40 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package client.facade;
 
 import shared.model.Model;
 
 /**
  *
+ * 
  */
-public class BuildGameObjFacade {
+public class DevCardFacade {
     Model model;
     
-    public BuildGameObjFacade(Model model) {
+    public DevCardFacade(Model model) {
         this.model = model;
     }
     
-   
-    public void buildRoad(){
+    public void buyDevCard(){
         
     }
     
-    public void buildSettlement(){
+    public void playYearOfPlenty(){
         
     }
     
-    public void buildCity(){
+    public void playRoadBuilding(){
         
     }
+    
+    public void playSoldier(){
+        
+    }
+    
+    public void playMonopoly(){
+        
+    }
+    
     
 }

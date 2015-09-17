@@ -3,34 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package client.facade;
 
 /**
  *
  */
-public class GameFacade {
+public class Facade {
     
-    public void getModel(){
+    public void sendChat(){
         
     }
     
-    public void resetCommands(){
+    public void rollNumber(){
         
     }
     
-    public void executeCommands(){
+    public void robPlayer(){
         
     }
     
-    public void getCommands(){
-        
-    }
-    
-    public void addAI(){
-        
-    }
-    
-    public void listAI(){
+    public void finishTurn(){
         
     }
     

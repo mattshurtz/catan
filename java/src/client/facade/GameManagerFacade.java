@@ -3,27 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package client.facade;
 
 /**
  *
  */
-public class Facade {
+public class GameManagerFacade {
     
-    public void sendChat(){
+    public String listGames(){
+        return new String("json");
+    }
+    
+    public void createGame(){
         
     }
     
-    public void rollNumber(){
+    public void join(){
         
     }
     
-    public void robPlayer(){
+    public void save(){
         
     }
     
-    public void finishTurn(){
+    public void load(){
         
     }
+    
+    
     
 }

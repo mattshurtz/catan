@@ -3,33 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Facade;
+package client.facade;
 
 /**
  *
  */
-public class GameManagerFacade {
+public class GameFacade {
     
-    public String listGames(){
-        return new String("json");
-    }
-    
-    public void createGame(){
+    public void getModel(){
         
     }
     
-    public void join(){
+    public void resetCommands(){
         
     }
     
-    public void save(){
+    public void executeCommands(){
         
     }
     
-    public void load(){
+    public void getCommands(){
         
     }
     
+    public void addAI(){
+        
+    }
     
+    public void listAI(){
+        
+    }
     
 }
