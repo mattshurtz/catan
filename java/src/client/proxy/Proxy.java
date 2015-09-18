@@ -12,6 +12,7 @@ public abstract class Proxy {
     
     
     public abstract void buildRoad();
+    public abstract
     
     
     
