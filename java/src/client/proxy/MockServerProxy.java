@@ -141,13 +141,13 @@ public class MockServerProxy implements IServerProxy {
 	}
 
 	@Override
-	public ModelResponse getGameModel(int version) throws ServerException {
+	public String getGameModel(int version) throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public ModelResponse resetGame() throws ServerException {
+	public String resetGame() throws ServerException {
 		// TODO Auto-generated method stub
 		return null;
 	}

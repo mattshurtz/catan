@@ -3,7 +3,6 @@ import java.util.*;
 
 import shared.communication.params.*;
 import shared.communication.responses.*;
-import shared.communication.responses.model.*;
 import shared.exceptions.ServerException;
 
 /**
@@ -80,26 +79,56 @@ public interface IServerProxy {
 	 * @return TODO So this API request returns either a game model object in JSON, or true.  How should we deal with that?
 	 * @throws ServerException If the server request fails
 	 */
-	ModelResponse getGameModel(int version) throws ServerException;
+	String getGameModel(int version) throws ServerException;
 	
 	/**
 	 * For default games created by the server, this method reverts the game to the state immediately after the initial placement round.  For
 	 * user-created games, this method reverts games to the very beginning (before the initial placement round).  The return happens after the game has
 	 * been reset.  You must login and join a game before calling this method.
-	 * @return The ModelResponse object containing the game model after the game has been reset.
+	 * @return the game model after the game has been reset.
 	 * @throws ServerException If the server request fails
 	 */
-	ModelResponse resetGame() throws ServerException;
+	String resetGame() throws ServerException;
 	
 	//TODO: Continue stubbing TA swagger methods - start with /game/commands (GET)
-	
-        ModelResponse postCommands() throws ServerException;
+	/**
+         * Used for testing and debugging. 
+         * @param postCommandsRequest is an array list of commands to be executed on the server. This is used after a user has
+         * logged in and joins a game. These commands are then re-run to restore the state of the game. 
+         * @return The client model JSON for the game after the command list has been applied.
+         * @throws ServerException 
+         */
+        String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException;
         
-        ModelResponse getCommands() throws ServerException;
+        /**
+         * @return For the default games created by the server, this method returns a list of all commands
+         * that have been executed after the initial placement round. 
+         * For user-created games, this method returns a list of all commands that have been executed
+         * in the game since the very beginning (i.e., before the initial placement round).
+         * @throws ServerException 
+         */
+        String getCommands() throws ServerException;
         
-        boolean addAi() throws ServerException;
+        /**
+        *The type of AI player to add (currently, LARGEST_ARMY is the only supported type)
+        *@return AIType (string): 
+        *@throws ServerException
+        */
+        String addAi() throws ServerException;
         
-        ModelResponse buildRoad() throws ServerException;   
+        /**
+         * 
+         * @return a list of supported AI player types (currently, LARGEST_ARMY is the only supported type
+         * @throws ServerException 
+         */
+        String listAi() throws ServerException;
+        
+        /**
+         * 
+         * @return
+         * @throws ServerException 
+         */
+        String buildRoad() throws ServerException;   
         
         void offerTrade() throws ServerException;
     
