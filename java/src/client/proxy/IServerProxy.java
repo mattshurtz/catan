@@ -162,8 +162,37 @@ public interface IServerProxy {
         void robPlayer() throws ServerException;
     
         void finishTurn() throws ServerException;
+        
 	
-	
+	String canBuildRoad() throws ServerException;   
+        
+        void canOfferTrade() throws ServerException;
+    
+        void canAcceptTrade() throws ServerException;
+    
+        void canMaritimeTrade() throws ServerException;
+    
+        void canBuyDevCard() throws ServerException;
+    
+        void canPlayYearOfPlenty() throws ServerException;
+    
+        void canPlayRoadBuilding() throws ServerException;
+    
+        void canPlaySoldier() throws ServerException;
+    
+        void canPlayMonopoly() throws ServerException;
+    
+        void canBuildSettlement() throws ServerException;
+    
+        void canBuildCity() throws ServerException;
+    
+        void canSendChat() throws ServerException;
+    
+        void canRollNumber() throws ServerException;
+    
+        void canRobPlayer() throws ServerException;
+    
+        void canFinishTurn() throws ServerException;
 	
 	
 	
