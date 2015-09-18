@@ -6,6 +6,8 @@
 package shared.model.map;
 
 import java.util.ArrayList;
+
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 
 /**
@@ -18,6 +20,10 @@ import shared.locations.HexLocation;
 *this into the hexgrid constructor),
 *robber (HexLocation): The current location of the robber
 */
+/**
+ * @author Shurt
+ *
+ */
 public class Map {
     ArrayList<Hex> hexes;
     ArrayList<Port> ports;
@@ -26,4 +32,29 @@ public class Map {
     ArrayList<VertexObject> cities;
     int radius;
     HexLocation robber;
+    
+
+	/**
+	 * @param location specifies a HexLocation to see if a road can be placed there
+	 * @return true if the place can accept a road
+	 */
+	public boolean canPlaceRoadAtLoc(HexLocation location) {
+    	return false;
+    }
+    
+	/**
+	 * @param location specifies a HexLocation to see if a city can be placed there
+	 * @return true if the place can accept a city
+	 */
+    public boolean canPlaceCityAtLoc(EdgeLocation location) {
+    	return false;
+    }
+    
+    /**
+	 * @param location specifies a HexLocation to see if a settlement can be placed there
+	 * @return true if the place can accept a settlement
+	 */
+    public boolean canPlaceSettlementAtLoc(EdgeLocation location) {
+    	return false;
+    }
 }

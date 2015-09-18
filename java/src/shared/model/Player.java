@@ -24,6 +24,10 @@ package shared.model;
 *soldiers (integer),
 *victoryPoints (integer)
 */
+/**
+ * @author Shurt
+ *
+ */
 public class Player {
     
         int cities;
@@ -43,7 +47,49 @@ public class Player {
         int victoryPoints;
         
     
+    /**
+     * 
+     */
     public Player(){
         
     }
+
+    /** 
+     * @return true if player has enough resources to buy a road
+     */
+    public boolean canBuyRoad() {
+    	return false;
+    }
+    
+    /** 
+     * @return true if player has enough resources to buy a Settlement
+     */
+    public boolean canBuySettlement() {
+    	return false;
+    }
+    
+    /** 
+     * @return true if player has enough resources to buy a City
+     */
+    public boolean canBuyCity() {
+    	return false;
+    }
+    
+    /** 
+     * @return true if player has enough resources to accept a trade
+     */
+    public boolean canAcceptTrade() {
+    	return false;
+    }
+    
+    /** 
+     * @return true if player can play a development card
+     */
+    public boolean canPlayDevCard() {
+    	return false;
+    }
+    
+    
+    
+    
 }
