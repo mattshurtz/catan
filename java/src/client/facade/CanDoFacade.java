@@ -5,7 +5,7 @@
  */
 package client.facade;
 
-import client.proxy.Proxy;
+import client.proxy.IServerProxy;
 import shared.model.Model;
 
 /**
@@ -14,10 +14,10 @@ import shared.model.Model;
  */
 public class CanDoFacade {
     
-    Proxy proxy;
+    IServerProxy proxy;
     Model model;
     
-    public CanDoFacade(Proxy proxy, Model model){
+    public CanDoFacade(IServerProxy proxy, Model model){
         this.proxy = proxy;
         this.model = model;
     }

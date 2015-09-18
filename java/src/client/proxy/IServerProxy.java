@@ -1,4 +1,4 @@
-package client.serverproxy;
+package client.proxy;
 import java.util.*;
 
 import shared.communication.params.*;
@@ -93,7 +93,46 @@ public interface IServerProxy {
 	
 	//TODO: Continue stubbing TA swagger methods - start with /game/commands (GET)
 	
-	
+        ModelResponse postCommands() throws ServerException;
+        
+        ModelResponse getCommands() throws ServerException;
+        
+        boolean addAi() throws ServerException;
+        
+        ModelResponse buildRoad() throws ServerException;   
+        
+        void offerTrade() throws ServerException;
+    
+        /**
+        * type (acceptTrade),
+        * playerIndex (integer): Who's accepting / rejecting this trade,
+        * willAccept (boolean): Whether you accept the trade or not
+        */
+        void acceptTrade() throws ServerException;
+    
+        void maritimeTrade() throws ServerException;
+    
+        void buyDevCard() throws ServerException;
+    
+        void playYearOfPlenty() throws ServerException;
+    
+        void playRoadBuilding() throws ServerException;
+    
+        void playSoldier() throws ServerException;
+    
+        void playMonopoly() throws ServerException;
+    
+        void buildSettlement() throws ServerException;
+    
+        void buildCity() throws ServerException;
+    
+        void sendChat() throws ServerException;
+    
+        void rollNumber() throws ServerException;
+    
+        void robPlayer() throws ServerException;
+    
+        void finishTurn() throws ServerException;
 	
 	
 	

@@ -5,20 +5,20 @@
  */
 package client.facade;
 
-import client.proxy.Proxy;
+import client.proxy.IServerProxy;
+import java.net.Proxy;
 import shared.model.Model;
 
 /**
  *
- * @author karahartley
  */
 public class DoFacade {
     
     
-    Proxy proxy;
+    IServerProxy proxy;
     Model model;
     
-    public DoFacade(Proxy proxy, Model model){
+    public DoFacade(IServerProxy proxy, Model model){
         this.proxy = proxy;
         this.model = model;
     }

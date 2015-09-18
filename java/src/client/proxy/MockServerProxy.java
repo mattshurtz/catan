@@ -7,7 +7,7 @@ import shared.communication.responses.*;
 import shared.communication.responses.model.*;
 import shared.exceptions.ServerException;
 
-public class ServerProxy implements IServerProxy {
+public class MockServerProxy implements IServerProxy {
 
     @Override
     public ModelResponse postCommands() throws ServerException {

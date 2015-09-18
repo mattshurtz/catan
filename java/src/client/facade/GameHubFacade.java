@@ -5,7 +5,9 @@
  */
 package client.facade;
 
-import client.proxy.Proxy;
+import client.data.GameInfo;
+import client.proxy.IServerProxy;
+import shared.communication.params.JoinGameRequest;
 import shared.model.Model;
 
 /**
@@ -13,10 +15,10 @@ import shared.model.Model;
  */
 public class GameHubFacade {
     
-    Proxy proxy;
+    IServerProxy proxy;
     Model model;
     
-    public GameHubFacade(Proxy proxy, Model model){
+    public GameHubFacade(IServerProxy proxy, Model model){
         this.proxy = proxy;
         this.model = model;
     }
@@ -53,8 +55,8 @@ public class GameHubFacade {
         
     }
     
-    public void join(){
-        
+    public void join(GameInfo gameInfo, String color){
+
     }
     
     public void save(){
@@ -66,6 +68,7 @@ public class GameHubFacade {
     }
     
     public void login(){
+        
         
     }
     

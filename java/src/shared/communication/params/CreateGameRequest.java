@@ -10,4 +10,42 @@ public class CreateGameRequest {
 	//boolean randomNumbers - whether the numbers should be randomly placed
 	//boolean randomPorts - whether ports should be randomly placed
 	//String name - name of your new game
+    boolean randomTiles;
+    boolean randomNumbers;
+    boolean randomPorts;
+    boolean name;
+
+    public boolean isRandomTiles() {
+        return randomTiles;
+    }
+
+    public void setRandomTiles(boolean randomTiles) {
+        this.randomTiles = randomTiles;
+    }
+
+    public boolean isRandomNumbers() {
+        return randomNumbers;
+    }
+
+    public void setRandomNumbers(boolean randomNumbers) {
+        this.randomNumbers = randomNumbers;
+    }
+
+    public boolean isRandomPorts() {
+        return randomPorts;
+    }
+
+    public void setRandomPorts(boolean randomPorts) {
+        this.randomPorts = randomPorts;
+    }
+
+    public boolean isName() {
+        return name;
+    }
+
+    public void setName(boolean name) {
+        this.name = name;
+    }
+
+    
 }
