@@ -47,9 +47,8 @@ public class GameHubFacade {
         
     }
     
-    public String listGames(){
-        return new String("json");
-    }
+//    public String listGames(){
+//    }
     
     public void createGame(){
         

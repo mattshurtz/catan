@@ -35,7 +35,6 @@ public class CanDoFacade {
     	return false;
     }
     
-    
     public void canMaritimeTrade(){
         
     }

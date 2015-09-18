@@ -5,6 +5,11 @@
  */
 package shared.model;
 
+/**
+ * 
+ * 
+ */
+
 public class DevCardList {
         // 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument 
         int monopoly;

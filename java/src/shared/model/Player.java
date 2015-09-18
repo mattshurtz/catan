@@ -6,7 +6,7 @@
 package shared.model;
 
 /**
-* cities (number): How many cities this player has left to play,
+*cities (number): How many cities this player has left to play,
 *color (string): The color of this player.,
 *discarded (boolean): Whether this player has discarded or not already this discard phase.,
 *monuments (number): How many monuments this player has played.,

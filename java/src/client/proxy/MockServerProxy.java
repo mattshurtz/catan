@@ -4,18 +4,17 @@ import java.util.List;
 
 import shared.communication.params.*;
 import shared.communication.responses.*;
-import shared.communication.responses.model.*;
 import shared.exceptions.ServerException;
 
 public class MockServerProxy implements IServerProxy {
 
     @Override
-    public ModelResponse postCommands() throws ServerException {
+    public String postCommands() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ModelResponse getCommands() throws ServerException {
+    public String getCommands() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -25,7 +24,7 @@ public class MockServerProxy implements IServerProxy {
     }
 
     @Override
-    public ModelResponse buildRoad() throws ServerException {
+    public String buildRoad() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

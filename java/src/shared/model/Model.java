@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import com.google.gson.Gson;
 import java.util.ArrayList;
 import shared.model.map.Map;
 
@@ -45,10 +46,8 @@ public class Model {
       
     }
 
-    public Model(String serverModel ){
-        //http://stackoverflow.com/questions/16377754/parse-json-file-using-gson
-        //Gson gson = new Gson();
-        //this = gson.fromJson(serverModel, Facade.class);
+    public static Model parseModel(String json){
+        return new Gson().fromJson(json, Model.class);
     }
     
 }
