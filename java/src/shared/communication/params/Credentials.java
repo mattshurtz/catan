@@ -1,8 +1,8 @@
-package shared.communication;
+package shared.communication.params;
 
 /**
- * 
- * @author Alex&Nicky
+ * Wrapper object for a user's username and password.  This is used in the user authentication request, the registration request, etc.
+ * @author Alex
  *
  */
 public class Credentials {
