@@ -84,22 +84,6 @@ public class Player {
     }
     
     /** 
-     * @param ResourceList accept is the list of resource necessary to accept the trade. 
-     * @return true if player has enough resources to accept the trade
-     */
-    public boolean canAcceptTrade( ResourceList accept) {
-    	return false;
-    }
-    
-    /** 
-     * @param ResourceList offer is the resources to be offered in trade. 
-     * @return true if the player has the resources to be offered;
-     */
-    public boolean canOfferTade(ResourceList offer){
-        return false;
-    }
-    
-    /** 
      * @return true if player can play a development card
      */
     public boolean canPlayDevCard() {
