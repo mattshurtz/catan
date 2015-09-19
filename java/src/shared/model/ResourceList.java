@@ -5,6 +5,8 @@
  */
 package shared.model;
 
+import shared.definitions.ResourceType;
+
 /**
  */
 public class ResourceList {
@@ -29,5 +31,21 @@ public class ResourceList {
      */
     public boolean canOfferTade(ResourceList offer){
         return false;
+    }
+    
+    /**
+     * Use to add a resource to the resource list(trade, draw)
+     * @param resourceType this is the type of resource to be incremented. 
+     */
+    public void addResource(ResourceType resourceType){
+        
+    }
+    
+    /**
+     * Use to subtract a resource from the resource list. 
+     * @param resourceType this is the type of resource to be decremented.
+     */
+    public void subResource(ResourceType resourceType){
+        
     }
 }

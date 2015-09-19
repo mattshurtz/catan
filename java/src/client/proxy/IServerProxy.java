@@ -41,7 +41,7 @@ public interface IServerProxy {
 	/**
 	 * Creates a new game on the server
 	 * @param gameRequests The CreateGameRequests object containing instructions on how to configure the new game
-	 * @return NewGameResponse object containing the title and ID of the game, and a list of empty player objects
+	 * @return CreateGameResponse object containing the title and ID of the game, and a list of empty player objects
 	 * @throws ServerException If the server requests fails
 	 */
 	CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException;
