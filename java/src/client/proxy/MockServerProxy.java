@@ -117,7 +117,7 @@ public class MockServerProxy implements IServerProxy {
     }
 
     @Override
-    public NewGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
+    public CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
         // TODO Auto-generated method stub
         return null;
     }

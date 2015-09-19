@@ -44,7 +44,7 @@ public interface IServerProxy {
 	 * @return NewGameResponse object containing the title and ID of the game, and a list of empty player objects
 	 * @throws ServerException If the server requests fails
 	 */
-	NewGameResponse createGame(CreateGameRequest gameRequests) throws ServerException;
+	CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException;
 	
 	/**
 	 * Joins a player to a game on the server
@@ -79,7 +79,7 @@ public interface IServerProxy {
 	 * @return TODO So this API request returns either a game model object in JSON, or true.  How should we deal with that?
 	 * @throws ServerException If the server request fails
 	 */
-	String getGameModel(int version) throws ServerException;
+	GetGameModelResponse getGameModel(int version) throws ServerException;
 	
 	/**
 	 * For default games created by the server, this method reverts the game to the state immediately after the initial placement round.  For
@@ -162,38 +162,5 @@ public interface IServerProxy {
         void robPlayer() throws ServerException;
     
         void finishTurn() throws ServerException;
-        
-	
-	String canBuildRoad() throws ServerException;   
-        
-        void canOfferTrade() throws ServerException;
-    
-        void canAcceptTrade() throws ServerException;
-    
-        void canMaritimeTrade() throws ServerException;
-    
-        void canBuyDevCard() throws ServerException;
-    
-        void canPlayYearOfPlenty() throws ServerException;
-    
-        void canPlayRoadBuilding() throws ServerException;
-    
-        void canPlaySoldier() throws ServerException;
-    
-        void canPlayMonopoly() throws ServerException;
-    
-        void canBuildSettlement() throws ServerException;
-    
-        void canBuildCity() throws ServerException;
-    
-        void canSendChat() throws ServerException;
-    
-        void canRollNumber() throws ServerException;
-    
-        void canRobPlayer() throws ServerException;
-    
-        void canFinishTurn() throws ServerException;
-	
-	
-	
+        	
 }

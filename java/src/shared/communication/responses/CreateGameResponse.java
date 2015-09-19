@@ -5,7 +5,7 @@ package shared.communication.responses;
  * @author Alex
  *
  */
-public class NewGameResponse {
+public class CreateGameResponse {
 	//String title - title of the new game
 	//int id - ID of the new game
 	//List<EmptyPlayerFromJSON> players - list of empty player objects
