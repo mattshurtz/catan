@@ -5,6 +5,9 @@
  */
 package shared.model;
 
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
+
 /**
 *cities (number): How many cities this player has left to play,
 *color (string): The color of this player.,
@@ -55,32 +58,45 @@ public class Player {
     }
 
     /** 
+     * @param EdgeLocation where the player would like to place the road. 
      * @return true if player has enough resources to buy a road, has a settlement or road connected
      * to Hex edge, and there is not a road already there. 
      */
-    public boolean canBuildRoad() {
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
     	return false;
     }
     
     /** 
-     * @return true if player has enough resources to buy a Settlement
+     * @param VertexLocation where the player would like to place the settlement.
+     * @return true if player has enough resources to buy a Settlement, has a road connected to Hex vertex,
+     * and settlement is not within two hexEdges of another Settlement. 
      */
-    public boolean canBuySettlement() {
+    public boolean canBuildSettlement(VertexLocation settlementLocation) {
     	return false;
     }
     
     /** 
-     * @return true if player has enough resources to buy a City
+     * @param VertexLocation where the player would like to place the city.
+     * @return true if player has enough resources to buy a City, and has a settlement on the hex vertex
      */
-    public boolean canBuyCity() {
+    public boolean canBuildCity(VertexLocation cityLocation) {
     	return false;
     }
     
     /** 
-     * @return true if player has enough resources to accept a trade
+     * @param ResourceList accept is the list of resource necessary to accept the trade. 
+     * @return true if player has enough resources to accept the trade
      */
-    public boolean canAcceptTrade() {
+    public boolean canAcceptTrade( ResourceList accept) {
     	return false;
+    }
+    
+    /** 
+     * @param ResourceList offer is the resources to be offered in trade. 
+     * @return true if the player has the resources to be offered;
+     */
+    public boolean canOfferTade(ResourceList offer){
+        return false;
     }
     
     /** 

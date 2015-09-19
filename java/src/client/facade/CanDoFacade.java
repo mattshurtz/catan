@@ -6,6 +6,10 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 import shared.model.Model;
 
 /**
@@ -21,8 +25,14 @@ public class CanDoFacade {
         this.model = model;
     }
     
-    public void canOfferTrade(){
-        
+    
+    /**
+     * @param int playerIndex
+     * @param ResourceList offer
+     * @return whether the player has actually has the resources to be offered. 
+     */
+    public boolean canOfferTrade(){
+        return false;
     }
     
     /**
@@ -57,25 +67,32 @@ public class CanDoFacade {
     public void canPlayMonopoly(){
         
     }
-     /** 
-     * @return true if player has enough resources to buy a road, the edge location in question is connected to
-     * a road or settlement/city belonging to the player. 
-     */
-    public boolean canBuildRoad(int currentPlayerIndex){
-        return model.getPlayer(currentPlayerIndex).canBuildRoad();
+    
+    /** 
+    * @param currentPlayerIndex
+    * @param HexLocation
+    * @param EdgeLocation
+    * @return true if player has enough resources to buy a road, the edge location in question is connected to
+    * a road or settlement/city belonging to the player. 
+    */
+    public boolean canBuildRoad(int currentPlayerIndex, EdgeLocation roadLocation){
+        return model.getPlayer(currentPlayerIndex).canBuildRoad(roadLocation);
     }
     
      /** 
-     * @return true if player has enough resources to buy a Settlement 
+     * @param VertexLocation this is where the player would like build a settlement
+     * @return true if player has enough resources to buy a Settlement, has a road connected to Hex vertex,
+     * and settlement is not within two hexEdges of another Settlement.  
      */
-    public boolean canBuildSettlement(){
+    public boolean canBuildSettlement(int currentPlayerIndex, VertexLocation vertex){
         return false;
     }
     
     /** 
-     * @return true if player has enough resources to buy a City
+     * @param VertexLocation this is where the player would like build a settlement
+     * @return true if player has enough resources to buy a City, and owns a settlement at this location
      */
-    public boolean canBuildCity() {
+    public boolean canBuildCity(int currentPlayerIndex, VertexLocation vertex) {
     	return false;
     }
     
