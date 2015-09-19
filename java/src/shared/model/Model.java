@@ -42,12 +42,28 @@ public class Model {
       tradeOffer = new TradeOffer();
       turnTracker = new TurnTracker();
       version = 0;
-      winner = -1;
-      
+      winner = -1; 
     }
-
+    
+    /**
+     * @param json this will be the Json representation of the model
+     * returned from the server. 
+     * @return a new Model class representation of the current model on the server. 
+     */
     public static Model parseModel(String json){
         return new Gson().fromJson(json, Model.class);
     }
+    
+    /**
+     * 
+     * @param playerIndex this is the index of the player 
+     * @return Player at the specified playerIndex
+     */
+    public Player getPlayer(int playerIndex){
+        return players.get(playerIndex);
+    }
+    
+    
+
     
 }

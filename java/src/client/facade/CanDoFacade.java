@@ -10,7 +10,6 @@ import shared.model.Model;
 
 /**
  *
- * @author karahartley
  */
 public class CanDoFacade {
     
@@ -59,16 +58,15 @@ public class CanDoFacade {
         
     }
      /** 
-     * @return true if player has enough resources to buy a road
+     * @return true if player has enough resources to buy a road, the edge location in question is connected to
+     * a road or settlement/city belonging to the player. 
      */
-    public boolean canBuildRoad(){
-       //Create the build roads parameter using the model and pass it into build road then proxy sends request to server
-       //proxy.buildRoad();
-        return false;
+    public boolean canBuildRoad(int currentPlayerIndex){
+        return model.getPlayer(currentPlayerIndex).canBuildRoad();
     }
     
      /** 
-     * @return true if player has enough resources to buy a Settlement
+     * @return true if player has enough resources to buy a Settlement 
      */
     public boolean canBuildSettlement(){
         return false;

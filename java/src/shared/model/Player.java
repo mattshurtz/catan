@@ -55,9 +55,10 @@ public class Player {
     }
 
     /** 
-     * @return true if player has enough resources to buy a road
+     * @return true if player has enough resources to buy a road, has a settlement or road connected
+     * to Hex edge, and there is not a road already there. 
      */
-    public boolean canBuyRoad() {
+    public boolean canBuildRoad() {
     	return false;
     }
     

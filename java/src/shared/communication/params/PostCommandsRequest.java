@@ -7,7 +7,6 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
  */
 public class PostCommandsRequest {
     // ArrayList<String>() of commands that have been executed in a given game
