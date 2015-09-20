@@ -9,7 +9,12 @@ import shared.exceptions.ServerException;
 public class MockServerProxy implements IServerProxy {
 
     @Override
-    public String postCommands() throws ServerException {
+    public String listAi() throws ServerException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -19,7 +24,7 @@ public class MockServerProxy implements IServerProxy {
     }
 
     @Override
-    public boolean addAi() throws ServerException {
+    public String addAi() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

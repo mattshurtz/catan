@@ -79,7 +79,7 @@ public interface IServerProxy {
 	 * @return TODO So this API request returns either a game model object in JSON, or true.  How should we deal with that?
 	 * @throws ServerException If the server request fails
 	 */
-	GetGameModelResponse getGameModel(int version) throws ServerException;
+	   String getGameModel(int version) throws ServerException;
 	
 	/**
 	 * For default games created by the server, this method reverts the game to the state immediately after the initial placement round.  For
