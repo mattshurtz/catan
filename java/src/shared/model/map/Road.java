@@ -6,9 +6,9 @@
 package shared.model.map;
 
 /**
- *
- * @author karahartley
- */
+*owner (index): The index (not id) of the player who owns this piece (0-3),
+*location (EdgeLocation): The location of this road.
+*/
 public class Road {
     
 }

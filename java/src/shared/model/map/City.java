@@ -5,13 +5,13 @@
  */
 package shared.model.map;
 
-import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
+
 
 /**
 *owner (index): The index (not id) of the player who owns this piece (0-3),
-*location (EdgeLocation): The location of this road.
+*location (VertexLocation): The location of this settlement.
 */
-public class EdgeValue {
-    int owner;
-    EdgeLocation location;
+public class City extends VertexObject{
+   
 }

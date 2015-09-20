@@ -6,6 +6,7 @@
 package shared.model;
 
 import shared.definitions.ResourceType;
+import shared.locations.VertexLocation;
 
 /**
  */
@@ -33,19 +34,45 @@ public class ResourceList {
         return false;
     }
     
+    /** 
+     * @return true if player has enough resources to buy a road 
+     */
+    public boolean canBuildRoad() {
+        if(wood>0 && brick<0){
+            return true;
+        }
+        return false;
+    }
+    
+     /** 
+     * @return true if player has enough resources to buy a Settlement
+     */
+    public boolean canBuildSettlement() {
+    	return false;
+    }
+    
+    /** 
+     * @return true if player has enough resources to buy a City
+     */
+    public boolean canBuildCity() {
+    	return false;
+    }
+    
     /**
      * Use to add a resource to the resource list(trade, draw)
      * @param resourceType this is the type of resource to be incremented. 
      */
     public void addResource(ResourceType resourceType){
-        
+        if(resourceType == ResourceType.BRICK){
+            brick++;
+        }
     }
     
     /**
      * Use to subtract a resource from the resource list. 
      * @param resourceType this is the type of resource to be decremented.
      */
-    public void subResource(ResourceType resourceType){
+    public void subtractResource(ResourceType resourceType){
         
     }
 }

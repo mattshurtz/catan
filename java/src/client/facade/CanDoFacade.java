@@ -27,8 +27,8 @@ public class CanDoFacade {
     
     
     /**
-     * @param int playerIndex
-     * @param ResourceList offer
+     * @param int playerIndex of whom you offer the trade. 
+     * @param ResourceList offer is a list or resources you offer. 
      * @return whether the player has actually has the resources to be offered. 
      */
     public boolean canOfferTrade(){
@@ -36,16 +36,23 @@ public class CanDoFacade {
     }
     
     /**
-     * type (acceptTrade),
-     * playerIndex (integer): Who's accepting / rejecting this trade,
-     * willAccept (boolean): Whether you accept the trade or not
+     * @param playerIndex (integer): Who's accepting / rejecting this trade,
+     * @return Whether you accept the trade or not, and actually have the resources to do so. 
      */
     public boolean canAcceptTrade() {
     	return false;
     }
     
-    public void canMaritimeTrade(){
-        
+    /**
+     * @param String inputResource resource you offer
+     * @param String ouputResouce resource you request
+     * @param double ratio of input to output resources. 
+     * @return ture if you have a vertex object in the same location as this port, and the
+     * resource cards offered are the same type as the port and the cards offered to cards requested
+     * have the correct ratio. 
+     */
+    public boolean canMaritimeTrade(){
+       return false; 
     }
         
     public void canBuyDevCard(){

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 
 /**
 *hexes (array[Hex]): A list of all the hexes on the grid - it's only land tiles,
@@ -28,8 +29,8 @@ public class Map {
     ArrayList<Hex> hexes;
     ArrayList<Port> ports;
     ArrayList<Road> roads;
-    ArrayList<VertexObject> settlements;
-    ArrayList<VertexObject> cities;
+    ArrayList<Settlement> settlements;
+    ArrayList<City> cities;
     int radius;
     HexLocation robber;
     
@@ -38,7 +39,7 @@ public class Map {
 	 * @param location specifies a HexLocation to see if a road can be placed there
 	 * @return true if the place can accept a road
 	 */
-	public boolean canPlaceRoadAtLoc(HexLocation location) {
+	public boolean canPlaceRoadAtLoc(EdgeLocation location) {
     	return false;
     }
     

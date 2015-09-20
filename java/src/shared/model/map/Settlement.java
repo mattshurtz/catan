@@ -8,10 +8,9 @@ package shared.model.map;
 import shared.locations.VertexLocation;
 
 /**
- *
- */
-public abstract class VertexObject {
-   int owner;
-   VertexLocation location;  
-   public abstract void receiveNewResources(); 
+*owner (index): The index (not id) of the player who owns this piece (0-3),
+*location (VertexLocation): The location of this settlement.
+*/
+public class Settlement extends VertexObject{
+ 
 }

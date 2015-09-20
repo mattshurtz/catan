@@ -58,39 +58,18 @@ public class Player {
     }
 
     /** 
-     * @param EdgeLocation where the player would like to place the road. 
-     * @return true if player has enough resources to buy a road, has a settlement or road connected
-     * to Hex edge, and there is not a road already there. 
-     */
-    public boolean canBuildRoad(EdgeLocation roadLocation) {
-    	return false;
-    }
-    
-    /** 
-     * @param VertexLocation where the player would like to place the settlement.
-     * @return true if player has enough resources to buy a Settlement, has a road connected to Hex vertex,
-     * and settlement is not within two hexEdges of another Settlement. 
-     */
-    public boolean canBuildSettlement(VertexLocation settlementLocation) {
-    	return false;
-    }
-    
-    /** 
-     * @param VertexLocation where the player would like to place the city.
-     * @return true if player has enough resources to buy a City, and has a settlement on the hex vertex
-     */
-    public boolean canBuildCity(VertexLocation cityLocation) {
-    	return false;
-    }
-    
-    /** 
      * @return true if player can play a development card
      */
     public boolean canPlayDevCard() {
     	return false;
     }
-    
-    
-    
-    
+
+    /**
+     * 
+     * @return the list of resources that belong to this player.
+     */
+    public ResourceList getResources() {
+        return resources;
+    }
+       
 }
