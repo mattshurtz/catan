@@ -66,37 +66,51 @@ public class Model {
     }
 
     /**
-     * Iterates through all of the settlements and cities in the map and gives each player
-     * the resources they deserve for the given role. 
+     * Iterates through all of the settlements and cities in the map and gives
+     * each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
 
     }
 
     /**
-     * Checks if a player has the resources to build this road and if it is in a
-     * valid location on the map.
+     * Checks if a player has a road, the resources to build this road, if it is in a
+     * valid location on the map, and if the player has a road left to play
      *
      * @param location this is the location of the Road you would like to build
      * @param playerIndex identifies the player who would like to build the road
      * @return true if no exception is thrown
-     * @throws InsufficentSupplies if the player did not have enough resources
+     * @throws InsufficentSupplies if the player did not have enough resources or pieces
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
+        if (!players.get(playerIndex).hasRoad()) {
+            throw new InsufficentSupplies("");
+        }
         if (!map.canPlaceRoadAtLoc(location)) {
             throw new InvalidLocation("");
         }
-        if (!players.get(playerIndex).getResources().canBuildRoad()) {
+        if (!players.get(playerIndex).getResources().canBuyRoad()) {
             throw new InsufficentSupplies("");
         }
         return true;
     }
 
     /**
-     * Checks if a player has the resources to build this settlement and if it
-     * is in a valid location on the map.
+     * Removes a brick and wood from the player building the road(player.resourceList.buyRoad();) and creates a
+     * road located at the given EdgeLocation (Map.buildRoad())
+     *
+     * @param location where the player is playing the road
+     * @param playerIndex is used to identify the player playing the road
+     */
+    public void buildRoad(EdgeLocation location, int playerIndex) {
+
+    }
+
+    /**
+     * Checks if a player has a settlement to build, the resources to build this
+     * settlement and if it is in a valid location on the map.
      *
      * @param location where the player would like to build the settlement
      * @param playerIndex identifies the player who would like to build this
@@ -109,9 +123,21 @@ public class Model {
     public boolean canBuildSettlement(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
         return true;
     }
+    
+     /**
+     * Removes a brick, wood, sheep, and wheat from the player building the 
+     * settlement(player.resourceList.buySettlement();) 
+     * and creates a road located at the given EdgeLocation (Map.buildSettlment())
+     *
+     * @param location where the player is playing the road
+     * @param playerIndex is used to identify the player playing the road
+     */
+    public void buildSettlement(EdgeLocation location, int playerIndex) {
+
+    }
 
     /**
-     * Checks if a player has the resources to build this city and if it is in a
+     * Checks if a player has a city, the resources to build this city and if it is in a
      * valid location on the map.
      *
      * @param location where the player would like to build the city
@@ -124,6 +150,19 @@ public class Model {
      */
     public boolean canBuildCity(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
         return true;
+    }
+
+    /**
+     * Removes three ore and two wheat from this player's ResourceList
+     * Subtracts one city from players cities count
+     * Adds settlement to players settlement count
+     * (player.resourceList.buyCity();) 
+     * Replace settlement located on the given VertexLocation with a city(Map.buildCity())
+     * @param location where the player would like to place a city
+     * @param playerIndex used to identify the player building this settlement
+     */
+    public void buildCity(VertexLocation location, int playerIndex) {
+
     }
 
 }

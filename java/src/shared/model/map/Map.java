@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexLocation;
 
 /**
  * hexes (array[Hex]): A list of all the hexes on the grid - it's only land
@@ -40,22 +41,46 @@ public class Map {
     public boolean canPlaceRoadAtLoc(EdgeLocation location) {
         return false;
     }
+    
+    /**
+     * add road to roads list
+     */
+    public void placeRoadAtLocation(Road road) {
+
+    }
 
     /**
      * @param location specifies a HexLocation to see if a city can be placed
      * there
      * @return true if the place can accept a city
      */
-    public boolean canPlaceCityAtLoc(EdgeLocation location) {
+    public boolean canPlaceCityAtLoc(VertexLocation location) {
         return false;
     }
+    
+    /**
+     * add city to city List
+     * @param location where the city is to be placed
+     */
+    public void placeCityAtLocation(City city){
+        
+    }
+    
 
     /**
      * @param location specifies a HexLocation to see if a settlement can be
      * placed there
      * @return true if the place can accept a settlement
      */
-    public boolean canPlaceSettlementAtLoc(EdgeLocation location) {
+    public boolean canPlaceSettlementAtLoc(VertexLocation location) {
         return false;
+    }
+    
+    /**
+     * add settlement to settlements list
+     * @param location where settlement is to be placed
+     */
+    public void placeSettlmentAtLoc(Settlement settlement){
+        
     }
 }
