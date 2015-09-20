@@ -17,4 +17,13 @@ public class TurnTracker {
    String status;
    int longestRoad;
    int largestArmy;
+    
+    public int getCurrentTurn() {
+        return currentTurn;
+    }
+
+    public void setCurrentTurn(int currentTurn) {
+        this.currentTurn = currentTurn;
+    }
+
 }

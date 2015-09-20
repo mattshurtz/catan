@@ -78,13 +78,14 @@ public class Model {
      * valid location on the map, and if the player has a road left to play
      *
      * @param location this is the location of the Road you would like to build
-     * @param playerIndex identifies the player who would like to build the road
+     * playerIndex identifies the player who would like to build the road
      * @return true if no exception is thrown
      * @throws InsufficentSupplies if the player did not have enough resources or pieces
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
-    public boolean canBuildRoad(EdgeLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildRoad(EdgeLocation location) throws InsufficentSupplies, InvalidLocation {
+        int playerIndex = turnTracker.getCurrentTurn();
         if (!players.get(playerIndex).hasRoad()) {
             throw new InsufficentSupplies("");
         }
@@ -102,9 +103,8 @@ public class Model {
      * road located at the given EdgeLocation (Map.buildRoad())
      *
      * @param location where the player is playing the road
-     * @param playerIndex is used to identify the player playing the road
      */
-    public void buildRoad(EdgeLocation location, int playerIndex) {
+    public void buildRoad(EdgeLocation location) {
 
     }
 
@@ -120,7 +120,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
-    public boolean canBuildSettlement(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
         return true;
     }
     
@@ -132,7 +132,7 @@ public class Model {
      * @param location where the player is playing the road
      * @param playerIndex is used to identify the player playing the road
      */
-    public void buildSettlement(EdgeLocation location, int playerIndex) {
+    public void buildSettlement(EdgeLocation location) {
 
     }
 
@@ -148,7 +148,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a city
      */
-    public boolean canBuildCity(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildCity(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
         return true;
     }
 
@@ -161,7 +161,7 @@ public class Model {
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
-    public void buildCity(VertexLocation location, int playerIndex) {
+    public void buildCity(VertexLocation location) {
 
     }
 

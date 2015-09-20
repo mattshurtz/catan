@@ -80,16 +80,15 @@ public class CanDoFacade {
     }
 
     /**
-     * @param currentPlayerIndex player playing this road
      * @param EdgeLocation location where player would like to place road
      * @return true if player has enough resources to buy a road, the edge
      * location in question is connected to a road or settlement/city belonging
      * to the player.
      */
-    public boolean canBuildRoad(int currentPlayerIndex, EdgeLocation roadLocation) {
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
         boolean returnValue = false;
         try {
-            returnValue = model.canBuildRoad(roadLocation, currentPlayerIndex);
+            returnValue = model.canBuildRoad(roadLocation);
         } catch (InsufficentSupplies ex) {
             Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidLocation ex) {
@@ -99,13 +98,12 @@ public class CanDoFacade {
     }
 
     /**
-     * @param currentPlayerIndex player playing this road
      * @param VertexLocation this is where the player would like build a settlement
      * @return true if player has enough resources to buy a Settlement, has a
      * road connected to Hex vertex, and settlement is not within two hexEdges
      * of another Settlement.
      */
-    public boolean canBuildSettlement(int currentPlayerIndex, VertexLocation vertex) {
+    public boolean canBuildSettlement(VertexLocation vertex) {
         return false;
     }
 
@@ -114,7 +112,7 @@ public class CanDoFacade {
      * @return true if player has enough resources to buy a City, and owns a
      * settlement at this location
      */
-    public boolean canBuildCity(int currentPlayerIndex, VertexLocation vertex) {
+    public boolean canBuildCity(VertexLocation vertex) {
         return false;
     }
 

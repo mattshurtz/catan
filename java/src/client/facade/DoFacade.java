@@ -6,7 +6,7 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
-import java.net.Proxy;
+import shared.locations.EdgeLocation;
 import shared.model.Model;
 
 /**
@@ -61,15 +61,26 @@ public class DoFacade {
         
     }
     
+    /**
+     * Create a build road request using the model and use the proxy
+     * to send this parameter to the server. 
+     */
     public void buildRoad(){
        //Create the build roads parameter using the model and pass it into build road then proxy sends request to server
        //proxy.buildRoad();
     }
     
-    public void buildSettlement(){
+    /**
+     * Create a build settlement request using the model and use the proxy
+     * to send this parameter to the server. 
+     */
+    public void buildSettlement(EdgeLocation location){
         
     }
-    
+    /**
+    * Create a build city request using the model and use the proxy
+    * to send this parameter to the server.
+    */
     public void buildCity(){
         
     }
