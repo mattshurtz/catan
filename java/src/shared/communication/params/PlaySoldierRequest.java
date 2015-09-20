@@ -7,8 +7,11 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * Soldier_ { type (Soldier), playerIndex (integer): Who's playing this dev
+ * card, victimIndex (integer): The index of the player to rob, location
+ * (HexLocation): the new location of the robber } HexLocation { x (string), y
+ * (string) }
  */
 public class PlaySoldierRequest {
-    
+
 }

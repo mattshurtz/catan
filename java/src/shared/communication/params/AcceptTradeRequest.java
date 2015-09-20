@@ -6,8 +6,11 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ *AcceptTrade {
+ *type (acceptTrade),
+ *playerIndex (integer): Who's accepting / rejecting this trade,
+ *willAccept (boolean): Whether you accept the trade or not
+ *}
  */
 public class AcceptTradeRequest {
     

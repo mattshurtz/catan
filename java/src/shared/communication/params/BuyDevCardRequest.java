@@ -6,8 +6,10 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ *{
+ * "type": "buyDevCard",
+ * "playerIndex": "integer"
+ *}
  */
 public class BuyDevCardRequest {
     

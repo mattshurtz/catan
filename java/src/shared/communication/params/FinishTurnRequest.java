@@ -7,8 +7,9 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * FinishMove { type (finishTurn), playerIndex (integer): Who's sending this
+ * command (0-3) }
  */
 public class FinishTurnRequest {
-    
+
 }

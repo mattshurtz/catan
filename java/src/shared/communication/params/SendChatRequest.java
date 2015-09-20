@@ -6,9 +6,9 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ * SendChat { type (sendChat), playerIndex (integer): Who's sending this chat
+ * message, content (string) }
  */
 public class SendChatRequest {
-    
+
 }

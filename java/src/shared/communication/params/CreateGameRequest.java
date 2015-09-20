@@ -1,15 +1,19 @@
 package shared.communication.params;
 
 /**
- * Wrapper class used to pass parameters during the IServerProxy.createGame API call
- * @author Alex&Nicky
+ * Wrapper class used to pass parameters during the IServerProxy.createGame API
+ * call
  *
+ * @author Alex&Nicky 
+ * { "randomTiles": "boolean", "randomNumbers": "boolean",
+ * "randomPorts": "boolean", "name": "string" }
  */
 public class CreateGameRequest {
 	//boolean randomTiles - whether the tiles should be randomly placed
-	//boolean randomNumbers - whether the numbers should be randomly placed
-	//boolean randomPorts - whether ports should be randomly placed
-	//String name - name of your new game
+    //boolean randomNumbers - whether the numbers should be randomly placed
+    //boolean randomPorts - whether ports should be randomly placed
+    //String name - name of your new game
+
     boolean randomTiles;
     boolean randomNumbers;
     boolean randomPorts;
@@ -47,5 +51,4 @@ public class CreateGameRequest {
         this.name = name;
     }
 
-    
 }

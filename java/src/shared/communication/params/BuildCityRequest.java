@@ -6,8 +6,12 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ * string type "buildCity"
+ * int playerIndex
+ * VertexLocation location
+ *      int x
+ *      int y
+ *      String direction
  */
 public class BuildCityRequest {
     

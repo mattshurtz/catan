@@ -7,8 +7,9 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * Year_of_Plenty_ { type (Year_of_Plenty), playerIndex (integer): Who's playing
+ * this dev card, resource1 (Resource), resource2 (Resource) }
  */
 public class PlayYearOfPlentyRequest {
-    
+
 }

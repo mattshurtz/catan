@@ -7,8 +7,9 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * RollNumber { type (rollNumber), playerIndex (integer): Who's sending this
+ * command (0-3), number (integer): what number was rolled (2-12) }
  */
 public class RollNumberRequest {
-    
+
 }

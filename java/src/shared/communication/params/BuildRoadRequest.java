@@ -6,9 +6,13 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ * String type "buildRoad"
+ * int playerIndex 
+ * EdgeValue roadLocation
+ * boolean free
  */
 public class BuildRoadRequest {
+   
+    
     
 }
