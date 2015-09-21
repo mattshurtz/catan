@@ -21,4 +21,14 @@ public class Port {
    HexLocation location;
    EdgeDirection direction;
    int ratio;
+   
+	public Port(String resource, HexLocation location, EdgeDirection direction, int ratio) {
+		super();
+		this.resource = resource;
+		this.location = location;
+		this.direction = direction;
+		this.ratio = ratio;
+	}
+   
+   
 }
