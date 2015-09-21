@@ -37,7 +37,7 @@ public class Player {
     DevCardList oldDevCards;
     int playerIndex;
     boolean playedDevCard;
-    int playerID;
+    int playerID; //userID
     ResourceList resources;
     int roads;
     int settlements;

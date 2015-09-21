@@ -18,4 +18,13 @@ public abstract class VertexObject{
    int owner;
    VertexLocation location;  
    ArrayList<Hex> hexes;
+
+   public VertexObject(int owner, VertexLocation location, ArrayList<Hex> hexes) {
+		super();
+		this.owner = owner;
+		this.location = location;
+		this.hexes = hexes;
+	}
+   
+   
 }

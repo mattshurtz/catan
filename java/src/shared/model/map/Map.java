@@ -25,15 +25,35 @@ import shared.locations.VertexLocation;
  */
 public class Map {
 
-    ArrayList<Hex> hexes;
+    
+
+	ArrayList<Hex> hexes;
     ArrayList<Port> ports;
     ArrayList<Road> roads;
     ArrayList<Settlement> settlements;
     ArrayList<City> cities;
     int radius;
     HexLocation robber;
+    
+    public Map() {
+		// TODO Auto-generated constructor stub
+	}
+    
+    
 
-    /**
+    public Map(ArrayList<Hex> hexes, ArrayList<Port> ports, ArrayList<Road> roads, ArrayList<Settlement> settlements,
+			ArrayList<City> cities, int radius, HexLocation robber) {
+		super();
+		this.hexes = hexes;
+		this.ports = ports;
+		this.roads = roads;
+		this.settlements = settlements;
+		this.cities = cities;
+		this.radius = radius;
+		this.robber = robber;
+	}
+
+	/**
      * @param location specifies a HexLocation to see if a road can be placed
      * there
      * @return true if the place can accept a road

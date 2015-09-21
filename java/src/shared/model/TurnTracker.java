@@ -5,6 +5,8 @@
  */
 package shared.model;
 
+import shared.definitions.TurnStatus;
+
 /**
 *currentTurn (index): Who's turn it is (0-3),
 *status (string) = ['Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or
@@ -14,11 +16,26 @@ package shared.model;
 */
 public class TurnTracker {
    int currentTurn;
-   String status;
+   TurnStatus status;
    int longestRoad;
    int largestArmy;
+   
+   
     
-    public int getCurrentTurn() {
+    public TurnTracker() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public TurnTracker(int currentTurn, TurnStatus status, int longestRoad, int largestArmy) {
+		super();
+		this.currentTurn = currentTurn;
+		this.status = status;
+		this.longestRoad = longestRoad;
+		this.largestArmy = largestArmy;
+	}
+
+	public int getCurrentTurn() {
         return currentTurn;
     }
 
@@ -26,11 +43,11 @@ public class TurnTracker {
         this.currentTurn = currentTurn;
     }
 
-	public String getStatus() {
+	public TurnStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(TurnStatus status) {
 		this.status = status;
 	}
 
