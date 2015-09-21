@@ -18,7 +18,7 @@ import shared.model.ResourceList;
 /**
  *
  */
-public class CanDoFacade {
+public abstract class CanDoFacade {
 
     IServerProxy proxy;
     Model model;
