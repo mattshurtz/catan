@@ -5,8 +5,7 @@
  */
 package shared.model;
 
-import shared.locations.EdgeLocation;
-import shared.locations.VertexLocation;
+import shared.definitions.CatanColor;
 
 /**
  * cities (number): How many cities this player has left to play, color

@@ -14,7 +14,10 @@ import shared.locations.VertexLocation;
 import shared.model.map.Map;
 
 /**
- * bank (ResourceList): The cards available to be distributed to the players.,
+ * bank (ResourceList): The Resource cards available to be distributed to 
+ * the players.,
+ * remainingDevCards (DevCardList): the dev cards available to be distributed
+ * to the players,
  * chat (MessageList): All the chat messages., log (MessageList): All the log
  * messages., map (Map), players (array[Player]), tradeOffer (TradeOffer,
  * optional): The current trade offer, if there is one., turnTracker
@@ -26,6 +29,7 @@ import shared.model.map.Map;
 public class Model {
 
     ResourceList bank;
+    DevCardList remainingDevCards;
     MessageList chat;
     MessageList log;
     Map map;

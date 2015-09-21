@@ -139,6 +139,7 @@ public interface IServerProxy {
         */
         void acceptTrade() throws ServerException;
     
+        
         void maritimeTrade() throws ServerException;
     
         void buyDevCard() throws ServerException;

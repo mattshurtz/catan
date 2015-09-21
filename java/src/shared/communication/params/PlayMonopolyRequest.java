@@ -7,8 +7,9 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * Monopoly_ { type (Monopoly), resource (string), playerIndex (integer): Who's
+ * playing this dev card }
  */
 public class PlayMonopolyRequest {
-    
+
 }

@@ -98,7 +98,8 @@ public class CanDoFacade {
     }
 
     /**
-     * @param VertexLocation this is where the player would like build a settlement
+     * @param VertexLocation this is where the player would like build a
+     * settlement
      * @return true if player has enough resources to buy a Settlement, has a
      * road connected to Hex vertex, and settlement is not within two hexEdges
      * of another Settlement.

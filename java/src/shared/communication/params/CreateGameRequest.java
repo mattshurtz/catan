@@ -9,7 +9,7 @@ package shared.communication.params;
  * "randomPorts": "boolean", "name": "string" }
  */
 public class CreateGameRequest {
-	//boolean randomTiles - whether the tiles should be randomly placed
+    //boolean randomTiles - whether the tiles should be randomly placed
     //boolean randomNumbers - whether the numbers should be randomly placed
     //boolean randomPorts - whether ports should be randomly placed
     //String name - name of your new game

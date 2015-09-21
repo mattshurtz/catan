@@ -6,9 +6,11 @@
 package shared.communication.params;
 
 /**
- *
- * @author karahartley
+ * Road_Building_ { type (Road_Building), playerIndex (integer): Who's placing
+ * the roads, spot1 (EdgeLocation), spot2 (EdgeLocation) } EdgeLocation { x
+ * (integer), y (integer), direction (string) = ['SW' or 'SE' or 'S' or 'NE' or
+ * 'NW' or 'N'] }
  */
 public class PlayRoadBuildingRequest {
-    
+
 }

@@ -7,8 +7,11 @@ package shared.communication.params;
 
 /**
  *
- * @author karahartley
+ * RobPlayer { type (robPlayer), playerIndex (integer): Who's doing the robbing,
+ * victimIndex (integer): The order index of the player to rob, location
+ * (HexLocation): the new location of the robber } HexLocation { x (string), y
+ * (string) }
  */
 public class RobPlayerRequest {
-    
+
 }

@@ -6,7 +6,7 @@
 package shared.communication.params;
 
 /**
- *
+ * contains a list of contains
  */
 public class PostCommandsRequest {
     // ArrayList<String>() of commands that have been executed in a given game
