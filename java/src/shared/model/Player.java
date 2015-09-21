@@ -6,6 +6,7 @@
 package shared.model;
 
 import shared.definitions.CatanColor;
+import shared.locations.HexLocation;
 
 /**
  * cities (number): How many cities this player has left to play, color

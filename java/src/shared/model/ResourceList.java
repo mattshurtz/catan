@@ -119,6 +119,6 @@ public class ResourceList {
      *
      */
     public boolean canDistribute(ResourceType resource) {
-    	
+    	return false;
     }
 }
