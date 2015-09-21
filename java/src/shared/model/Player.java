@@ -30,7 +30,7 @@ import shared.locations.VertexLocation;
 public class Player {
 
     int cities;
-    String color;
+    CatanColor color;
     boolean discarded;
     int monuments;
     String name;

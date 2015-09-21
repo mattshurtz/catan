@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
 /**
@@ -18,6 +19,6 @@ import shared.locations.HexLocation;
 public class Port {
    String resource;
    HexLocation location;
-   String direction;
+   EdgeDirection direction;
    int ratio;
 }
