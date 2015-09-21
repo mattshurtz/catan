@@ -4,7 +4,6 @@ package shared.communication.params;
  * Wrapper class used to pass parameters during the IServerProxy.createGame API
  * call
  *
- * @author Alex&Nicky 
  * { "randomTiles": "boolean", "randomNumbers": "boolean",
  * "randomPorts": "boolean", "name": "string" }
  */

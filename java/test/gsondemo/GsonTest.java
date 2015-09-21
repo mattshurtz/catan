@@ -7,7 +7,8 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
-import shared.communication.Credentials;
+import shared.communication.params.Credentials;
+
 
 /**
  * A test demonstrating how to use 

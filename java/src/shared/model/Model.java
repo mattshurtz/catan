@@ -124,7 +124,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
-    public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildSettlement(VertexLocation location,int playerIndex) throws InsufficentSupplies, InvalidLocation {
         return true;
     }
     
@@ -136,7 +136,7 @@ public class Model {
      * @param location where the player is playing the road
      * @param playerIndex is used to identify the player playing the road
      */
-    public void buildSettlement(EdgeLocation location) {
+    public void buildSettlement(EdgeLocation location, int playerIndex) {
 
     }
 
@@ -152,7 +152,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a city
      */
-    public boolean canBuildCity(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildCity(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
         return true;
     }
 
@@ -165,7 +165,7 @@ public class Model {
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
-    public void buildCity(VertexLocation location) {
+    public void buildCity(VertexLocation location, int playerIndex) {
 
     }
 

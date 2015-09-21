@@ -2,7 +2,6 @@ package shared.communication.responses;
 
 /**
  * Wrapper object containing lobby information about an in-game player.  This object is returned as part of the IServerFacade.getGamesList() response
- * @author Alex&Nicky
  *
  */
 public class PlayerResponse {

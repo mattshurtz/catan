@@ -64,6 +64,7 @@ public class Map {
     
     /**
      * add road to roads list
+     * @param road to be placed at this locations
      */
     public void placeRoadAtLocation(Road road) {
 
@@ -81,8 +82,9 @@ public class Map {
     /**
      * add city to city List
      * @param location where the city is to be placed
+     * @param city this is the city to be placed
      */
-    public void placeCityAtLocation(City city){
+    public void placeCityAtLocation(City city, VertexLocation location){
         
     }
     
@@ -99,8 +101,9 @@ public class Map {
     /**
      * add settlement to settlements list
      * @param location where settlement is to be placed
+     * @param settlement to be place at locations
      */
-    public void placeSettlmentAtLoc(Settlement settlement){
+    public void placeSettlmentAtLoc(Settlement settlement, VertexLocation location){
         
     }
 }

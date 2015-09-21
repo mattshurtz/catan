@@ -1,7 +1,6 @@
 package shared.model;
 /**
  * 
- * @author Alex&Nicky
  *
  */
 public class User {

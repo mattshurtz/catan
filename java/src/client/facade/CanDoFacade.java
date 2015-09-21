@@ -10,11 +10,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
-import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
+import shared.model.ResourceList;
 
 /**
  *
@@ -30,11 +29,11 @@ public class CanDoFacade {
     }
 
     /**
-     * @param int playerIndex of whom you offer the trade.
-     * @param ResourceList offer is a list or resources you offer.
+     * @param playerIndex of whom you offer the trade.
+     * @param resourceList offer is a list or resources you offer.
      * @return whether the player has actually has the resources to be offered.
      */
-    public boolean canOfferTrade() {
+    public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
         return false;
     }
 
@@ -43,19 +42,19 @@ public class CanDoFacade {
      * @return Whether you accept the trade or not, and actually have the
      * resources to do so.
      */
-    public boolean canAcceptTrade() {
+    public boolean canAcceptTrade(int playerIndex) {
         return false;
     }
 
     /**
-     * @param String inputResource resource you offer
-     * @param String ouputResouce resource you request
-     * @param double ratio of input to output resources.
+     * @param inputResource resource you offer
+     * @param ouputResouce resource you request
+     * @param ratio of input to output resources.
      * @return true if you have a vertex object in the same location as this
      * port, and the resource cards offered are the same type as the port, and
      * the cards offered and requested have the correct ratio.
      */
-    public boolean canMaritimeTrade() {
+    public boolean canMaritimeTrade(String inputResource, String ouputResouce, double ratio) {
         return false;
     }
 
@@ -80,7 +79,7 @@ public class CanDoFacade {
     }
 
     /**
-     * @param EdgeLocation location where player would like to place road
+     * @param roadLocation where player would like to place road
      * @return true if player has enough resources to buy a road, the edge
      * location in question is connected to a road or settlement/city belonging
      * to the player.
@@ -98,7 +97,7 @@ public class CanDoFacade {
     }
 
     /**
-     * @param VertexLocation this is where the player would like build a
+     * @param vertex this is where the player would like build a
      * settlement
      * @return true if player has enough resources to buy a Settlement, has a
      * road connected to Hex vertex, and settlement is not within two hexEdges
@@ -109,7 +108,7 @@ public class CanDoFacade {
     }
 
     /**
-     * @param VertexLocation this is where the player would like build a City
+     * @param vertex this is where the player would like build a City
      * @return true if player has enough resources to buy a City, and owns a
      * settlement at this location
      */

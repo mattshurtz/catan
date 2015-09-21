@@ -6,7 +6,7 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
-import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 import shared.model.Model;
 
 /**
@@ -73,15 +73,17 @@ public class DoFacade {
     /**
      * Create a build settlement request using the model and use the proxy
      * to send this parameter to the server. 
+     * @param location where settlement is to be built
      */
-    public void buildSettlement(EdgeLocation location){
+    public void buildSettlement(VertexLocation location){
         
     }
     /**
     * Create a build city request using the model and use the proxy
     * to send this parameter to the server.
+     * @param location where settlement is to be built
     */
-    public void buildCity(){
+    public void buildCity(VertexLocation location){
         
     }
     

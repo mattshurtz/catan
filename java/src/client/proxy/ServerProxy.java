@@ -8,6 +8,12 @@ import shared.exceptions.ServerException;
 
 public class ServerProxy implements IServerProxy {
 
+    Serializer serializer = new Serializer();
+        
+    public ServerProxy(){
+       
+    }
+    
     @Override
     public String getGameModel(int version) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
