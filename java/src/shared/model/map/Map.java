@@ -106,4 +106,14 @@ public class Map {
     public void placeSettlmentAtLoc(Settlement settlement, VertexLocation location){
         
     }
+    
+    /**
+     * 
+     * @param rolledNumber - dice value if not == 7
+     */
+    public void distributeResources(int rolledNumber)
+    {
+    	
+    }
+     
 }

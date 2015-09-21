@@ -16,9 +16,19 @@ import shared.locations.VertexLocation;
 */
 public class City extends VertexObject{
 
+	private final int EARNED_RESOURCES = 2;
+	
 	public City(int owner, VertexLocation location, ArrayList<Hex> hexes) {
 		super(owner, location, hexes);
 		// TODO Auto-generated constructor stub
 	}
    
+	/**
+	 * @param rolledNumber - int not equal to 7
+	 * @param robber - location of robber - disbales resource distribution
+	 */
+    public void distributeResources(int rolledNumber, HexLocation robber)
+    {
+    	
+    }
 }

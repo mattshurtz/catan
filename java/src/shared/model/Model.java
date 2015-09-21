@@ -168,5 +168,13 @@ public class Model {
     public void buildCity(VertexLocation location, int playerIndex) {
 
     }
+    
+    /**
+     * @param rolled number - int not equal to 7
+     */
+    public void distributeResources(int rolledNumber)
+    {
+    	
+    }
 
 }

@@ -112,4 +112,13 @@ public class ResourceList {
     public void subtractResource(ResourceType resourceType) {
 
     }
+
+    /**
+     * @param resource - the resource to be considered for distribution.
+     * if need amount is greater than in the bank, then not allowed.
+     *
+     */
+    public boolean canDistribute(ResourceType resource) {
+    	
+    }
 }

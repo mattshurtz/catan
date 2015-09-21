@@ -110,5 +110,13 @@ public class Player {
         
     }
     
-
+    /**
+     * @param rolledNumber - int not equal to 7
+     * @parma robber -location of robber - prevents resource distribution
+     */
+    public void distributeResources(int rolledNumber, HexLocation robber) {
+    	
+    }
+    
+    
 }
