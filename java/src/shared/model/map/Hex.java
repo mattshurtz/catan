@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
 /**
@@ -15,7 +16,7 @@ import shared.locations.HexLocation;
 */
 public class Hex {
     HexLocation location;
-    String resource;
+    ResourceType resource;
     int number;
     
 }

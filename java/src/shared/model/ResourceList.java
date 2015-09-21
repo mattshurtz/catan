@@ -18,7 +18,20 @@ public class ResourceList {
     int wheat;
     int wood;
 
-    /**
+    public ResourceList() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public ResourceList(int brick, int ore, int sheep, int wheat, int wood) {
+		super();
+		this.brick = brick;
+		this.ore = ore;
+		this.sheep = sheep;
+		this.wheat = wheat;
+		this.wood = wood;
+	}
+
+	/**
      * @param ResourceList accept is the list of resource necessary to accept
      * the trade.
      * @return true if player has enough resources to accept the trade
@@ -88,7 +101,7 @@ public class ResourceList {
     public void addResource(ResourceType resourceType) {
         if (resourceType == ResourceType.BRICK) {
             brick++;
-        }
+        } //switch statement??? //might want to add amount for instances like cities
     }
 
     /**

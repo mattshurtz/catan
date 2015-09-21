@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import shared.definitions.CatanColor;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 
@@ -38,7 +39,7 @@ public class Player {
     DevCardList oldDevCards;
     int playerIndex;
     boolean playedDevCard;
-    int playerID;
+    int playerID; //userID
     ResourceList resources;
     int roads;
     int settlements;

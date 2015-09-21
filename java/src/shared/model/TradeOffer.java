@@ -15,4 +15,13 @@ public class TradeOffer {
     int sender;
     int receiver;
     ResourceList offer;
+    
+	public TradeOffer(int sender, int receiver, ResourceList offer) {
+		super();
+		this.sender = sender;
+		this.receiver = receiver;
+		this.offer = offer;
+	}
+    
+    
 }

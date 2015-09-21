@@ -5,6 +5,8 @@
  */
 package shared.model.map;
 
+import java.util.ArrayList;
+
 import shared.locations.VertexLocation;
 
 
@@ -13,5 +15,10 @@ import shared.locations.VertexLocation;
 *location (VertexLocation): The location of this settlement.
 */
 public class City extends VertexObject{
+
+	public City(int owner, VertexLocation location, ArrayList<Hex> hexes) {
+		super(owner, location, hexes);
+		// TODO Auto-generated constructor stub
+	}
    
 }

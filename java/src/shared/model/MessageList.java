@@ -14,6 +14,16 @@ import java.util.ArrayList;
 public class MessageList {
     ArrayList<MessageLine> lines;
 
+	public MessageList(ArrayList<MessageLine> lines) {
+		super();
+		this.lines = lines;
+	}
+
+	public MessageList() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
     
       
