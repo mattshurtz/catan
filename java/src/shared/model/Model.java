@@ -45,7 +45,7 @@ public class Model {
         log = new MessageList();
         map = new Map();
         players = new ArrayList<Player>();
-        tradeOffer = new TradeOffer();
+        TradeOffer tradeOffer;
         turnTracker = new TurnTracker();
         version = 0;
         winner = -1;
