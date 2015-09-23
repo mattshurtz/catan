@@ -11,9 +11,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
+import shared.model.Model;
+import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.TurnTracker;
 
 /**
  *
@@ -164,14 +166,12 @@ public class CanDoFacadeTest {
      */
     @Test
     public void testCanBuildRoad() throws Exception {
-        System.out.println("canBuildRoad");
-        EdgeLocation roadLocation = null;
-        CanDoFacade instance = null;
-        boolean expResult = false;
-        boolean result = instance.canBuildRoad(roadLocation);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Model model = new Model();
+        Player p1 = new Player();
+        TurnTracker tt = new TurnTracker();
+        model.setTurnTracker( tt );
+        tt.setCurrentTurn( p1.getPlayerIndex() );
+        model.
     }
 
     /**

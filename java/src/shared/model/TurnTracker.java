@@ -66,7 +66,7 @@ public class TurnTracker {
     }
 
     public boolean isPlayersTurn(int myPlayerIndex) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return (currentTurn == myPlayerIndex);
     }
     
     

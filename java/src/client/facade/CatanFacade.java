@@ -29,7 +29,7 @@ public class CatanFacade {
     }
     
     private static boolean isMyTurn() {
-        return model.getTurnTracker().isPlayersTurn( myPlayerIndex );
+        return ( isServer || model.getTurnTracker().isPlayersTurn( myPlayerIndex ) );
     }
 
     public static Model getModel() {
@@ -53,5 +53,21 @@ public class CatanFacade {
     
     public static GameHubFacade getGameHubFacade() {
         return gameHubFacade;
+    }
+    
+    public static boolean isIsServer() {
+        return isServer;
+    }
+
+    public static void setIsServer(boolean isServer) {
+        CatanFacade.isServer = isServer;
+    }
+
+    public static int getMyPlayerIndex() {
+        return myPlayerIndex;
+    }
+
+    public static void setMyPlayerIndex(int myPlayerIndex) {
+        CatanFacade.myPlayerIndex = myPlayerIndex;
     }
 }

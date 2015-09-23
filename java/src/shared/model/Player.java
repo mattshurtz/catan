@@ -118,6 +118,10 @@ public class Player {
     public void distributeResources(int rolledNumber, HexLocation robber) {
     	
     }
+
+    public int getPlayerIndex() {
+        return playerIndex;
+    }
     
     
 }

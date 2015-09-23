@@ -43,7 +43,7 @@ public class IServerProxyTest {
     
     @Before
     public void setUp() {
-        instance = new MockServerProxy();
+        instance = new MockProxy();
     }
     
     @After

@@ -192,4 +192,8 @@ public class Model {
         return turnTracker;
     }
 
+    public void setTurnTracker(TurnTracker tt) {
+        this.turnTracker = tt;
+    }
+
 }

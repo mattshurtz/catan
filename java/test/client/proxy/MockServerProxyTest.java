@@ -47,12 +47,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of listAi method, of class MockServerProxy.
+     * Test of listAi method, of class MockProxy.
      */
     @Test
     public void testListAi() throws Exception {
         System.out.println("listAi");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.listAi();
         assertEquals(expResult, result);
@@ -61,13 +61,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of postCommands method, of class MockServerProxy.
+     * Test of postCommands method, of class MockProxy.
      */
     @Test
     public void testPostCommands() throws Exception {
         System.out.println("postCommands");
         PostCommandsRequest postCommandsRequest = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.postCommands(postCommandsRequest);
         assertEquals(expResult, result);
@@ -76,12 +76,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of getCommands method, of class MockServerProxy.
+     * Test of getCommands method, of class MockProxy.
      */
     @Test
     public void testGetCommands() throws Exception {
         System.out.println("getCommands");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.getCommands();
         assertEquals(expResult, result);
@@ -90,12 +90,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of addAi method, of class MockServerProxy.
+     * Test of addAi method, of class MockProxy.
      */
     @Test
     public void testAddAi() throws Exception {
         System.out.println("addAi");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.addAi();
         assertEquals(expResult, result);
@@ -104,12 +104,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of buildRoad method, of class MockServerProxy.
+     * Test of buildRoad method, of class MockProxy.
      */
     @Test
     public void testBuildRoad() throws Exception {
         System.out.println("buildRoad");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.buildRoad();
         assertEquals(expResult, result);
@@ -118,175 +118,175 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of offerTrade method, of class MockServerProxy.
+     * Test of offerTrade method, of class MockProxy.
      */
     @Test
     public void testOfferTrade() throws Exception {
         System.out.println("offerTrade");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.offerTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of acceptTrade method, of class MockServerProxy.
+     * Test of acceptTrade method, of class MockProxy.
      */
     @Test
     public void testAcceptTrade() throws Exception {
         System.out.println("acceptTrade");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.acceptTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of maritimeTrade method, of class MockServerProxy.
+     * Test of maritimeTrade method, of class MockProxy.
      */
     @Test
     public void testMaritimeTrade() throws Exception {
         System.out.println("maritimeTrade");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.maritimeTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of buyDevCard method, of class MockServerProxy.
+     * Test of buyDevCard method, of class MockProxy.
      */
     @Test
     public void testBuyDevCard() throws Exception {
         System.out.println("buyDevCard");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.buyDevCard();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of playYearOfPlenty method, of class MockServerProxy.
+     * Test of playYearOfPlenty method, of class MockProxy.
      */
     @Test
     public void testPlayYearOfPlenty() throws Exception {
         System.out.println("playYearOfPlenty");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.playYearOfPlenty();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of playRoadBuilding method, of class MockServerProxy.
+     * Test of playRoadBuilding method, of class MockProxy.
      */
     @Test
     public void testPlayRoadBuilding() throws Exception {
         System.out.println("playRoadBuilding");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.playRoadBuilding();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of playSoldier method, of class MockServerProxy.
+     * Test of playSoldier method, of class MockProxy.
      */
     @Test
     public void testPlaySoldier() throws Exception {
         System.out.println("playSoldier");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.playSoldier();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of playMonopoly method, of class MockServerProxy.
+     * Test of playMonopoly method, of class MockProxy.
      */
     @Test
     public void testPlayMonopoly() throws Exception {
         System.out.println("playMonopoly");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.playMonopoly();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of buildSettlement method, of class MockServerProxy.
+     * Test of buildSettlement method, of class MockProxy.
      */
     @Test
     public void testBuildSettlement() throws Exception {
         System.out.println("buildSettlement");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.buildSettlement();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of buildCity method, of class MockServerProxy.
+     * Test of buildCity method, of class MockProxy.
      */
     @Test
     public void testBuildCity() throws Exception {
         System.out.println("buildCity");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.buildCity();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of sendChat method, of class MockServerProxy.
+     * Test of sendChat method, of class MockProxy.
      */
     @Test
     public void testSendChat() throws Exception {
         System.out.println("sendChat");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.sendChat();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of rollNumber method, of class MockServerProxy.
+     * Test of rollNumber method, of class MockProxy.
      */
     @Test
     public void testRollNumber() throws Exception {
         System.out.println("rollNumber");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.rollNumber();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of robPlayer method, of class MockServerProxy.
+     * Test of robPlayer method, of class MockProxy.
      */
     @Test
     public void testRobPlayer() throws Exception {
         System.out.println("robPlayer");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.robPlayer();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of finishTurn method, of class MockServerProxy.
+     * Test of finishTurn method, of class MockProxy.
      */
     @Test
     public void testFinishTurn() throws Exception {
         System.out.println("finishTurn");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         instance.finishTurn();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
 
     /**
-     * Test of login method, of class MockServerProxy.
+     * Test of login method, of class MockProxy.
      */
     @Test
     public void testLogin() throws Exception {
@@ -294,7 +294,7 @@ public class MockServerProxyTest {
         Credentials userCredentials = new Credentials();
         userCredentials.setUsername("Sam");
         userCredentials.setPassword("sam");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         boolean expResult = false;
         boolean result = instance.login(userCredentials);
         assertEquals(expResult, result);
@@ -303,13 +303,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of register method, of class MockServerProxy.
+     * Test of register method, of class MockProxy.
      */
     @Test
     public void testRegister() throws Exception {
         System.out.println("register");
         Credentials userCredentials = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         boolean expResult = false;
         boolean result = instance.register(userCredentials);
         assertEquals(expResult, result);
@@ -318,12 +318,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of getGamesList method, of class MockServerProxy.
+     * Test of getGamesList method, of class MockProxy.
      */
     @Test
     public void testGetGamesList() throws Exception {
         System.out.println("getGamesList");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         List<GameResponse> expResult = null;
         List<GameResponse> result = instance.getGamesList();
         assertEquals(expResult, result);
@@ -332,13 +332,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of createGame method, of class MockServerProxy.
+     * Test of createGame method, of class MockProxy.
      */
     @Test
     public void testCreateGame() throws Exception {
         System.out.println("createGame");
         CreateGameRequest gameRequests = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         CreateGameResponse expResult = null;
         CreateGameResponse result = instance.createGame(gameRequests);
         assertEquals(expResult, result);
@@ -347,13 +347,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of joinGame method, of class MockServerProxy.
+     * Test of joinGame method, of class MockProxy.
      */
     @Test
     public void testJoinGame() throws Exception {
         System.out.println("joinGame");
         JoinGameRequest joinRequest = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         boolean expResult = false;
         boolean result = instance.joinGame(joinRequest);
         assertEquals(expResult, result);
@@ -362,13 +362,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of saveGame method, of class MockServerProxy.
+     * Test of saveGame method, of class MockProxy.
      */
     @Test
     public void testSaveGame() throws Exception {
         System.out.println("saveGame");
         SaveGameRequest saveRequest = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         boolean expResult = false;
         boolean result = instance.saveGame(saveRequest);
         assertEquals(expResult, result);
@@ -377,13 +377,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of loadGame method, of class MockServerProxy.
+     * Test of loadGame method, of class MockProxy.
      */
     @Test
     public void testLoadGame() throws Exception {
         System.out.println("loadGame");
         LoadGameRequest loadRequest = null;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         boolean expResult = false;
         boolean result = instance.loadGame(loadRequest);
         assertEquals(expResult, result);
@@ -392,13 +392,13 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of getGameModel method, of class MockServerProxy.
+     * Test of getGameModel method, of class MockProxy.
      */
     @Test
     public void testGetGameModel() throws Exception {
         System.out.println("getGameModel");
         int version = 0;
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.getGameModel(version);
         assertEquals(expResult, result);
@@ -407,12 +407,12 @@ public class MockServerProxyTest {
     }
 
     /**
-     * Test of resetGame method, of class MockServerProxy.
+     * Test of resetGame method, of class MockProxy.
      */
     @Test
     public void testResetGame() throws Exception {
         System.out.println("resetGame");
-        MockServerProxy instance = new MockServerProxy();
+        MockProxy instance = new MockProxy();
         String expResult = "";
         String result = instance.resetGame();
         assertEquals(expResult, result);
