@@ -17,6 +17,7 @@ import shared.model.ResourceList;
 
 /**
  *
+ * @author JanPaul
  */
 public class CanDoFacadeTest {
     
@@ -97,6 +98,7 @@ public class CanDoFacadeTest {
         boolean expResult = false;
         boolean result = instance.canBuyDevCard();
         assertEquals(expResult, result);
+
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -273,7 +275,6 @@ public class CanDoFacadeTest {
     }
 
     public class CanDoFacadeImpl extends CanDoFacade {
-
         public CanDoFacadeImpl() {
             super(null, null);
         }

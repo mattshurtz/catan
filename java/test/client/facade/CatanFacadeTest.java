@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
 import shared.locations.EdgeLocation;
 import shared.model.Model;
 
@@ -19,8 +20,6 @@ import shared.model.Model;
  *
  */
 public class CatanFacadeTest {
-    
-    
     
     public CatanFacadeTest() {
     }
