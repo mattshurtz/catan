@@ -291,7 +291,9 @@ public class MockServerProxyTest {
     @Test
     public void testLogin() throws Exception {
         System.out.println("login");
-        Credentials userCredentials = null;
+        Credentials userCredentials = new Credentials();
+        userCredentials.setUsername("Sam");
+        userCredentials.setPassword("sam");
         MockServerProxy instance = new MockServerProxy();
         boolean expResult = false;
         boolean result = instance.login(userCredentials);

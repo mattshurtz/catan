@@ -91,4 +91,68 @@ public class UserTest {
         fail("The test case is a prototype.");
     }
     
+    @Test
+    public void testIsValidUsername() {
+        System.out.println("isValidUsername");
+        String[] usernames = new String[] {
+            "a",  // false -- too short
+            "ab", // false -- too short
+            "abc",
+            "abE",
+            "ab123",
+            "123abc",
+            "1-2",
+            "1_2",
+            "a-_",
+            "ABC123_-", // false -- too long
+            "'hello'", // false -- disallowed characters
+            "\"abc", // false -- disallowed characters
+            "a+b" // false -- disallowed characters
+        };
+        boolean[] expectedResults = new boolean[] {
+            false, false,
+            true, true, true, true, true, true, true,
+            false, false, false, false
+        };
+        boolean result;
+        for ( int i = 0; i < usernames.length; i++ ) {
+            result = User.isValidUsername( usernames[i] );
+            if ( expectedResults[i] != result )
+                System.out.println("isValidUsername failed on username: " + usernames[i] );
+            assertEquals( expectedResults[i], result );
+        }
+    }
+    
+    @Test
+    public void testIsValidPassword() {
+        System.out.println("isValidPassword");
+        String[] passwords = new String[] {
+            "a",  // false -- too short
+            "ab", // false -- too short
+            "abc", // false -- too short
+            "abEd", // false -- too short
+            "abdef", 
+            "ab123",
+            "123abc",
+            "1-234",
+            "1_234",
+            "a-_bd",
+            "ABC123_-",
+            "'hello'", // false -- disallowed characters
+            "\"abc", // false -- disallowed characters
+            "a+b" // false -- disallowed characters
+        };
+        boolean[] expectedResults = new boolean[] {
+            false, false, false, false,
+            true, true, true, true, true, true, true,
+            false, false, false
+        };
+        boolean result;
+        for ( int i = 0; i < passwords.length; i++ ) {
+            result = User.isValidPassword( passwords[i] );
+            if ( expectedResults[i] != result )
+                System.out.println("isValidPassword failed on username: " + passwords[i] );
+            assertEquals( expectedResults[i], result );
+        }
+    }
 }

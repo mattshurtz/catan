@@ -28,6 +28,8 @@ import shared.exceptions.ServerException;
  */
 public class IServerProxyTest {
     
+    IServerProxy instance = null;
+    
     public IServerProxyTest() {
     }
     
@@ -41,6 +43,7 @@ public class IServerProxyTest {
     
     @Before
     public void setUp() {
+        instance = new MockServerProxy();
     }
     
     @After
@@ -53,13 +56,19 @@ public class IServerProxyTest {
     @Test
     public void testLogin() throws Exception {
         System.out.println("login");
-        Credentials userCredentials = null;
-        IServerProxy instance = new IServerProxyImpl();
+        
+        // first, login without credentials -- should fail
+        Credentials userCredentials = new Credentials();
         boolean expResult = false;
         boolean result = instance.login(userCredentials);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        // Now login for real
+        userCredentials.setUsername("Sam");
+        userCredentials.setPassword("sam");
+        expResult = true;
+        result = instance.login(userCredentials);
+        assertEquals(expResult, result);
     }
 
     /**
@@ -69,12 +78,48 @@ public class IServerProxyTest {
     public void testRegister() throws Exception {
         System.out.println("register");
         Credentials userCredentials = null;
-        IServerProxy instance = new IServerProxyImpl();
+        
         boolean expResult = false;
         boolean result = instance.register(userCredentials);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        userCredentials = new Credentials();
+        result = instance.register(userCredentials);
+        assertEquals( expResult, result );
+        
+        // valid
+        userCredentials.setUsername("abc");
+        userCredentials.setPassword("abcde");
+        expResult = true;
+        result = instance.register(userCredentials);
+        assertEquals( expResult, result );
+        
+        // invalid username
+        userCredentials.setUsername("ab");
+        userCredentials.setPassword("abcde");
+        expResult = false;
+        result = instance.register(userCredentials);
+        assertEquals( expResult, result );
+        
+        // invalid password
+        userCredentials.setUsername("jan1");
+        userCredentials.setPassword("alkjc()*&#");
+        expResult = false;
+        result = instance.register(userCredentials);
+        assertEquals( expResult, result );
+        
+        // valid
+        userCredentials.setUsername("Sammers");
+        userCredentials.setPassword("sammers");
+        expResult = true;
+        result = instance.register(userCredentials);
+        assertEquals( expResult, result );
+        
+        // Uncomment this when using the real server
+//        // Now try to log in with the user we just registered
+//        expResult = true;
+//        result = instance.login( userCredentials );
+//        assertEquals( expResult, result );
     }
 
     /**
