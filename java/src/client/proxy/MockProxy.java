@@ -6,8 +6,12 @@ import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 
-public class MockServerProxy implements IServerProxy {
+public class MockProxy implements IServerProxy {
 
+    public MockProxy(){
+        
+    }
+    
     @Override
     public String listAi() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

@@ -58,24 +58,24 @@ public abstract class CanDoFacade {
         return false;
     }
 
-    public void canBuyDevCard() {
-
+    public boolean canBuyDevCard() {
+        return false;
     }
 
-    public void canPlayYearOfPlenty() {
-
+    public boolean canPlayYearOfPlenty() {
+        return false;
     }
 
-    public void canPlayRoadBuilding() {
-
+    public boolean canPlayRoadBuilding() {
+        return false;
     }
 
-    public void canPlaySoldier() {
-
+    public boolean canPlaySoldier() {
+        return false;
     }
 
-    public void canPlayMonopoly() {
-
+    public boolean canPlayMonopoly() {
+        return false;
     }
 
     /**
@@ -84,16 +84,26 @@ public abstract class CanDoFacade {
      * location in question is connected to a road or settlement/city belonging
      * to the player.
      */
-    public boolean canBuildRoad(EdgeLocation roadLocation) {
-        boolean returnValue = false;
+    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
         try {
-            returnValue = model.canBuildRoad(roadLocation);
-        } catch (InsufficentSupplies ex) {
-            Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return model.canBuildRoad(roadLocation);
         } catch (InvalidLocation ex) {
             Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return returnValue;
+        return false;
+    }
+    
+    /**
+     * 
+     * @return true if insufficentSupplies is not thrown. 
+     */
+    public boolean canBuyRoad() throws InsufficentSupplies {
+        try {
+            return model.canBuyRoad();
+        } catch (InsufficentSupplies ex) {
+            Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     /**
@@ -116,20 +126,20 @@ public abstract class CanDoFacade {
         return false;
     }
 
-    public void canSendChat() {
-
+    public boolean canSendChat() {
+        return false;
     }
 
-    public void canRollNumber() {
-
+    public boolean canRollNumber() {
+        return false;
     }
 
-    public void canRobPlayer() {
-
+    public boolean canRobPlayer() {
+        return false;
     }
 
-    public void canFinishTurn() {
-
+    public boolean canFinishTurn() {
+        return false;
     }
 
 }

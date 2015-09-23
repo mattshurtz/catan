@@ -19,7 +19,11 @@ public class ResourceList {
     int wood;
 
     public ResourceList() {
-		// TODO Auto-generated constructor stub
+            this.brick = 0;
+            this.ore = 0;
+            this.sheep = 0;
+            this.wheat = 0;
+            this.wood = 0;
 	}
 
 	public ResourceList(int brick, int ore, int sheep, int wheat, int wood) {
@@ -52,7 +56,7 @@ public class ResourceList {
      * @return true if player has enough resources to buy a road
      */
     public boolean canBuyRoad() {
-        if (wood > 0 && brick < 0) {
+        if (wood > 0 && brick > 0) {
             return true;
         }
         return false;

@@ -50,6 +50,7 @@ public class Model {
         version = 0;
         winner = -1;
     }
+    
 
     /**
      * @param json this will be the Json representation of the model returned
@@ -88,15 +89,24 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
-    public boolean canBuildRoad(EdgeLocation location) throws InsufficentSupplies, InvalidLocation {
-        int playerIndex = turnTracker.getCurrentTurn();
-        if (!players.get(playerIndex).hasRoad()) {
-            throw new InsufficentSupplies("");
-        }
+    public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
         if (!map.canPlaceRoadAtLoc(location)) {
             throw new InvalidLocation("");
         }
+        return true;
+    }
+    
+    /**
+     * 
+     * @return true if no exception is thrown
+     * @throws InsufficentSupplies if player doesn't have the resources or a road to place
+     */
+    public boolean canBuyRoad() throws InsufficentSupplies {
+        int playerIndex = turnTracker.getCurrentTurn();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
+            throw new InsufficentSupplies("");
+        }
+        if (!players.get(playerIndex).hasRoad()) {
             throw new InsufficentSupplies("");
         }
         return true;
