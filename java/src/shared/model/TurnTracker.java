@@ -15,27 +15,25 @@ import shared.definitions.TurnStatus;
 *largestArmy (index): The index of who has the biggest army (3 or more), -1 if no one has it
 */
 public class TurnTracker {
-   int currentTurn;
-   TurnStatus status;
-   int longestRoad;
-   int largestArmy;
-   
-   
+    int currentTurn;
+    TurnStatus status;
+    int longestRoad;
+    int largestArmy;
     
     public TurnTracker() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public TurnTracker(int currentTurn, TurnStatus status, int longestRoad, int largestArmy) {
-		super();
-		this.currentTurn = currentTurn;
-		this.status = status;
-		this.longestRoad = longestRoad;
-		this.largestArmy = largestArmy;
-	}
+    public TurnTracker(int currentTurn, TurnStatus status, int longestRoad, int largestArmy) {
+            super();
+            this.currentTurn = currentTurn;
+            this.status = status;
+            this.longestRoad = longestRoad;
+            this.largestArmy = largestArmy;
+    }
 
-	public int getCurrentTurn() {
+    public int getCurrentTurn() {
         return currentTurn;
     }
 
@@ -43,29 +41,33 @@ public class TurnTracker {
         this.currentTurn = currentTurn;
     }
 
-	public TurnStatus getStatus() {
-		return status;
-	}
+    public TurnStatus getStatus() {
+            return status;
+    }
 
-	public void setStatus(TurnStatus status) {
-		this.status = status;
-	}
+    public void setStatus(TurnStatus status) {
+            this.status = status;
+    }
 
-	public int getLongestRoad() {
-		return longestRoad;
-	}
+    public int getLongestRoad() {
+            return longestRoad;
+    }
 
-	public void setLongestRoad(int longestRoad) {
-		this.longestRoad = longestRoad;
-	}
+    public void setLongestRoad(int longestRoad) {
+            this.longestRoad = longestRoad;
+    }
 
-	public int getLargestArmy() {
-		return largestArmy;
-	}
+    public int getLargestArmy() {
+            return largestArmy;
+    }
 
-	public void setLargestArmy(int largestArmy) {
-		this.largestArmy = largestArmy;
-	}
+    public void setLargestArmy(int largestArmy) {
+            this.largestArmy = largestArmy;
+    }
+
+    public boolean isPlayersTurn(int myPlayerIndex) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
 
