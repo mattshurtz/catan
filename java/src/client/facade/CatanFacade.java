@@ -1,13 +1,10 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
-import shared.exceptions.InsufficentSupplies;
-import shared.exceptions.InvalidLocation;
-import shared.locations.EdgeLocation;
 import shared.model.Model;
 
 /**
- *
+ * A singleton that gives out the actual facades.
  */
 public class CatanFacade {
     
@@ -21,7 +18,6 @@ public class CatanFacade {
     
     private static boolean isServer = false;
     private static int myPlayerIndex = 0;
-    private static boolean isMyTurn = false;
     
     public CatanFacade(IServerProxy proxy, Model model){
         this.model = model;
@@ -30,6 +26,10 @@ public class CatanFacade {
         this.notMyTurn = new CanDoFacadeNotMyTurn(proxy, model);
         this.doFacade = new DoFacade(proxy, model);
         this.gameHubFacade = new GameHubFacade(proxy, model);
+    }
+    
+    private static boolean isMyTurn() {
+        return model.getTurnTracker().isPlayersTurn( myPlayerIndex );
     }
 
     public static Model getModel() {
@@ -40,10 +40,8 @@ public class CatanFacade {
         CatanFacade.model = model;
     }
     
-    
-    
     public static CanDoFacade getCanDoFacade() {
-        if ( isMyTurn )
+        if ( isMyTurn() )
             return myTurn;
         else
             return notMyTurn;
@@ -55,25 +53,5 @@ public class CatanFacade {
     
     public static GameHubFacade getGameHubFacade() {
         return gameHubFacade;
-    }
-    
-    public boolean canBuyRoad() throws InsufficentSupplies{
-       if(isMyTurn){
-           return myTurn.canBuyRoad();
-       }
-       
-       return notMyTurn.canBuyRoad();
-    }
-    
-    public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation{
-       if(isMyTurn){
-           return myTurn.canBuildRoad(location);
-       }
-       
-       return notMyTurn.canBuildRoad(location);
-    }
-    
-    public void buildRoad(){
-        
     }
 }

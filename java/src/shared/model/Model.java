@@ -187,4 +187,8 @@ public class Model {
     	
     }
 
+    public TurnTracker getTurnTracker() {
+        return turnTracker;
+    }
+
 }
