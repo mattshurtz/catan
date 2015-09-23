@@ -5,6 +5,7 @@ import java.util.List;
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.model.User;
 
 public class MockProxy implements IServerProxy {
 
@@ -109,14 +110,30 @@ public class MockProxy implements IServerProxy {
 
     @Override
     public boolean login(Credentials userCredentials) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        if ( userCredentials == null ) 
+            return false;
+
+        String username = userCredentials.getUsername();
+        String password = userCredentials.getPassword();
+        if ( username == null || password == null )
+            return false;
+        
+        boolean ret = username.matches("(Sam|Brooke|Pete|Mark|Ken|Squall|Scott)");
+        ret = ret && username.equalsIgnoreCase(password);
+        return ret;
     }
 
     @Override
     public boolean register(Credentials userCredentials) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        if ( userCredentials == null ) 
+            return false;
+
+        String username = userCredentials.getUsername();
+        String password = userCredentials.getPassword();
+        
+        boolean ret = User.isValidUsername( username );
+        ret = ret && User.isValidPassword( password );
+        return ret;
     }
 
     @Override
