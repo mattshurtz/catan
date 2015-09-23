@@ -52,6 +52,7 @@ public class Model {
     }
     
 
+
     /**
      * @param json this will be the Json representation of the model returned
      * from the server.

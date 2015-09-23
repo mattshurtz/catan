@@ -14,7 +14,10 @@ import shared.exceptions.ServerException;
  *
  */
 public interface IServerProxy {
-	// Operations about users
+    
+    Serializer serializer = new Serializer();
+    
+    // Operations about users
 
     /**
      * Logs a user into the game system
