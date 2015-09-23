@@ -19,6 +19,8 @@ public class CatanFacade {
     private static IServerProxy proxy;
     private static Model model;
     
+    private static boolean isServer = false;
+    private static int myPlayerIndex = 0;
     private static boolean isMyTurn = false;
     
     public CatanFacade(IServerProxy proxy, Model model){
