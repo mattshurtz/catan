@@ -9,3 +9,4 @@ bin/
 nbproject/
 demo/logs/
 /build/
+/nbdist/

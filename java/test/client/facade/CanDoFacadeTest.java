@@ -171,7 +171,7 @@ public class CanDoFacadeTest {
         TurnTracker tt = new TurnTracker();
         model.setTurnTracker( tt );
         tt.setCurrentTurn( p1.getPlayerIndex() );
-        model.
+        //model.
     }
 
     /**

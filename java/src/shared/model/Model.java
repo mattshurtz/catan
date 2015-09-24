@@ -86,7 +86,7 @@ public class Model {
      * @param location this is the location of the Road you would like to build
      * playerIndex identifies the player who would like to build the road
      * @return true if no exception is thrown
-     * @throws InsufficentSupplies if the player did not have enough resources or pieces
+     * InsufficentSupplies if the player did not have enough resources or pieces
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
@@ -181,7 +181,7 @@ public class Model {
     }
     
     /**
-     * @param rolled number - int not equal to 7
+     * @param rolledNumber - int not equal to 7
      */
     public void distributeResources(int rolledNumber)
     {

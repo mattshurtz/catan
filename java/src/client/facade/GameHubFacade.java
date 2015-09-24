@@ -8,7 +8,7 @@ import shared.model.Model;
 
 /**
  * A facade dealing with all important game hub operations, such as getting the model,
- * loading & saving the game, logging in, registering, and changing the server's log
+ * loading and saving the game, logging in, registering, and changing the server's log
  * level.
  */
 public class GameHubFacade {
