@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client.facade;
 
 import client.proxy.IServerProxy;
@@ -16,7 +11,10 @@ import shared.model.Model;
 import shared.model.ResourceList;
 
 /**
- *
+ * An abstract class defining all the CanDo methods, extended by the 
+ * CanDo - MyTurn - facade (which actually checks whether things are doable)
+ * and the CanDo - NotMyturn - facade (which just returns false because you
+ * can't do anything when it's not your turn).
  */
 public abstract class CanDoFacade {
 

@@ -4,7 +4,8 @@ import client.proxy.IServerProxy;
 import shared.model.Model;
 
 /**
- * A singleton that gives out the actual facades.
+ * A singleton facade that gives out the actual facades. Everything in this
+ * class is static.
  */
 public class CatanFacade {
     

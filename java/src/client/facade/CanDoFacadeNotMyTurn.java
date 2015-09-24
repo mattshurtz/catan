@@ -7,8 +7,8 @@ import shared.locations.EdgeLocation;
 import shared.model.Model;
 
 /**
- *
- * @author JanPaul
+ * A "can do" facade for when it's not my turn -- basically just automatically
+ * returns false for everything other than chatting and responding to trades.
  */
 public class CanDoFacadeNotMyTurn extends CanDoFacade {
 

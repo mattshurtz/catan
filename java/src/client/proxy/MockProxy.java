@@ -1,5 +1,6 @@
 package client.proxy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
@@ -138,8 +139,9 @@ public class MockProxy implements IServerProxy {
 
     @Override
     public List<GameResponse> getGamesList() throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+        List<GameResponse> list = new ArrayList<>();
+        list.add( GameResponse.getDefaultSampleGameResponse() );
+        return list;
     }
 
     @Override

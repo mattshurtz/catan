@@ -1,17 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client.facade;
 
 import client.data.GameInfo;
 import client.proxy.IServerProxy;
-import shared.communication.params.JoinGameRequest;
+import java.util.List;
+import shared.communication.responses.GameResponse;
 import shared.model.Model;
 
 /**
- *
+ * A facade dealing with all important game hub operations, such as getting the model,
+ * loading & saving the game, logging in, registering, and changing the server's log
+ * level.
  */
 public class GameHubFacade {
     
@@ -47,8 +45,9 @@ public class GameHubFacade {
         
     }
     
-//    public String listGames(){
-//    }
+    public List<GameResponse> listGames(){
+        return null;
+    }
     
     public void createGame(){
         

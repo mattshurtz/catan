@@ -7,8 +7,9 @@ import shared.locations.EdgeLocation;
 import shared.model.Model;
 
 /**
- *
- * @author JanPaul
+ * A facade for when it's my turn -- separated from the NotMyTurn facade to
+ * avoid an <code>if (it's my turn)</code> statement at the beginning of every
+ * single method.
  */
 public class CanDoFacadeMyTurn extends CanDoFacade {
 

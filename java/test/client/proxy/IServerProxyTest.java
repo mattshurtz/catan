@@ -5,6 +5,7 @@
  */
 package client.proxy;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -20,6 +21,7 @@ import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
 import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.GameResponse;
+import shared.communication.responses.PlayerResponse;
 import shared.exceptions.ServerException;
 
 /**
@@ -128,12 +130,20 @@ public class IServerProxyTest {
     @Test
     public void testGetGamesList() throws Exception {
         System.out.println("getGamesList");
-        IServerProxy instance = new IServerProxyImpl();
-        List<GameResponse> expResult = null;
+        
+        GameResponse gr = GameResponse.getDefaultSampleGameResponse();
+        
         List<GameResponse> result = instance.getGamesList();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        boolean found = false;
+        // That GameResponse should be at least one of them
+        for ( GameResponse gamer : result ) {
+            if ( gamer.equals(gr) ) {
+                found = true;
+                break;
+            }
+        }
+        if ( ! found )
+            fail("Default GameResponse not found!");
     }
 
     /**

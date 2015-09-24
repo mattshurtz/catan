@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client.facade;
 
 import client.proxy.IServerProxy;
@@ -10,7 +5,9 @@ import shared.locations.VertexLocation;
 import shared.model.Model;
 
 /**
- *
+ * A facade for all the "doing" actions, as opposed to "can do" -- rather than
+ * just checking whether a player *can* play a road, these method actually play
+ * a road, build a settlement, take a development card, etc.
  */
 public class DoFacade {
     
