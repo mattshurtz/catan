@@ -5,17 +5,25 @@
  */
 package client.proxy;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 /**
  *
  */
 public class Serializer {
+    
+    private GsonBuilder gsonBuilder = new GsonBuilder();
+    private Gson gson = gsonBuilder.create();
     
     /**
      * @param o The Java object to be sent to the server. 
      * @return the json representation of package class
      */
     public String toJson(Object o){
-        return "return json string";
+        String json = gson.toJson(o);
+        System.out.println( "Returning json: " + json );
+        return json;
     }
     
     

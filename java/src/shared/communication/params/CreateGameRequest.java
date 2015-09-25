@@ -16,7 +16,7 @@ public class CreateGameRequest {
     boolean randomTiles;
     boolean randomNumbers;
     boolean randomPorts;
-    boolean name;
+    String name;
 
     public boolean isRandomTiles() {
         return randomTiles;
@@ -42,11 +42,11 @@ public class CreateGameRequest {
         this.randomPorts = randomPorts;
     }
 
-    public boolean isName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(boolean name) {
+    public void setName(String name) {
         this.name = name;
     }
 
