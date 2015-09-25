@@ -20,6 +20,11 @@ public class DevCardList {
         int yearOfPlenty;
 
     public DevCardList(){
+        monopoly = 0;
+        monument = 0;
+        roadBuilding = 0;
+        soldier = 0;
+        yearOfPlenty = 0;
 
     }
 
@@ -159,5 +164,27 @@ public class DevCardList {
 	public boolean canPlayYearOfPlenty() {
 		return false;
 	}
+
+    public void setMonopoly(int monopoly) {
+        this.monopoly = monopoly;
+    }
+
+    public void setMonument(int monument) {
+        this.monument = monument;
+    }
+
+    public void setRoadBuilding(int roadBuilding) {
+        this.roadBuilding = roadBuilding;
+    }
+
+    public void setSoldier(int soldier) {
+        this.soldier = soldier;
+    }
+
+    public void setYearOfPlenty(int yearOfPlenty) {
+        this.yearOfPlenty = yearOfPlenty;
+    }
+        
+        
     
 }
