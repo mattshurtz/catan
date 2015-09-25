@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
  * @author JanPaul
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({shared.exceptions.ExceptionsSuite.class, shared.communication.CommunicationSuite.class, shared.definitions.DefinitionsSuite.class, shared.model.ModelSuite.class, shared.locations.LocationsSuite.class})
+@Suite.SuiteClasses({shared.exceptions.ExceptionsSuite.class, shared.definitions.DefinitionsSuite.class, shared.model.ModelSuite.class, shared.locations.LocationsSuite.class})
 public class SharedSuite {
 
     @BeforeClass

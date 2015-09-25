@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client.proxy;
 
 import java.util.ArrayList;
@@ -20,8 +15,8 @@ import shared.communication.params.LoadGameRequest;
 import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
 import shared.communication.responses.CreateGameResponse;
+import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
-import shared.communication.responses.PlayerResponse;
 import shared.exceptions.ServerException;
 
 /**
@@ -152,13 +147,23 @@ public class IServerProxyTest {
     @Test
     public void testCreateGame() throws Exception {
         System.out.println("createGame");
-        CreateGameRequest gameRequests = null;
-        IServerProxy instance = new IServerProxyImpl();
-        CreateGameResponse expResult = null;
-        CreateGameResponse result = instance.createGame(gameRequests);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        CreateGameRequest cgr = new CreateGameRequest();
+        cgr.setName("new game");
+        cgr.setRandomNumbers(true);
+        cgr.setRandomPorts(false);
+        cgr.setRandomTiles(true);
+        
+        CreateGameResponse actual = instance.createGame(cgr);
+        
+        CreateGameResponse expected = new CreateGameResponse();
+        List<EmptyPlayerResponse> epr = new ArrayList<>();
+        for (int i = 0; i < 4; i++ )
+            epr.add( new EmptyPlayerResponse() );
+        expected.setPlayers(epr);
+        expected.setTitle("new game");
+        
+        assertEquals(expected, actual);
     }
 
     /**
@@ -167,13 +172,13 @@ public class IServerProxyTest {
     @Test
     public void testJoinGame() throws Exception {
         System.out.println("joinGame");
-        JoinGameRequest joinRequest = null;
-        IServerProxy instance = new IServerProxyImpl();
-        boolean expResult = false;
+        
+        JoinGameRequest joinRequest = new JoinGameRequest();
+        joinRequest.setGameID(5);
+        joinRequest.setColor("green");
+        boolean expResult = true;
         boolean result = instance.joinGame(joinRequest);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -182,13 +187,12 @@ public class IServerProxyTest {
     @Test
     public void testSaveGame() throws Exception {
         System.out.println("saveGame");
-        SaveGameRequest saveRequest = null;
-        IServerProxy instance = new IServerProxyImpl();
-        boolean expResult = false;
+        SaveGameRequest saveRequest = new SaveGameRequest();
+        saveRequest.setId(1);
+        saveRequest.setName("savedgame.txt");
+        boolean expResult = true;
         boolean result = instance.saveGame(saveRequest);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -197,13 +201,11 @@ public class IServerProxyTest {
     @Test
     public void testLoadGame() throws Exception {
         System.out.println("loadGame");
-        LoadGameRequest loadRequest = null;
-        IServerProxy instance = new IServerProxyImpl();
-        boolean expResult = false;
+        LoadGameRequest loadRequest = new LoadGameRequest();
+        loadRequest.setName("savedgame.txt");
+        boolean expResult = true;
         boolean result = instance.loadGame(loadRequest);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

@@ -146,26 +146,33 @@ public class MockProxy implements IServerProxy {
 
     @Override
     public CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+        if ( gameRequests == null )
+            return null;
+        
+        CreateGameResponse response = new CreateGameResponse();
+        response.setTitle( gameRequests.getName() );
+        response.setId(5);
+        List<EmptyPlayerResponse> epr = new ArrayList<>();
+        for (int i = 0; i < 4; i++ )
+            epr.add( new EmptyPlayerResponse() );
+        response.setPlayers(epr);
+        
+        return response;
     }
 
     @Override
     public boolean joinGame(JoinGameRequest joinRequest) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean saveGame(SaveGameRequest saveRequest) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean loadGame(LoadGameRequest loadRequest) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override

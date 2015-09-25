@@ -10,4 +10,14 @@ package shared.communication.params;
  */
 public class LoadGameRequest {
 	//String name - name of the game file to load
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
 }
