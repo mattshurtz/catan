@@ -1,11 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package client.proxy;
+package shared.json;
 
-import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import shared.model.MessageLine;
 import shared.model.Model;
 
@@ -22,7 +17,7 @@ public class Deserializer {
      * server.
      */
     public Model toJavaModel(String json) {
-        return new Gson().fromJson(json, Model.class);
+        return new GsonBuilder().create().fromJson(json, Model.class);
     }
 
     /**

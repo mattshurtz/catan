@@ -17,7 +17,7 @@ import org.junit.runners.Suite;
  * @author JanPaul
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({client.proxy.MockServerProxyTest.class, client.proxy.ServerProxyTest.class, client.proxy.IServerProxyTest.class, client.proxy.SerializerTest.class})
+@Suite.SuiteClasses({client.proxy.MockServerProxyTest.class, client.proxy.ServerProxyTest.class, client.proxy.IServerProxyTest.class })
 public class ProxySuite {
 
     @BeforeClass
