@@ -115,15 +115,24 @@ public abstract class CanDoFacade {
         return false;
     }
 
+    public boolean canBuySettlement() {
+    	return false;
+    }
+    
     /**
      * @param vertex this is where the player would like build a City
-     * @return true if player has enough resources to buy a City, and owns a
-     * settlement at this location
+     * @return true if player owns a settlement at this location and has remaining cities
      */
     public boolean canBuildCity(VertexLocation vertex) {
         return false;
     }
-
+    /**
+     * @return true if the player has the resources to buy a city
+     */
+    public boolean canBuyCity() {
+    	return false;
+    }
+    
     public boolean canSendChat() {
         return false;
     }

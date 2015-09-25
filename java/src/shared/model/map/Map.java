@@ -24,9 +24,6 @@ import shared.locations.VertexLocation;
  *
  */
 public class Map {
-
-    
-
 	ArrayList<Hex> hexes;
     ArrayList<Port> ports;
     ArrayList<Road> roads;
@@ -58,16 +55,43 @@ public class Map {
      * there
      * @return true if the place can accept a road
      */
-    public boolean canPlaceRoadAtLoc(EdgeLocation location) {
-        return false;
+    public boolean canPlaceRoadAtLoc(int playerIndex, EdgeLocation location, boolean restricted ) {
+    	boolean valid = false;
+    	
+    	if(!edgeOccupied(location)) {
+    		restricted ? edgeAdjacent(player, location):true;
+    	}
+    	
+        return valid;
     }
+    
+    private boolean edgeOccupied(EdgeLocation location) {
+    	bool occupied = false;
+    	
+    	foreach(Road road : roads) {
+    		if(road.getLocation() == location) {
+    			occupied = true;
+    			break;
+    		}
+    	}
+    	
+    	return occupied;
+    }
+    
+    private boolean edgeAdjacent(int playerIndex) {
+    	bool adjacent = false;
+    	
+    	foreachlhlkhj;;;;
+    	'';l
+    }
+    
     
     /**
      * add road to roads list
      * @param road to be placed at this locations
      */
     public void placeRoadAtLocation(Road road) {
-
+    	roads.add(road);
     }
 
     /**
