@@ -11,9 +11,11 @@ package shared.model;
  */
 public class MessageLine {
         String message;
-        String source;
-    public MessageLine() {
-
+        String source; //TODO: Is this just the name of the player that sent it??  JSON documentation didn't specify.
+    public MessageLine() {}
+    public MessageLine(String source, String message) {
+    	this.source = source;
+    	this.message = message;
     }
     
     

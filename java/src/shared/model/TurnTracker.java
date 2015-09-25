@@ -15,18 +15,22 @@ import shared.definitions.TurnStatus;
 *largestArmy (index): The index of who has the biggest army (3 or more), -1 if no one has it
 */
 public class TurnTracker {
-    int currentTurn;
-    TurnStatus status;
-    int longestRoad;
-    int largestArmy;
+    private int currentTurn;
+    private TurnStatus status;
+    private int longestRoad;
+    private int largestArmy;
     
+    //Default empty constructor
     public TurnTracker() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+    	currentTurn = 0;
+    	//Default to rolling
+    	status = TurnStatus.ROLLING;
+    	longestRoad = 0;
+    	largestArmy = 0;
+    }
 
+    //Constructor
     public TurnTracker(int currentTurn, TurnStatus status, int longestRoad, int largestArmy) {
-            super();
             this.currentTurn = currentTurn;
             this.status = status;
             this.longestRoad = longestRoad;

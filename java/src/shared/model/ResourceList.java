@@ -12,27 +12,26 @@ import shared.locations.VertexLocation;
  */
 public class ResourceList {
 
-    int brick;
-    int ore;
-    int sheep;
-    int wheat;
-    int wood;
+    private int brick;
+    private int ore;
+    private int sheep;
+    private int wheat;
+    private int wood;
 
     public ResourceList() {
             this.brick = 0;
-            this.ore = 0;
+            this.wood = 0;
             this.sheep = 0;
             this.wheat = 0;
-            this.wood = 0;
+            this.ore = 0;
 	}
 
-	public ResourceList(int brick, int ore, int sheep, int wheat, int wood) {
-		super();
+	public ResourceList(int brick, int wood, int sheep, int wheat, int ore) {
 		this.brick = brick;
-		this.ore = ore;
+		this.wood = wood;
 		this.sheep = sheep;
 		this.wheat = wheat;
-		this.wood = wood;
+		this.ore = ore;
 	}
 
 	/**
