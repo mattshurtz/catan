@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package client.proxy;
+package shared.json;
 
+import com.google.gson.GsonBuilder;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -43,15 +48,19 @@ public class DeserializerTest {
      * Test of toJavaModel method, of class Deserializer.
      */
     @Test
-    public void testToJavaModel() {
+    public void testToJavaModel() throws IOException, FileNotFoundException {
+        File file = new File("java/test/shared/json/sample_model_json.txt");
+        FileInputStream fis = new FileInputStream(file);
+        byte[] data = new byte[(int) file.length()];
+        fis.read(data);
+        fis.close();
+
+        String sampleModelJson = new String(data, "UTF-8");
+        
         System.out.println("toJavaModel");
-        String json = "";
         Deserializer instance = new Deserializer();
-        Model expResult = null;
-        Model result = instance.toJavaModel(json);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Model result = instance.toJavaModel( sampleModelJson );
+        System.out.println( new GsonBuilder().create().toJson( result ));
     }
 
     /**
