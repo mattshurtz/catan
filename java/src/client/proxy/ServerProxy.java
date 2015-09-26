@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.json.Serializer;
 
 public class ServerProxy implements IServerProxy {
     

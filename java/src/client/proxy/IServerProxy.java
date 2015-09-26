@@ -15,8 +15,6 @@ import shared.exceptions.ServerException;
  */
 public interface IServerProxy {
     
-    Serializer serializer = new Serializer();
-    
     // Operations about users
 
     /**
