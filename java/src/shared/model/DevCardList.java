@@ -222,7 +222,5 @@ public class DevCardList {
         }
         return true;
     }
-        
-    
     
 }

@@ -201,7 +201,5 @@ public class ResourceList {
             return false;
         }
         return true;
-    }
-    
-    
+    } 
 }

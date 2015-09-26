@@ -6,8 +6,10 @@
 package shared.model;
 
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
 import java.util.Objects;
+import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -29,16 +31,16 @@ import shared.model.map.Map;
  */
 public class Model {
 
-    ResourceList bank;
-    DevCardList deck;
-    MessageList chat;
-    MessageList log;
-    Map map;
-    ArrayList<Player> players;
-    TradeOffer tradeOffer;
-    TurnTracker turnTracker;
-    int version;
-    int winner;
+    private ResourceList bank;
+    private DevCardList deck;
+    private MessageList chat;
+    private MessageList log;
+    private Map map;
+    private ArrayList<Player> players;
+    private TradeOffer tradeOffer;
+    private TurnTracker turnTracker;
+    private int version;
+    private int winner;
 
     public Model() {
         bank = new ResourceList();
@@ -65,8 +67,15 @@ public class Model {
     /**
      * @param playerIndex this is the index of the player
      * @return Player at the specified playerIndex
+     * @throws GetPlayerException if the player list is empty, or if the index is invalid
      */
-    public Player getPlayer(int playerIndex) {
+    public Player getPlayer(int playerIndex) throws GetPlayerException{
+    	if (players == null || players.size() == 0) {
+    		throw new GetPlayerException("There are currently no players in this model's player list");
+    	}
+    	if (playerIndex > 3 || playerIndex < 0) {
+    		throw new GetPlayerException("Invalid playerIndex:  Must be 0-3");
+    	}
         return players.get(playerIndex);
     }
 
