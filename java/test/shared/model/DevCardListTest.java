@@ -6,11 +6,14 @@
 package shared.model;
 
 import org.junit.After;
+
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import shared.exceptions.*;
 
 /**
  *
@@ -33,7 +36,7 @@ public class DevCardListTest {
     
     @Before
     public void setUp() {
-    	instance = new DevCardList();
+    	DevCardList instance = new DevCardList();
     }
     
     @After
@@ -46,6 +49,7 @@ public class DevCardListTest {
     @Test
     public void testGetMonopoly() {
         System.out.println("getMonopoly");
+        DevCardList instance = new DevCardList();
         int expResult = 0;
         int result = instance.getMonopoly();
         assertEquals(expResult, result);
@@ -59,20 +63,36 @@ public class DevCardListTest {
         System.out.println("AddMonopoly");
         DevCardList instance = new DevCardList();
         instance.AddMonopoly();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int result = instance.getMonopoly();
+        assertEquals(1, result);
+        instance.AddMonopoly();
+        result = instance.getMonopoly();
+        assertEquals(2, result);
     }
 
     /**
      * Test of removeMonopoly method, of class DevCardList.
+     * @throws InsufficentSupplies 
      */
-    @Test
-    public void testRemoveMonopoly() throws Exception {
+    @Test(expected=InsufficentSupplies.class)
+    public void testRemoveMonopoly_0available_throwError() throws InsufficentSupplies {
         System.out.println("removeMonopoly");
         DevCardList instance = new DevCardList();
         instance.removeMonopoly();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail();
+    }
+    
+    @Test
+    public void testRemoveMonopoly_1Available() {
+        System.out.println("removeMonopoly");
+        DevCardList instance = new DevCardList();
+        instance.setMonopoly(1);
+        try {
+			instance.removeMonopoly();
+			assertEquals(0,instance.getMonopoly());
+		} catch (InsufficentSupplies e) {
+			fail();
+		}
     }
 
     /**
@@ -85,8 +105,6 @@ public class DevCardListTest {
         int expResult = 0;
         int result = instance.getMonument();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -97,8 +115,9 @@ public class DevCardListTest {
         System.out.println("AddMonument");
         DevCardList instance = new DevCardList();
         instance.AddMonument();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1,instance.getMonument());
+        instance.AddMonument();
+        assertEquals(2,instance.getMonument());
     }
 
     /**
@@ -111,8 +130,6 @@ public class DevCardListTest {
         int expResult = 0;
         int result = instance.getRoadBuilding();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -123,20 +140,41 @@ public class DevCardListTest {
         System.out.println("AddRoadBuilding");
         DevCardList instance = new DevCardList();
         instance.AddRoadBuilding();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1,instance.getRoadBuilding());
+        instance.AddRoadBuilding();
+        assertEquals(2,instance.getRoadBuilding());
     }
 
     /**
      * Test of removeRoadBuilding method, of class DevCardList.
      */
     @Test
-    public void testRemoveRoadBuilding() throws Exception {
+    public void testRemoveRoadBuilding_0available_throwError() {
         System.out.println("removeRoadBuilding");
         DevCardList instance = new DevCardList();
-        instance.removeRoadBuilding();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+			instance.removeRoadBuilding();
+			fail();
+		} catch (InsufficentSupplies e) {
+		}
+        
+    }
+    
+    /**
+     * Test of removeRoadBuilding method, of class DevCardList.
+     */
+    @Test
+    public void testRemoveRoadBuilding_1available() {
+        System.out.println("removeRoadBuilding");
+        DevCardList instance = new DevCardList();
+        instance.AddRoadBuilding();
+        try {
+			instance.removeRoadBuilding();
+			assertEquals(0, instance.getRoadBuilding());
+		} catch (InsufficentSupplies e) {
+			fail();
+		}
+        
     }
 
     /**
@@ -149,8 +187,6 @@ public class DevCardListTest {
         int expResult = 0;
         int result = instance.getSoldier();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -161,20 +197,40 @@ public class DevCardListTest {
         System.out.println("AddSoldier");
         DevCardList instance = new DevCardList();
         instance.AddSoldier();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1,instance.getSoldier());
+        instance.AddSoldier();
+        assertEquals(2,instance.getSoldier());
     }
 
     /**
      * Test of removeSoldier method, of class DevCardList.
      */
     @Test
-    public void testRemoveSoldier() throws Exception {
+    public void testRemoveSoldier_0available_throwError() {
         System.out.println("removeSoldier");
         DevCardList instance = new DevCardList();
-        instance.removeSoldier();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+			instance.removeSoldier();
+			fail();
+		} catch (InsufficentSupplies e) {
+			
+		}        
+    }
+    
+    /**
+     * Test of removeSoldier method, of class DevCardList.
+     */
+    @Test
+    public void testRemoveSoldier_1available() {
+        System.out.println("removeSoldier");
+        DevCardList instance = new DevCardList();
+        instance.setSoldier(1);
+        try {
+			instance.removeSoldier();
+			assertEquals(0,instance.getSoldier());
+		} catch (InsufficentSupplies e) {
+			fail();
+		}        
     }
 
     /**
@@ -187,8 +243,6 @@ public class DevCardListTest {
         int expResult = 0;
         int result = instance.getYearOfPlenty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -199,76 +253,142 @@ public class DevCardListTest {
         System.out.println("AddYearOfPlenty");
         DevCardList instance = new DevCardList();
         instance.AddYearOfPlenty();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(1,instance.getYearOfPlenty());
+        instance.AddYearOfPlenty();
+        assertEquals(2,instance.getYearOfPlenty());
     }
 
     /**
      * Test of removeYearOfPlenty method, of class DevCardList.
      */
     @Test
-    public void testRemoveYearOfPlenty() throws Exception {
+    public void testRemoveYearOfPlenty_0available_throwError() {
         System.out.println("removeYearOfPlenty");
         DevCardList instance = new DevCardList();
-        instance.removeYearOfPlenty();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+			instance.removeYearOfPlenty();
+			fail();
+		} catch (InsufficentSupplies e) {
+			
+		}
+    }
+    
+    /**
+     * Test of removeYearOfPlenty method, of class DevCardList.
+     */
+    @Test
+    public void testRemoveYearOfPlenty_1available() {
+        System.out.println("removeYearOfPlenty");
+        DevCardList instance = new DevCardList();
+        instance.AddYearOfPlenty();
+        try {
+			instance.removeYearOfPlenty();
+			assertEquals(0,instance.getYearOfPlenty());
+		} catch (InsufficentSupplies e) {
+			fail();
+		}
     }
 
     /**
      * Test of canPlayMonopoly method, of class DevCardList.
      */
     @Test
-    public void testCanPlayMonopoly() {
+    public void testCanPlayMonopoly_No() {
         System.out.println("canPlayMonopoly");
         DevCardList instance = new DevCardList();
         boolean expResult = false;
         boolean result = instance.canPlayMonopoly();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+    }
+    
+    /**
+     * Test of canPlayMonopoly method, of class DevCardList.
+     */
+    @Test
+    public void testCanPlayMonopoly_Yes() {
+        System.out.println("canPlayMonopoly");
+        DevCardList instance = new DevCardList();
+        instance.AddMonopoly();
+        boolean expResult = true;
+        boolean result = instance.canPlayMonopoly();
+        assertEquals(expResult, result);
+        
     }
 
     /**
      * Test of canPlayRoadBuilding method, of class DevCardList.
      */
     @Test
-    public void testCanPlayRoadBuilding() {
+    public void testCanPlayRoadBuilding_No() {
         System.out.println("canPlayRoadBuilding");
         DevCardList instance = new DevCardList();
         boolean expResult = false;
         boolean result = instance.canPlayRoadBuilding();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of canPlayRoadBuilding method, of class DevCardList.
+     */
+    @Test
+    public void testCanPlayRoadBuilding_Yes() {
+        System.out.println("canPlayRoadBuilding");
+        DevCardList instance = new DevCardList();
+        instance.AddRoadBuilding();
+        boolean expResult = true;
+        boolean result = instance.canPlayRoadBuilding();
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of canPlaySoldier method, of class DevCardList.
      */
     @Test
-    public void testCanPlaySoldier() {
+    public void testCanPlaySoldier_No() {
         System.out.println("canPlaySoldier");
         DevCardList instance = new DevCardList();
         boolean expResult = false;
         boolean result = instance.canPlaySoldier();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of canPlaySoldier method, of class DevCardList.
+     */
+    @Test
+    public void testCanPlaySoldier_Yes() {
+        System.out.println("canPlaySoldier");
+        DevCardList instance = new DevCardList();
+        instance.AddSoldier();
+        boolean expResult = true;
+        boolean result = instance.canPlaySoldier();
+        assertEquals(expResult, result);
     }
 
     /**
      * Test of canPlayYearOfPlenty method, of class DevCardList.
      */
     @Test
-    public void testCanPlayYearOfPlenty() {
+    public void testCanPlayYearOfPlenty_No() {
         System.out.println("canPlayYearOfPlenty");
         DevCardList instance = new DevCardList();
         boolean expResult = false;
         boolean result = instance.canPlayYearOfPlenty();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+    }
+    
+    /**
+     * Test of canPlayYearOfPlenty method, of class DevCardList.
+     */
+    @Test
+    public void testCanPlayYearOfPlenty_Yes() {
+        System.out.println("canPlayYearOfPlenty");
+        DevCardList instance = new DevCardList();
+        instance.AddYearOfPlenty();
+        boolean expResult = true;
+        boolean result = instance.canPlayYearOfPlenty();
+        assertEquals(expResult, result);
     }
     
 }

@@ -138,6 +138,8 @@ public class DevCardList {
 	 * @return true if there is at least one monopoly card to play
 	 */
 	public boolean canPlayMonopoly() {
+		if(monopoly > 0) 
+			return true;
 		return false;
 	}
 	
@@ -146,6 +148,8 @@ public class DevCardList {
 	 * @return true if there is at least one road building card to play
 	 */
 	public boolean canPlayRoadBuilding() {
+		if(roadBuilding > 0) 
+			return true;
 		return false;
 	}
 	
@@ -154,6 +158,8 @@ public class DevCardList {
 	 * @return true if there is at least one soldier card to play
 	 */
 	public boolean canPlaySoldier() {
+		if(soldier > 0) 
+			return true;
 		return false;
 	}
 	
@@ -162,6 +168,8 @@ public class DevCardList {
 	 * @return true if there is at least one year of plenty card to play
 	 */
 	public boolean canPlayYearOfPlenty() {
+		if(yearOfPlenty > 0) 
+			return true;
 		return false;
 	}
 
