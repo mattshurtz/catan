@@ -226,8 +226,8 @@ public class IServerProxyTest {
     @Test
     public void testResetGame() throws Exception {
         System.out.println("resetGame");
-        String expResult = "";
-        String result = instance.resetGame();
+        Model expResult = null;
+        Model result = instance.resetGame();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -266,8 +266,8 @@ public class IServerProxyTest {
     @Test
     public void testAddAi() throws Exception {
         System.out.println("addAi");
-        String expResult = "";
-        String result = instance.addAi();
+        boolean expResult = false;
+        boolean result = instance.addAi( null );
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -279,8 +279,8 @@ public class IServerProxyTest {
     @Test
     public void testListAi() throws Exception {
         System.out.println("listAi");
-        String expResult = "";
-        String result = instance.listAi();
+        String[] expResult = new String[] { "LARGEST_ARMY" };
+        String[] result = instance.listAi();
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

@@ -131,7 +131,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String listAi() throws ServerException {
+    public String[] listAi() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -146,7 +146,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String addAi() throws ServerException {
+    public boolean addAi( AddAiRequest add ) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -268,7 +268,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String resetGame() throws ServerException {
+    public Model resetGame() throws ServerException {
         // TODO Auto-generated method stub
         return null;
     }

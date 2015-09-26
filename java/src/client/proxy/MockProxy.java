@@ -18,7 +18,7 @@ public class MockProxy implements IServerProxy {
     }
     
     @Override
-    public String listAi() throws ServerException {
+    public String[] listAi() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -29,12 +29,12 @@ public class MockProxy implements IServerProxy {
 
     @Override
     public String getCommands() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "buildRoad, and things";
     }
 
     @Override
-    public String addAi() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean addAi( AddAiRequest req ) throws ServerException {
+        return true;
     }
 
     @Override
@@ -189,9 +189,13 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public String resetGame() throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+    public Model resetGame() throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

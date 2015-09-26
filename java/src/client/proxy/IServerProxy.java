@@ -120,7 +120,7 @@ public interface IServerProxy {
      * @return the game model after the game has been reset.
      * @throws ServerException If the server request fails
      */
-    String resetGame() throws ServerException;
+    Model resetGame() throws ServerException;
 
     //TODO: Continue stubbing TA swagger methods - start with /game/commands (GET)
     /**
@@ -152,7 +152,7 @@ public interface IServerProxy {
      * @return AIType (string):
      * @throws ServerException If the server request fails
      */
-    String addAi() throws ServerException;
+    boolean addAi( AddAiRequest req ) throws ServerException;
 
     /**
      *
@@ -160,7 +160,7 @@ public interface IServerProxy {
      * the only supported type
      * @throws ServerException If the server request fails
      */
-    String listAi() throws ServerException;
+    String[] listAi() throws ServerException;
 
     /**
      *
