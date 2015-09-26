@@ -13,7 +13,6 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author JanPaul
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({shared.SharedSuite.class, client.ClientSuite.class})

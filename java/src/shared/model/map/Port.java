@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
@@ -17,14 +18,15 @@ import shared.locations.HexLocation;
 *ratio (integer): The ratio for trade in (ie, if this is 2, then it's a 2:1 port.
 */
 public class Port {
+   ResourceType type;
    String resource;
    HexLocation location;
    EdgeDirection direction;
    int ratio;
    
-	public Port(String resource, HexLocation location, EdgeDirection direction, int ratio) {
-		super();
+	public Port(int ratio, String resource, ResourceType type, EdgeDirection direction, HexLocation location) {
 		this.resource = resource;
+                this.type = type;
 		this.location = location;
 		this.direction = direction;
 		this.ratio = ratio;

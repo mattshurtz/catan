@@ -13,9 +13,20 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static quicktime.util.QTBuild.version;
 import shared.definitions.CatanColor;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.map.City;
+import shared.model.map.Hex;
+import shared.model.map.Map;
+import shared.model.map.Port;
+import shared.model.map.Road;
+import shared.model.map.Settlement;
 
 /**
  *
@@ -146,14 +157,143 @@ public class ModelTest {
         ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(
                 playerOne, playerTwo, playerThree, playerFour));
         
-        testModel.setPlayers(players);
+        
+        Hex a = new Hex(new HexLocation(0,-2), null, 0);
+        
+        Hex b = new Hex(new HexLocation(1,-2), ResourceType.BRICK, 4);
+        
+        Hex c = new Hex(new HexLocation(2,-2), ResourceType.WOOD, 11);
+        
+        Hex d = new Hex(new HexLocation(-1,-1), ResourceType.BRICK, 8);
+        
+        Hex e = new Hex(new HexLocation(0,-1), ResourceType.WOOD, 3);
+        
+        Hex f = new Hex(new HexLocation(1,-1), ResourceType.ORE, 9);
+        
+        Hex g = new Hex(new HexLocation(2,-1), ResourceType.SHEEP, 12);
+        
+        Hex h = new Hex(new HexLocation(-2,0), ResourceType.ORE, 5);
+        
+        Hex i = new Hex(new HexLocation(-1,0), ResourceType.SHEEP, 10);
+        
+        Hex j = new Hex(new HexLocation(0,0), ResourceType.WHEAT, 11);
+        
+        Hex k = new Hex(new HexLocation(1,0), ResourceType.BRICK, 5);
+        
+        Hex l = new Hex(new HexLocation(2,0), ResourceType.WHEAT, 6);
+        
+        Hex m = new Hex(new HexLocation(-2,1), ResourceType.WHEAT, 2);
+        
+        Hex r = new Hex(new HexLocation(-1,1), ResourceType.SHEEP, 9);
+        
+        Hex n = new Hex(new HexLocation(0,1), ResourceType.WOOD, 4);
+        
+        Hex s = new Hex(new HexLocation(1,1), ResourceType.SHEEP, 10);
+        
+        Hex o = new Hex(new HexLocation(-2,2), ResourceType.WOOD, 6);
+
+        Hex p = new Hex(new HexLocation(-1,2), ResourceType.ORE, 3);
+
+        Hex q = new Hex(new HexLocation(0,2), ResourceType.WHEAT, 8);
+        
+        Road roadOne = new Road(1,new EdgeLocation(new HexLocation(-1,-1),EdgeDirection.South));
+        
+        Road roadTwo = new Road(3,new EdgeLocation(new HexLocation(-1,1),EdgeDirection.SouthWest));
+        
+        Road roadThree = new Road(3,new EdgeLocation(new HexLocation(2,-2),EdgeDirection.SouthWest));
+
+        Road roadFour = new Road(2,new EdgeLocation(new HexLocation(1,-1),EdgeDirection.South));
+        
+        Road roadFive = new Road(0,new EdgeLocation(new HexLocation(0,1),EdgeDirection.South));
+        
+        Road roadSix = new Road(2,new EdgeLocation(new HexLocation(0,0),EdgeDirection.South));
+        
+        Road roadSeven = new Road(0,new EdgeLocation(new HexLocation(-2,1),EdgeDirection.SouthWest));
+
+        Road roadEight = new Road(0,new EdgeLocation(new HexLocation(2,0),
+                EdgeDirection.SouthWest));
+        
+        
+        Port portOne = new Port(3,null, null,EdgeDirection.NorthWest, new HexLocation(2,1));
+        
+        Port portTwo = new Port(2,"brick",ResourceType.BRICK ,EdgeDirection.NorthEast, new HexLocation(-2,3));
+        
+        Port portThree = new Port(3,null, null,EdgeDirection.SouthWest, new HexLocation(3,-3));
+        
+        Port portFour = new Port(3,null, null,EdgeDirection.North, new HexLocation(0,3));
+        
+        Port portFive= new Port(2,"wood",ResourceType.WOOD,EdgeDirection.NorthEast, new HexLocation(-3,2));
+        
+        Port portSix = new Port(3,null, null,EdgeDirection.SouthEast, new HexLocation(-3,0));
+        
+        Port portSeven = new Port(2,"wheat", ResourceType.WHEAT,EdgeDirection.South, new HexLocation(-1,-2));
+        
+        Port portEight = new Port(2,"ore", ResourceType.ORE,EdgeDirection.South, new HexLocation(1,-3));
+        
+        Port portNine = new Port(2,"sheep", ResourceType.SHEEP,EdgeDirection.NorthWest, new HexLocation(3,-1));
+        
+        Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1,1)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>());
+        
+        Settlement sTwo = new Settlement(3, new VertexLocation(new HexLocation(1,-2)
+                ,VertexDirection.SouthEast),new ArrayList<Hex>());
+        
+        Settlement sThree = new Settlement(2, new VertexLocation(new HexLocation(0,0)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>());        
+
+        Settlement sFour = new Settlement(2, new VertexLocation(new HexLocation(1,-1)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>());  
+        
+        Settlement sFive = new Settlement(1, new VertexLocation(new HexLocation(-2,1)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>());
+
+        Settlement sSix = new Settlement(0, new VertexLocation(new HexLocation(0,1)
+                ,VertexDirection.SouthEast),new ArrayList<Hex>());        
+        
+        Settlement sSeven = new Settlement(0, new VertexLocation(new HexLocation(2,0)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>());
+        
+        City cOne = new City(1, new VertexLocation(new HexLocation(-1,-1)
+                ,VertexDirection.SouthWest),new ArrayList<Hex>()); 
+        
+        Map toyMap = new Map();
+        
+        ArrayList<Hex> hexes = new ArrayList<Hex>(Arrays.asList(
+        a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s));
+        
+        ArrayList<Road> roads = new ArrayList<Road>(Arrays.asList(
+                roadOne, roadTwo, roadThree, roadFour,
+                roadFive, roadSix, roadSeven, roadEight));
+        
+        ArrayList<Port> ports = new ArrayList<Port>(Arrays.asList(
+                portOne, portTwo, portThree, portFour,
+                portFive, portSix, portSeven, portEight, portNine));
+        
+        ArrayList<Settlement> settlements = new ArrayList<Settlement>(Arrays.asList(
+                sOne, sTwo, sThree, sFour,
+                sFive, sSix, sSeven));
+        
+        ArrayList<City> cities = new ArrayList<City>(Arrays.asList(cOne));
+   
+        
+        
+        toyMap.setRadius(3);
+        HexLocation robberLocation = new HexLocation(0,2);
+        toyMap.setRobber(robberLocation);
+        toyMap.setCities(null);
+        toyMap.setHexes(hexes);
+        toyMap.setPorts(null);
+        toyMap.setRoads(roads);
+        toyMap.setSettlements(null);
+        
+        
+        
         ResourceList bank = new ResourceList();
         bank.setBrick(10);
         bank.setSheep(10);
         bank.setOre(10);
         bank.setWheat(10);
         bank.setWood(10);
-        
         
         
         testModel.setBank(bank);
@@ -164,10 +304,10 @@ public class ModelTest {
         testModel.setTradeOffer(null);
         testModel.setTurnTracker(null);
         testModel.setVersion(version);
-        testModel.setWinner(winner);
+        testModel.setWinner(0);
+        testModel.setPlayers(players);
         
-        
-        
+        return testModel;
     }
     
     public ModelTest() {

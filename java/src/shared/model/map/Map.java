@@ -20,14 +20,11 @@ import shared.locations.VertexLocation;
  * the robber
  */
 /**
- * @author Shurt
  *
  */
 public class Map {
 
-    
-
-	ArrayList<Hex> hexes;
+    ArrayList<Hex> hexes;
     ArrayList<Port> ports;
     ArrayList<Road> roads;
     ArrayList<Settlement> settlements;
@@ -115,5 +112,62 @@ public class Map {
     {
     	
     }
-     
+
+    
+    public ArrayList<Hex> getHexes() {
+        return hexes;
+    }
+
+    public void setHexes(ArrayList<Hex> hexes) {
+        this.hexes = hexes;
+    }
+
+    public ArrayList<Port> getPorts() {
+        return ports;
+    }
+
+    public void setPorts(ArrayList<Port> ports) {
+        this.ports = ports;
+    }
+
+    public ArrayList<Road> getRoads() {
+        return roads;
+    }
+
+    public void setRoads(ArrayList<Road> roads) {
+        this.roads = roads;
+    }
+
+    public ArrayList<Settlement> getSettlements() {
+        return settlements;
+    }
+
+    public void setSettlements(ArrayList<Settlement> settlements) {
+        this.settlements = settlements;
+    }
+
+    public ArrayList<City> getCities() {
+        return cities;
+    }
+
+    public void setCities(ArrayList<City> cities) {
+        this.cities = cities;
+    }
+
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int radius) {
+        this.radius = radius;
+    }
+
+    public HexLocation getRobber() {
+        return robber;
+    }
+
+    public void setRobber(HexLocation robber) {
+        this.robber = robber;
+    }
+      
 }

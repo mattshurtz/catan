@@ -20,7 +20,6 @@ public class Hex {
     int number;
     
 	public Hex(HexLocation location, ResourceType resource, int number) {
-		super();
 		this.location = location;
 		this.resource = resource;
 		this.number = number;
