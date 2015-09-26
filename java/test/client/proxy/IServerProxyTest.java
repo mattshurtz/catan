@@ -249,11 +249,8 @@ public class IServerProxyTest {
     @Test
     public void testGetCommands() throws Exception {
         System.out.println("getCommands");
-        String expResult = "";
         String result = instance.getCommands();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(result);
     }
 
     /**
@@ -262,11 +259,9 @@ public class IServerProxyTest {
     @Test
     public void testAddAi() throws Exception {
         System.out.println("addAi");
-        boolean expResult = false;
+        boolean expResult = true;
         boolean result = instance.addAi( null );
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

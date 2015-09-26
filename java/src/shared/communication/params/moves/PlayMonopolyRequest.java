@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shared.communication.params;
+package shared.communication.params.moves;
+
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -11,5 +13,13 @@ package shared.communication.params;
  * playing this dev card }
  */
 public class PlayMonopolyRequest {
+    private ResourceType resource;
 
+    public ResourceType getResource() {
+        return resource;
+    }
+
+    public void setResource(ResourceType resource) {
+        this.resource = resource;
+    }
 }

@@ -25,7 +25,7 @@ import shared.locations.VertexLocation;
  */
 public class Map {
 
-	ArrayList<Hex> hexes;
+    ArrayList<Hex> hexes;
     ArrayList<Port> ports;
     ArrayList<Road> roads;
     ArrayList<Settlement> settlements;

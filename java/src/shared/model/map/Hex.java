@@ -1,10 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package shared.model.map;
 
+import java.util.Objects;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
@@ -24,5 +20,37 @@ public class Hex {
             this.resource = resource;
             this.number = number;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.location);
+        hash = 29 * hash + Objects.hashCode(this.resource);
+        hash = 29 * hash + this.number;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Hex other = (Hex) obj;
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (this.resource != other.resource) {
+            return false;
+        }
+        if (this.number != other.number) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
 }

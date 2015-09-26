@@ -1,0 +1,36 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package shared.communication.params.moves;
+
+import shared.definitions.ResourceType;
+
+/**
+ *
+ * Year_of_Plenty_ { type (Year_of_Plenty), playerIndex (integer): Who's playing
+ * this dev card, resource1 (Resource), resource2 (Resource) }
+ */
+public class PlayYearOfPlentyRequest {
+    private ResourceType resource1;
+    private ResourceType resource2;
+
+    public ResourceType getResource1() {
+        return resource1;
+    }
+
+    public void setResource1(ResourceType resource1) {
+        this.resource1 = resource1;
+    }
+
+    public ResourceType getResource2() {
+        return resource2;
+    }
+
+    public void setResource2(ResourceType resource2) {
+        this.resource2 = resource2;
+    }
+    
+    
+}

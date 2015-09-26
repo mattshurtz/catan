@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shared.communication.params;
+package shared.communication.params.moves;
 
 /**
  *AcceptTrade {
@@ -13,5 +13,15 @@ package shared.communication.params;
  *}
  */
 public class AcceptTradeRequest {
+    private boolean willAccept;
+
+    public boolean isWillAccept() {
+        return willAccept;
+    }
+
+    public void setWillAccept(boolean willAccept) {
+        this.willAccept = willAccept;
+    }
+    
     
 }
