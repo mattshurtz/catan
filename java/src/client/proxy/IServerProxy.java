@@ -133,7 +133,7 @@ public interface IServerProxy {
      * been applied.
      * @throws ServerException If the server request fails
      */
-    String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException;
+    Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException;
 
     /**
      * @return For the default games created by the server, this method returns

@@ -17,7 +17,7 @@ import shared.communication.params.SaveGameRequest;
 import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
-import shared.exceptions.ServerException;
+import shared.json.Deserializer;
 import shared.model.Model;
 
 /**
@@ -226,11 +226,9 @@ public class IServerProxyTest {
     @Test
     public void testResetGame() throws Exception {
         System.out.println("resetGame");
-        Model expResult = null;
+        Model expResult = new Deserializer().getTestModel();
         Model result = instance.resetGame();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -240,11 +238,9 @@ public class IServerProxyTest {
     public void testPostCommands() throws Exception {
         System.out.println("postCommands");
         PostCommandsRequest postCommandsRequest = null;
-        String expResult = "";
-        String result = instance.postCommands(postCommandsRequest);
+        Model expResult = new Deserializer().getTestModel();
+        Model result = instance.postCommands(postCommandsRequest);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -281,9 +277,7 @@ public class IServerProxyTest {
         System.out.println("listAi");
         String[] expResult = new String[] { "LARGEST_ARMY" };
         String[] result = instance.listAi();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertArrayEquals(expResult, result);
     }
 
     /**

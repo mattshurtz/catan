@@ -136,7 +136,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
+    public Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

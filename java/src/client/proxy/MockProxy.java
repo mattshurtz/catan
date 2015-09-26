@@ -19,12 +19,17 @@ public class MockProxy implements IServerProxy {
     
     @Override
     public String[] listAi() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new String[] { "LARGEST_ARMY" };
     }
 
     @Override
-    public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch (IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
