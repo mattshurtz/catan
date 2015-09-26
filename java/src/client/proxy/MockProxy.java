@@ -1,11 +1,14 @@
 package client.proxy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.json.Deserializer;
+import shared.model.Model;
 import shared.model.User;
 
 public class MockProxy implements IServerProxy {
@@ -176,9 +179,13 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public String getGameModel(int version) throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+    public Model getGameModel(int version) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

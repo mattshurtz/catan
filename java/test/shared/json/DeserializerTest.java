@@ -49,23 +49,8 @@ public class DeserializerTest {
      */
     @Test
     public void testToJavaModel() throws IOException, FileNotFoundException {
-        Model result = getTestModel();
+        Model result = new Deserializer().getTestModel();
         System.out.println( new GsonBuilder().create().toJson( result ));
-    }
-    
-    public Model getTestModel() throws IOException, FileNotFoundException {
-        File file = new File("java/test/shared/json/sample_model_json.txt");
-        FileInputStream fis = new FileInputStream(file);
-        byte[] data = new byte[(int) file.length()];
-        fis.read(data);
-        fis.close();
-
-        String sampleModelJson = new String(data, "UTF-8");
-        
-        System.out.println("toJavaModel");
-        Deserializer instance = new Deserializer();
-        Model result = instance.toJavaModel( sampleModelJson );
-        return result;
     }
 
     /**

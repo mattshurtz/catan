@@ -18,6 +18,7 @@ import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
 import shared.exceptions.ServerException;
+import shared.model.Model;
 
 /**
  *
@@ -189,7 +190,7 @@ public class IServerProxyTest {
         System.out.println("saveGame");
         SaveGameRequest saveRequest = new SaveGameRequest();
         saveRequest.setId(1);
-        saveRequest.setName("savedgame.txt");
+        saveRequest.setName("savedgame");
         boolean expResult = true;
         boolean result = instance.saveGame(saveRequest);
         assertEquals(expResult, result);
@@ -202,7 +203,7 @@ public class IServerProxyTest {
     public void testLoadGame() throws Exception {
         System.out.println("loadGame");
         LoadGameRequest loadRequest = new LoadGameRequest();
-        loadRequest.setName("savedgame.txt");
+        loadRequest.setName("savedgame");
         boolean expResult = true;
         boolean result = instance.loadGame(loadRequest);
         assertEquals(expResult, result);
@@ -215,12 +216,8 @@ public class IServerProxyTest {
     public void testGetGameModel() throws Exception {
         System.out.println("getGameModel");
         int version = 0;
-        IServerProxy instance = new IServerProxyImpl();
-        String expResult = "";
-        String result = instance.getGameModel(version);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        Model model = instance.getGameModel(version);
+        assertNotNull(model);
     }
 
     /**
@@ -229,7 +226,6 @@ public class IServerProxyTest {
     @Test
     public void testResetGame() throws Exception {
         System.out.println("resetGame");
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.resetGame();
         assertEquals(expResult, result);
@@ -244,7 +240,6 @@ public class IServerProxyTest {
     public void testPostCommands() throws Exception {
         System.out.println("postCommands");
         PostCommandsRequest postCommandsRequest = null;
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.postCommands(postCommandsRequest);
         assertEquals(expResult, result);
@@ -258,7 +253,6 @@ public class IServerProxyTest {
     @Test
     public void testGetCommands() throws Exception {
         System.out.println("getCommands");
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.getCommands();
         assertEquals(expResult, result);
@@ -272,7 +266,6 @@ public class IServerProxyTest {
     @Test
     public void testAddAi() throws Exception {
         System.out.println("addAi");
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.addAi();
         assertEquals(expResult, result);
@@ -286,7 +279,6 @@ public class IServerProxyTest {
     @Test
     public void testListAi() throws Exception {
         System.out.println("listAi");
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.listAi();
         assertEquals(expResult, result);
@@ -300,7 +292,6 @@ public class IServerProxyTest {
     @Test
     public void testBuildRoad() throws Exception {
         System.out.println("buildRoad");
-        IServerProxy instance = new IServerProxyImpl();
         String expResult = "";
         String result = instance.buildRoad();
         assertEquals(expResult, result);
@@ -314,7 +305,6 @@ public class IServerProxyTest {
     @Test
     public void testOfferTrade() throws Exception {
         System.out.println("offerTrade");
-        IServerProxy instance = new IServerProxyImpl();
         instance.offerTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -326,7 +316,6 @@ public class IServerProxyTest {
     @Test
     public void testAcceptTrade() throws Exception {
         System.out.println("acceptTrade");
-        IServerProxy instance = new IServerProxyImpl();
         instance.acceptTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -338,7 +327,6 @@ public class IServerProxyTest {
     @Test
     public void testMaritimeTrade() throws Exception {
         System.out.println("maritimeTrade");
-        IServerProxy instance = new IServerProxyImpl();
         instance.maritimeTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -350,7 +338,6 @@ public class IServerProxyTest {
     @Test
     public void testBuyDevCard() throws Exception {
         System.out.println("buyDevCard");
-        IServerProxy instance = new IServerProxyImpl();
         instance.buyDevCard();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -362,7 +349,6 @@ public class IServerProxyTest {
     @Test
     public void testPlayYearOfPlenty() throws Exception {
         System.out.println("playYearOfPlenty");
-        IServerProxy instance = new IServerProxyImpl();
         instance.playYearOfPlenty();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -374,7 +360,6 @@ public class IServerProxyTest {
     @Test
     public void testPlayRoadBuilding() throws Exception {
         System.out.println("playRoadBuilding");
-        IServerProxy instance = new IServerProxyImpl();
         instance.playRoadBuilding();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -386,7 +371,6 @@ public class IServerProxyTest {
     @Test
     public void testPlaySoldier() throws Exception {
         System.out.println("playSoldier");
-        IServerProxy instance = new IServerProxyImpl();
         instance.playSoldier();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -398,7 +382,6 @@ public class IServerProxyTest {
     @Test
     public void testPlayMonopoly() throws Exception {
         System.out.println("playMonopoly");
-        IServerProxy instance = new IServerProxyImpl();
         instance.playMonopoly();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -410,7 +393,6 @@ public class IServerProxyTest {
     @Test
     public void testBuildSettlement() throws Exception {
         System.out.println("buildSettlement");
-        IServerProxy instance = new IServerProxyImpl();
         instance.buildSettlement();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -422,7 +404,6 @@ public class IServerProxyTest {
     @Test
     public void testBuildCity() throws Exception {
         System.out.println("buildCity");
-        IServerProxy instance = new IServerProxyImpl();
         instance.buildCity();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -434,7 +415,6 @@ public class IServerProxyTest {
     @Test
     public void testSendChat() throws Exception {
         System.out.println("sendChat");
-        IServerProxy instance = new IServerProxyImpl();
         instance.sendChat();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -446,7 +426,6 @@ public class IServerProxyTest {
     @Test
     public void testRollNumber() throws Exception {
         System.out.println("rollNumber");
-        IServerProxy instance = new IServerProxyImpl();
         instance.rollNumber();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -458,7 +437,6 @@ public class IServerProxyTest {
     @Test
     public void testRobPlayer() throws Exception {
         System.out.println("robPlayer");
-        IServerProxy instance = new IServerProxyImpl();
         instance.robPlayer();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -470,111 +448,9 @@ public class IServerProxyTest {
     @Test
     public void testFinishTurn() throws Exception {
         System.out.println("finishTurn");
-        IServerProxy instance = new IServerProxyImpl();
         instance.finishTurn();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
-    }
-
-    public class IServerProxyImpl implements IServerProxy {
-
-        public boolean login(Credentials userCredentials) throws ServerException {
-            return false;
-        }
-
-        public boolean register(Credentials userCredentials) throws ServerException {
-            return false;
-        }
-
-        public List<GameResponse> getGamesList() throws ServerException {
-            return null;
-        }
-
-        public CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
-            return null;
-        }
-
-        public boolean joinGame(JoinGameRequest joinRequest) throws ServerException {
-            return false;
-        }
-
-        public boolean saveGame(SaveGameRequest saveRequest) throws ServerException {
-            return false;
-        }
-
-        public boolean loadGame(LoadGameRequest loadRequest) throws ServerException {
-            return false;
-        }
-
-        public String getGameModel(int version) throws ServerException {
-            return "";
-        }
-
-        public String resetGame() throws ServerException {
-            return "";
-        }
-
-        public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
-            return "";
-        }
-
-        public String getCommands() throws ServerException {
-            return "";
-        }
-
-        public String addAi() throws ServerException {
-            return "";
-        }
-
-        public String listAi() throws ServerException {
-            return "";
-        }
-
-        public String buildRoad() throws ServerException {
-            return "";
-        }
-
-        public void offerTrade() throws ServerException {
-        }
-
-        public void acceptTrade() throws ServerException {
-        }
-
-        public void maritimeTrade() throws ServerException {
-        }
-
-        public void buyDevCard() throws ServerException {
-        }
-
-        public void playYearOfPlenty() throws ServerException {
-        }
-
-        public void playRoadBuilding() throws ServerException {
-        }
-
-        public void playSoldier() throws ServerException {
-        }
-
-        public void playMonopoly() throws ServerException {
-        }
-
-        public void buildSettlement() throws ServerException {
-        }
-
-        public void buildCity() throws ServerException {
-        }
-
-        public void sendChat() throws ServerException {
-        }
-
-        public void rollNumber() throws ServerException {
-        }
-
-        public void robPlayer() throws ServerException {
-        }
-
-        public void finishTurn() throws ServerException {
-        }
     }
     
 }

@@ -5,6 +5,7 @@ import java.util.*;
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.model.Model;
 
 /**
  * Interface for the Server Proxy and Mock Server Proxy. Defines all
@@ -107,7 +108,7 @@ public interface IServerProxy {
      * JSON, or true. How should we deal with that?
      * @throws ServerException If the server request fails
      */
-    String getGameModel(int version) throws ServerException;
+    Model getGameModel(int version) throws ServerException;
 
     /**
      * For default games created by the server, this method reverts the game to

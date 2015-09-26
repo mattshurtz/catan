@@ -14,6 +14,7 @@ import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Serializer;
+import shared.model.Model;
 
 public class ServerProxy implements IServerProxy {
     
@@ -125,7 +126,7 @@ public class ServerProxy implements IServerProxy {
     }
     
     @Override
-    public String getGameModel(int version) throws ServerException {
+    public Model getGameModel(int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
