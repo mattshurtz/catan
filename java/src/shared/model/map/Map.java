@@ -58,9 +58,9 @@ public class Map {
     public boolean canPlaceRoadAtLoc(int playerIndex, EdgeLocation location, boolean restricted ) {
     	boolean valid = false;
     	
-    	if(!edgeOccupied(location)) {
-    		restricted ? edgeAdjacent(player, location):true;
-    	}
+//    	if(!edgeOccupied(location)) {
+//    		restricted ? edgeAdjacent(player, location):true;
+//    	}
     	
         return valid;
     }
@@ -68,21 +68,22 @@ public class Map {
     private boolean edgeOccupied(EdgeLocation location) {
     	boolean occupied = false;
     	
-    	foreach(Road road : roads) {
-    		if(road.getLocation() == location) {
-    			occupied = true;
-    			break;
-    		}
-    	}
-    	
+//    	foreach(Road road : roads) {
+//    		if(road.getLocation() == location) {
+//    			occupied = true;
+//    			break;
+//    		}
+//    	}
+//    	
     	return occupied;
     }
     
     private boolean edgeAdjacent(int playerIndex) {
-    	bool adjacent = false;
+//    	bool adjacent = false;
     	
-    	foreachlhlkhj;;;;
-    	'';l
+//    	foreachlhlkhj;;;;
+//    	'';l
+        return false;
     }
     
     
