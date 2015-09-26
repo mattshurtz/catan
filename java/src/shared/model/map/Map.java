@@ -66,7 +66,7 @@ public class Map {
     }
     
     private boolean edgeOccupied(EdgeLocation location) {
-    	bool occupied = false;
+    	boolean occupied = false;
     	
     	foreach(Road road : roads) {
     		if(road.getLocation() == location) {

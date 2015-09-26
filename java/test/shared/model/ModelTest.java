@@ -15,11 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static quicktime.util.QTBuild.version;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -253,14 +253,15 @@ public class ModelTest {
    
         
         
+        
         toyMap.setRadius(3);
         HexLocation robberLocation = new HexLocation(0,2);
         toyMap.setRobber(robberLocation);
-        toyMap.setCities(null);
+        toyMap.setCities(cities);
         toyMap.setHexes(hexes);
-        toyMap.setPorts(null);
+        toyMap.setPorts(ports);
         toyMap.setRoads(roads);
-        toyMap.setSettlements(null);
+        toyMap.setSettlements(settlements);
         
         
         
@@ -275,8 +276,6 @@ public class ModelTest {
         ArrayList<MessageLine> chatLines = new ArrayList<MessageLine>();
         MessageList toyChat = new MessageList(chatLines);
         
-<<<<<<< HEAD
-=======
         //Make the test Log
         ArrayList<MessageLine> logLines = new ArrayList<MessageLine>();
         logLines.add(new MessageLine("Sam", "Sam built a road"));
@@ -327,7 +326,7 @@ public class ModelTest {
         testModel.setBank(bank);
         testModel.setChat(toyChat);
         testModel.setLog(toyLog);
-        testModel.setMap(null);
+        testModel.setMap(toyMap);
         testModel.setPlayers(players);
         testModel.setDeck(deck);
         testModel.setTradeOffer(toyTradeOffer);
