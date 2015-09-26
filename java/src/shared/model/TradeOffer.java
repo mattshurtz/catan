@@ -12,14 +12,37 @@ package shared.model;
 *being asked for.
 */
 public class TradeOffer {
-    int sender;
-    int receiver;
-    ResourceList offer;
+    private int sender;
+    private int receiver;
+    private ResourceList offer;
     
 	public TradeOffer(int sender, int receiver, ResourceList offer) {
-		super();
+		this.setSender(sender);
+		this.setReceiver(receiver);
+		this.setOffer(offer);
+	}
+
+	public int getSender() {
+		return sender;
+	}
+
+	public void setSender(int sender) {
 		this.sender = sender;
+	}
+
+	public int getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(int receiver) {
 		this.receiver = receiver;
+	}
+
+	public ResourceList getOffer() {
+		return offer;
+	}
+
+	public void setOffer(ResourceList offer) {
 		this.offer = offer;
 	}
     

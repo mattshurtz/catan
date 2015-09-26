@@ -29,7 +29,7 @@ import shared.model.map.Map;
 public class Model {
 
     ResourceList bank;
-    DevCardList remainingDevCards;
+    DevCardList deck;
     MessageList chat;
     MessageList log;
     Map map;
@@ -202,12 +202,12 @@ public class Model {
         this.bank = bank;
     }
 
-    public DevCardList getRemainingDevCards() {
-        return remainingDevCards;
+    public DevCardList getDeck() {
+        return deck;
     }
 
-    public void setRemainingDevCards(DevCardList remainingDevCards) {
-        this.remainingDevCards = remainingDevCards;
+    public void setDeck(DevCardList remainingDevCards) {
+        this.deck = remainingDevCards;
     }
 
     public MessageList getChat() {

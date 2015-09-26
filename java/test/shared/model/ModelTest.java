@@ -7,17 +7,19 @@ package shared.model;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 import static quicktime.util.QTBuild.version;
 import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
+import shared.definitions.TurnStatus;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -37,27 +39,21 @@ public class ModelTest {
         Model testModel = new Model();
         
         Player playerOne = new Player();
-        DevCardList pOneDevCardList = new DevCardList();
         ResourceList pOneResourceList = new ResourceList();
         pOneResourceList.setBrick(0);
-        pOneResourceList.setWood(0);
-        pOneResourceList.setWheat(0);
-        pOneResourceList.setSheep(0);
+        pOneResourceList.setWood(1);
+        pOneResourceList.setWheat(1);
+        pOneResourceList.setSheep(1);
         pOneResourceList.setOre(0);
-        pOneDevCardList.setMonopoly(0);
-        pOneDevCardList.setMonument(0);
-        pOneDevCardList.setRoadBuilding(0);
-        pOneDevCardList.setSoldier(0);
-        pOneDevCardList.setYearOfPlenty(0);
         playerOne.setCities(4);
-        playerOne.setColor(CatanColor.BLUE);
-        playerOne.setDiscarded(true);
+        playerOne.setColor(CatanColor.YELLOW);
+        playerOne.setDiscarded(false);
         playerOne.setMonuments(0);
-        playerOne.setName("Alex");
-        playerOne.setNewDevCards(pOneDevCardList);
-        playerOne.setOldDevCards(pOneDevCardList);
+        playerOne.setName("Sam");
+        playerOne.setNewDevCards(new DevCardList());
+        playerOne.setOldDevCards(new DevCardList());
         playerOne.setPlayedDevCard(false);
-        playerOne.setPlayerID(1);
+        playerOne.setPlayerID(0);
         playerOne.setRoads(13);
         playerOne.setSettlements(3);
         playerOne.setSoldiers(0);
@@ -66,93 +62,73 @@ public class ModelTest {
         playerOne.setPlayerIndex(0);
         
         Player playerTwo = new Player();
-        DevCardList pTwoDevCardList = new DevCardList();
         ResourceList pTwoResourceList = new ResourceList();
         pTwoResourceList.setBrick(1);
-        pTwoResourceList.setWood(1);
-        pTwoResourceList.setWheat(2);
+        pTwoResourceList.setWood(0);
         pTwoResourceList.setSheep(1);
-        pTwoResourceList.setOre(3);
-        pTwoDevCardList.setMonopoly(1);
-        pTwoDevCardList.setMonument(1);
-        pTwoDevCardList.setRoadBuilding(1);
-        pTwoDevCardList.setSoldier(1);
-        pTwoDevCardList.setYearOfPlenty(1);
-        playerTwo.setCities(4);
-        playerTwo.setColor(CatanColor.BLUE);
-        playerTwo.setDiscarded(true);
-        playerTwo.setMonuments(1);
-        playerTwo.setName("Jan");
-        playerTwo.setNewDevCards(pTwoDevCardList);
-        playerTwo.setOldDevCards(pTwoDevCardList);
-        playerTwo.setPlayedDevCard(true);
-        playerTwo.setPlayerID(0);
-        playerTwo.setRoads(3);
-        playerTwo.setSettlements(3);
-        playerTwo.setSoldiers(1);
-        playerTwo.setVictoryPoints(2);
+        pTwoResourceList.setWheat(0);
+        pTwoResourceList.setOre(1);
         playerTwo.setResources(pTwoResourceList);
+        playerTwo.setOldDevCards(new DevCardList());
+        playerTwo.setNewDevCards(new DevCardList());
+        playerTwo.setRoads(13);
+        playerTwo.setCities(3);
+        playerTwo.setSettlements(4);
+        playerTwo.setSoldiers(0);
+        playerTwo.setVictoryPoints(2);
+        playerTwo.setMonuments(0);
+        playerTwo.setPlayedDevCard(false);
+        playerTwo.setDiscarded(false);
+        playerTwo.setPlayerID(1);
         playerTwo.setPlayerIndex(1);
-        
-            
+        playerTwo.setName("Brooke");
+        playerTwo.setColor(CatanColor.BLUE);
+
         Player playerThree = new Player();
-        DevCardList pThreeDevCardList = new DevCardList();
         ResourceList pThreeResourceList = new ResourceList();
-        pThreeResourceList.setBrick(2);
-        pThreeResourceList.setWood(2);
-        pThreeResourceList.setWheat(2);
-        pThreeResourceList.setSheep(2);
-        pThreeResourceList.setOre(2);
-        pThreeDevCardList.setMonopoly(1);
-        pThreeDevCardList.setMonument(1);
-        pThreeDevCardList.setRoadBuilding(1);
-        pThreeDevCardList.setSoldier(1);
-        pThreeDevCardList.setYearOfPlenty(1);
-        playerThree.setCities(4);
-        playerThree.setColor(CatanColor.BLUE);
-        playerThree.setDiscarded(true);
-        playerThree.setMonuments(3);
-        playerThree.setName("Scott");
-        playerThree.setNewDevCards(null);
-        playerThree.setOldDevCards(pThreeDevCardList);
-        playerThree.setPlayedDevCard(true);
-        playerThree.setPlayerID(1);
-        playerThree.setRoads(3);
-        playerThree.setSettlements(2);
-        playerThree.setSoldiers(2);
-        playerThree.setVictoryPoints(5);
+        pThreeResourceList.setBrick(0);
+        pThreeResourceList.setWood(1);
+        pThreeResourceList.setSheep(1);
+        pThreeResourceList.setWheat(1);
+        pThreeResourceList.setOre(0);
         playerThree.setResources(pThreeResourceList);
+        playerThree.setOldDevCards(new DevCardList());
+        playerThree.setNewDevCards(new DevCardList());
+        playerThree.setRoads(13);
+        playerThree.setCities(4);
+        playerThree.setSettlements(3);
+        playerThree.setSoldiers(0);
+        playerThree.setVictoryPoints(2);
+        playerThree.setMonuments(0);
+        playerThree.setPlayedDevCard(false);
+        playerThree.setDiscarded(false);
+        playerThree.setPlayerID(10);
         playerThree.setPlayerIndex(2);
+        playerThree.setName("Pete");
+        playerThree.setColor(CatanColor.RED);
        
-        
         Player playerFour = new Player();
-        DevCardList pFourDevCardList = new DevCardList();
         ResourceList pFourResourceList = new ResourceList();
-        pFourResourceList.setBrick(5);
-        pFourResourceList.setWood(5);
-        pFourResourceList.setWheat(5);
-        pFourResourceList.setSheep(5);
-        pFourResourceList.setOre(5);
-        pFourDevCardList.setMonopoly(1);
-        pFourDevCardList.setMonument(1);
-        pFourDevCardList.setRoadBuilding(1);
-        pFourDevCardList.setSoldier(1);
-        pFourDevCardList.setYearOfPlenty(1);
-        playerFour.setCities(4);
-        playerFour.setColor(CatanColor.BLUE);
-        playerFour.setDiscarded(true);
-        playerFour.setMonuments(3);
-        playerFour.setName("Matt");
-        playerFour.setNewDevCards(null);
-        playerFour.setOldDevCards(pFourDevCardList);
-        playerFour.setPlayedDevCard(true);
-        playerFour.setPlayerID(1);
-        playerFour.setRoads(3);
-        playerFour.setSettlements(2);
-        playerFour.setSoldiers(2);
-        playerFour.setVictoryPoints(5);
+        pFourResourceList.setBrick(0);
+        pFourResourceList.setWood(1);
+        pFourResourceList.setSheep(1);
+        pFourResourceList.setWheat(0);
+        pFourResourceList.setOre(1);
         playerFour.setResources(pFourResourceList);
+        playerFour.setOldDevCards(new DevCardList());
+        playerFour.setNewDevCards(new DevCardList());
+        playerFour.setRoads(13);
+        playerFour.setCities(4);
+        playerFour.setSettlements(3);
+        playerFour.setSoldiers(0);
+        playerFour.setVictoryPoints(2);
+        playerFour.setMonuments(0);
+        playerFour.setPlayedDevCard(false);
+        playerFour.setDiscarded(false);
+        playerFour.setPlayerID(11);
         playerFour.setPlayerIndex(3);
+        playerFour.setName("Mark");
+        playerFour.setColor(CatanColor.GREEN);
         
         ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(
                 playerOne, playerTwo, playerThree, playerFour));
@@ -289,25 +265,77 @@ public class ModelTest {
         
         
         ResourceList bank = new ResourceList();
-        bank.setBrick(10);
-        bank.setSheep(10);
-        bank.setOre(10);
-        bank.setWheat(10);
-        bank.setWood(10);
+        bank.setBrick(23);
+        bank.setWood(21);
+        bank.setSheep(20);
+        bank.setWheat(22);
+        bank.setOre(22);
         
+        //Make the test chat
+        ArrayList<MessageLine> chatLines = new ArrayList<MessageLine>();
+        MessageList toyChat = new MessageList(chatLines);
+        
+<<<<<<< HEAD
+=======
+        //Make the test Log
+        ArrayList<MessageLine> logLines = new ArrayList<MessageLine>();
+        logLines.add(new MessageLine("Sam", "Sam built a road"));
+        logLines.add(new MessageLine("Sam", "Sam built a settlement"));
+        logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
+        logLines.add(new MessageLine("Brooke", "Brooke built a road"));
+        logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
+        logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
+        logLines.add(new MessageLine("Pete", "Pete built a road"));
+        logLines.add(new MessageLine("Pete", "Pete built a settlement"));
+        logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
+        logLines.add(new MessageLine("Mark", "Mark built a road"));
+        logLines.add(new MessageLine("Mark", "Mark built a settlement"));
+        logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
+        logLines.add(new MessageLine("Mark", "Mark built a road"));
+        logLines.add(new MessageLine("Mark", "Mark built a settlement"));
+        logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
+        logLines.add(new MessageLine("Pete", "Pete built a road"));
+        logLines.add(new MessageLine("Pete", "Pete built a settlement"));
+        logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
+        logLines.add(new MessageLine("Brooke", "Brooke built a road"));
+        logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
+        logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
+        logLines.add(new MessageLine("Sam", "Sam built a road"));
+        logLines.add(new MessageLine("Sam", "Sam built a settlement"));
+        logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
+        MessageList toyLog = new MessageList(logLines);
+        
+        //Make new devcard list for Deck
+        DevCardList deck = new DevCardList();
+        deck.setYearOfPlenty(2);
+        deck.setMonopoly(2);
+        deck.setSoldier(14);
+        deck.setRoadBuilding(2);
+        deck.setMonument(5);
+        
+        //Make tradeOffer
+        ResourceList resourceList = new ResourceList(1, -1, 0, 0, 0);
+        TradeOffer toyTradeOffer = new TradeOffer(1, 2, resourceList);
+        
+        //Make turnTracker
+        TurnTracker toyTurnTracker = new TurnTracker();
+        toyTurnTracker.setStatus(TurnStatus.ROLLING);
+        toyTurnTracker.setCurrentTurn(0);
+        toyTurnTracker.setLongestRoad(-1);
+        toyTurnTracker.setLargestArmy(-1);
         
         testModel.setBank(bank);
-        testModel.setChat(null);
-        testModel.setLog(null);
+        testModel.setChat(toyChat);
+        testModel.setLog(toyLog);
         testModel.setMap(null);
-        testModel.setRemainingDevCards(pOneDevCardList);
-        testModel.setTradeOffer(null);
-        testModel.setTurnTracker(null);
-        testModel.setVersion(version);
-        testModel.setWinner(0);
         testModel.setPlayers(players);
+        testModel.setDeck(deck);
+        testModel.setTradeOffer(toyTradeOffer);
+        testModel.setTurnTracker(new TurnTracker());
+        testModel.setVersion(0);
+        testModel.setWinner(-1);
         
-        return testModel;
+        return testModel;        
     }
     
     public ModelTest() {

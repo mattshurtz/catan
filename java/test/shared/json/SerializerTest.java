@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shared.communication.params;
+package shared.json;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,9 +16,9 @@ import static org.junit.Assert.*;
  *
  * @author JanPaul
  */
-public class PlayMonopolyRequestTest {
+public class SerializerTest {
     
-    public PlayMonopolyRequestTest() {
+    public SerializerTest() {
     }
     
     @BeforeClass
@@ -37,8 +37,17 @@ public class PlayMonopolyRequestTest {
     public void tearDown() {
     }
 
+    /**
+     * Test of toJson method, of class Serializer.
+     */
     @Test
-    public void testSomeMethod() {
+    public void testToJson() {
+        System.out.println("toJson");
+        Object o = null;
+        Serializer instance = new Serializer();
+        String expResult = "";
+        String result = instance.toJson(o);
+        assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

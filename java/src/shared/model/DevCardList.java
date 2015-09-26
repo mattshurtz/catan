@@ -12,20 +12,20 @@ import shared.exceptions.InsufficentSupplies;
  * 
  */
 public class DevCardList {
-        // 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument 
-        int monopoly;
-        int monument;
-        int roadBuilding;
-        int soldier;
-        int yearOfPlenty;
+	// 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument     
+	int yearOfPlenty;
+    int monopoly;
+    int soldier;
+    int roadBuilding;
+    int monument;
 
+    //Default constructor - for players (not deck)
     public DevCardList(){
-        monopoly = 0;
-        monument = 0;
-        roadBuilding = 0;
-        soldier = 0;
-        yearOfPlenty = 0;
-
+    	yearOfPlenty = 0;
+    	monopoly = 0;
+    	soldier = 0;
+    	roadBuilding = 0;
+    	monument = 0;
     }
 
 	public int getMonopoly() {

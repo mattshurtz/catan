@@ -12,17 +12,25 @@ import java.util.ArrayList;
  * @author karahartley
  */
 public class MessageList {
-    ArrayList<MessageLine> lines;
+    private ArrayList<MessageLine> lines;
 
 	public MessageList(ArrayList<MessageLine> lines) {
-		super();
-		this.lines = lines;
+		this.setLines(lines);
 	}
 
 	public MessageList() {
-		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	public ArrayList<MessageLine> getLines() {
+		return lines;
+	}
+
+	public void setLines(ArrayList<MessageLine> lines) {
+		this.lines = lines;
+	}
+	
+	
 
 
     

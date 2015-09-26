@@ -21,6 +21,11 @@ public class Road {
 		this.location = location;
 	}
 	
+	int getOwner() {
+		return owner;
+	}
 	
-	
+	EdgeLocation getLocation() {
+		return location;
+	}
 }

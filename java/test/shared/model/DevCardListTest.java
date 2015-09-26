@@ -17,6 +17,8 @@ import static org.junit.Assert.*;
  * @author JanPaul
  */
 public class DevCardListTest {
+	
+	DevCardList instance = null;
     
     public DevCardListTest() {
     }
@@ -31,6 +33,7 @@ public class DevCardListTest {
     
     @Before
     public void setUp() {
+    	instance = new DevCardList();
     }
     
     @After
@@ -43,12 +46,9 @@ public class DevCardListTest {
     @Test
     public void testGetMonopoly() {
         System.out.println("getMonopoly");
-        DevCardList instance = new DevCardList();
         int expResult = 0;
         int result = instance.getMonopoly();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
