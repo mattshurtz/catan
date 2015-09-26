@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
@@ -53,16 +54,6 @@ public class Model {
         version = 0;
         winner = -1;
     }
-    
-    /**
-     * @param json this will be the Json representation of the model returned
-     * from the server.
-     * @return a new Model class representation of the current model on the
-     * server.
-     */
-    public static Model parseModel(String json) {
-        return new Gson().fromJson(json, Model.class);
-    }
 
     /**
      * @param playerIndex this is the index of the player
@@ -84,7 +75,7 @@ public class Model {
      * each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
-
+    	
     }
 
     /**

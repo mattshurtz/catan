@@ -437,8 +437,8 @@
             "monument":0
          },
          "roads":13,
-         "cities":4,
-         "settlements":3,
+         "cities":3,
+         "settlements":4,
          "soldiers":0,
          "victoryPoints":2,
          "monuments":0,
@@ -631,6 +631,7 @@
       "sheep":20,
       "wheat":22,
       "ore":22
+      /*
    },
    "turnTracker":{  
       "status":"Rolling",
@@ -641,3 +642,4 @@
    "winner":-1,
    "version":0
 }
+*/

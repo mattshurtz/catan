@@ -5,6 +5,8 @@
  */
 package shared.model;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -20,6 +22,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.ParseModelException;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -361,21 +364,7 @@ public class ModelTest {
     }
 
     /**
-     * Test of parseModel method, of class Model.
-     */
-    @Test
-    public void testParseModel() {
-        System.out.println("parseModel");
-        String json = "";
-        Model expResult = null;
-        Model result = Model.parseModel(json);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getPlayer method, of class Model.
+     * Test of getPlayer method when index is > 3 or < 0 (out of bounds)
      */
     @Test
     public void testGetPlayerWithInvalidIndex() {
@@ -470,7 +459,7 @@ public class ModelTest {
     @Test
     public void testReceiveNewResources() {
         System.out.println("receiveNewResources");
-        Model instance = new Model();
+        
         instance.receiveNewResources();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
