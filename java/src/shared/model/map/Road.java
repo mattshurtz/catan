@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import java.util.Objects;
 import shared.locations.EdgeLocation;
 
 /**
@@ -13,19 +14,45 @@ import shared.locations.EdgeLocation;
 */
 public class Road {
     
-	int owner;
-	EdgeLocation location;
-	
-	public Road(int owner, EdgeLocation location) {
-		this.owner = owner;
-		this.location = location;
-	}
-	
-	int getOwner() {
-		return owner;
-	}
-	
-	EdgeLocation getLocation() {
-		return location;
-	}
+    int owner;
+    EdgeLocation location;
+
+    public Road(int owner, EdgeLocation location) {
+            this.owner = owner;
+            this.location = location;
+    }
+
+    int getOwner() {
+            return owner;
+    }
+
+    EdgeLocation getLocation() {
+            return location;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Road other = (Road) obj;
+        if (this.owner != other.owner) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

@@ -6,6 +6,7 @@
 package shared.model.map;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import shared.locations.VertexLocation;
 
 /**
@@ -19,12 +20,41 @@ public abstract class VertexObject{
    VertexLocation location;  
    ArrayList<Hex> hexes;
 
-   public VertexObject(int owner, VertexLocation location, ArrayList<Hex> hexes) {
-		super();
-		this.owner = owner;
-		this.location = location;
-		this.hexes = hexes;
-	}
-   
-   
+    public VertexObject(int owner, VertexLocation location, ArrayList<Hex> hexes) {
+        super();
+        this.owner = owner;
+        this.location = location;
+        this.hexes = hexes;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + this.owner;
+        hash = 97 * hash + Objects.hashCode(this.location);
+        hash = 97 * hash + Objects.hashCode(this.hexes);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final VertexObject other = (VertexObject) obj;
+        if (this.owner != other.owner) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (!Objects.equals(this.hexes, other.hexes)) {
+            return false;
+        }
+        return true;
+    }
+    
 }

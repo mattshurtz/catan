@@ -6,6 +6,7 @@
 package shared.model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  *
@@ -14,25 +15,41 @@ import java.util.ArrayList;
 public class MessageList {
     private ArrayList<MessageLine> lines;
 
-	public MessageList(ArrayList<MessageLine> lines) {
-		this.setLines(lines);
-	}
+    public MessageList(ArrayList<MessageLine> lines) {
+            this.setLines(lines);
+    }
 
-	public MessageList() {
-		// TODO Auto-generated constructor stub
-	}
+    public MessageList() {
+            // TODO Auto-generated constructor stub
+    }
 
-	public ArrayList<MessageLine> getLines() {
-		return lines;
-	}
+    public ArrayList<MessageLine> getLines() {
+            return lines;
+    }
 
-	public void setLines(ArrayList<MessageLine> lines) {
-		this.lines = lines;
-	}
-	
-	
+    public void setLines(ArrayList<MessageLine> lines) {
+            this.lines = lines;
+    }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.lines);
+        return hash;
+    }
 
-    
-      
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MessageList other = (MessageList) obj;
+        if (!Objects.equals(this.lines, other.lines)) {
+            return false;
+        }
+        return true;
+    }
 }

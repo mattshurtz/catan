@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.util.Objects;
 import shared.definitions.CatanColor;
 import shared.locations.HexLocation;
 
@@ -233,6 +234,84 @@ public class Player {
 
     public void setResources(ResourceList resources) {
         this.resources = resources;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 89 * hash + this.cities;
+        hash = 89 * hash + Objects.hashCode(this.color);
+        hash = 89 * hash + (this.discarded ? 1 : 0);
+        hash = 89 * hash + this.monuments;
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + Objects.hashCode(this.newDevCards);
+        hash = 89 * hash + Objects.hashCode(this.oldDevCards);
+        hash = 89 * hash + this.playerIndex;
+        hash = 89 * hash + (this.playedDevCard ? 1 : 0);
+        hash = 89 * hash + this.playerID;
+        hash = 89 * hash + Objects.hashCode(this.resources);
+        hash = 89 * hash + this.roads;
+        hash = 89 * hash + this.settlements;
+        hash = 89 * hash + this.soldiers;
+        hash = 89 * hash + this.victoryPoints;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Player other = (Player) obj;
+        if (this.cities != other.cities) {
+            return false;
+        }
+        if (this.color != other.color) {
+            return false;
+        }
+        if (this.discarded != other.discarded) {
+            return false;
+        }
+        if (this.monuments != other.monuments) {
+            return false;
+        }
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.newDevCards, other.newDevCards)) {
+            return false;
+        }
+        if (!Objects.equals(this.oldDevCards, other.oldDevCards)) {
+            return false;
+        }
+        if (this.playerIndex != other.playerIndex) {
+            return false;
+        }
+        if (this.playedDevCard != other.playedDevCard) {
+            return false;
+        }
+        if (this.playerID != other.playerID) {
+            return false;
+        }
+        if (!Objects.equals(this.resources, other.resources)) {
+            return false;
+        }
+        if (this.roads != other.roads) {
+            return false;
+        }
+        if (this.settlements != other.settlements) {
+            return false;
+        }
+        if (this.soldiers != other.soldiers) {
+            return false;
+        }
+        if (this.victoryPoints != other.victoryPoints) {
+            return false;
+        }
+        return true;
     }
     
     

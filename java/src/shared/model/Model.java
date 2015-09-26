@@ -7,6 +7,7 @@ package shared.model;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import java.util.Objects;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -264,6 +265,55 @@ public class Model {
 
     public void setWinner(int winner) {
         this.winner = winner;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + this.version;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Model other = (Model) obj;
+        if (!Objects.equals(this.bank, other.bank)) {
+            return false;
+        }
+        if (!Objects.equals(this.deck, other.deck)) {
+            return false;
+        }
+        if (!Objects.equals(this.chat, other.chat)) {
+            return false;
+        }
+        if (!Objects.equals(this.log, other.log)) {
+            return false;
+        }
+        if (!Objects.equals(this.map, other.map)) {
+            return false;
+        }
+        if (!Objects.equals(this.players, other.players)) {
+            return false;
+        }
+        if (!Objects.equals(this.tradeOffer, other.tradeOffer)) {
+            return false;
+        }
+        if (!Objects.equals(this.turnTracker, other.turnTracker)) {
+            return false;
+        }
+        if (this.version != other.version) {
+            return false;
+        }
+        if (this.winner != other.winner) {
+            return false;
+        }
+        return true;
     }
     
     

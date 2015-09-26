@@ -6,6 +6,7 @@
 package shared.model.map;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -197,5 +198,53 @@ public class Map {
     public void setRobber(HexLocation robber) {
         this.robber = robber;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 67 * hash + Objects.hashCode(this.hexes);
+        hash = 67 * hash + Objects.hashCode(this.ports);
+        hash = 67 * hash + Objects.hashCode(this.roads);
+        hash = 67 * hash + Objects.hashCode(this.settlements);
+        hash = 67 * hash + Objects.hashCode(this.cities);
+        hash = 67 * hash + this.radius;
+        hash = 67 * hash + Objects.hashCode(this.robber);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Map other = (Map) obj;
+        if (!Objects.equals(this.hexes, other.hexes)) {
+            return false;
+        }
+        if (!Objects.equals(this.ports, other.ports)) {
+            return false;
+        }
+        if (!Objects.equals(this.roads, other.roads)) {
+            return false;
+        }
+        if (!Objects.equals(this.settlements, other.settlements)) {
+            return false;
+        }
+        if (!Objects.equals(this.cities, other.cities)) {
+            return false;
+        }
+        if (this.radius != other.radius) {
+            return false;
+        }
+        if (!Objects.equals(this.robber, other.robber)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
       
 }

@@ -19,12 +19,10 @@ public class Hex {
     ResourceType resource;
     int number;
     
-	public Hex(HexLocation location, ResourceType resource, int number) {
-		this.location = location;
-		this.resource = resource;
-		this.number = number;
-	}
-    
-    
+    public Hex(HexLocation location, ResourceType resource, int number) {
+            this.location = location;
+            this.resource = resource;
+            this.number = number;
+    }
     
 }

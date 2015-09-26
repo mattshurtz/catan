@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.util.Objects;
 import shared.definitions.TurnStatus;
 
 /**
@@ -72,7 +73,39 @@ public class TurnTracker {
     public boolean isPlayersTurn(int myPlayerIndex) {
         return (currentTurn == myPlayerIndex);
     }
-    
-    
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + this.currentTurn;
+        hash = 47 * hash + Objects.hashCode(this.status);
+        hash = 47 * hash + this.longestRoad;
+        hash = 47 * hash + this.largestArmy;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TurnTracker other = (TurnTracker) obj;
+        if (this.currentTurn != other.currentTurn) {
+            return false;
+        }
+        if (this.status != other.status) {
+            return false;
+        }
+        if (this.longestRoad != other.longestRoad) {
+            return false;
+        }
+        if (this.largestArmy != other.largestArmy) {
+            return false;
+        }
+        return true;
+    }
+    
 }
