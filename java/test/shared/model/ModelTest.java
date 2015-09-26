@@ -22,7 +22,6 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.ParseModelException;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
