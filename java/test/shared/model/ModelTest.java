@@ -19,6 +19,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
+import shared.exceptions.GetPlayerException;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -34,6 +35,8 @@ import shared.model.map.Settlement;
  *
  */
 public class ModelTest {
+	
+	private Model instance = null;
     
     public Model testModel(){
         Model testModel = new Model();
@@ -350,6 +353,7 @@ public class ModelTest {
     
     @Before
     public void setUp() {
+    	instance = testModel();
     }
     
     @After
@@ -374,15 +378,90 @@ public class ModelTest {
      * Test of getPlayer method, of class Model.
      */
     @Test
-    public void testGetPlayer() {
+    public void testGetPlayerWithInvalidIndex() {
         System.out.println("getPlayer");
+        
+        //Test getting player with invalid index
+        //Should throw exception
+        try {
+        	instance.getPlayer(-1);
+        	fail("Should've thrown a GetPlayerException");
+        } catch(GetPlayerException e) {
+        	//exception thrown as expected
+        }
+        try {
+        	instance.getPlayer(4);
+        	fail("Should've thrown a GetPlayerException");
+        } catch(GetPlayerException e) {
+        	//exception thrown as expected
+        }
+    }
+    /**
+     * Test of getPlayer method when Model.players is null or empty
+     */
+    @Test
+    public void testGetPlayerFromEmptyList() {
+        //Test getting player from empty list of players
+        try {
+        	Model emptyModel = new Model();
+        	emptyModel.getPlayer(1);
+        	fail("Should've thrown a GetPlayerException");
+        } catch(GetPlayerException e) {
+        	//exception thrown as expected
+        }
+        
+        //Test getting player when list is null
+        try {
+        	Model otherEmptyModel = new Model();
+        	otherEmptyModel.setPlayers(null);
+        	otherEmptyModel.getPlayer(1);
+        	fail("Should've thrown a GetPlayerException");
+        } catch(GetPlayerException e) {
+        	//exception thrown as expected
+        }
+    }
+    
+    /**
+     * Test of getPlayer method where inputs are valid
+     */
+    @Test
+    public void testGetPlayerValid() {
+        
+        //Test getting player from valid list of players
+        //duplicate player at index 0
         int playerIndex = 0;
-        Model instance = new Model();
-        Player expResult = null;
-        Player result = instance.getPlayer(playerIndex);
+        
+        Player expResult = new Player();
+        ResourceList pOneResourceList = new ResourceList();
+        pOneResourceList.setBrick(0);
+        pOneResourceList.setWood(1);
+        pOneResourceList.setWheat(1);
+        pOneResourceList.setSheep(1);
+        pOneResourceList.setOre(0);
+        expResult.setCities(4);
+        expResult.setColor(CatanColor.YELLOW);
+        expResult.setDiscarded(false);
+        expResult.setMonuments(0);
+        expResult.setName("Sam");
+        expResult.setNewDevCards(new DevCardList());
+        expResult.setOldDevCards(new DevCardList());
+        expResult.setPlayedDevCard(false);
+        expResult.setPlayerID(0);
+        expResult.setRoads(13);
+        expResult.setSettlements(3);
+        expResult.setSoldiers(0);
+        expResult.setVictoryPoints(2);
+        expResult.setResources(pOneResourceList);
+        expResult.setPlayerIndex(playerIndex);
+        
+        Player result = null;
+        try {
+			result = instance.getPlayer(playerIndex);
+		} catch (GetPlayerException e) {
+			fail("Exception thrown when it shouldn't have been");
+		}
+        
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
