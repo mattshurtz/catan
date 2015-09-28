@@ -122,6 +122,16 @@ public class Model {
 
     }
 
+    public boolean canBuySettlement()throws InsufficentSupplies{
+        if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
+            throw new InsufficentSupplies("Player does not have enough resources");
+        }
+        if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
+            throw new InsufficentSupplies("Player does not have a road to build");
+        }
+        return true;
+    }
+    
     /**
      * Checks if a player has a settlement to build, the resources to build this
      * settlement and if it is in a valid location on the map.
@@ -147,7 +157,17 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(EdgeLocation location, int playerIndex) {
-
+        
+    }
+    
+    public boolean canBuyCity() throws InsufficentSupplies{
+        if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()){
+            throw new InsufficentSupplies("Player does not have enough resources");
+        }
+        if(!players.get(turnTracker.getCurrentTurn()).hasCity()){
+            throw new InsufficentSupplies("Player does not have a road to build");
+        }
+        return true;        
     }
 
     /**

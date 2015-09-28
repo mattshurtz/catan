@@ -5,18 +5,16 @@
  */
 package client.facade;
 
+import client.proxy.MockProxy;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import shared.definitions.ResourceType;
-import shared.exceptions.InsufficentSupplies;
 import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.ModelTest;
-import shared.model.Player;
 import shared.model.ResourceList;
 
 /**
@@ -181,59 +179,22 @@ public class CanDoFacadeTest {
      */
     @Test
     public void testCanBuyRoad() throws Exception {
+        MockProxy mockProxy = new MockProxy();
         Model model = ModelTest.testModel();
-        // current player has no brick so this test should fail. 
-        try{
-            model.canBuyRoad();
-            fail("but it didn't throw an exception!");
-        }catch(InsufficentSupplies e){
-            // This player did not have these supplies. 
-        }
+        CatanFacade facade = new CatanFacade(mockProxy,model);
         
-        int currentPlayer = model.getTurnTracker().getCurrentTurn();
-        // the current player in the testModel is the first player
-        assertEquals(currentPlayer, 0);
+        facade.getMyTurn().canBuyRoad();
         
-        Player player = model.getPlayer(currentPlayer);
-        player.getResources().addResource(ResourceType.BRICK);
-        
-        assertEquals(player.getResources().getBrick(), 1);
-        assertEquals(player.getResources().getWood(),1);
-        
-        try{
-            model.canBuyRoad();
-        }catch(InsufficentSupplies e){
-            fail(e.getMessage()); 
-        }
-        
-        player.setRoads(0);
-        
-        assertEquals(player.getRoads(),0);
-        // Player has no roads so an exception should be thrown
-        try{
-            model.canBuyRoad();
-            fail("did not have road");
-        }catch(InsufficentSupplies e){
-            
-        }
+    }
+    
+    @Test
+    public void testCanBuySettlement() throws Exception{
 
     }
     
     @Test
-    public void testCanBuyRoadPieces() throws Exception{
-        Model model = ModelTest.testModel();
-        
-        Player player = model.getPlayer(model.getTurnTracker().getCurrentTurn());
-        player.setRoads(0);
-        
-        assertEquals(player.getRoads(),0);
-        
-        try{
-            model.canBuyRoad();
-            fail("did not have road");
-        }catch(InsufficentSupplies e){
-            
-        }
+    public void testCanBuyCity(){
+      
     }
 
     /**
@@ -250,6 +211,7 @@ public class CanDoFacadeTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
 
     /**
      * Test of canBuildCity method, of class CanDoFacade.

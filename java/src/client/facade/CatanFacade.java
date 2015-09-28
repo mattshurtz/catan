@@ -71,4 +71,18 @@ public class CatanFacade {
     public static void setMyPlayerIndex(int myPlayerIndex) {
         CatanFacade.myPlayerIndex = myPlayerIndex;
     }
+
+    public static CanDoFacadeMyTurn getMyTurn() {
+        return myTurn;
+    }
+
+    public static CanDoFacadeNotMyTurn getNotMyTurn() {
+        return notMyTurn;
+    }
+
+    public static IServerProxy getProxy() {
+        return proxy;
+    }
+    
+    
 }

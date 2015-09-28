@@ -22,6 +22,7 @@ import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.InsufficentSupplies;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
@@ -463,20 +464,58 @@ public class ModelTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
+    
+    /**
+     * 
+     * @throws Exception 
+     */
+    @Test
+    public void testCanBuyRaod() throws Exception{
+        Model model = ModelTest.testModel();
+// current player has no brick so this test should fail. 
+        try{
+            model.canBuyRoad();
+            fail("but it didn't throw an exception!");
+        }catch(InsufficentSupplies e){
+            // This player did not have these supplies. 
+        }
+        
+        int currentPlayer = model.getTurnTracker().getCurrentTurn();
+// the current player in the testModel is the first player
+        assertEquals(currentPlayer, 0);
+// add a brick to the current players resource list so they have enough to buy 
+// a road. 
+        Player player = model.getPlayer(currentPlayer);
+        player.getResources().addResource(ResourceType.BRICK,1);
+// check if the current player has sufficient resources to buy a road  
+        assertEquals(player.getResources().getBrick(), 1);
+        assertEquals(player.getResources().getWood(),1);
+// this player has sufficient resources to buy a road so this should pass    
+        try{
+            model.canBuyRoad();
+        }catch(InsufficentSupplies e){
+            fail(e.getMessage()); 
+        }
+    
+// remove all of the players roads to test that they must have a road in order
+// to buy a road. 
+        player.setRoads(0);
+        assertEquals(player.getRoads(),0);
+// Player has no roads so an exception should be thrown
+        try{
+            model.canBuyRoad();
+            fail("did not have road");
+        }catch(InsufficentSupplies e){
+            
+        }
+    }
 
     /**
      * Test of canBuildRoad method, of class Model.
      */
     @Test
     public void testCanBuildRoad() throws Exception {
-        System.out.println("canBuildRoad");
-        EdgeLocation location = null;
-        Model instance = new Model();
-        boolean expResult = false;
-        boolean result = instance.canBuildRoad(location);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -491,7 +530,54 @@ public class ModelTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
+    /**
+    * 
+    * @throws Exception 
+    */
+    @Test
+    public void testCanBuySettlement() throws Exception{
+        Model model = ModelTest.testModel();
+// current player has no brick so this test should fail. 
+        try{
+            model.canBuySettlement();
+            fail("but it didn't throw an exception!");
+        }catch(InsufficentSupplies e){
+            // This player did not have these supplies. 
+        }
+        
+        int currentPlayer = model.getTurnTracker().getCurrentTurn();
+// the current player in the testModel is the first player
+        assertEquals(currentPlayer, 0);
+// add a brick to the current players resource list so they have enough to buy 
+// a settlement. 
+        Player player = model.getPlayer(currentPlayer);
+        player.getResources().addResource(ResourceType.BRICK,1);
+        
+// check if the current player has sufficient resources to buy a road  
+        assertEquals(player.getResources().getBrick(),1);
+        assertEquals(player.getResources().getWood(),1);
+        assertEquals(player.getResources().getWheat(),1);
+        assertEquals(player.getResources().getSheep(),1);
+// this player has sufficient resources to buy a settlement so this should pass    
+        try{
+            model.canBuySettlement();
+        }catch(InsufficentSupplies e){
+            fail(e.getMessage()); 
+        }
+    
+// remove all of the players settlements to test that they must have a road in order
+// to buy a settlement. 
+        player.setSettlements(0);
+        assertEquals(player.getSettlements(),0);
+// Player has no roads so an exception should be thrown
+        try{
+            model.canBuySettlement();
+            fail("did not have settlement");
+        }catch(InsufficentSupplies e){
+            
+        }
+    }
+    
     /**
      * Test of canBuildSettlement method, of class Model.
      */
@@ -520,6 +606,50 @@ public class ModelTest {
         instance.buildSettlement(location, playerIndex);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
+    }
+    
+    
+    @Test
+    public void testCanBuyCity() throws Exception{
+        Model model = ModelTest.testModel();
+// current player has 1 wheat and 0 ore. So model.canBuyCity() should fail 
+        try{
+            model.canBuyCity();
+            fail("but it didn't throw an exception!");
+        }catch(InsufficentSupplies e){
+            // This player did not have these supplies. 
+        }
+        
+        int currentPlayer = model.getTurnTracker().getCurrentTurn();
+// the current player in the testModel is the first player
+        assertEquals(currentPlayer, 0);
+// add a wheat and 3 ore to the current players resource list so they have enough to buy 
+// a settlement. 
+        Player player = model.getPlayer(currentPlayer);
+        player.getResources().addResource(ResourceType.WHEAT,1);
+        player.getResources().addResource(ResourceType.ORE,3);
+        
+// check if the current player has sufficient resources to buy a road  
+        assertEquals(player.getResources().getWheat(),2);
+        assertEquals(player.getResources().getOre(),3);
+// this player has sufficient resources to buy a city so this should pass    
+        try{
+            model.canBuyCity();
+        }catch(InsufficentSupplies e){
+            fail(e.getMessage()); 
+        }
+    
+// remove all of the players settlements to test that they must have a road in order
+// to buy a road. 
+        player.setCities(0);
+        assertEquals(player.getCities(),0);
+// Player has no roads so an exception should be thrown
+        try{
+            model.canBuyCity();
+            fail("did not have settlement");
+        }catch(InsufficentSupplies e){
+            
+        }
     }
 
     /**

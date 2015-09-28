@@ -15,7 +15,6 @@ import shared.definitions.ResourceType;
 
 /**
  *
- * @author JanPaul
  */
 public class ResourceListTest {
     
@@ -154,7 +153,7 @@ public class ResourceListTest {
         System.out.println("addResource");
         ResourceType resourceType = null;
         ResourceList instance = new ResourceList();
-        instance.addResource(resourceType);
+        instance.addResource(resourceType,1);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

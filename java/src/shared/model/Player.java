@@ -84,6 +84,9 @@ public class Player {
      * @return whether player has a settlement left to play.
      */
     public boolean hasSettlment() {
+        if(settlements>0){
+            return true;
+        }
         return false;
     }
 
@@ -92,6 +95,9 @@ public class Player {
      * @return whether player has a city left to play.
      */
     public boolean hasCity() {
+       if(cities>0){
+           return true;
+       }
         return false;
     }
     

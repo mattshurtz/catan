@@ -65,13 +65,17 @@ public class ResourceList {
      * subtracts one brick and one wood from the resourceList;
      */
     public void buyRoad() {
-
+        brick--;
+        wood--;
     }
 
     /**
      * @return true if player has enough resources to buy a Settlement
      */
     public boolean canBuySettlement() {
+        if(wood>0 && brick>0 && wheat>0 && sheep>0){
+            return true;
+        }
         return false;
     }
 
@@ -79,21 +83,28 @@ public class ResourceList {
      * subtracts one brick, wood, sheep, and wheat from the resourceList;
      */
     public void buySettlement() {
-
+        brick--;
+        wood--;
+        sheep--;
+        wheat--; 
     }
 
     /**
      * @return true if player has enough resources to buy a City
      */
     public boolean canBuyCity() {
-        return false;
+       if(ore>2 && wheat>1){
+           return true;
+       }
+       return false;
     }
 
     /**
      * subtracts three ore and two wheat from ResourceList
      */
     public void buyCity() {
-
+        ore = ore - 3;
+        wheat = wheat -2;
     }
 
     /**
@@ -101,10 +112,23 @@ public class ResourceList {
      *
      * @param resourceType this is the type of resource to be incremented.
      */
-    public void addResource(ResourceType resourceType) {
-        if (resourceType == ResourceType.BRICK) {
-            brick++;
-        } //switch statement??? //might want to add amount for instances like cities
+    public void addResource(ResourceType resourceType, int numberToAdd) {
+        
+        if(resourceType == ResourceType.BRICK) {
+            brick+= numberToAdd;
+        } 
+        if(resourceType == ResourceType.WHEAT) {
+            wheat+= numberToAdd;
+        } 
+        if(resourceType == ResourceType.SHEEP) {
+            sheep+= numberToAdd;
+        } 
+        if(resourceType == ResourceType.ORE) {
+            ore+= numberToAdd;
+        } 
+        if(resourceType == ResourceType.WOOD) {
+            wood+= numberToAdd;
+        } 
     }
 
     /**
