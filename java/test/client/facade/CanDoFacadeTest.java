@@ -36,6 +36,9 @@ public class CanDoFacadeTest {
     
     @Before
     public void setUp() {
+                Model model = ModelTest.testModel();
+                MockProxy mockProxy = new MockProxy();
+                CatanFacade.setup();
     }
     
     @After
@@ -181,9 +184,8 @@ public class CanDoFacadeTest {
     public void testCanBuyRoad() throws Exception {
         MockProxy mockProxy = new MockProxy();
         Model model = ModelTest.testModel();
-        CatanFacade facade = new CatanFacade(mockProxy,model);
-        
-        facade.getMyTurn().canBuyRoad();
+        CatanFacade.
+        CatanFacade.getMyTurn().canBuyRoad();
         
     }
     
