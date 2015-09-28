@@ -54,7 +54,7 @@ public class DeserializerTest {
     }
     
     public Model getTestModel() throws IOException, FileNotFoundException {
-        File file = new File("java/test/shared/json/sample_model_json.txt");
+        File file = new File("java/test/shared/json/testModel");
         FileInputStream fis = new FileInputStream(file);
         byte[] data = new byte[(int) file.length()];
         fis.read(data);

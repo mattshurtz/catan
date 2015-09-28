@@ -72,6 +72,9 @@ public class Player {
      * @return whether player has a road left to play.
      */
     public boolean hasRoad() {
+        if(roads>0){
+            return true;
+        }
         return false;
     }
 

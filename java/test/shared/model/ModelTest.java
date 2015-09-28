@@ -35,7 +35,7 @@ import shared.model.map.Settlement;
  */
 public class ModelTest {
     
-    public Model testModel(){
+    public static Model testModel(){
         Model testModel = new Model();
         
         Player playerOne = new Player();

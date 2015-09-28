@@ -17,7 +17,7 @@ import shared.locations.VertexLocation;
 public class Settlement extends VertexObject{
 
 	private final int EARNED_RESOURCES = 1;
-	
+        
 	public Settlement(int owner, VertexLocation location, ArrayList<Hex> hexes) {
 		super(owner, location, hexes);
 		// TODO Auto-generated constructor stub

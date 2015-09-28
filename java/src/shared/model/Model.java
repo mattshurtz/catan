@@ -103,10 +103,10 @@ public class Model {
     public boolean canBuyRoad() throws InsufficentSupplies {
         int playerIndex = turnTracker.getCurrentTurn();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
-            throw new InsufficentSupplies("");
+            throw new InsufficentSupplies("Player does not have enough resources.");
         }
         if (!players.get(playerIndex).hasRoad()) {
-            throw new InsufficentSupplies("");
+            throw new InsufficentSupplies("Player does not have a road to build.");
         }
         return true;
     }
