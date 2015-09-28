@@ -5,6 +5,8 @@
  */
 package shared.model;
 
+import java.util.Objects;
+
 /**
  *
  * @author karahartley
@@ -16,6 +18,32 @@ public class MessageLine {
     public MessageLine(String source, String message) {
     	this.source = source;
     	this.message = message;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 97 * hash + Objects.hashCode(this.message);
+        hash = 97 * hash + Objects.hashCode(this.source);
+        return hash;
+    }
+    
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final MessageLine other = (MessageLine) obj;
+        if (!Objects.equals(this.message, other.message)) {
+            return false;
+        }
+        if (!Objects.equals(this.source, other.source)) {
+            return false;
+        }
+        return true;
     }
     
     

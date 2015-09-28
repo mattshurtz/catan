@@ -5,6 +5,7 @@ import java.util.*;
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.model.Model;
 
 /**
  * Interface for the Server Proxy and Mock Server Proxy. Defines all
@@ -107,7 +108,7 @@ public interface IServerProxy {
      * JSON, or true. How should we deal with that?
      * @throws ServerException If the server request fails
      */
-    String getGameModel(int version) throws ServerException;
+    Model getGameModel(int version) throws ServerException;
 
     /**
      * For default games created by the server, this method reverts the game to
@@ -119,7 +120,7 @@ public interface IServerProxy {
      * @return the game model after the game has been reset.
      * @throws ServerException If the server request fails
      */
-    String resetGame() throws ServerException;
+    Model resetGame() throws ServerException;
 
     //TODO: Continue stubbing TA swagger methods - start with /game/commands (GET)
     /**
@@ -132,7 +133,7 @@ public interface IServerProxy {
      * been applied.
      * @throws ServerException If the server request fails
      */
-    String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException;
+    Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException;
 
     /**
      * @return For the default games created by the server, this method returns
@@ -151,7 +152,7 @@ public interface IServerProxy {
      * @return AIType (string):
      * @throws ServerException If the server request fails
      */
-    String addAi() throws ServerException;
+    boolean addAi( AddAiRequest req ) throws ServerException;
 
     /**
      *
@@ -159,7 +160,7 @@ public interface IServerProxy {
      * the only supported type
      * @throws ServerException If the server request fails
      */
-    String listAi() throws ServerException;
+    String[] listAi() throws ServerException;
 
     /**
      *

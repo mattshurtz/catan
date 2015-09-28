@@ -26,13 +26,13 @@ public class ResourceList {
             this.ore = 0;
 	}
 
-	public ResourceList(int brick, int wood, int sheep, int wheat, int ore) {
-		this.brick = brick;
-		this.wood = wood;
-		this.sheep = sheep;
-		this.wheat = wheat;
-		this.ore = ore;
-	}
+    public ResourceList(int brick, int wood, int sheep, int wheat, int ore) {
+            this.brick = brick;
+            this.wood = wood;
+            this.sheep = sheep;
+            this.wheat = wheat;
+            this.ore = ore;
+    }
 
 	/**
      * @param  accept is the list of resource necessary to accept
@@ -164,6 +164,42 @@ public class ResourceList {
     public void setWood(int wood) {
         this.wood = wood;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + this.brick;
+        hash = 47 * hash + this.ore;
+        hash = 47 * hash + this.sheep;
+        hash = 47 * hash + this.wheat;
+        hash = 47 * hash + this.wood;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ResourceList other = (ResourceList) obj;
+        if (this.brick != other.brick) {
+            return false;
+        }
+        if (this.ore != other.ore) {
+            return false;
+        }
+        if (this.sheep != other.sheep) {
+            return false;
+        }
+        if (this.wheat != other.wheat) {
+            return false;
+        }
+        if (this.wood != other.wood) {
+            return false;
+        }
+        return true;
+    } 
 }

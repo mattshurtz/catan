@@ -138,6 +138,8 @@ public class DevCardList {
 	 * @return true if there is at least one monopoly card to play
 	 */
 	public boolean canPlayMonopoly() {
+		if(monopoly > 0) 
+			return true;
 		return false;
 	}
 	
@@ -146,6 +148,8 @@ public class DevCardList {
 	 * @return true if there is at least one road building card to play
 	 */
 	public boolean canPlayRoadBuilding() {
+		if(roadBuilding > 0) 
+			return true;
 		return false;
 	}
 	
@@ -154,6 +158,8 @@ public class DevCardList {
 	 * @return true if there is at least one soldier card to play
 	 */
 	public boolean canPlaySoldier() {
+		if(soldier > 0) 
+			return true;
 		return false;
 	}
 	
@@ -162,6 +168,8 @@ public class DevCardList {
 	 * @return true if there is at least one year of plenty card to play
 	 */
 	public boolean canPlayYearOfPlenty() {
+		if(yearOfPlenty > 0) 
+			return true;
 		return false;
 	}
 
@@ -184,7 +192,43 @@ public class DevCardList {
     public void setYearOfPlenty(int yearOfPlenty) {
         this.yearOfPlenty = yearOfPlenty;
     }
-        
-        
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 79 * hash + this.yearOfPlenty;
+        hash = 79 * hash + this.monopoly;
+        hash = 79 * hash + this.soldier;
+        hash = 79 * hash + this.roadBuilding;
+        hash = 79 * hash + this.monument;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final DevCardList other = (DevCardList) obj;
+        if (this.yearOfPlenty != other.yearOfPlenty) {
+            return false;
+        }
+        if (this.monopoly != other.monopoly) {
+            return false;
+        }
+        if (this.soldier != other.soldier) {
+            return false;
+        }
+        if (this.roadBuilding != other.roadBuilding) {
+            return false;
+        }
+        if (this.monument != other.monument) {
+            return false;
+        }
+        return true;
+    }
     
 }

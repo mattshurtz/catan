@@ -14,6 +14,7 @@ import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Serializer;
+import shared.model.Model;
 
 public class ServerProxy implements IServerProxy {
     
@@ -125,17 +126,17 @@ public class ServerProxy implements IServerProxy {
     }
     
     @Override
-    public String getGameModel(int version) throws ServerException {
+    public Model getGameModel(int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String listAi() throws ServerException {
+    public String[] listAi() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
+    public Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -145,7 +146,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String addAi() throws ServerException {
+    public boolean addAi( AddAiRequest add ) throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -267,7 +268,7 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String resetGame() throws ServerException {
+    public Model resetGame() throws ServerException {
         // TODO Auto-generated method stub
         return null;
     }

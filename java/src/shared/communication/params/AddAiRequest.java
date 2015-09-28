@@ -6,11 +6,17 @@
 package shared.communication.params;
 
 /**
- *{
- * "type": "buyDevCard",
- * "playerIndex": "integer"
- *}
+ *
+ * @author JanPaul
  */
-public class BuyDevCardRequest {
-    
+public class AddAiRequest {
+    private String AIType;
+
+    public String getAIType() {
+        return AIType;
+    }
+
+    public void setAIType(String AIType) {
+        this.AIType = AIType;
+    }
 }

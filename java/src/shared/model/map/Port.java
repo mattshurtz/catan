@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import java.util.Objects;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
@@ -24,13 +25,51 @@ public class Port {
    EdgeDirection direction;
    int ratio;
    
-	public Port(int ratio, String resource, ResourceType type, EdgeDirection direction, HexLocation location) {
-		this.resource = resource;
-                this.type = type;
-		this.location = location;
-		this.direction = direction;
-		this.ratio = ratio;
-	}
+    public Port(int ratio, String resource, ResourceType type, EdgeDirection direction, HexLocation location) {
+            this.resource = resource;
+            this.type = type;
+            this.location = location;
+            this.direction = direction;
+            this.ratio = ratio;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 37 * hash + Objects.hashCode(this.type);
+        hash = 37 * hash + Objects.hashCode(this.resource);
+        hash = 37 * hash + Objects.hashCode(this.location);
+        hash = 37 * hash + Objects.hashCode(this.direction);
+        hash = 37 * hash + this.ratio;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Port other = (Port) obj;
+        if (this.type != other.type) {
+            return false;
+        }
+        if (!Objects.equals(this.resource, other.resource)) {
+            return false;
+        }
+        if (!Objects.equals(this.location, other.location)) {
+            return false;
+        }
+        if (this.direction != other.direction) {
+            return false;
+        }
+        if (this.ratio != other.ratio) {
+            return false;
+        }
+        return true;
+    }
    
    
 }

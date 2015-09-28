@@ -1,11 +1,14 @@
 package client.proxy;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.json.Deserializer;
+import shared.model.Model;
 import shared.model.User;
 
 public class MockProxy implements IServerProxy {
@@ -15,23 +18,28 @@ public class MockProxy implements IServerProxy {
     }
     
     @Override
-    public String listAi() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String[] listAi() throws ServerException {
+        return new String[] { "LARGEST_ARMY" };
     }
 
     @Override
-    public String postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model postCommands(PostCommandsRequest postCommandsRequest) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch (IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public String getCommands() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "buildRoad, and things";
     }
 
     @Override
-    public String addAi() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean addAi( AddAiRequest req ) throws ServerException {
+        return true;
     }
 
     @Override
@@ -176,15 +184,23 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public String getGameModel(int version) throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+    public Model getGameModel(int version) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public String resetGame() throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+    public Model resetGame() throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

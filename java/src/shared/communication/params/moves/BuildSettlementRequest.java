@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shared.communication.params;
+package shared.communication.params.moves;
+
+import shared.locations.VertexLocation;
 
 /**
  *BuildSettlement {
@@ -19,5 +21,23 @@ package shared.communication.params;
  *}
  */
 public class BuildSettlementRequest {
+    private VertexLocation vertexLocation;
+    private boolean free;
+
+    public VertexLocation getVertexLocation() {
+        return vertexLocation;
+    }
+
+    public void setVertexLocation(VertexLocation vertexLocation) {
+        this.vertexLocation = vertexLocation;
+    }
+
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
+    }
     
 }

@@ -7,12 +7,13 @@ import java.util.Objects;
  *
  */
 public class PlayerResponse {
-	 //String color - color of the player
-	 //String name - name of the player
-	 //int id - ID of the player
-    String color;
-    String name;
-    int id;
+    //String color - color of the player
+    //String name - name of the player
+    //int id - ID of the player
+    
+    private String color;
+    private String name;
+    private int id;
 
     public String getColor() {
         return color;

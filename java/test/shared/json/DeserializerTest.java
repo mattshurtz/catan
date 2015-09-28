@@ -49,7 +49,7 @@ public class DeserializerTest {
      */
     @Test
     public void testToJavaModel() throws IOException, FileNotFoundException {
-        Model result = getTestModel();
+        Model result = new Deserializer().getTestModel();
         System.out.println( new GsonBuilder().create().toJson( result ));
     }
     
@@ -67,6 +67,7 @@ public class DeserializerTest {
         Model result = instance.toJavaModel( sampleModelJson );
         return result;
     }
+
 
     /**
      * Test of toJavaMessage method, of class Deserializer.

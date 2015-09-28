@@ -6,7 +6,11 @@
 package shared.model;
 
 import com.google.gson.Gson;
+
 import java.util.ArrayList;
+import java.util.Objects;
+
+import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -28,16 +32,16 @@ import shared.model.map.Map;
  */
 public class Model {
 
-    ResourceList bank;
-    DevCardList deck;
-    MessageList chat;
-    MessageList log;
-    Map map;
-    ArrayList<Player> players;
-    TradeOffer tradeOffer;
-    TurnTracker turnTracker;
-    int version;
-    int winner;
+    private ResourceList bank;
+    private DevCardList deck;
+    private MessageList chat;
+    private MessageList log;
+    private Map map;
+    private ArrayList<Player> players;
+    private TradeOffer tradeOffer;
+    private TurnTracker turnTracker;
+    private int version;
+    private int winner;
 
     public Model() {
         bank = new ResourceList();
@@ -50,22 +54,19 @@ public class Model {
         version = 0;
         winner = -1;
     }
-    
-    /**
-     * @param json this will be the Json representation of the model returned
-     * from the server.
-     * @return a new Model class representation of the current model on the
-     * server.
-     */
-    public static Model parseModel(String json) {
-        return new Gson().fromJson(json, Model.class);
-    }
 
     /**
      * @param playerIndex this is the index of the player
      * @return Player at the specified playerIndex
+     * @throws GetPlayerException if the player list is empty, or if the index is invalid
      */
-    public Player getPlayer(int playerIndex) {
+    public Player getPlayer(int playerIndex) throws GetPlayerException{
+    	if (players == null || players.size() == 0) {
+    		throw new GetPlayerException("There are currently no players in this model's player list");
+    	}
+    	if (playerIndex > 3 || playerIndex < 0) {
+    		throw new GetPlayerException("Invalid playerIndex:  Must be 0-3");
+    	}
         return players.get(playerIndex);
     }
 
@@ -74,7 +75,7 @@ public class Model {
      * each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
-
+    	
     }
 
     /**
@@ -264,6 +265,55 @@ public class Model {
 
     public void setWinner(int winner) {
         this.winner = winner;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + this.version;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Model other = (Model) obj;
+        if (!Objects.equals(this.bank, other.bank)) {
+            return false;
+        }
+        if (!Objects.equals(this.deck, other.deck)) {
+            return false;
+        }
+        if (!Objects.equals(this.chat, other.chat)) {
+            return false;
+        }
+        if (!Objects.equals(this.log, other.log)) {
+            return false;
+        }
+        if (!Objects.equals(this.map, other.map)) {
+            return false;
+        }
+        if (!Objects.equals(this.players, other.players)) {
+            return false;
+        }
+        if (!Objects.equals(this.tradeOffer, other.tradeOffer)) {
+            return false;
+        }
+        if (!Objects.equals(this.turnTracker, other.turnTracker)) {
+            return false;
+        }
+        if (this.version != other.version) {
+            return false;
+        }
+        if (this.winner != other.winner) {
+            return false;
+        }
+        return true;
     }
     
     
