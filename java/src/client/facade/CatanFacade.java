@@ -20,13 +20,17 @@ public class CatanFacade {
     private static boolean isServer = false;
     private static int myPlayerIndex = 0;
     
-    public CatanFacade(IServerProxy proxy, Model model){
-        this.model = model;
-        this.proxy = proxy;
-        this.myTurn = new CanDoFacadeMyTurn(proxy, model);
-        this.notMyTurn = new CanDoFacadeNotMyTurn(proxy, model);
-        this.doFacade = new DoFacade(proxy, model);
-        this.gameHubFacade = new GameHubFacade(proxy, model);
+    private CatanFacade() {
+        // Can't be constructed -- is singleton class
+    }
+    
+    public static void setup( IServerProxy proxy, Model model ) {
+        CatanFacade.model = model;
+        CatanFacade.proxy = proxy;
+        CatanFacade.myTurn = new CanDoFacadeMyTurn(proxy, model);
+        CatanFacade.notMyTurn = new CanDoFacadeNotMyTurn(proxy, model);
+        CatanFacade.doFacade = new DoFacade(proxy, model);
+        CatanFacade.gameHubFacade = new GameHubFacade(proxy, model);
     }
     
     private static boolean isMyTurn() {
