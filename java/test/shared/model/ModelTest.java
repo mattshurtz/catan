@@ -515,7 +515,11 @@ public class ModelTest {
      */
     @Test
     public void testCanBuildRoad() throws Exception {
+        Model model = ModelTest.testModel();
+        
+        
 
+        
     }
 
     /**

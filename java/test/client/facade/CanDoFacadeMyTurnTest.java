@@ -43,4 +43,9 @@ public class CanDoFacadeMyTurnTest {
         fail("The test case is a prototype.");
     }
     
+    @Test
+    public void testCanBuyRoad(){
+        
+    }
+    
 }
