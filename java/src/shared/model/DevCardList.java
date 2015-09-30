@@ -27,6 +27,19 @@ public class DevCardList {
     	roadBuilding = 0;
     	monument = 0;
     }
+    
+    
+
+	public DevCardList(int yearOfPlenty, int monopoly, int soldier, int roadBuilding, int monument) {
+		super();
+		this.yearOfPlenty = yearOfPlenty;
+		this.monopoly = monopoly;
+		this.soldier = soldier;
+		this.roadBuilding = roadBuilding;
+		this.monument = monument;
+	}
+
+
 
 	public int getMonopoly() {
 		return monopoly;
@@ -37,8 +50,7 @@ public class DevCardList {
 	 */
 	public void AddMonopoly() {
 		this.monopoly++;
-	}
-	
+	}	
 	
 	/**
 	 * If there is at least one monopoly card, removes it from list.
