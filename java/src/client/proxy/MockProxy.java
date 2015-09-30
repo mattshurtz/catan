@@ -98,7 +98,7 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public Model buyDevCard(  ) throws ServerException {
+    public Model buyDevCard(MoveRequest req) throws ServerException {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
@@ -128,7 +128,7 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public Model playSoldier() throws ServerException {
+    public Model playSoldier(MoveRequest req) throws ServerException {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
@@ -207,9 +207,11 @@ public class MockProxy implements IServerProxy {
         if ( username == null || password == null )
             return false;
         
-        boolean ret = username.matches("(Sam|Brooke|Pete|Mark|Ken|Squall|Scott)");
-        ret = ret && username.equalsIgnoreCase(password);
-        return ret;
+        return true;
+        
+//        boolean ret = username.matches("(Sam|Brooke|Pete|Mark|Ken|Squall|Scott)");
+//        ret = ret && username.equalsIgnoreCase(password);
+//        return ret;
     }
 
     @Override
@@ -222,6 +224,7 @@ public class MockProxy implements IServerProxy {
         
         boolean ret = User.isValidUsername( username );
         ret = ret && User.isValidPassword( password );
+        
         return ret;
     }
 

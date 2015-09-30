@@ -56,7 +56,7 @@ public class IServerProxyTest {
      * Test of login method, of class IServerProxy.
      */
     @Test
-    public void testLogin() throws Exception {
+    public void testLogin_invalid() throws Exception {
         System.out.println("login");
         
         // first, login without credentials -- should fail
@@ -69,6 +69,15 @@ public class IServerProxyTest {
         } catch (ServerException e) {
             // The real server throws an exception, so that's fine
         }
+    }
+    
+    @Test
+    public void testLogin_Valid() throws Exception {
+        System.out.println("login");
+        
+        // first, login without credentials -- should fail
+        Credentials userCredentials = new Credentials();
+        boolean result, expResult;
         
         // Now login for real
         userCredentials.setUsername("Sam");
