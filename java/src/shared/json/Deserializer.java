@@ -1,10 +1,14 @@
 package shared.json;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import shared.communication.responses.GameResponse;
 import shared.model.MessageLine;
 import shared.model.Model;
 
@@ -13,6 +17,12 @@ import shared.model.Model;
  * set the client side model to the Json model.
  */
 public class Deserializer {
+    
+    private Gson gson;
+    
+    public Deserializer() {
+        gson = new GsonBuilder().create();
+    }
 
     /**
      * @param json this will be the Json representation of the model returned
@@ -21,7 +31,7 @@ public class Deserializer {
      * server.
      */
     public Model toJavaModel(String json) {
-        return new GsonBuilder().create().fromJson(json, Model.class);
+        return gson.fromJson(json, Model.class);
     }
 
     /**
@@ -31,7 +41,13 @@ public class Deserializer {
      * server.
      */
     public MessageLine toJavaMessage(String json) {
-        return new MessageLine();
+        return gson.fromJson(json, MessageLine.class);
+    }
+
+    public List<GameResponse> toGamesList(String response) {
+        GameResponse[] array = gson.fromJson( response, GameResponse[].class);
+        List<GameResponse> list = Arrays.asList( array );
+        return list;
     }
     
     /**

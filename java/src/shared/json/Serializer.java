@@ -22,7 +22,7 @@ public class Serializer {
      */
     public String toJson(Object o){
         String json = gson.toJson(o);
-        System.out.println( "Returning json: " + json );
+//        System.out.println( "Returning json: " + json );
         return json;
     }
     

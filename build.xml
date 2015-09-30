@@ -12,6 +12,7 @@
     <property name="java.dir" value="java"/>
     <property name="java.src.dir" value="${java.dir}/src"/>
     <property name="java.lib.dir" value="${java.dir}/lib"/>
+    <property name="java.test.dir" value="${java.dir}/test"/>
     <!-- JavaScript source folder -->
     <property name="javascript.dir" value="gameplay/js"/>
     
@@ -145,6 +146,18 @@
 	<target name="our-server" depends="package" description="compiles, packages, and runs the student server">
 		<java jar="${java.dist}/catan-server.jar" dir="${java.dist}" fork="yes">
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
+			<assertions>
+				<enable/>
+			</assertions>
+		</java>
+	</target>
+        
+        <target name="our-tests" depends="compile" description="run automated tests">
+		<java classname="RootSuite" fork="yes">
+			<classpath>
+				<path refid="all-classpath"/>
+                                <path location="${java.test.dir}"/>
+			</classpath>
 			<assertions>
 				<enable/>
 			</assertions>

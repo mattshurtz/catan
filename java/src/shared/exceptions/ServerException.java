@@ -7,4 +7,17 @@ package shared.exceptions;
  */
 @SuppressWarnings("serial")
 public class ServerException extends Exception {
+    
+    public ServerException() {
+        super();
+    }
+    
+    public ServerException(String message) {
+        super( message );
+    }
+    
+    public ServerException( Exception cause ){
+        super( cause );
+    }
+    
 }

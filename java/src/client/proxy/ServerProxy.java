@@ -11,8 +11,10 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
+import shared.json.Deserializer;
 import shared.json.Serializer;
 import shared.model.Model;
 
@@ -22,11 +24,34 @@ public class ServerProxy implements IServerProxy {
     private int port = 8081;
     
     private Serializer serializer = new Serializer();
+    private Deserializer deserializer = new Deserializer();
     
     List<String> cookies = new ArrayList<>();
     
     public ServerProxy(){
        
+    }
+    
+    public ServerProxy( String host, int port ) {
+        this();
+        this.setHost( host );
+        this.setPort( port );
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public void setHost(String host) {
+        this.host = host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
     }
     
     /**
@@ -39,13 +64,17 @@ public class ServerProxy implements IServerProxy {
         c.setUsername("Sam");
         c.setPassword("sam");
         System.out.println(sp.doPost("user/login", c));
-        String gameListJson = sp.doGet("games/list");
-        System.out.println(gameListJson);
-        JoinGameRequest jgr = new JoinGameRequest();
-        jgr.setColor("yellow");
-        jgr.setGameID(0);
-        System.out.println(sp.doPost("games/join", jgr));
-        System.out.println(sp.doGet("game/model"));
+        
+        String response = sp.doGet( "games/list" );
+        System.out.println(response);
+        List<GameResponse> games = sp.deserializer.toGamesList(response);
+//        String gameListJson = sp.doGet("games/list");
+//        System.out.println(gameListJson);
+//        JoinGameRequest jgr = new JoinGameRequest();
+//        jgr.setColor("yellow");
+//        jgr.setGameID(0);
+//        System.out.println(sp.doPost("games/join", jgr));
+//        System.out.println(sp.doGet("game/model"));
     }
     
     private String baseUrl() {
@@ -86,9 +115,10 @@ public class ServerProxy implements IServerProxy {
                 outputPostObject( conn, postParams );
             }
             
-            // For testing
+            // Grab the cookie headers & save 'em
             for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
-                System.out.println(header.getKey() + "=" + header.getValue());
+                // For testing
+//                System.out.println(header.getKey() + "=" + header.getValue());
                 if ( header.getKey() == null || header.getValue() == null )
                     continue;
                 if ( header.getKey().equalsIgnoreCase("set-cookie") ) {
@@ -125,6 +155,15 @@ public class ServerProxy implements IServerProxy {
         return s.hasNext() ? s.next() : "";
     }
     
+    private boolean toBoolean( String response ) throws Exception {
+        if ( response.equalsIgnoreCase("Success") )
+            return true;
+        else if ( response.equalsIgnoreCase("Failure") )
+            return false;
+        else
+            throw new Exception( "Invalid success/failure response: " + response );
+    }
+    
     @Override
     public Model getGameModel(int version) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -151,8 +190,13 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public String buildRoad() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buildRoad( BuildRoadRequest req ) throws ServerException {
+        try {
+            String request = doPost( "moves/buildRoad", req );
+        } catch ( Exception e ) {
+            throw new ServerException( e );
+        }
+        return null;
     }
 
     @Override
@@ -227,20 +271,28 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public boolean login(Credentials userCredentials) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        try {
+            String response = doPost( "user/login", userCredentials );
+            return toBoolean( response );
+        } catch ( Exception e ) {
+            throw new ServerException( e.getMessage() );
+        }
     }
 
     @Override
     public boolean register(Credentials userCredentials) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        try {
+            String response = doPost( "user/register", userCredentials );
+            return toBoolean( response );
+        } catch ( Exception e ) {
+            throw new ServerException( e.getMessage() );
+        }
     }
 
     @Override
     public List<GameResponse> getGamesList() throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+        String response = doGet( "games/list" );
+        return deserializer.toGamesList( response );
     }
 
     @Override

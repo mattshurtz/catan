@@ -13,7 +13,7 @@ import shared.locations.EdgeLocation;
  * EdgeValue roadLocation
  * boolean free
  */
-public class BuildRoadRequest {
+public class BuildRoadRequest extends MoveRequest {
    
     private EdgeLocation roadLocation;
     private boolean free;

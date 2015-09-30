@@ -3,6 +3,7 @@ package client.proxy;
 import java.util.*;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.model.Model;
@@ -164,10 +165,10 @@ public interface IServerProxy {
 
     /**
      *
-     * @return json representation of the model
+     * @return new, updated model
      * @throws ServerException If the server request fails
      */
-    String buildRoad() throws ServerException;
+    Model buildRoad( BuildRoadRequest req ) throws ServerException;
 
     void offerTrade() throws ServerException;
 

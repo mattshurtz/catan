@@ -486,7 +486,7 @@ public class ModelTest {
 // add a brick to the current players resource list so they have enough to buy 
 // a road. 
         Player player = model.getPlayer(currentPlayer);
-        player.getResources().addResource(ResourceType.BRICK,1);
+//        player.getResources().addResource(ResourceType.BRICK,1);
 // check if the current player has sufficient resources to buy a road  
         assertEquals(player.getResources().getBrick(), 1);
         assertEquals(player.getResources().getWood(),1);
@@ -555,7 +555,7 @@ public class ModelTest {
 // add a brick to the current players resource list so they have enough to buy 
 // a settlement. 
         Player player = model.getPlayer(currentPlayer);
-        player.getResources().addResource(ResourceType.BRICK,1);
+//        player.getResources().addResource(ResourceType.BRICK,1);
         
 // check if the current player has sufficient resources to buy a road  
         assertEquals(player.getResources().getBrick(),1);
@@ -630,8 +630,8 @@ public class ModelTest {
 // add a wheat and 3 ore to the current players resource list so they have enough to buy 
 // a settlement. 
         Player player = model.getPlayer(currentPlayer);
-        player.getResources().addResource(ResourceType.WHEAT,1);
-        player.getResources().addResource(ResourceType.ORE,3);
+//        player.getResources().addResource(ResourceType.WHEAT,1);
+//        player.getResources().addResource(ResourceType.ORE,3);
         
 // check if the current player has sufficient resources to buy a road  
         assertEquals(player.getResources().getWheat(),2);

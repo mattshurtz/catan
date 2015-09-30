@@ -180,14 +180,12 @@ public class CanDoFacadeTest {
      */
     @Test
     public void testCanBuyRoad() throws Exception {
-        
         try{
             CatanFacade.getMyTurn().canBuyRoad();
             fail("this player did not have enough to buy a road");
         }catch(Exception e){
             
         }
-        
     }
     
     @Test
