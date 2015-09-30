@@ -6,6 +6,7 @@ import java.util.List;
 
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
@@ -109,11 +110,6 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public void rollNumber() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public void robPlayer() throws ServerException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -208,5 +204,17 @@ public class MockProxy implements IServerProxy {
             return null;
         }
     }
+
+	@Override
+	public void rollNumber(RollNumberRequest req) throws ServerException {
+		// TODO Auto-generated method stub
+		if(req.getPlayerIndex() > 3 || req.getPlayerIndex() < 0)
+			throw new ServerException("Invalid PlayerIndex");
+		if(req.getNumber() > 12 || req.getNumber() < 2)
+			throw new ServerException("Invalid Number");
+			
+		
+	}
+
 
 }

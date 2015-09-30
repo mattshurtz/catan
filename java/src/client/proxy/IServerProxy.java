@@ -4,6 +4,7 @@ import java.util.*;
 
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.model.Model;
@@ -199,7 +200,7 @@ public interface IServerProxy {
 
     void sendChat() throws ServerException;
 
-    void rollNumber() throws ServerException;
+    void rollNumber(RollNumberRequest req) throws ServerException;
 
     void robPlayer() throws ServerException;
 

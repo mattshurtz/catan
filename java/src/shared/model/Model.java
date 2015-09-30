@@ -94,7 +94,8 @@ public class Model {
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
-       // if(!map.canPlaceRoadAtLoc(location)) {
+
+//        if(!map.canPlaceRoadAtLoc(location)) {
 //            throw new InvalidLocation("");
 //        }
         
