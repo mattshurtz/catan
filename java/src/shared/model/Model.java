@@ -5,7 +5,6 @@
  */
 package shared.model;
 
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -13,10 +12,13 @@ import java.util.Objects;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
+import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
+import shared.model.map.Road;
 import shared.model.map.VertexObject;
 
 /**
@@ -92,9 +94,9 @@ public class Model {
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
-        if(!map.canPlaceRoadAtLoc(location)) {
-            throw new InvalidLocation("");
-        }
+       // if(!map.canPlaceRoadAtLoc(location)) {
+//            throw new InvalidLocation("");
+//        }
         
         return true;
     }
@@ -147,32 +149,134 @@ public class Model {
      */
     public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
 
-        //Get the normalized hexLocation
-    	VertexLocation normVertLocation = location.getNormalizedLocation();
+        if(surroundingVertexHasObject(location)){
+            return false;
+        }
+        if(surroundingEdgeHasRoad(location)){
+            return false;
+        }
+    	
+    	return true;
+    }
+    
+    public boolean surroundingEdgeHasRoad(VertexLocation location){
+        VertexLocation normLocation = location.getNormalizedLocation();
+    	
+        
+    	ArrayList<Road> roads = map.getRoads();
+        
+        for (Road road: roads) {
+        //Assume that vObject.getLocation is returning the Normalized location
+        
+        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+    	// checks the surrounding vertices around the northeast vertex for vertex objects	
+    		if (normLocation.getDir()==VertexDirection.NorthEast) {
+                    
+                    HexLocation northeastNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                  
+                    if(road.getLocation().equals(new EdgeLocation(
+                            northeastNeighbor, EdgeDirection.NorthWest))){
+                            return true;
+                    }
+                    //check southeast of current hex
+                    
+                    if(road.getLocation().equals(new EdgeLocation(
+                            normLocation.getHexLoc(), EdgeDirection.North))){
+                            return true;
+                    }
+                    
+                    if(road.getLocation().equals(new EdgeLocation(
+                            normLocation.getHexLoc(), EdgeDirection.NorthEast))){
+                            return true;
+                    }
+    		}
+    	// checks the surrounding vertices around the northwest vertex for vertex objects	
+                if(normLocation.getDir()==VertexDirection.NorthWest){
+                    
+                    HexLocation northwestNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                    
+                    if(road.getLocation().equals(new EdgeLocation(
+                            northwestNeighbor, EdgeDirection.NorthEast))){
+                        return true;
+                    }
+                    
+                    if(road.getLocation().equals(new EdgeLocation(
+                            normLocation.getHexLoc(), EdgeDirection.North))){
+                        return true;
+                    }
+                    
+                    if(road.getLocation().equals(new EdgeLocation(
+                            normLocation.getHexLoc(), EdgeDirection.NorthWest))){
+                        return true;
+                    }
+                    
+                }
+
+    	}
+        
+        return false;
+    }
+    
+    public boolean surroundingVertexHasObject(VertexLocation location){
+        VertexLocation normVertLocation = location.getNormalizedLocation();
     	
     	ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
-    	
-    	//Check if the vertex in question already has a city or settlement
-    	for (VertexObject vObject: allVObjects) {
-    		if (vObject.getLocation().getNormalizedLocation().equals(normVertLocation)) {
-    			return false;
+        
+        for (VertexObject vObject: allVObjects) {
+            //Assume that vObject.getLocation is returning the Normalized location
+            //checks if a vertex object already exists at this location.
+            if (vObject.getLocation().equals(normVertLocation)) {
+    			return true;
     		}
-    	}
-    	
-    	//If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
-    		//check northwest of current hex
-    		
-    		
-    		//check east of current hex
-    		
-    		//get northern neighboring hex
-    		//check east of north neighbor hex
-    	
-    	//If it's northWest, check current HexLocation's northEast and West vertices for settlements, and north neighbor's west vertex
+        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+    	// checks the surrounding vertices around the northeast vertex for vertex objects	
+    		if (normVertLocation.getDir()==VertexDirection.NorthEast) {
+                    
+                    HexLocation northEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                  
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            northEastNeighbor, VertexDirection.NorthWest))){
+                            return true;
+                    }
+                    //check southeast of current hex
+                    HexLocation southEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+                    
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            southEastNeighbor, VertexDirection.NorthWest))){
+                            return true;
+                    }
+                    
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            normVertLocation.getHexLoc(), VertexDirection.NorthWest))){
+                            return true;
+                    }
+    		}
+    	// checks the surrounding vertices around the northwest vertex for vertex objects	
+                if(normVertLocation.getDir()==VertexDirection.NorthWest){
+                    
+                    HexLocation northwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                    
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            northwestNeighbor, VertexDirection.NorthEast))){
+                        return true;
+                    }
+                    
+                    HexLocation southwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
 
-    	
-    	//Get rid of this...
-    	return true;
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            southwestNeighbor, VertexDirection.NorthEast))){
+                        return true;
+                    }
+                    
+                    if(vObject.getLocation().equals(new VertexLocation(
+                            normVertLocation.getHexLoc(), VertexDirection.NorthEast))){
+                        return true;
+                    }
+                    
+                }
+
+    	}
+        return false;
     }
     
      /**
