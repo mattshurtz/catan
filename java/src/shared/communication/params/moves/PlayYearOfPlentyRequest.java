@@ -12,10 +12,15 @@ import shared.definitions.ResourceType;
  * Year_of_Plenty_ { type (Year_of_Plenty), playerIndex (integer): Who's playing
  * this dev card, resource1 (Resource), resource2 (Resource) }
  */
-public class PlayYearOfPlentyRequest {
+public class PlayYearOfPlentyRequest extends MoveRequest {
     private ResourceType resource1;
     private ResourceType resource2;
-
+    
+    public PlayYearOfPlentyRequest(ResourceType resource1, ResourceType resource2) {
+        this.resource1 = resource1;
+        this.resource2 = resource2;
+    }
+    
     public ResourceType getResource1() {
         return resource1;
     }

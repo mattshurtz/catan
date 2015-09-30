@@ -15,10 +15,15 @@ import shared.locations.HexLocation;
  * (HexLocation): the new location of the robber } HexLocation { x (string), y
  * (string) }
  */
-public class RobPlayerRequest {
+public class RobPlayerRequest extends MoveRequest {
     private int victimIndex;
     private HexLocation location;
 
+    public RobPlayerRequest(int victimIndex, HexLocation location) {
+        this.victimIndex = victimIndex;
+        this.location = location;
+    }
+    
     public int getVictimIndex() {
         return victimIndex;
     }

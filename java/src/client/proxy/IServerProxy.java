@@ -195,7 +195,7 @@ public interface IServerProxy {
 
     Model maritimeTrade(MaritimeTradeRequest req) throws ServerException;
 
-    Model buyDevCard() throws ServerException;
+    Model buyDevCard(MoveRequest req) throws ServerException;
 
     Model playYearOfPlenty(PlayYearOfPlentyRequest req) throws ServerException;
 

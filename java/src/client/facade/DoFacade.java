@@ -3,9 +3,13 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.Random;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.PlayYearOfPlentyRequest;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
+import shared.definitions.ResourceType;
 import shared.exceptions.ServerException;
+import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
 
@@ -43,12 +47,25 @@ public class DoFacade {
     }
     
         
-    public void buyDevCard(){
+    public void buyDevCard() throws ServerException{
+        MoveRequest request = new MoveRequest();
+        request.setType("buyDevCard");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
+        proxy.buyDevCard(request);        
     }
     
-    public void playYearOfPlenty(){
+    public void playYearOfPlenty() throws ServerException{
         
+        //NOTE(Scott): somehow determine chosen resources
+        ResourceType resource1 = null;
+        ResourceType resource2 = null;
+        
+        PlayYearOfPlentyRequest request = new PlayYearOfPlentyRequest(resource1, resource2);
+        request.setType("Year_of_Plenty");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.playYearOfPlenty(request);
     }
     
     public void playRoadBuilding(){
@@ -115,8 +132,17 @@ public class DoFacade {
         proxy.rollNumber(request);
     }
     
-    public void robPlayer(){
+    public void robPlayer() throws ServerException{
+        //NOTE(Scott): choose victim somehow
+        int victimIndex = -1;
+        //Note(Scott): choose location somehow
+        HexLocation location = new HexLocation(0,0);
         
+        RobPlayerRequest request = new RobPlayerRequest(victimIndex, location);
+        request.setType("robPlayer");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.robPlayer(request);
     }
     
     public void finishTurn() throws ServerException{

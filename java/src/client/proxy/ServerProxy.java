@@ -13,6 +13,8 @@ import java.util.Map.Entry;
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.PlayYearOfPlentyRequest;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.*;
@@ -218,13 +220,17 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void buyDevCard() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buyDevCard(MoveRequest req) throws ServerException {
+        String JSON = doPost("/moves/buyDevCard", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void playYearOfPlenty() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playYearOfPlenty(PlayYearOfPlentyRequest req) throws ServerException {
+        String JSON = doPost("/moves/Year_of_Plenty", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
@@ -253,29 +259,35 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void sendChat(SendChatRequest req) throws ServerException {
-        doPost("/moves/sendChat", req);
+    public Model sendChat(SendChatRequest req) throws ServerException {
+        String JSON = doPost("/moves/sendChat", req);
         
+        return deserializer.toJavaModel(JSON);
+
         //SEE NOTE BELOW
     }
 
     @Override
-    public void rollNumber(RollNumberRequest req) throws ServerException {
-        doPost("/moves/rollNumber", req);
+    public Model rollNumber(RollNumberRequest req) throws ServerException {
+        String JSON = doPost("/moves/rollNumber", req);
         
+        return deserializer.toJavaModel(JSON);
         //NOTE(Scott): rollNumber returns model from the server according to swagger page. the post method returnsa string, 
         //  which i assume is the model json, but this method does nothing with it?
     }
 
     @Override
-    public void robPlayer() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model robPlayer(RobPlayerRequest req) throws ServerException {
+        String JSON = doPost("/moves/robPlayer", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void finishTurn(MoveRequest req) throws ServerException {
-        doPost("/moves/finishTurn", req);
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model finishTurn(MoveRequest req) throws ServerException {
+        String JSON = doPost("/moves/finishTurn", req);
+    
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
