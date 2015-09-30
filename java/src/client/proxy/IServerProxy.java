@@ -3,8 +3,17 @@ package client.proxy;
 import java.util.*;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.AcceptTradeRequest;
+import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.OfferTradeRequest;
+import shared.communication.params.moves.PlayMonopolyRequest;
+import shared.communication.params.moves.PlayRoadBuildingRequest;
+import shared.communication.params.moves.PlayYearOfPlentyRequest;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.*;
@@ -173,7 +182,7 @@ public interface IServerProxy {
      */
     Model buildRoad( BuildRoadRequest req ) throws ServerException;
 
-    void offerTrade() throws ServerException;
+    Model offerTrade(OfferTradeRequest req) throws ServerException;
 
     /**
      *
@@ -182,30 +191,30 @@ public interface IServerProxy {
      *
      * @throws ServerException If the server request fail
      */
-    void acceptTrade() throws ServerException;
+    Model acceptTrade(AcceptTradeRequest req) throws ServerException;
 
-    void maritimeTrade() throws ServerException;
+    Model maritimeTrade(MaritimeTradeRequest req) throws ServerException;
 
-    void buyDevCard() throws ServerException;
+    Model buyDevCard() throws ServerException;
 
-    void playYearOfPlenty() throws ServerException;
+    Model playYearOfPlenty(PlayYearOfPlentyRequest req) throws ServerException;
 
-    void playRoadBuilding() throws ServerException;
+    Model playRoadBuilding(PlayRoadBuildingRequest req) throws ServerException;
 
-    void playSoldier() throws ServerException;
+    Model playSoldier() throws ServerException;
 
-    void playMonopoly() throws ServerException;
+    Model playMonopoly(PlayMonopolyRequest req) throws ServerException;
 
-    void buildSettlement() throws ServerException;
+    Model buildSettlement(BuildSettlementRequest req) throws ServerException;
 
-    void buildCity() throws ServerException;
+    Model buildCity(BuildCityRequest req) throws ServerException;
 
-    void sendChat(SendChatRequest req) throws ServerException;
+    Model sendChat(SendChatRequest req) throws ServerException;
 
-    void rollNumber(RollNumberRequest req) throws ServerException;
+    Model rollNumber(RollNumberRequest req) throws ServerException;
 
-    void robPlayer() throws ServerException;
+    Model robPlayer(RobPlayerRequest req) throws ServerException;
 
-    void finishTurn(MoveRequest req) throws ServerException;
+    Model finishTurn(MoveRequest req) throws ServerException;
 
 }

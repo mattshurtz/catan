@@ -5,8 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.AcceptTradeRequest;
+import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
+import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.OfferTradeRequest;
+import shared.communication.params.moves.PlayMonopolyRequest;
+import shared.communication.params.moves.PlayRoadBuildingRequest;
+import shared.communication.params.moves.PlayYearOfPlentyRequest;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
+import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
@@ -41,7 +52,9 @@ public class MockProxy implements IServerProxy {
 
     @Override
     public boolean addAi( AddAiRequest req ) throws ServerException {
-        return true;
+        if(req.getAIType()=="LARGEST_ARMY")
+        	return true;
+        return false;
     }
 
     @Override
@@ -55,68 +68,133 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public void offerTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model offerTrade( OfferTradeRequest req ) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void acceptTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model acceptTrade( AcceptTradeRequest req ) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void maritimeTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model maritimeTrade( MaritimeTradeRequest req ) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void buyDevCard() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buyDevCard(  ) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void playYearOfPlenty() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playYearOfPlenty(PlayYearOfPlentyRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void playRoadBuilding() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playRoadBuilding(PlayRoadBuildingRequest req) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void playSoldier() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playSoldier() throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void playMonopoly() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playMonopoly(PlayMonopolyRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void buildSettlement() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buildSettlement(BuildSettlementRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
+   }
+
+    @Override
+    public Model buildCity(BuildCityRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void buildCity() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model sendChat(SendChatRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void sendChat() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model robPlayer(RobPlayerRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
-    public void robPlayer() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void finishTurn() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model finishTurn(MoveRequest req) throws ServerException {
+    	try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -206,14 +284,13 @@ public class MockProxy implements IServerProxy {
     }
 
 	@Override
-	public void rollNumber(RollNumberRequest req) throws ServerException {
+	public Model rollNumber(RollNumberRequest req) throws ServerException {
 		// TODO Auto-generated method stub
 		if(req.getPlayerIndex() > 3 || req.getPlayerIndex() < 0)
 			throw new ServerException("Invalid PlayerIndex");
 		if(req.getNumber() > 12 || req.getNumber() < 2)
 			throw new ServerException("Invalid Number");
-			
-		
+		return null;
 	}
 
 
