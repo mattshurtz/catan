@@ -182,6 +182,17 @@ public class Map {
     public void setCities(ArrayList<City> cities) {
         this.cities = cities;
     }
+    
+    public ArrayList<VertexObject> getCitiesAndSettlements() {
+    	ArrayList<VertexObject> vObjects = new ArrayList<VertexObject>();
+    	for (Settlement settlement: settlements) {
+    		vObjects.add(settlement);
+    	}
+    	for (City city: cities) {
+    		vObjects.add(city);
+    	}
+    	return vObjects;
+    }
 
     public int getRadius() {
         return radius;
