@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
@@ -43,8 +44,13 @@ public class MockProxy implements IServerProxy {
     }
 
     @Override
-    public String buildRoad() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buildRoad( BuildRoadRequest req ) throws ServerException {
+        try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

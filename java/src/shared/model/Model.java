@@ -14,8 +14,10 @@ import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
+import shared.model.map.VertexObject;
 
 /**
  * bank (ResourceList): The Resource cards available to be distributed to 
@@ -138,17 +140,39 @@ public class Model {
      * settlement and if it is in a valid location on the map.
      *
      * @param location where the player would like to build the settlement
-     * @param playerIndex identifies the player who would like to build this
-     * settlement
      * @return true if no exception is thrown
      * @throws InsufficentSupplies if the player did not have enough resources
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
     public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
-        
-        
-        return true;
+
+        //Get the normalized hexLocation
+    	VertexLocation normVertLocation = location.getNormalizedLocation();
+    	
+    	ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
+    	
+    	//Check if the vertex in question already has a city or settlement
+    	for (VertexObject vObject: allVObjects) {
+    		if (vObject.getLocation().getNormalizedLocation().equals(normVertLocation)) {
+    			return false;
+    		}
+    	}
+    	
+    	//If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+    		//check northwest of current hex
+    		
+    		
+    		//check east of current hex
+    		
+    		//get northern neighboring hex
+    		//check east of north neighbor hex
+    	
+    	//If it's northWest, check current HexLocation's northEast and West vertices for settlements, and north neighbor's west vertex
+
+    	
+    	//Get rid of this...
+    	return true;
     }
     
      /**

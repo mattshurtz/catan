@@ -16,9 +16,9 @@ import shared.locations.VertexLocation;
 *after roll when determining which resources a player should receive from the bank. 
 */
 public abstract class VertexObject{
-   int owner;
-   VertexLocation location;  
-   ArrayList<Hex> hexes;
+   private int owner;
+   private VertexLocation location;  
+   private ArrayList<Hex> hexes;
 
     public VertexObject(int owner, VertexLocation location, ArrayList<Hex> hexes) {
         super();
@@ -56,5 +56,29 @@ public abstract class VertexObject{
         }
         return true;
     }
+
+	public int getOwner() {
+		return owner;
+	}
+
+	public void setOwner(int owner) {
+		this.owner = owner;
+	}
+
+	public VertexLocation getLocation() {
+		return location;
+	}
+
+	public void setLocation(VertexLocation location) {
+		this.location = location;
+	}
+
+	public ArrayList<Hex> getHexes() {
+		return hexes;
+	}
+
+	public void setHexes(ArrayList<Hex> hexes) {
+		this.hexes = hexes;
+	}
     
 }
