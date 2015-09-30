@@ -15,6 +15,7 @@ import shared.communication.params.LoadGameRequest;
 import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
@@ -422,7 +423,7 @@ public class IServerProxyTest {
     @Test
     public void testRollNumber() throws Exception {
         System.out.println("rollNumber");
-        instance.rollNumber();
+        instance.rollNumber(new RollNumberRequest(1,15));
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
