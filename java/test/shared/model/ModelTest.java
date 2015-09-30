@@ -587,15 +587,7 @@ public class ModelTest {
      */
     @Test
     public void testCanBuildSettlement() throws Exception {
-        System.out.println("canBuildSettlement");
-        VertexLocation location = null;
-        int playerIndex = 0;
-        Model instance = new Model();
-        boolean expResult = false;
-        boolean result = instance.canBuildSettlement(location, playerIndex);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**

@@ -100,7 +100,7 @@ public class EdgeLocation
 			case South:
 			case SouthEast:
 				return new EdgeLocation(hexLoc.getNeighborLoc(dir),
-										dir.getOppositeDirection());
+                                    dir.getOppositeDirection());
 			default:
 				assert false;
 				return null;

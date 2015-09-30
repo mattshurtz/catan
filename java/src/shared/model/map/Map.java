@@ -59,9 +59,6 @@ public class Map {
     public boolean canPlaceRoadAtLoc(int playerIndex, EdgeLocation location, boolean restricted ) {
     	boolean valid = false;
     	
-//    	if(!edgeOccupied(location)) {
-//    		restricted ? edgeAdjacent(player, location):true;
-//    	}
     	
         return valid;
     }

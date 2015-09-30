@@ -90,9 +90,10 @@ public class Model {
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
-//        if (!map.canPlaceRoadAtLoc(location)) {
-//            throw new InvalidLocation("");
-//        }
+        if(!map.canPlaceRoadAtLoc(location)) {
+            throw new InvalidLocation("");
+        }
+        
         return true;
     }
     
@@ -144,7 +145,9 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
-    public boolean canBuildSettlement(VertexLocation location,int playerIndex) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
+        
+        
         return true;
     }
     
@@ -157,7 +160,7 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(EdgeLocation location, int playerIndex) {
-        
+        Player currentPlayer = players.get(turnTracker.getCurrentTurn());
     }
     
     public boolean canBuyCity() throws InsufficentSupplies{
