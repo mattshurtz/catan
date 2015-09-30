@@ -40,6 +40,13 @@ public class ResourceList {
      * @return true if player has enough resources to accept the trade
      */
     public boolean canAcceptTrade(ResourceList accept) {
+      
+         
+        if(brick>=accept.brick && sheep>=accept.sheep && ore >= accept.ore 
+                && wood>=accept.wood && wheat>=accept.wheat){
+            return true;
+        }
+
         return false;
     }
 
@@ -47,9 +54,40 @@ public class ResourceList {
      * @param offer is the resources to be offered in trade.
      * @return true if the player has the resources to be offered;
      */
-    public boolean canOfferTade(ResourceList offer) {
+    public boolean canOfferResource(ResourceType resourceType, int amount) {
+        
+        switch(resourceType){
+            case BRICK:
+                if(brick>=amount){
+                    return true;
+                }
+                break;
+            case WHEAT:
+                if(wheat>=amount){
+                    return true;
+                }
+                break;
+            case SHEEP:
+                if(sheep>=amount){
+                    return true;
+                }
+                break;
+            case ORE:
+                if(ore>=amount){
+                    return true;
+                }
+                break;
+            case WOOD:
+                if(wood>=amount){
+                    return true;
+                }
+                break;
+             }  
+        
         return false;
+        
     }
+  
 
     /**
      * @return true if player has enough resources to buy a road
@@ -113,22 +151,23 @@ public class ResourceList {
      * @param resourceType this is the type of resource to be incremented.
      */
     public void addResource(ResourceType resourceType, int numberToAdd) {
-        
-        if(resourceType == ResourceType.BRICK) {
-            brick+= numberToAdd;
-        } 
-        if(resourceType == ResourceType.WHEAT) {
-            wheat+= numberToAdd;
-        } 
-        if(resourceType == ResourceType.SHEEP) {
-            sheep+= numberToAdd;
-        } 
-        if(resourceType == ResourceType.ORE) {
-            ore+= numberToAdd;
-        } 
-        if(resourceType == ResourceType.WOOD) {
-            wood+= numberToAdd;
-        } 
+        switch(resourceType){
+            case BRICK:
+                brick+= numberToAdd;
+                break;
+            case WHEAT:
+                wheat+=numberToAdd;
+                break;
+            case SHEEP:
+                sheep+=numberToAdd;
+                break;
+            case ORE:
+                ore+=numberToAdd;
+                break;
+            case WOOD:
+                wood+=numberToAdd;
+                break;
+             }  
     }
 
     /**

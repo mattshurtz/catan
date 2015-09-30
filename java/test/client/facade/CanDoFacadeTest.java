@@ -36,9 +36,7 @@ public class CanDoFacadeTest {
     
     @Before
     public void setUp() {
-                Model model = ModelTest.testModel();
-                MockProxy mockProxy = new MockProxy();
-                CatanFacade.setup(mockProxy,model);
+
     }
     
     @After
@@ -185,7 +183,7 @@ public class CanDoFacadeTest {
         
         try{
             CatanFacade.getMyTurn().canBuyRoad();
-            fail("this player did not have enought to buy a road");
+            fail("this player did not have enough to buy a road");
         }catch(Exception e){
             
         }

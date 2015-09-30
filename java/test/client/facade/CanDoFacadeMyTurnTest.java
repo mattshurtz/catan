@@ -23,6 +23,7 @@ public class CanDoFacadeMyTurnTest {
     
     @BeforeClass
     public static void setUpClass() {
+        
     }
     
     @AfterClass

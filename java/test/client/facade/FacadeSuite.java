@@ -14,10 +14,9 @@ import org.junit.runners.Suite;
 
 /**
  *
- * @author JanPaul
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ client.facade.CanDoFacadeTest.class, client.facade.GameHubFacadeTest.class, client.facade.CanDoFacadeNotMyTurnTest.class, client.facade.DoFacadeTest.class, client.facade.CanDoFacadeMyTurnTest.class})
+@Suite.SuiteClasses({client.facade.CanDoFacadeTest.class, client.facade.GameHubFacadeTest.class, client.facade.CanDoFacadeNotMyTurnTest.class, client.facade.DoFacadeTest.class, client.facade.CanDoFacadeMyTurnTest.class})
 public class FacadeSuite {
 
     @BeforeClass

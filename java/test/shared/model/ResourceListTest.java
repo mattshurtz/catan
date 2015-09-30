@@ -5,6 +5,8 @@
  */
 package shared.model;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,12 +14,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import shared.definitions.ResourceType;
+import shared.exceptions.GetPlayerException;
 
 /**
  *
  */
 public class ResourceListTest {
-    
+    Model model;
     public ResourceListTest() {
     }
     
@@ -31,6 +34,7 @@ public class ResourceListTest {
     
     @Before
     public void setUp() {
+        this.model = ModelTest.testModel();
     }
     
     @After
@@ -57,14 +61,15 @@ public class ResourceListTest {
      */
     @Test
     public void testCanOfferTade() {
-        System.out.println("canOfferTade");
-        ResourceList offer = null;
-        ResourceList instance = new ResourceList();
-        boolean expResult = false;
-        boolean result = instance.canOfferTade(offer);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        int amount = 1;
+        ResourceType resource = ResourceType.BRICK;
+        try {
+            assertEquals(false,model.getPlayer(0).getResources().canOfferResource(resource,amount));
+            assertEquals(true, model.getPlayer(0).getResources().canOfferResource(ResourceType.WOOD,amount));
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(ResourceListTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
