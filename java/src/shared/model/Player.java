@@ -128,6 +128,11 @@ public class Player {
     	
     }
 
+    public void incrementSoldiers()
+    {
+        soldiers++;
+    }
+    
     public int getPlayerIndex() {
         return playerIndex;
     }

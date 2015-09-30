@@ -201,7 +201,7 @@ public interface IServerProxy {
 
     Model playRoadBuilding(PlayRoadBuildingRequest req) throws ServerException;
 
-    Model playSoldier() throws ServerException;
+    Model playSoldier(RobPlayerRequest req) throws ServerException;
 
     Model playMonopoly(PlayMonopolyRequest req) throws ServerException;
 

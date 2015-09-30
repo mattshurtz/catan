@@ -3,15 +3,19 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.Random;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.definitions.ResourceType;
+import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
+import shared.model.Player;
 
 /**
  * A facade for all the "doing" actions, as opposed to "can do" -- rather than
@@ -68,12 +72,37 @@ public class DoFacade {
         proxy.playYearOfPlenty(request);
     }
     
-    public void playRoadBuilding(){
+    public void playRoadBuilding() throws ServerException{
+        //NOTE(Scott): somehow determine (AND CHECK) chosen locations.
+        EdgeLocation spot1 = null;
+        EdgeLocation spot2 = null;
         
+        PlayRoadBuildingRequest request = new PlayRoadBuildingRequest(spot1, spot2);
+        request.setType("Road_Building");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.playRoadBuilding(request);
     }
     
-    public void playSoldier(){
+    public void playSoldier() throws ServerException, GetPlayerException{
+        //NOTE(Scott): choose victim somehow
+        int victimIndex = -1;
+        //Note(Scott): choose location somehow
+        HexLocation location = new HexLocation(0,0);
         
+        //increment Player soldiers played
+        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        Player current = CatanFacade.getModel().getPlayer(currentPlayerIndex);
+        current.incrementSoldiers();
+        
+        //NOTE(Scott): check if now the largest Army)
+        
+        //build request
+        RobPlayerRequest request = new RobPlayerRequest(victimIndex, location);
+        request.setType("Soldier");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.playSoldier(request); 
     }
     
     public void playMonopoly(){

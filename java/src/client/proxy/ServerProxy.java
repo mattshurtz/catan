@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
@@ -234,13 +235,17 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void playRoadBuilding() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playRoadBuilding(PlayRoadBuildingRequest req) throws ServerException {
+        String JSON = doPost("/moves/Road_Building", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void playSoldier() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playSoldier(RobPlayerRequest req) throws ServerException {
+        String JSON = doPost("/moves/Soldier", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override

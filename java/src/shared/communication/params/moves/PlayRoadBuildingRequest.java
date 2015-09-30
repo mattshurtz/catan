@@ -8,10 +8,15 @@ import shared.locations.EdgeLocation;
  * (integer), y (integer), direction (string) = ['SW' or 'SE' or 'S' or 'NE' or
  * 'NW' or 'N'] }
  */
-public class PlayRoadBuildingRequest {
+public class PlayRoadBuildingRequest extends MoveRequest {
     private EdgeLocation spot1;
     private EdgeLocation spot2;
 
+    public PlayRoadBuildingRequest(EdgeLocation spot1, EdgeLocation spot2){
+        this.spot1 = spot1;
+        this.spot2 = spot2;
+    }
+    
     public EdgeLocation getSpot1() {
         return spot1;
     }
