@@ -12,6 +12,9 @@ import java.util.Map.Entry;
 
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.RollNumberRequest;
+import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
@@ -250,13 +253,18 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void sendChat() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void sendChat(SendChatRequest req) throws ServerException {
+        doPost("/moves/sendChat", req);
+        
+        //SEE NOTE BELOW
     }
 
     @Override
-    public void rollNumber() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void rollNumber(RollNumberRequest req) throws ServerException {
+        doPost("/moves/rollNumber", req);
+        
+        //NOTE(Scott): rollNumber returns model from the server according to swagger page. the post method returnsa string, 
+        //  which i assume is the model json, but this method does nothing with it?
     }
 
     @Override
@@ -265,7 +273,8 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void finishTurn() throws ServerException {
+    public void finishTurn(MoveRequest req) throws ServerException {
+        doPost("/moves/finishTurn", req);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

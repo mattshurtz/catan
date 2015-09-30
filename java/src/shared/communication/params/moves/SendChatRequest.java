@@ -12,6 +12,10 @@ package shared.communication.params.moves;
 public class SendChatRequest extends MoveRequest {
     private String content;
 
+    public SendChatRequest(String content) {
+            this.content = content;
+    }
+    
     public String getContent() {
         return content;
     }

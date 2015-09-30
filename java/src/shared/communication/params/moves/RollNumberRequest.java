@@ -17,7 +17,7 @@ public class RollNumberRequest extends MoveRequest {
 
 	
 	
-    public RollNumberRequest(int playerIndex, int number) {
+    public RollNumberRequest(int number) {
 		super();
 		this.playerIndex = playerIndex;
 		this.number = number;

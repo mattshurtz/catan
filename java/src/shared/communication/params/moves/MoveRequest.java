@@ -17,7 +17,7 @@ public class MoveRequest {
     /**
      * the index of the player making the move
      */
-    private int playerIndex = -1;
+    int playerIndex = -1;
 
     public String getType() {
         return type;

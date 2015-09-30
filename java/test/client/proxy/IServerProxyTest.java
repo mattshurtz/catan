@@ -423,7 +423,7 @@ public class IServerProxyTest {
     @Test
     public void testRollNumber() throws Exception {
         System.out.println("rollNumber");
-        instance.rollNumber(new RollNumberRequest(1,15));
+        instance.rollNumber(new RollNumberRequest(1,10));
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

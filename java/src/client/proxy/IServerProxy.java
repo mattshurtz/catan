@@ -4,7 +4,9 @@ import java.util.*;
 
 import shared.communication.params.*;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.RollNumberRequest;
+import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.model.Model;
@@ -198,12 +200,12 @@ public interface IServerProxy {
 
     void buildCity() throws ServerException;
 
-    void sendChat() throws ServerException;
+    void sendChat(SendChatRequest req) throws ServerException;
 
     void rollNumber(RollNumberRequest req) throws ServerException;
 
     void robPlayer() throws ServerException;
 
-    void finishTurn() throws ServerException;
+    void finishTurn(MoveRequest req) throws ServerException;
 
 }

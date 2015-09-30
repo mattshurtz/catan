@@ -1,6 +1,11 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
+import java.util.Random;
+import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.RollNumberRequest;
+import shared.communication.params.moves.SendChatRequest;
+import shared.exceptions.ServerException;
 import shared.locations.VertexLocation;
 import shared.model.Model;
 
@@ -84,20 +89,42 @@ public class DoFacade {
         
     }
     
-    public void sendChat(){
+    public void sendChat() throws ServerException{
+        //NOTE(Scott): get message somehow
+        String comment = "";
+    
+        SendChatRequest request = new SendChatRequest(comment);
+        request.setType("sendChat");
+        request.setPlayerIndex(CatanFacade.getMyPlayerIndex());
         
+        proxy.sendChat(request);
     }
     
-    public void rollNumber(){
+    public void rollNumber() throws ServerException{
+        Random rand = new Random();
         
+        int firstDice = rand.nextInt(6) + 1;
+        int secondDice = rand.nextInt(6) + 1;
+        
+        int total = firstDice + secondDice;
+        
+        RollNumberRequest request = new RollNumberRequest(total);
+        request.setType("rollNumber");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.rollNumber(request);
     }
     
     public void robPlayer(){
         
     }
     
-    public void finishTurn(){
+    public void finishTurn() throws ServerException{
+        MoveRequest request = new MoveRequest();
+        request.setType("finishTurn");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
+        proxy.finishTurn(request);
     }
     
     
