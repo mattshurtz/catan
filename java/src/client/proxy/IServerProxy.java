@@ -7,6 +7,7 @@ import shared.communication.params.moves.AcceptTradeRequest;
 import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
 import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.OfferTradeRequest;
@@ -205,8 +206,10 @@ public interface IServerProxy {
 
     Model playMonopoly(PlayMonopolyRequest req) throws ServerException;
 
-    Model buildSettlement(BuildSettlementRequest req) throws ServerException;
+    Model playMonument(MoveRequest req) throws ServerException;
 
+    Model buildSettlement(BuildSettlementRequest req) throws ServerException;
+    
     Model buildCity(BuildCityRequest req) throws ServerException;
 
     Model sendChat(SendChatRequest req) throws ServerException;
@@ -215,6 +218,8 @@ public interface IServerProxy {
 
     Model robPlayer(RobPlayerRequest req) throws ServerException;
 
+    Model discardCards(DiscardCardsRequest req) throws ServerException;
+    
     Model finishTurn(MoveRequest req) throws ServerException;
 
 }

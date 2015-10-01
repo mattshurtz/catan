@@ -11,8 +11,15 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import shared.communication.params.*;
+import shared.communication.params.moves.AcceptTradeRequest;
+import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.OfferTradeRequest;
+import shared.communication.params.moves.PlayMonopolyRequest;
 import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
@@ -197,27 +204,43 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public Model buildRoad( BuildRoadRequest req ) throws ServerException {
-        try {
-            String request = doPost( "moves/buildRoad", req );
+    /*    try {
+            String JSON = doPost( "moves/buildRoad", req );
         } catch ( Exception e ) {
             throw new ServerException( e );
         }
-        return null;
+    */
+        String JSON = doPost("/moves/buildRoad", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void offerTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model discardCards(DiscardCardsRequest req) throws ServerException {
+        String JSON = doPost("/moves/discardCards", req);
+        
+        return deserializer.toJavaModel(JSON);
+    }
+    
+    @Override
+    public Model offerTrade(OfferTradeRequest req) throws ServerException {
+        String JSON = doPost("/moves/offerTrade", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void acceptTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model acceptTrade(AcceptTradeRequest req) throws ServerException {
+        String JSON = doPost("/moves/acceptTrade", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void maritimeTrade() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model maritimeTrade(MaritimeTradeRequest req) throws ServerException {
+        String JSON = doPost("/moves/maritimeTrade", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
@@ -249,18 +272,31 @@ public class ServerProxy implements IServerProxy {
     }
 
     @Override
-    public void playMonopoly() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playMonopoly(PlayMonopolyRequest req) throws ServerException {
+        String JSON = doPost("/moves/Monopoly", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void buildSettlement() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model playMonument(MoveRequest req) throws ServerException {
+        String JSON = doPost("/moves/Monument", req);
+        
+        return deserializer.toJavaModel(JSON);
+    }
+    
+    @Override
+    public Model buildSettlement(BuildSettlementRequest req) throws ServerException {
+        String JSON = doPost("/moves/buildSettlement", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override
-    public void buildCity() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model buildCity(BuildCityRequest req) throws ServerException {
+        String JSON = doPost("/moves/buildCity", req);
+        
+        return deserializer.toJavaModel(JSON);
     }
 
     @Override

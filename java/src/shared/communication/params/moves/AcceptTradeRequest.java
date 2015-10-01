@@ -12,9 +12,13 @@ package shared.communication.params.moves;
  *willAccept (boolean): Whether you accept the trade or not
  *}
  */
-public class AcceptTradeRequest {
+public class AcceptTradeRequest extends MoveRequest {
     private boolean willAccept;
 
+    public AcceptTradeRequest(boolean willAccept) {
+        this.willAccept = willAccept;
+    }
+    
     public boolean isWillAccept() {
         return willAccept;
     }

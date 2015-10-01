@@ -14,11 +14,17 @@ import shared.definitions.ResourceType;
  * type of resource you're giving., outputResource (String, optional): What type
  * of resource you're getting. }
  */
-public class MaritimeTradeRequest {
+public class MaritimeTradeRequest extends MoveRequest {
     private int ratio;
     private ResourceType inputResource;
     private ResourceType outputResource;
 
+    public MaritimeTradeRequest(int ratio, ResourceType inputResource, ResourceType ouputResource) {
+        this.ratio = ratio;
+        this.inputResource = inputResource;
+        this.outputResource = outputResource;
+    }
+    
     public int getRatio() {
         return ratio;
     }

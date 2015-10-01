@@ -20,10 +20,15 @@ import shared.locations.VertexLocation;
  *direction (string) = ['SW' or 'SE' or 'E' or 'NE' or 'NW' or 'W']
  *}
  */
-public class BuildSettlementRequest {
+public class BuildSettlementRequest extends MoveRequest {
     private VertexLocation vertexLocation;
     private boolean free;
 
+    public BuildSettlementRequest(VertexLocation location, boolean free) {
+        this.vertexLocation = location;
+        this.free = free;
+    }
+    
     public VertexLocation getVertexLocation() {
         return vertexLocation;
     }

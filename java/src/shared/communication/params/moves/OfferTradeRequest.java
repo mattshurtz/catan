@@ -13,10 +13,15 @@ import shared.model.ResourceList;
  * (integer): Who you're offering the trade to (0-3) } ResourceList { brick
  * (integer), ore (integer), sheep (integer), wheat (integer), wood (integer) }
  */
-public class OfferTradeRequest {
+public class OfferTradeRequest extends MoveRequest{
     private ResourceList offer;
     private int receiver;
 
+    public OfferTradeRequest(ResourceList offer, int receiverIndex) {
+        this.offer = offer;
+        this.receiver = receiverIndex;
+    }
+    
     public ResourceList getOffer() {
         return offer;
     }

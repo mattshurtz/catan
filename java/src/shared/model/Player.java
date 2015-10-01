@@ -128,9 +128,16 @@ public class Player {
     	
     }
 
-    public void incrementSoldiers()
-    {
+    public void incrementSoldiers() {
         soldiers++;
+    }
+    
+    public void incrementMonuments() {
+        monuments++;
+    }
+    
+    public void incrementVictoryPoints() {
+        victoryPoints++;
     }
     
     public int getPlayerIndex() {

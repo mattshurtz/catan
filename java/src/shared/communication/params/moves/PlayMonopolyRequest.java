@@ -12,9 +12,12 @@ import shared.definitions.ResourceType;
  * Monopoly_ { type (Monopoly), resource (string), playerIndex (integer): Who's
  * playing this dev card }
  */
-public class PlayMonopolyRequest {
+public class PlayMonopolyRequest extends MoveRequest {
     private ResourceType resource;
 
+    public PlayMonopolyRequest(ResourceType resource) {
+        this.resource = resource;
+    }
     public ResourceType getResource() {
         return resource;
     }

@@ -18,6 +18,11 @@ public class BuildRoadRequest extends MoveRequest {
     private EdgeLocation roadLocation;
     private boolean free;
 
+    public BuildRoadRequest(EdgeLocation location, boolean free) {
+        this.roadLocation = location;
+        this.free = free;
+    }
+    
     public EdgeLocation getRoadLocation() {
         return roadLocation;
     }

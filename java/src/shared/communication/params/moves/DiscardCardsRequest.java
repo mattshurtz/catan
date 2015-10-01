@@ -11,9 +11,13 @@ import shared.model.ResourceList;
  *
  * @author JanPaul
  */
-public class DiscardCardsRequest {
+public class DiscardCardsRequest extends MoveRequest {
     private ResourceList discardedCards;
 
+    public DiscardCardsRequest(ResourceList discardedCards) {
+        this.discardedCards = discardedCards;
+    }
+    
     public ResourceList getDiscardedCards() {
         return discardedCards;
     }

@@ -2,7 +2,15 @@ package client.facade;
 
 import client.proxy.IServerProxy;
 import java.util.Random;
+import shared.communication.params.moves.AcceptTradeRequest;
+import shared.communication.params.moves.BuildCityRequest;
+import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.OfferTradeRequest;
+import shared.communication.params.moves.PlayMonopolyRequest;
 import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
@@ -16,6 +24,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.Player;
+import shared.model.ResourceList;
 
 /**
  * A facade for all the "doing" actions, as opposed to "can do" -- rather than
@@ -33,8 +42,16 @@ public class DoFacade {
         this.model = model;
     }
     
-    public void offerTrade(){
+    public void offerTrade() throws ServerException{
+        //NOTE(Scott): somehow get the resources willing to trade
+        ResourceList offer = null;
+        int receiverIndex = -1;
         
+        OfferTradeRequest request = new OfferTradeRequest(offer, receiverIndex);
+        request.setType("offerTrade");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.offerTrade(request);
     }
     
     /**
@@ -42,12 +59,28 @@ public class DoFacade {
      * playerIndex (integer): Who's accepting / rejecting this trade,
      * willAccept (boolean): Whether you accept the trade or not
      */
-    public void acceptTrade(){
+    public void acceptTrade() throws ServerException{
+        //NOTE(Scott): determine if will accept trade
+        boolean willAccept = false;
         
+        AcceptTradeRequest request = new AcceptTradeRequest(willAccept);
+        request.setType("acceptTrade");
+        request.setPlayerIndex(CatanFacade.getMyPlayerIndex());
+ 
+        proxy.acceptTrade(request);
     }
     
-    public void maritimeTrade(){
+    public void maritimeTrade() throws ServerException{
+        //NOTE(Scott): get ratio and the desired resources.
+        int ratio = -1;
+        ResourceType input = null;
+        ResourceType output = null;
         
+        MaritimeTradeRequest request = new MaritimeTradeRequest(ratio, input, output);
+        request.setType("maritimeTrade");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+    
+        proxy.maritimeTrade(request);
     }
     
         
@@ -105,17 +138,47 @@ public class DoFacade {
         proxy.playSoldier(request); 
     }
     
-    public void playMonopoly(){
+    public void playMonopoly() throws ServerException{
+        //NOTE(Scott): somehow determine resourcetype wanted
+        ResourceType resource = null;
         
+        PlayMonopolyRequest request = new PlayMonopolyRequest(resource);
+        request.setType("Monopoly");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.playMonopoly(request);
     }
     
+    
+    public void playMonument() throws ServerException, GetPlayerException {
+        //increment victory points and number of monuments
+        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        Player current = CatanFacade.getModel().getPlayer(currentPlayerIndex);
+        
+        current.incrementMonuments();
+        current.incrementVictoryPoints();
+        
+        MoveRequest request = new MoveRequest();
+        request.setType("Monument");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.playMonument(request);
+    }
     /**
      * Create a build road request using the model and use the proxy
      * to send this parameter to the server. 
      */
-    public void buildRoad(){
+    public void buildRoad() throws ServerException{
        //Create the build roads parameter using the model and pass it into build road then proxy sends request to server
-       //proxy.buildRoad();
+       //NOTE(Scott): somehow determine location for road and if free 
+       EdgeLocation location = null;
+       boolean free = false;
+        
+       BuildRoadRequest request = new BuildRoadRequest(location, free);
+       request.setType("buildRoad");
+       request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+       
+       proxy.buildRoad(request);
     }
     
     /**
@@ -123,15 +186,27 @@ public class DoFacade {
      * to send this parameter to the server. 
      * @param location where settlement is to be built
      */
-    public void buildSettlement(VertexLocation location){
+    public void buildSettlement(VertexLocation location) throws ServerException{
+        //NOTE(Scott): get location to build
+        boolean free = false;
         
+        BuildSettlementRequest request = new BuildSettlementRequest(location, free);
+        request.setType("buildSettlement");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.buildSettlement(request);
     }
     /**
     * Create a build city request using the model and use the proxy
     * to send this parameter to the server.
      * @param location where settlement is to be built
     */
-    public void buildCity(VertexLocation location){
+    public void buildCity(VertexLocation location) throws ServerException{
+        BuildCityRequest request = new BuildCityRequest(location);
+        request.setType("buildCity");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.buildCity(request);
         
     }
     
@@ -172,6 +247,17 @@ public class DoFacade {
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
         proxy.robPlayer(request);
+    }
+    
+    public void discardCards() throws ServerException {
+        //NOTE(Scott): get the cards that the player wants to discard
+        ResourceList discardedCards = null;
+        
+        DiscardCardsRequest request = new DiscardCardsRequest(discardedCards);
+        request.setType("discardCards");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.discardCards(request);
     }
     
     public void finishTurn() throws ServerException{

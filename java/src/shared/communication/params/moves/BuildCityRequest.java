@@ -15,9 +15,13 @@ import shared.locations.VertexLocation;
  *      int y
  *      String direction
  */
-public class BuildCityRequest {
+public class BuildCityRequest extends MoveRequest {
     private VertexLocation vertexLocation;
 
+    public BuildCityRequest(VertexLocation location) {
+        this.vertexLocation = location;
+    }
+    
     public VertexLocation getVertexLocation() {
         return vertexLocation;
     }
