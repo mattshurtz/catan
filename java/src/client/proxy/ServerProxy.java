@@ -70,8 +70,9 @@ public class ServerProxy implements IServerProxy {
     /**
      * For development purposes only.
      * @param args 
+     * @throws ServerException 
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ServerException {
         ServerProxy sp = new ServerProxy();
         Credentials c = new Credentials();
         c.setUsername("Sam");
@@ -104,7 +105,7 @@ public class ServerProxy implements IServerProxy {
         }
     }
     
-    private String doGet( String url_str ) {
+    private String doGet( String url_str ) throws ServerException {
         return doPost( url_str, null );
     }
     
@@ -113,8 +114,9 @@ public class ServerProxy implements IServerProxy {
      * @param url_str
      * @param postParams
      * @return 
+     * @throws ServerException 
      */
-    private String doPost( String url_str, Object postParams ) {
+    private String doPost( String url_str, Object postParams ) throws ServerException {
         try {
             URL url = new URL( baseUrl() + url_str );
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -144,7 +146,9 @@ public class ServerProxy implements IServerProxy {
             InputStream in;
             if ( responseCode != 200 ) {
                 ret += "Server returned non-OK response code: " + responseCode + " (" + conn.getResponseMessage() + ")\n";
-                in = conn.getErrorStream();
+                throw new ServerException(ret);
+                //getErrorStream is null
+                //in = conn.getErrorStream();
             } else {
                 in = conn.getInputStream();
             }
@@ -164,6 +168,10 @@ public class ServerProxy implements IServerProxy {
      * @return 
      */
     public static String convertStreamToString(java.io.InputStream is) {
+    	if(is==null){
+    		return null;
+    	}
+    	
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }

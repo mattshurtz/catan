@@ -31,6 +31,10 @@ public class Deserializer {
      * server.
      */
     public Model toJavaModel(String json) {
+    	if(json == null) {
+    		return null;
+    	}
+    	
         return gson.fromJson(json, Model.class);
     }
 

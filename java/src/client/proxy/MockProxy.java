@@ -9,6 +9,7 @@ import shared.communication.params.moves.AcceptTradeRequest;
 import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
 import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.OfferTradeRequest;
@@ -40,8 +41,7 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch (IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -62,8 +62,7 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -72,8 +71,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -82,8 +80,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -92,8 +89,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -102,8 +98,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -112,8 +107,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -122,18 +116,16 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
     @Override
-    public Model playSoldier(MoveRequest req) throws ServerException {
+    public Model playSoldier(RobPlayerRequest req) throws ServerException {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -142,8 +134,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -152,8 +143,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
    }
 
@@ -162,8 +152,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -172,8 +161,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -182,8 +170,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -192,8 +179,7 @@ public class MockProxy implements IServerProxy {
     	try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -271,8 +257,7 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -281,8 +266,7 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch ( IOException e ) {
-            e.printStackTrace();
-            return null;
+        	throw new ServerException("Invalid Input");
         }
     }
 
@@ -294,6 +278,24 @@ public class MockProxy implements IServerProxy {
 		if(req.getNumber() > 12 || req.getNumber() < 2)
 			throw new ServerException("Invalid Number");
 		return null;
+	}
+
+	@Override
+	public Model playMonument(MoveRequest req) throws ServerException {
+		try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+            throw new ServerException("Invalid Input");
+        }
+	}
+
+	@Override
+	public Model discardCards(DiscardCardsRequest req) throws ServerException {
+		try {
+            return new Deserializer().getTestModel();
+        } catch ( IOException e ) {
+        	throw new ServerException("Invalid Input");
+        }
 	}
 
 

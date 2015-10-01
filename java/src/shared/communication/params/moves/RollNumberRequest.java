@@ -11,15 +11,20 @@ package shared.communication.params.moves;
  * command (0-3), number (integer): what number was rolled (2-12) }
  */
 public class RollNumberRequest extends MoveRequest {
-	private String type = "rollNumber";
-	private int playerIndex;
 	private int number;
 
 	
 	
     public RollNumberRequest(int number) {
 		super();
-		this.playerIndex = playerIndex;
+		//this.playerIndex = playerIndex;
+		this.number = number;
+	}
+    
+    public RollNumberRequest(int playerIndex, int number) {
+		super();
+		this.setType("rollNumber");
+		this.setPlayerIndex(playerIndex);
 		this.number = number;
 	}
 

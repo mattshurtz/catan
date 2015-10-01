@@ -91,45 +91,74 @@ public class IServerProxyTest {
      * Test of register method, of class IServerProxy.
      */
     @Test
-    public void testRegister() throws Exception {
+    public void testRegister() {
         System.out.println("register");
         Credentials userCredentials = null;
         
         boolean expResult = false;
-        boolean result = instance.register(userCredentials);
-        assertEquals(expResult, result);
+        boolean result;
+		try {
+			result = instance.register(userCredentials);
+			fail("should not return result");
+		} catch (ServerException e) {
+			//good!
+		}
         
         userCredentials = new Credentials();
-        result = instance.register(userCredentials);
-        assertEquals( expResult, result );
+        try {
+			result = instance.register(userCredentials);
+			fail("should not return result");
+		} catch (ServerException e) {
+				//good!
+		}
         
         // valid
-        userCredentials.setUsername("abc");
+        userCredentials.setUsername("abceeeee");
         userCredentials.setPassword("abcde");
         expResult = true;
-        result = instance.register(userCredentials);
-        assertEquals( expResult, result );
+        try {
+			result = instance.register(userCredentials);
+			assertEquals( expResult, result );
+		} catch (ServerException e) {
+			fail(e.getMessage());
+		}
+        
         
         // invalid username
         userCredentials.setUsername("ab");
         userCredentials.setPassword("abcde");
         expResult = false;
-        result = instance.register(userCredentials);
-        assertEquals( expResult, result );
+        try {
+			result = instance.register(userCredentials);
+			assertEquals( expResult, result );
+		} catch (ServerException e) {
+			fail(e.getMessage());
+		}
+        
         
         // invalid password
         userCredentials.setUsername("jan1");
         userCredentials.setPassword("alkjc()*&#");
         expResult = false;
-        result = instance.register(userCredentials);
-        assertEquals( expResult, result );
+        try {
+			result = instance.register(userCredentials);
+			assertEquals( expResult, result );
+		} catch (ServerException e) {
+			fail(e.getMessage());
+		}
+        
         
         // valid
         userCredentials.setUsername("Sammers");
         userCredentials.setPassword("sammers");
         expResult = true;
-        result = instance.register(userCredentials);
-        assertEquals( expResult, result );
+        try {
+			result = instance.register(userCredentials);
+			assertEquals( expResult, result );
+		} catch (ServerException e) {
+			fail(e.getMessage());
+		}
+        
         
         // Uncomment this when using the real server
 //        // Now try to log in with the user we just registered
@@ -430,11 +459,16 @@ public class IServerProxyTest {
      * Test of rollNumber method, of class IServerProxy.
      */
     @Test
-    public void testRollNumber() throws Exception {
+    public void testRollNumber() {
         System.out.println("rollNumber");
-        instance.rollNumber(new RollNumberRequest(1,10));
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        try {
+			Model result = instance.rollNumber(new RollNumberRequest(1,10));
+			if(result == null){
+				fail("Did not get a model as result.");
+			}
+		} catch (ServerException e) {
+			fail("Did not get a model as result. " + e.getMessage());
+		}
     }
 
     /**
