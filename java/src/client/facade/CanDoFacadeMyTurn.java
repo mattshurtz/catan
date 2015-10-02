@@ -19,7 +19,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canFinishTurn() {
-        return super.canFinishTurn(); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canRollNumber() {
-        return super.canRollNumber(); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
@@ -109,7 +109,13 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-        return super.canBuildRoad(roadLocation); //To change body of generated methods, choose Tools | Templates.
+        try {
+            return model.canBuildRoad(roadLocation);
+        } catch (InvalidLocation ex) {
+            Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+        
+        return false;
     }
     
    public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {

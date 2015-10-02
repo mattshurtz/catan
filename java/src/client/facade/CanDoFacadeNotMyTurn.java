@@ -4,7 +4,9 @@ import client.proxy.IServerProxy;
 import shared.exceptions.InsufficentSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 import shared.model.Model;
+import shared.model.ResourceList;
 
 /**
  * A "can do" facade for when it's not my turn -- basically just automatically
@@ -12,16 +14,97 @@ import shared.model.Model;
  */
 public class CanDoFacadeNotMyTurn extends CanDoFacade {
 
+    public CanDoFacadeNotMyTurn(IServerProxy proxy, Model model) {
+       super( proxy, model );
+    }
+    
     @Override
     public boolean canBuyRoad() throws InsufficentSupplies {
-        return super.canBuyRoad(); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-        return super.canBuildRoad(roadLocation); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
-    public CanDoFacadeNotMyTurn(IServerProxy proxy, Model model) {
-       super( proxy, model );
-   }
+
+    @Override
+    public boolean canFinishTurn() {
+        return false;
+    }
+
+    @Override
+    public boolean canRobPlayer() {
+        return false;
+    }
+
+    @Override
+    public boolean canRollNumber() {
+        return false;
+    }
+
+    @Override
+    public boolean canSendChat() {
+        return true;
+    }
+
+    @Override
+    public boolean canBuyCity() {
+        return false;
+    }
+
+    @Override
+    public boolean canBuildCity(VertexLocation vertex) {
+        return false;
+    }
+
+    @Override
+    public boolean canBuySettlement() {
+        return false;
+    }
+
+    @Override
+    public boolean canBuildSettlement(VertexLocation vertex) {
+        return false;
+    }
+
+    @Override
+    public boolean canPlayMonopoly() {
+        return false;
+    }
+
+    @Override
+    public boolean canPlaySoldier() {
+        return false;
+    }
+
+    @Override
+    public boolean canPlayRoadBuilding() {
+        return false;
+    }
+
+    @Override
+    public boolean canPlayYearOfPlenty() {
+        return false;
+    }
+
+    @Override
+    public boolean canBuyDevCard() {
+        return false;
+    }
+
+    @Override
+    public boolean canMaritimeTrade(String inputResource, String ouputResouce, double ratio) {
+        return false;
+    }
+
+    @Override
+    public boolean canAcceptTrade(int playerIndex) {
+        return true;
+    }
+
+    @Override
+    public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
+        return false;
+    }
 }

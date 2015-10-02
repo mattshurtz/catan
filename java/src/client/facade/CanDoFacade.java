@@ -13,8 +13,8 @@ import shared.model.ResourceList;
 /**
  * An abstract class defining all the CanDo methods, extended by the 
  * CanDo - MyTurn - facade (which actually checks whether things are doable)
- * and the CanDo - NotMyturn - facade (which just returns false because you
- * can't do anything when it's not your turn).
+ * and the CanDo - NotMyturn - facade (which typically returns false because you
+ * can only accept trades and chat when it's not your turn).
  */
 public abstract class CanDoFacade {
 
@@ -83,11 +83,6 @@ public abstract class CanDoFacade {
      * to the player.
      */
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-        try {
-            return model.canBuildRoad(roadLocation);
-        } catch (InvalidLocation ex) {
-            Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return false;
     }
     
@@ -96,11 +91,6 @@ public abstract class CanDoFacade {
      * @return true if insufficentSupplies is not thrown. 
      */
     public boolean canBuyRoad() throws InsufficentSupplies {
-        try {
-            return model.canBuyRoad();
-        } catch (InsufficentSupplies ex) {
-            Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return false;
     }
 
