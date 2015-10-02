@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.InsufficentSupplies;
+import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -89,7 +89,7 @@ public class Model {
      * @param location this is the location of the Road you would like to build
      * playerIndex identifies the player who would like to build the road
      * @return true if no exception is thrown
-     * InsufficentSupplies if the player did not have enough resources or pieces
+     * InsufficientSupplies if the player did not have enough resources or pieces
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
@@ -105,15 +105,15 @@ public class Model {
     /**
      * 
      * @return true if no exception is thrown
-     * @throws InsufficentSupplies if player doesn't have the resources or a road to place
+     * @throws InsufficientSupplies if player doesn't have the resources or a road to place
      */
-    public boolean canBuyRoad() throws InsufficentSupplies {
+    public boolean canBuyRoad() throws InsufficientSupplies {
         int playerIndex = turnTracker.getCurrentTurn();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
-            throw new InsufficentSupplies("Player does not have enough resources.");
+            throw new InsufficientSupplies("Player does not have enough resources.");
         }
         if (!players.get(playerIndex).hasRoad()) {
-            throw new InsufficentSupplies("Player does not have a road to build.");
+            throw new InsufficientSupplies("Player does not have a road to build.");
         }
         return true;
     }
@@ -128,12 +128,12 @@ public class Model {
 
     }
 
-    public boolean canBuySettlement()throws InsufficentSupplies{
+    public boolean canBuySettlement()throws InsufficientSupplies{
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
-            throw new InsufficentSupplies("Player does not have enough resources");
+            throw new InsufficientSupplies("Player does not have enough resources");
         }
         if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
-            throw new InsufficentSupplies("Player does not have a road to build");
+            throw new InsufficientSupplies("Player does not have a road to build");
         }
         return true;
     }
@@ -144,11 +144,11 @@ public class Model {
      *
      * @param location where the player would like to build the settlement
      * @return true if no exception is thrown
-     * @throws InsufficentSupplies if the player did not have enough resources
+     * @throws InsufficientSupplies if the player did not have enough resources
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
-    public boolean canBuildSettlement(VertexLocation location) throws InsufficentSupplies, InvalidLocation {
+    public boolean canBuildSettlement(VertexLocation location) throws InsufficientSupplies, InvalidLocation {
 
         if(surroundingVertexHasObject(location)){
             return false;
@@ -292,12 +292,12 @@ public class Model {
         Player currentPlayer = players.get(turnTracker.getCurrentTurn());
     }
     
-    public boolean canBuyCity() throws InsufficentSupplies{
+    public boolean canBuyCity() throws InsufficientSupplies{
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()){
-            throw new InsufficentSupplies("Player does not have enough resources");
+            throw new InsufficientSupplies("Player does not have enough resources");
         }
         if(!players.get(turnTracker.getCurrentTurn()).hasCity()){
-            throw new InsufficentSupplies("Player does not have a city to build");
+            throw new InsufficientSupplies("Player does not have a city to build");
         }
         return true;        
     }
@@ -335,7 +335,7 @@ public class Model {
      * @param playerIndex used to identify the player building this settlement
      */
     public void buildCity(VertexLocation location, int playerIndex) {
-
+    	//Don't implement for phase one
     }
     
     /**
@@ -343,7 +343,7 @@ public class Model {
      */
     public void distributeResources(int rolledNumber)
     {
-    	
+    	//Don't implement in phase 1
     }
 
     public TurnTracker getTurnTracker() {

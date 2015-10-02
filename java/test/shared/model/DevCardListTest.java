@@ -72,7 +72,7 @@ public class DevCardListTest {
 
     /**
      * Test of removeMonopoly method, of class DevCardList.
-     * @throws InsufficentSupplies 
+     * @throws InsufficientSupplies 
      */
     @Test(expected=InsufficentSupplies.class)
     public void testRemoveMonopoly_0available_throwError() throws InsufficentSupplies {

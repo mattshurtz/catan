@@ -3,7 +3,7 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shared.exceptions.InsufficentSupplies;
+import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
@@ -98,10 +98,10 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canBuyRoad() throws InsufficentSupplies {
+    public boolean canBuyRoad() throws InsufficientSupplies {
         try {
             return model.canBuyRoad();
-        } catch (InsufficentSupplies ex) {
+        } catch (InsufficientSupplies ex) {
             Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;

@@ -1,7 +1,7 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
-import shared.exceptions.InsufficentSupplies;
+import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
@@ -19,7 +19,7 @@ public class CanDoFacadeNotMyTurn extends CanDoFacade {
     }
     
     @Override
-    public boolean canBuyRoad() throws InsufficentSupplies {
+    public boolean canBuyRoad() throws InsufficientSupplies {
         return false;
     }
 
