@@ -38,6 +38,7 @@ import shared.model.map.Settlement;
 public class ModelTest {
 	
 	private Model instance = null;
+	//private Map<Integer, HexLocation> numberToHexMap = new Map<Integer, HexLocation>();
     
     public static Model testModel(){
         Model testModel = new Model();
