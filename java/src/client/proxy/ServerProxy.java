@@ -148,7 +148,7 @@ public class ServerProxy implements IServerProxy {
                 ret += "Server returned non-OK response code: " + responseCode + " (" + conn.getResponseMessage() + ")\n";
                 throw new ServerException(ret);
                 //getErrorStream is null
-                //in = conn.getErrorStream();
+                
             } else {
                 in = conn.getInputStream();
             }
@@ -218,98 +218,98 @@ public class ServerProxy implements IServerProxy {
             throw new ServerException( e );
         }
     */
-        String JSON = doPost("/moves/buildRoad", req);
+        String JSON = doPost("moves/buildRoad", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model discardCards(DiscardCardsRequest req) throws ServerException {
-        String JSON = doPost("/moves/discardCards", req);
+        String JSON = doPost("moves/discardCards", req);
         
         return deserializer.toJavaModel(JSON);
     }
     
     @Override
     public Model offerTrade(OfferTradeRequest req) throws ServerException {
-        String JSON = doPost("/moves/offerTrade", req);
+        String JSON = doPost("moves/offerTrade", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model acceptTrade(AcceptTradeRequest req) throws ServerException {
-        String JSON = doPost("/moves/acceptTrade", req);
+        String JSON = doPost("moves/acceptTrade", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model maritimeTrade(MaritimeTradeRequest req) throws ServerException {
-        String JSON = doPost("/moves/maritimeTrade", req);
+        String JSON = doPost("moves/maritimeTrade", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model buyDevCard(MoveRequest req) throws ServerException {
-        String JSON = doPost("/moves/buyDevCard", req);
+        String JSON = doPost("moves/buyDevCard", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model playYearOfPlenty(PlayYearOfPlentyRequest req) throws ServerException {
-        String JSON = doPost("/moves/Year_of_Plenty", req);
+        String JSON = doPost("moves/Year_of_Plenty", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model playRoadBuilding(PlayRoadBuildingRequest req) throws ServerException {
-        String JSON = doPost("/moves/Road_Building", req);
+        String JSON = doPost("moves/Road_Building", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model playSoldier(RobPlayerRequest req) throws ServerException {
-        String JSON = doPost("/moves/Soldier", req);
+        String JSON = doPost("moves/Soldier", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model playMonopoly(PlayMonopolyRequest req) throws ServerException {
-        String JSON = doPost("/moves/Monopoly", req);
+        String JSON = doPost("moves/Monopoly", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model playMonument(MoveRequest req) throws ServerException {
-        String JSON = doPost("/moves/Monument", req);
+        String JSON = doPost("moves/Monument", req);
         
         return deserializer.toJavaModel(JSON);
     }
     
     @Override
     public Model buildSettlement(BuildSettlementRequest req) throws ServerException {
-        String JSON = doPost("/moves/buildSettlement", req);
+        String JSON = doPost("moves/buildSettlement", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model buildCity(BuildCityRequest req) throws ServerException {
-        String JSON = doPost("/moves/buildCity", req);
+        String JSON = doPost("moves/buildCity", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model sendChat(SendChatRequest req) throws ServerException {
-        String JSON = doPost("/moves/sendChat", req);
+        String JSON = doPost("moves/sendChat", req);
         
         return deserializer.toJavaModel(JSON);
 
@@ -318,7 +318,7 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public Model rollNumber(RollNumberRequest req) throws ServerException {
-        String JSON = doPost("/moves/rollNumber", req);
+        String JSON = doPost("moves/rollNumber", req);
         
         return deserializer.toJavaModel(JSON);
         //NOTE(Scott): rollNumber returns model from the server according to swagger page. the post method returnsa string, 
@@ -327,14 +327,14 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public Model robPlayer(RobPlayerRequest req) throws ServerException {
-        String JSON = doPost("/moves/robPlayer", req);
+        String JSON = doPost("moves/robPlayer", req);
         
         return deserializer.toJavaModel(JSON);
     }
 
     @Override
     public Model finishTurn(MoveRequest req) throws ServerException {
-        String JSON = doPost("/moves/finishTurn", req);
+        String JSON = doPost("moves/finishTurn", req);
     
         return deserializer.toJavaModel(JSON);
     }
@@ -345,7 +345,8 @@ public class ServerProxy implements IServerProxy {
             String response = doPost( "user/login", userCredentials );
             return toBoolean( response );
         } catch ( Exception e ) {
-            throw new ServerException( e.getMessage() );
+        	return false;
+            //throw new ServerException( e.getMessage() );
         }
     }
 
@@ -367,7 +368,8 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
-        // TODO Auto-generated method stub
+        String response = doPost("games/create",gameRequests);
+        //return deserializer.(response);
         return null;
     }
 

@@ -1,5 +1,7 @@
 package client.proxy;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.After;
@@ -61,18 +63,20 @@ public class IServerProxyTest {
         
         // first, login without credentials -- should fail
         Credentials userCredentials = new Credentials();
+        userCredentials.setUsername("saflkjsa);lfkjas;ldfkj");
+        userCredentials.setPassword("jkl43ltkjretlej4l34444");
         boolean result, expResult;
         try {
             expResult = false;
             result = instance.login(userCredentials);
             assertEquals(expResult, result);
         } catch (ServerException e) {
-            // The real server throws an exception, so that's fine
+            fail("should return false " + e.getMessage());
         }
     }
     
     @Test
-    public void testLogin_Valid() throws Exception {
+    public void testLogin_Valid() {
         System.out.println("login");
         
         // first, login without credentials -- should fail
@@ -83,8 +87,13 @@ public class IServerProxyTest {
         userCredentials.setUsername("Sam");
         userCredentials.setPassword("sam");
         expResult = true;
-        result = instance.login(userCredentials);
-        assertEquals(expResult, result);
+        try {
+			result = instance.login(userCredentials);
+			assertEquals(expResult, result);
+		} catch (ServerException e) {
+			fail(e.getMessage());
+		}
+        
     }
 
     /**
@@ -112,8 +121,9 @@ public class IServerProxyTest {
 				//good!
 		}
         
+        
         // valid
-        userCredentials.setUsername("abceeeee");
+        userCredentials.setUsername(new BigInteger(20, new SecureRandom()).toString(32));
         userCredentials.setPassword("abcde");
         expResult = true;
         try {
@@ -124,40 +134,40 @@ public class IServerProxyTest {
 		}
         
         
-        // invalid username
-        userCredentials.setUsername("ab");
-        userCredentials.setPassword("abcde");
-        expResult = false;
-        try {
-			result = instance.register(userCredentials);
-			assertEquals( expResult, result );
-		} catch (ServerException e) {
-			fail(e.getMessage());
-		}
+//        // invalid username
+//        userCredentials.setUsername("ab");
+//        userCredentials.setPassword("abcde");
+//        expResult = false;
+//        try {
+//			result = instance.register(userCredentials);
+//			assertEquals( expResult, result );
+//		} catch (ServerException e) {
+//			fail(e.getMessage());
+//		}
+//        
+//        
+//        // invalid password
+//        userCredentials.setUsername("jan1");
+//        userCredentials.setPassword("alkjc()*&#");
+//        expResult = false;
+//        try {
+//			result = instance.register(userCredentials);
+//			assertEquals( expResult, result );
+//		} catch (ServerException e) {
+//			fail(e.getMessage());
+//		}
         
         
-        // invalid password
-        userCredentials.setUsername("jan1");
-        userCredentials.setPassword("alkjc()*&#");
-        expResult = false;
-        try {
-			result = instance.register(userCredentials);
-			assertEquals( expResult, result );
-		} catch (ServerException e) {
-			fail(e.getMessage());
-		}
-        
-        
-        // valid
-        userCredentials.setUsername("Sammers");
-        userCredentials.setPassword("sammers");
-        expResult = true;
-        try {
-			result = instance.register(userCredentials);
-			assertEquals( expResult, result );
-		} catch (ServerException e) {
-			fail(e.getMessage());
-		}
+//        // valid
+//        userCredentials.setUsername("Sammers");
+//        userCredentials.setPassword("sammers");
+//        expResult = true;
+//        try {
+//			result = instance.register(userCredentials);
+//			assertEquals( expResult, result );
+//		} catch (ServerException e) {
+//			fail(e.getMessage());
+//		}
         
         
         // Uncomment this when using the real server
@@ -197,7 +207,8 @@ public class IServerProxyTest {
         System.out.println("createGame");
         
         CreateGameRequest cgr = new CreateGameRequest();
-        cgr.setName("new game");
+        String name = new BigInteger(20, new SecureRandom()).toString(32);
+        cgr.setName(name);
         cgr.setRandomNumbers(true);
         cgr.setRandomPorts(false);
         cgr.setRandomTiles(true);
@@ -209,7 +220,7 @@ public class IServerProxyTest {
         for (int i = 0; i < 4; i++ )
             epr.add( new EmptyPlayerResponse() );
         expected.setPlayers(epr);
-        expected.setTitle("new game");
+        expected.setTitle(name);
         
         assertEquals(expected, actual);
     }
@@ -218,11 +229,25 @@ public class IServerProxyTest {
      * Test of joinGame method, of class IServerProxy.
      */
     @Test
-    public void testJoinGame() throws Exception {
+    public void testJoinGame_notLoggedIn() throws Exception {
+        System.out.println("joinGame");
+                       
+        JoinGameRequest joinRequest = new JoinGameRequest();
+        joinRequest.setGameID(2);
+        joinRequest.setColor("green");
+        boolean expResult = false;
+        boolean result = instance.joinGame(joinRequest);
+        assertEquals(expResult, result);
+    }
+    
+    @Test
+    public void testJoinGame_LoggedIn() throws Exception {
         System.out.println("joinGame");
         
+        instance.login(new Credentials("Sam","sam"));
+                       
         JoinGameRequest joinRequest = new JoinGameRequest();
-        joinRequest.setGameID(5);
+        joinRequest.setGameID(2);
         joinRequest.setColor("green");
         boolean expResult = true;
         boolean result = instance.joinGame(joinRequest);
@@ -250,7 +275,7 @@ public class IServerProxyTest {
     public void testLoadGame() throws Exception {
         System.out.println("loadGame");
         LoadGameRequest loadRequest = new LoadGameRequest();
-        loadRequest.setName("savedgame");
+        loadRequest.setName("Default Game");
         boolean expResult = true;
         boolean result = instance.loadGame(loadRequest);
         assertEquals(expResult, result);
