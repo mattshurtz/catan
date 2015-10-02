@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.GameResponse;
 import shared.model.MessageLine;
 import shared.model.Model;
@@ -38,6 +40,22 @@ public class Deserializer {
         return gson.fromJson(json, Model.class);
     }
 
+    public String[] toStringArray(String json) {
+    	if(json == null) {
+    		return null;
+    	}
+    	
+        return gson.fromJson(json, String[].class);
+    }
+    
+    public CreateGameResponse toGameResponse(String json) {
+    	if(json == null) {
+    		return null;
+    	}
+    	
+        return gson.fromJson(json, CreateGameResponse.class);
+    }
+    
     /**
      * @param json this will be the Json representation of the message returned
      * from the server.

@@ -72,24 +72,24 @@ public class ServerProxy implements IServerProxy {
      * @param args 
      * @throws ServerException 
      */
-    public static void main(String[] args) throws ServerException {
-        ServerProxy sp = new ServerProxy();
-        Credentials c = new Credentials();
-        c.setUsername("Sam");
-        c.setPassword("sam");
-        System.out.println(sp.doPost("user/login", c));
-        
-        String response = sp.doGet( "games/list" );
-        System.out.println(response);
-        List<GameResponse> games = sp.deserializer.toGamesList(response);
-//        String gameListJson = sp.doGet("games/list");
-//        System.out.println(gameListJson);
-//        JoinGameRequest jgr = new JoinGameRequest();
-//        jgr.setColor("yellow");
-//        jgr.setGameID(0);
-//        System.out.println(sp.doPost("games/join", jgr));
-//        System.out.println(sp.doGet("game/model"));
-    }
+//    public static void main(String[] args) throws ServerException {
+//        ServerProxy sp = new ServerProxy();
+//        Credentials c = new Credentials();
+//        c.setUsername("Sam");
+//        c.setPassword("sam");
+//        System.out.println(sp.doPost("user/login", c));
+//        
+//        String response = sp.doGet( "games/list" );
+//        System.out.println(response);
+//        List<GameResponse> games = sp.deserializer.toGamesList(response);
+////        String gameListJson = sp.doGet("games/list");
+////        System.out.println(gameListJson);
+////        JoinGameRequest jgr = new JoinGameRequest();
+////        jgr.setColor("yellow");
+////        jgr.setGameID(0);
+////        System.out.println(sp.doPost("games/join", jgr));
+////        System.out.println(sp.doGet("game/model"));
+//    }
     
     private String baseUrl() {
         return "http://" + host + ":" + port + "/";
@@ -186,13 +186,15 @@ public class ServerProxy implements IServerProxy {
     }
     
     @Override
-    public Model getGameModel(int version) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Model getGameModel(int version) throws ServerException {
+        String response = doPost("game/model",version);
+        return deserializer.toJavaModel(response);
     }
 
     @Override
     public String[] listAi() throws ServerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	String responce = doGet("game/listAi");
+    	return null;
     }
 
     @Override
@@ -369,32 +371,49 @@ public class ServerProxy implements IServerProxy {
     @Override
     public CreateGameResponse createGame(CreateGameRequest gameRequests) throws ServerException {
         String response = doPost("games/create",gameRequests);
-        //return deserializer.(response);
-        return null;
+        return deserializer.toGameResponse(response);
+        //return null;
     }
 
     @Override
     public boolean joinGame(JoinGameRequest joinRequest) throws ServerException {
-        // TODO Auto-generated method stub
+        try {
+        	String response = doPost("games/join",joinRequest);
+			return toBoolean( response );
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
         return false;
     }
 
     @Override
     public boolean saveGame(SaveGameRequest saveRequest) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+        try {
+        	String response = doPost("games/save",saveRequest);
+			return toBoolean(response);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return false;
     }
 
     @Override
     public boolean loadGame(LoadGameRequest loadRequest) throws ServerException {
-        // TODO Auto-generated method stub
-        return false;
+    	try {
+        	String response = doPost("games/load",loadRequest);
+			return toBoolean(response);
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		return false;
     }
 
     @Override
     public Model resetGame() throws ServerException {
-        // TODO Auto-generated method stub
-        return null;
+    	String JSON = doPost("moves/finishTurn", null);        
+        return deserializer.toJavaModel(JSON);
     }
 
 }

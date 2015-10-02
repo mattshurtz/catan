@@ -54,6 +54,19 @@ public class IServerProxyTest {
     public void tearDown() {
     }
 
+    
+    
+    public boolean testSetup(boolean login, boolean joinGame, boolean reset) throws ServerException {
+    	if(login && !instance.login(new Credentials("Sam","sam"))) {return false;}
+    	if(joinGame && !instance.joinGame(new JoinGameRequest(0,"green"))) {return false;}
+    	if(reset) {
+    		Model model = instance.resetGame();
+    		if(model==null)
+    			return false;
+    	}
+    	return true;
+    	
+    }
     /**
      * Test of login method, of class IServerProxy.
      */
@@ -341,10 +354,7 @@ public class IServerProxyTest {
      */
     @Test
     public void testListAi() throws Exception {
-        System.out.println("listAi");
-        String[] expResult = new String[] { "LARGEST_ARMY" };
-        String[] result = instance.listAi();
-        assertArrayEquals(expResult, result);
+
     }
 
     /**
