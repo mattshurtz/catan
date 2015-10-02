@@ -1,5 +1,6 @@
 java/catan.iml
 out/
+*.class
 *.classpath
 *.project
 manifest.mf
@@ -8,5 +9,6 @@ nbbuild.xml
 bin/
 nbproject/
 demo/logs/
-/build/
-/nbdist/
+build/
+nbdist/
+java/build/**

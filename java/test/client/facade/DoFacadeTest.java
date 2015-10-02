@@ -45,7 +45,7 @@ public class DoFacadeTest {
     public void testOfferTrade() {
         System.out.println("offerTrade");
         DoFacade instance = null;
-        instance.offerTrade();
+//        instance.offerTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -57,7 +57,7 @@ public class DoFacadeTest {
     public void testAcceptTrade() {
         System.out.println("acceptTrade");
         DoFacade instance = null;
-        instance.acceptTrade();
+//        instance.acceptTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -69,7 +69,7 @@ public class DoFacadeTest {
     public void testMaritimeTrade() {
         System.out.println("maritimeTrade");
         DoFacade instance = null;
-        instance.maritimeTrade();
+//        instance.maritimeTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -81,7 +81,7 @@ public class DoFacadeTest {
     public void testBuyDevCard() {
         System.out.println("buyDevCard");
         DoFacade instance = null;
-        instance.buyDevCard();
+//        instance.buyDevCard();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -93,7 +93,7 @@ public class DoFacadeTest {
     public void testPlayYearOfPlenty() {
         System.out.println("playYearOfPlenty");
         DoFacade instance = null;
-        instance.playYearOfPlenty();
+//        instance.playYearOfPlenty();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -105,7 +105,7 @@ public class DoFacadeTest {
     public void testPlayRoadBuilding() {
         System.out.println("playRoadBuilding");
         DoFacade instance = null;
-        instance.playRoadBuilding();
+//        instance.playRoadBuilding();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -117,7 +117,7 @@ public class DoFacadeTest {
     public void testPlaySoldier() {
         System.out.println("playSoldier");
         DoFacade instance = null;
-        instance.playSoldier();
+//        instance.playSoldier();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -129,7 +129,7 @@ public class DoFacadeTest {
     public void testPlayMonopoly() {
         System.out.println("playMonopoly");
         DoFacade instance = null;
-        instance.playMonopoly();
+//        instance.playMonopoly();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -141,7 +141,7 @@ public class DoFacadeTest {
     public void testBuildRoad() {
         System.out.println("buildRoad");
         DoFacade instance = null;
-        instance.buildRoad();
+//        instance.buildRoad();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -154,7 +154,7 @@ public class DoFacadeTest {
         System.out.println("buildSettlement");
         VertexLocation location = null;
         DoFacade instance = null;
-        instance.buildSettlement(location);
+//        instance.buildSettlement(location);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -167,7 +167,7 @@ public class DoFacadeTest {
         System.out.println("buildCity");
         VertexLocation location = null;
         DoFacade instance = null;
-        instance.buildCity(location);
+//        instance.buildCity(location);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -179,7 +179,7 @@ public class DoFacadeTest {
     public void testSendChat() {
         System.out.println("sendChat");
         DoFacade instance = null;
-        instance.sendChat();
+//        instance.sendChat();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -191,7 +191,7 @@ public class DoFacadeTest {
     public void testRollNumber() {
         System.out.println("rollNumber");
         DoFacade instance = null;
-        instance.rollNumber();
+//        instance.rollNumber();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -203,7 +203,7 @@ public class DoFacadeTest {
     public void testRobPlayer() {
         System.out.println("robPlayer");
         DoFacade instance = null;
-        instance.robPlayer();
+//        instance.robPlayer();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -215,7 +215,7 @@ public class DoFacadeTest {
     public void testFinishTurn() {
         System.out.println("finishTurn");
         DoFacade instance = null;
-        instance.finishTurn();
+//        instance.finishTurn();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

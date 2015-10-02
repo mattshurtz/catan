@@ -353,7 +353,7 @@ public class IServerProxyTest {
     @Test
     public void testBuildRoad() throws Exception {
         System.out.println("buildRoad");
-        BuildRoadRequest req = new BuildRoadRequest();
+//        BuildRoadRequest req = new BuildRoadRequest();
 //        req.set
 //        Model result = instance.buildRoad();
 //        assertNotNull( result );
@@ -365,7 +365,7 @@ public class IServerProxyTest {
     @Test
     public void testOfferTrade() throws Exception {
         System.out.println("offerTrade");
-        instance.offerTrade();
+//        instance.offerTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -376,7 +376,7 @@ public class IServerProxyTest {
     @Test
     public void testAcceptTrade() throws Exception {
         System.out.println("acceptTrade");
-        instance.acceptTrade();
+//        instance.acceptTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -387,7 +387,7 @@ public class IServerProxyTest {
     @Test
     public void testMaritimeTrade() throws Exception {
         System.out.println("maritimeTrade");
-        instance.maritimeTrade();
+//        instance.maritimeTrade();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -398,7 +398,7 @@ public class IServerProxyTest {
     @Test
     public void testBuyDevCard() throws Exception {
         System.out.println("buyDevCard");
-        instance.buyDevCard();
+//        instance.buyDevCard();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -409,7 +409,7 @@ public class IServerProxyTest {
     @Test
     public void testPlayYearOfPlenty() throws Exception {
         System.out.println("playYearOfPlenty");
-        instance.playYearOfPlenty();
+//        instance.playYearOfPlenty();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -420,7 +420,7 @@ public class IServerProxyTest {
     @Test
     public void testPlayRoadBuilding() throws Exception {
         System.out.println("playRoadBuilding");
-        instance.playRoadBuilding();
+//        instance.playRoadBuilding();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -431,7 +431,7 @@ public class IServerProxyTest {
     @Test
     public void testPlaySoldier() throws Exception {
         System.out.println("playSoldier");
-        instance.playSoldier();
+//        instance.playSoldier();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -442,7 +442,7 @@ public class IServerProxyTest {
     @Test
     public void testPlayMonopoly() throws Exception {
         System.out.println("playMonopoly");
-        instance.playMonopoly();
+//        instance.playMonopoly();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -453,7 +453,7 @@ public class IServerProxyTest {
     @Test
     public void testBuildSettlement() throws Exception {
         System.out.println("buildSettlement");
-        instance.buildSettlement();
+//        instance.buildSettlement();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -464,7 +464,7 @@ public class IServerProxyTest {
     @Test
     public void testBuildCity() throws Exception {
         System.out.println("buildCity");
-        instance.buildCity();
+//        instance.buildCity();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -475,7 +475,7 @@ public class IServerProxyTest {
     @Test
     public void testSendChat() throws Exception {
         System.out.println("sendChat");
-        instance.sendChat();
+//        instance.sendChat();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -502,7 +502,7 @@ public class IServerProxyTest {
     @Test
     public void testRobPlayer() throws Exception {
         System.out.println("robPlayer");
-        instance.robPlayer();
+//        instance.robPlayer();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
@@ -513,7 +513,7 @@ public class IServerProxyTest {
     @Test
     public void testFinishTurn() throws Exception {
         System.out.println("finishTurn");
-        instance.finishTurn();
+//        instance.finishTurn();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
