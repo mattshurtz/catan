@@ -18,6 +18,7 @@ import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
 import shared.model.map.Road;
+import shared.model.map.Settlement;
 import shared.model.map.VertexObject;
 
 /**
@@ -78,7 +79,7 @@ public class Model {
      * each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
-    	
+    	//Do not implement for Phase 1
     }
 
     /**
@@ -296,25 +297,32 @@ public class Model {
             throw new InsufficentSupplies("Player does not have enough resources");
         }
         if(!players.get(turnTracker.getCurrentTurn()).hasCity()){
-            throw new InsufficentSupplies("Player does not have a road to build");
+            throw new InsufficentSupplies("Player does not have a city to build");
         }
         return true;        
     }
 
     /**
-     * Checks if a player has a city, the resources to build this city and if it is in a
-     * valid location on the map.
+     * This function is going to be called only after canBuyCity is called and returns true.
+     * This checks if the player owns a settlement at the location specified.
      *
      * @param location where the player would like to build the city
      * @param playerIndex identifies the player who would like to build this
      * city
-     * @return true if no exception is thrown
-     * @throws InsufficentSupplies if the player did not have enough resources
-     * @throws InvalidLocation if this is an invalid location for this player to
-     * play a city
+     * @return true if the location specified already has a settlement owned by this player, false if not
      */
-    public boolean canBuildCity(VertexLocation location, int playerIndex) throws InsufficentSupplies, InvalidLocation {
-        return true;
+    public boolean canBuildCity(VertexLocation location, int playerIndex) {
+    	//get all the settlements on the map
+    	ArrayList<Settlement> settlements = map.getSettlements();
+    	
+    	//Iterate through settlements to make sure the player owns a settlement at the target location
+    	for (Settlement settlement: settlements) {
+    		if (settlement.getOwner() == playerIndex && settlement.getLocation().equals(location)) { 
+    			return true;
+    		}
+    	}
+    	
+    	return false;
     }
 
     /**
