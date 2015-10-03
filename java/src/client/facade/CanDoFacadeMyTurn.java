@@ -24,7 +24,6 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canRobPlayer(int playerIndex) {
-       
         return model.canRobPlayer(playerIndex);
     }
 
@@ -55,7 +54,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canBuildSettlement(VertexLocation vertex) {
-        return model.canBuildSettlement(vertex);
+        return canBuySettlement() && model.canBuildSettlement(vertex);
+    }
+    
+    @Override
+    public boolean canPlayMonument() {
+        return false;
     }
 
     @Override
@@ -90,12 +94,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canAcceptTrade(int playerIndex) {
-        return super.canAcceptTrade(playerIndex); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override
     public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-        return super.canOfferTrade(playerIndex, resourceList); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
     
     @Override
@@ -105,7 +109,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-    	return model.canBuildRoad(roadLocation);
+    	return model.canBuyRoad() && model.canBuildRoad(roadLocation);
+    }
+    
+    @Override
+    public boolean canDiscardCards( ResourceList discardedCards ) {
+        return false;
     }
     
    public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {

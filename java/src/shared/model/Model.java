@@ -126,7 +126,7 @@ public class Model {
      * @return true if player has enough supplies, false if not
      */
     public boolean canBuyRoad() {
-        int playerIndex = turnTracker.getCurrentTurn();
+        int playerIndex = CatanFacade.getMyPlayerIndex();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
             return false;
         } else if (!players.get(playerIndex).hasRoad()) {

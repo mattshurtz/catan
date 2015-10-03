@@ -87,6 +87,11 @@ public class CanDoFacadeNotMyTurn extends CanDoFacade {
     public boolean canPlayYearOfPlenty() {
         return false;
     }
+    
+    @Override
+    public boolean canPlayMonument() {
+        return false;
+    }
 
     @Override
     public boolean canBuyDevCard() {

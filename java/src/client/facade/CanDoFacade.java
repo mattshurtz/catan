@@ -59,6 +59,10 @@ public abstract class CanDoFacade {
     public boolean canBuyDevCard() {
         return false;
     }
+    
+    public boolean canPlayMonument() {
+        return false;
+    }
 
     public boolean canPlayYearOfPlenty() {
         return false;
@@ -124,7 +128,7 @@ public abstract class CanDoFacade {
     }
     
     public boolean canSendChat() {
-        return false;
+        return true;
     }
 
     public boolean canRollNumber() {
@@ -136,6 +140,10 @@ public abstract class CanDoFacade {
     }
 
     public boolean canFinishTurn() {
+        return false;
+    }
+    
+    public boolean canDiscardCards( ResourceList discardedCards ) {
         return false;
     }
     

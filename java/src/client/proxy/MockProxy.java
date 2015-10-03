@@ -5,20 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.params.*;
-import shared.communication.params.moves.AcceptTradeRequest;
-import shared.communication.params.moves.BuildCityRequest;
-import shared.communication.params.moves.BuildRoadRequest;
-import shared.communication.params.moves.BuildSettlementRequest;
-import shared.communication.params.moves.DiscardCardsRequest;
-import shared.communication.params.moves.MaritimeTradeRequest;
-import shared.communication.params.moves.MoveRequest;
-import shared.communication.params.moves.OfferTradeRequest;
-import shared.communication.params.moves.PlayMonopolyRequest;
-import shared.communication.params.moves.PlayRoadBuildingRequest;
-import shared.communication.params.moves.PlayYearOfPlentyRequest;
-import shared.communication.params.moves.RobPlayerRequest;
-import shared.communication.params.moves.RollNumberRequest;
-import shared.communication.params.moves.SendChatRequest;
+import shared.communication.params.moves.*;
 import shared.communication.responses.*;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
@@ -41,7 +28,7 @@ public class MockProxy implements IServerProxy {
         try {
             return new Deserializer().getTestModel();
         } catch (IOException e ) {
-        	throw new ServerException("Invalid Input");
+            throw new ServerException("Invalid Input");
         }
     }
 

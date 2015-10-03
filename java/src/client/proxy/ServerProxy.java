@@ -323,8 +323,6 @@ public class ServerProxy implements IServerProxy {
         String JSON = doPost("moves/rollNumber", req);
         
         return deserializer.toJavaModel(JSON);
-        //NOTE(Scott): rollNumber returns model from the server according to swagger page. the post method returnsa string, 
-        //  which i assume is the model json, but this method does nothing with it?
     }
 
     @Override
