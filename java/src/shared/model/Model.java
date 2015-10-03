@@ -153,28 +153,43 @@ public class Model {
         return surroundingEdgeOfVertexHasRoad(location);
     }
     
-    
-    public boolean isValidRoadLocation(EdgeLocation location) throws InvalidLocation{
+     public boolean isValidRoadLocation(EdgeLocation location) throws InvalidLocation{
         EdgeLocation normEdge = location.getNormalizedLocation();
+        HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
+        ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
         
         for (Road road: map.getRoads()) {
-           // check if road exists on this edge
+           // check if road already exists on this edge
             if(road.getLocation().equals(location)){
                 return false;
             }
            // check around North edge 
             if(normEdge.getDir()==EdgeDirection.North){
-                HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+
+                //There exists a vertex an adjecent vertex object owned by the player
+                //then this is a valid location. This is important for the setup phase
+                for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthEast))){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
+                        return true;
+                    }
+                 }
+                
+                HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                
+                HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northwestNeighbor, EdgeDirection.SouthEast))&&road.getOwner()==currentPlayer){
                     return true;
                 }
+                
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                 normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                     return true;
@@ -186,13 +201,22 @@ public class Model {
             }
             //Check arround the NorthWest edge
             if(normEdge.getDir()==EdgeDirection.NorthWest){
-                
                 HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+
+                for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().equals(new VertexLocation(southwestNeighbor,VertexDirection.NorthEast))){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
+                        return true;
+                    }
+                 }
+                
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
    
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
@@ -211,11 +235,21 @@ public class Model {
             //Check arround the NorthEast edge
             if(normEdge.getDir()==EdgeDirection.NorthEast){
                 HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+
+                for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().equals(new VertexLocation(southeastNeighbor,VertexDirection.NorthWest))){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
+                        return true;
+                    }
+                 }
+
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
