@@ -14,8 +14,10 @@ import shared.model.ResourceList;
 public class DiscardCardsRequest extends MoveRequest {
     private ResourceList discardedCards;
 
-    public DiscardCardsRequest(ResourceList discardedCards) {
-        this.discardedCards = discardedCards;
+    public DiscardCardsRequest(int playerIndex, ResourceList discardedCards) {
+    	this.setType("discardCards");
+    	this.playerIndex = playerIndex;
+    	this.discardedCards = discardedCards;
     }
     
     public ResourceList getDiscardedCards() {

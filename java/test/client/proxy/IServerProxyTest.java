@@ -17,6 +17,7 @@ import shared.communication.params.LoadGameRequest;
 import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
 import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
@@ -32,6 +33,7 @@ import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.model.Model;
+import shared.model.ResourceList;
 import shared.definitions.*;
 
 /**
@@ -320,9 +322,10 @@ public class IServerProxyTest {
     @Test
     public void testResetGame() throws Exception {
         System.out.println("resetGame");
-        Model expResult = new Deserializer().getTestModel();
+        testSetup(true,true,false);
         Model result = instance.resetGame();
-        assertEquals(expResult, result);
+        if (result == null)
+        	fail("Unable to reset");
     }
 
     /**
@@ -545,6 +548,17 @@ public class IServerProxyTest {
         Model result = instance.finishTurn(new MoveRequest("finishTurn",0));
         if (result == null)
         	fail("Unable to finish turn");
+    }
+    
+    @Test
+    public void testDiscardCards() throws Exception {
+    	System.out.println("discardCards");
+    	testSetup(true,true,false);
+    	Model result = instance.discardCards(new DiscardCardsRequest(0,new ResourceList(1,0,3,0,0)));
+    	if(result==null)
+    		fail("Did not discard Cards");
+    	//1 brick 3 sheep
+    	
     }
     
 }
