@@ -66,7 +66,7 @@ public class DoFacade {
     }
     
     public void maritimeTrade( int ratio, ResourceType input, ResourceType output ) throws ServerException{
-        MaritimeTradeRequest request = new MaritimeTradeRequest(ratio, input, output);
+        MaritimeTradeRequest request = new MaritimeTradeRequest(0,ratio, input, output);
         request.setType("maritimeTrade");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
     
@@ -214,10 +214,7 @@ public class DoFacade {
         proxy.robPlayer(request);
     }
     
-    public void discardCards() throws ServerException {
-        //NOTE(Scott): get the cards that the player wants to discard
-        ResourceList discardedCards = null;
-        
+    public void discardCards( ResourceList discardedCards ) throws ServerException {
         DiscardCardsRequest request = new DiscardCardsRequest(CatanFacade.getMyPlayerIndex(), discardedCards);
         request.setType("discardCards");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
@@ -231,6 +228,10 @@ public class DoFacade {
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
         proxy.finishTurn(request);
+    }
+
+    void setModel(Model model) {
+        this.model = model;
     }
     
     

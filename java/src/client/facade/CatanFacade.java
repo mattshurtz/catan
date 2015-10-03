@@ -30,7 +30,7 @@ public class CatanFacade {
         CatanFacade.myTurn = new CanDoFacadeMyTurn(proxy, model);
         CatanFacade.notMyTurn = new CanDoFacadeNotMyTurn(proxy, model);
         CatanFacade.doFacade = new DoFacade(proxy, model);
-        CatanFacade.gameHubFacade = new GameHubFacade(proxy, model);
+        CatanFacade.gameHubFacade = new GameHubFacade(proxy);
     }
     
     private static boolean isMyTurn() {
@@ -43,6 +43,9 @@ public class CatanFacade {
 
     public static void setModel(Model model) {
         CatanFacade.model = model;
+        doFacade.setModel( model );
+        myTurn.setModel( model );
+        notMyTurn.setModel( model );
     }
     
     public static CanDoFacade getCanDoFacade() {
@@ -76,13 +79,9 @@ public class CatanFacade {
         CatanFacade.myPlayerIndex = myPlayerIndex;
     }
 
-    public static CanDoFacadeMyTurn getMyTurn() {
-        return myTurn;
-    }
-
-    public static CanDoFacadeNotMyTurn getNotMyTurn() {
-        return notMyTurn;
-    }
+    // These 2 methods shouldn't be used except in test methods
+    public static CanDoFacadeMyTurn getMyTurn() { return myTurn; }
+    public static CanDoFacadeNotMyTurn getNotMyTurn() { return notMyTurn; }
 
     public static IServerProxy getProxy() {
         return proxy;

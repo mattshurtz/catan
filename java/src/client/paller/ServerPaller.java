@@ -1,5 +1,6 @@
 package client.paller;
 
+import client.facade.CatanFacade;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,17 +17,34 @@ import java.util.TimerTask;
  * @since 17 Sept 2015
  */
 public class ServerPaller extends Thread {
+    
+    /**
+     * The paller delay between palling in milliseconds (1/2 second = 500ms)
+     */
+    public static final int PALL_DELAY = 500;
+    
+    private final Timer timer = new Timer();
+    
+    private int timesPalled = 0;
 
-	private Timer timer;
-
-	/**
-	 * This method is what is run by the thread and will kick off a timer that will go
-	 * off every half second or so. Every time this timer goes off it will trigger a
-	 * TimerTask event that will poll the server for new data.
-	 */
-	@Override
-	public void run() {
-		// Start the timer, schedule the task
-	}
+    /**
+     * This method is what is run by the thread and will kick off a timer that will go
+     * off every half second or so. Every time this timer goes off it will trigger a
+     * TimerTask event that will poll the server for new data.
+     */
+    @Override
+    public void run() {
+        ServerPallTask task = new ServerPallTask( CatanFacade.getProxy(), CatanFacade.getModel() );
+        task.setParent( this );
+        timer.schedule( task, PALL_DELAY, PALL_DELAY );
+    }
+    
+    public int getTimesPalled() {
+        return timesPalled;
+    }
+    
+    public void incrementTimesPalled() {
+        timesPalled++;
+    }
 
 }

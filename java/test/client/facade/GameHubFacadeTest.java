@@ -39,18 +39,6 @@ public class GameHubFacadeTest {
     }
 
     /**
-     * Test of getModel method, of class GameHubFacade.
-     */
-    @Test
-    public void testGetModel() {
-        System.out.println("getModel");
-        GameHubFacade instance = null;
-        instance.getModel();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of resetCommands method, of class GameHubFacade.
      */
     @Test
