@@ -171,20 +171,23 @@ public class Model {
     }
     
     /**
-     * Checks if a player has a settlement to build, the resources to build this
-     * settlement and if it is in a valid location on the map.
+     * Checks if a settlement can be built by the current player at the given VertexLocation
      *
      * @param location where the player would like to build the settlement
-     * @return true if no exception is thrown
-     * @throws InsufficientSupplies if the player did not have enough resources
-     * @throws InvalidLocation if this is an invalid location for this player to
-     * play a settlement
+     * @return true if given VertexLocation is valid, false if not
      */
     public boolean canBuildSettlement(VertexLocation location) {
         
-        if(!isValidVertex(location)){
+		if (!isValidVertex(location)){
             return false;
         }
+		
+		//If it's the first round, then no need to check for roads
+		if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND){
+			return true;
+		}
+		
+		//Check to make sure the target vertex is touching a road (if not FIRST_ROUND)
         return surroundingEdgeOfVertexHasRoad(location);
     }
     
