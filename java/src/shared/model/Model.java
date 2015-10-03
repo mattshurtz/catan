@@ -95,9 +95,7 @@ public class Model {
      */
     public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
 
-//        if(!map.canPlaceRoadAtLoc(location)) {
-//            throw new InvalidLocation("");
-//        }
+//      
         
         return true;
     }
@@ -153,20 +151,101 @@ public class Model {
         if(surroundingVertexHasObject(location)){
             return false;
         }
-        if(surroundingEdgeHasRoad(location)){
+        if(surroundingOfVertexEdgeHasRoad(location)){
             return false;
         }
     	
     	return true;
     }
     
-    public boolean surroundingEdgeHasRoad(VertexLocation location){
+    public boolean surroundingEdgeOfEdgeHasRoad(EdgeLocation location){
+        EdgeLocation normEdge = location.getNormalizedLocation();
+        
+        int currentPlayer = turnTracker.getCurrentTurn();
+        
+        for (Road road: map.getRoads()) {
+            
+           // check around North edge 
+            if(normEdge.getDir()==EdgeDirection.North){
+                HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                if(road.getLocation().equals(new EdgeLocation(
+                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                if(road.getLocation().equals(new EdgeLocation(
+                            northwestNeighbor, EdgeDirection.SouthEast))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                normEdge.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+
+            }
+            //Check arround the NorthWest edge
+            if(normEdge.getDir()==EdgeDirection.NorthWest){
+                HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                if(road.getLocation().equals(new EdgeLocation(
+                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+                if(road.getLocation().equals(new EdgeLocation(
+                            southwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                            southwestNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+            }
+            //Check arround the NorthEast edge
+            if(normEdge.getDir()==EdgeDirection.NorthEast){
+                HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                if(road.getLocation().equals(new EdgeLocation(
+                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+                if(road.getLocation().equals(new EdgeLocation(
+                            southeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                            southeastNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+                if(road.getLocation().equals(new EdgeLocation(
+                normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                    return true;
+                }
+            }
+            
+        }
+        
+        
+        return false;
+    }
+    
+    public boolean isPortEdge(){
+        return false;
+    }
+    
+    public boolean surroundingOfVertexEdgeHasRoad(VertexLocation location){
         VertexLocation normLocation = location.getNormalizedLocation();
     	
+        int currentPlayer = turnTracker.getCurrentTurn();
         
-    	ArrayList<Road> roads = map.getRoads();
-        
-        for (Road road: roads) {
+        for (Road road: map.getRoads()) {
         //Assume that vObject.getLocation is returning the Normalized location
         
         //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
@@ -176,18 +255,18 @@ public class Model {
                     HexLocation northeastNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
                   
                     if(road.getLocation().equals(new EdgeLocation(
-                            northeastNeighbor, EdgeDirection.NorthWest))){
+                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                             return true;
                     }
                     //check southeast of current hex
                     
                     if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.North))){
+                            normLocation.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
                             return true;
                     }
                     
                     if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.NorthEast))){
+                            normLocation.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                             return true;
                     }
     		}
@@ -197,17 +276,17 @@ public class Model {
                     HexLocation northwestNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
                     
                     if(road.getLocation().equals(new EdgeLocation(
-                            northwestNeighbor, EdgeDirection.NorthEast))){
+                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                         return true;
                     }
                     
                     if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.North))){
+                            normLocation.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
                         return true;
                     }
                     
                     if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.NorthWest))){
+                            normLocation.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                         return true;
                     }
                     
