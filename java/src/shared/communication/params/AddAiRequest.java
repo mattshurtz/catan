@@ -12,7 +12,11 @@ package shared.communication.params;
 public class AddAiRequest {
     private String AIType;
 
-    public String getAIType() {
+    public AddAiRequest(String string) {
+		this.AIType = string;
+	}
+
+	public String getAIType() {
         return AIType;
     }
 

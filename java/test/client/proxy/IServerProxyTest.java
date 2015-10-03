@@ -10,14 +10,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import shared.communication.params.AddAiRequest;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
 import shared.communication.params.LoadGameRequest;
 import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
+import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
 import shared.communication.params.moves.DiscardCardsRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
@@ -32,6 +37,8 @@ import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.ResourceList;
 import shared.definitions.*;
@@ -357,7 +364,7 @@ public class IServerProxyTest {
     public void testAddAi() throws Exception {
         System.out.println("addAi");
         boolean expResult = true;
-        boolean result = instance.addAi( null );
+        boolean result = instance.addAi( new AddAiRequest("LARGEST_ARMY") );
         assertEquals(expResult, result);
     }
 
@@ -409,9 +416,10 @@ public class IServerProxyTest {
     @Test
     public void testMaritimeTrade() throws Exception {
         System.out.println("maritimeTrade");
-//        instance.maritimeTrade();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.maritimeTrade(new MaritimeTradeRequest(0,3,ResourceType.SHEEP,ResourceType.BRICK));
+        if(result==null)
+        	fail("Did not trade");
     }
 
     /**
@@ -458,9 +466,11 @@ public class IServerProxyTest {
     @Test
     public void testPlaySoldier() throws Exception {
         System.out.println("playSoldier");
-//        instance.playSoldier();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.playSoldier(new RobPlayerRequest(0, 1, new HexLocation(1,1)));
+        if(result == null) {
+        	fail("Did not play road");
+        }
     }
 
     /**
@@ -480,9 +490,10 @@ public class IServerProxyTest {
     @Test
     public void testBuildSettlement() throws Exception {
         System.out.println("buildSettlement");
-//        instance.buildSettlement();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.buildSettlement(new BuildSettlementRequest(new VertexLocation(new HexLocation(-1,1),VertexDirection.NorthEast), true));
+        if(result==null)
+        	fail("Did not build Settlement");
     }
 
     /**
@@ -491,9 +502,10 @@ public class IServerProxyTest {
     @Test
     public void testBuildCity() throws Exception {
         System.out.println("buildCity");
-//        instance.buildCity();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.buildCity(new BuildCityRequest(new VertexLocation(new HexLocation(0,0),VertexDirection.NorthEast)));
+        if(result==null)
+        	fail("Did not build Settlement");
     }
 
     /**
