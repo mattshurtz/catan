@@ -572,7 +572,8 @@ public class ModelTest {
 	public void testCanBuildRoadInOcean() throws Exception {
 
 		// this edge is an invalid ocean edge
-		assertEquals(false, new EdgeLocation(new HexLocation(0, -3), EdgeDirection.NorthWest));
+		EdgeLocation oceanEdge = new EdgeLocation(new HexLocation(0, -3), EdgeDirection.NorthWest);
+		assertFalse(instance.canBuildRoad(oceanEdge));
 	}
 
 	/**
