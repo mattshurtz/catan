@@ -625,12 +625,8 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuySettlementInsufficientResources() throws Exception {
-		try {
-			instance.canBuySettlement();
-			fail("Didn't throw an exception, but should've");
-		} catch (InsufficientSupplies e) {
-			// This player did not have these supplies.
-		}
+		//Current player 0 doesn't have enough resources to buy a settlement
+		assertEquals(false, instance.canBuySettlement());
 	}
 
 	/**
@@ -638,8 +634,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuySettlementNoSettlements() throws Exception {
-		// Get the current player and add brick so they have enough to buy
-		// settlement
+		// Get the current player and add brick so they have enough to buy settlement
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
 		assertEquals(currentPlayerIndex, 0);
 		Player player = instance.getPlayer(currentPlayerIndex);
@@ -651,66 +646,136 @@ public class ModelTest {
 		assertEquals(player.getResources().getWheat(), 1);
 		assertEquals(player.getResources().getSheep(), 1);
 
-		// This player has sufficient resources to buy a settlement,
-		// so this should pass
-		try {
-			instance.canBuySettlement();
-		} catch (InsufficientSupplies e) {
-			fail(e.getMessage());
-		}
+		//This player has enough resources, so now remove settlements
+		player.setSettlements(0);
+		assertEquals(player.getSettlements(), 0);
+		
+		//Test buying a settlement without any settlements, should fail
+		assertEquals(instance.canBuySettlement(), false);
 	}
-
+	
 	/**
-	 * 
-	 * @throws Exception
+	 * VALID CANBUYSETTLEMENT TEST
+	 */
+	
+	/**
+	 * Test of canBuySettlement when player has enough resources and settlements
 	 */
 	@Test
-	public void testCanBuySettlement() throws Exception {
-
-		int currentPlayer = instance.getTurnTracker().getCurrentTurn();
-		// the current player in the testModel is the first player
-		assertEquals(currentPlayer, 0);
-		// add a brick to the current players resource list so they have enough
-		// to buy
-		// a settlement.
-		Player player = instance.getPlayer(currentPlayer);
-		// player.getResources().addResource(ResourceType.BRICK,1);
-
+	public void testCanBuySettlementValid() throws Exception {
+		// Get the current player
+		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
+		assertEquals(currentPlayerIndex, 0);
+		Player player = instance.getPlayer(currentPlayerIndex);
+		
+		// Add resources to the player so that they can afford a settlement
+		player.getResources().addResource(ResourceType.BRICK, 1);
+		
 		// check if the current player has sufficient resources to buy a road
 		assertEquals(player.getResources().getBrick(), 1);
 		assertEquals(player.getResources().getWood(), 1);
 		assertEquals(player.getResources().getWheat(), 1);
 		assertEquals(player.getResources().getSheep(), 1);
-		// this player has sufficient resources to buy a settlement so this
-		// should pass
-		try {
-			instance.canBuySettlement();
-		} catch (InsufficientSupplies e) {
-			fail(e.getMessage());
-		}
-
-		// remove all of the players settlements to test that they must have a
-		// road in order
-		// to buy a settlement.
-		player.setSettlements(0);
-		assertEquals(player.getSettlements(), 0);
-		// Player has no roads so an exception should be thrown
-		try {
-			instance.canBuySettlement();
-			fail("did not have settlement");
-		} catch (InsufficientSupplies e) {
-
-		}
+		
+		// Check if the player has at least one settlement to place
+		assertTrue(player.getSettlements() > 0);
+		
+		// Buy the settlement - should return true
+		assertEquals(instance.canBuySettlement(), true);
 	}
+	
+	/**
+	 * INVALID CANBUILDSETTLEMENT TESTS
+	 */
 
 	/**
-	 * Test of canBuildSettlement method, of class Model.
+	 * Test of canBuildSettlement on a vertex with an existing settlement
 	 */
 	@Test
-	public void testCanBuildSettlement() throws Exception {
-fail("stub");
+	public void testCanBuildSettlementOccupiedVertex() throws Exception {
+		//Build on a hex that is occupied by this player's vertexObject
+		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast );
+		assertEquals(false, instance.canBuildSettlement(vertexLoc));
+		
+		//Attempt to build on a hex that is occupied by another player's vertexObject
+		VertexLocation vertexLoc2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.NorthWest );
+		assertEquals(false, instance.canBuildSettlement(vertexLoc2));
 	}
-
+	
+	/**
+	 * Test of canBuildSettlement in isolated area when it's NOT the first round 
+	 */
+	@Test
+	public void testCanBuildSettlementIsolated() throws Exception {
+		//Current state of the game is 'ROLLING', so this should fail
+		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(0, 2), VertexDirection.East)));
+	}
+	
+	/**
+	 * Test of canBuildSettlement when too near another settlement
+	 */
+	@Test
+	public void testCanBuildSettlementNearOtherSettlement() throws Exception {
+		//Test building settlement within one road of the other settlement
+		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(0, 2), VertexDirection.NorthWest)));
+	}
+	
+	/**
+	 * Test of canBuildSettlement when attached to road that's not player's own
+	 */
+	@Test
+	public void testCanBuildSettlementOnOpponentRoad() throws Exception {
+		//Reset roads so that there are two roads coming out of a player 0 settlement
+		//Settlements remain the same
+		Road roadOne = new Road(2, new EdgeLocation(new HexLocation(1, 0), EdgeDirection.North));
+		Road roadTwo = new Road(2, new EdgeLocation(new HexLocation(1, 0), EdgeDirection.NorthEast));
+		ArrayList<Road> roads = new ArrayList<Road>(Arrays.asList(roadOne, roadTwo));
+		
+		//Set instance roads to newly created roads
+		instance.getMap().setRoads(roads);
+		
+		//Now there are only two red roads, but there are still other-colored settlements
+		//on nearby vertices
+		
+		//Try to build a yellow settlement attached to a red road (it's at least 2
+		//edges away from all other settlements) - should fail
+		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(1, 0), VertexDirection.East)));
+	}
+	
+	/**
+	 * VALID CANBUILDSETTLEMENT TESTS
+	 */
+	
+	/**
+	 * Test of canBuildSettlement when there aren't any nearby roads, during FIRST_ROUND
+	 */
+	@Test
+	public void testCanBuildSettlementValidFirstRound() throws Exception {
+		//Set model to be on the FIRST_ROUND
+		instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
+		
+		//Try to build a settlement in an isolated space
+		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, -1), VertexDirection.NorthEast);
+		assertTrue(instance.canBuildSettlement(vertexLoc));
+	}
+	
+	/**
+	 * Test of canBuildSettlement when connecting to a road, not during FIRST_ROUND
+	 */
+	@Test
+	public void testCanBuildSettlementValid() throws Exception {
+		//Reset yellow roads so that there are two roads between the existing
+		//yellow settlement and the target vertex Location
+		Road roadOne = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North));
+		Road roadTwo = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthWest));
+		
+		//Set the roads within the map of the Model
+		instance.getMap().setRoads(new ArrayList<Road>(Arrays.asList(roadOne, roadTwo)));
+		
+		//Test if you can build a settlement on the edge of the second road - should return true
+		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 2), VertexDirection.West);
+		assertTrue(instance.canBuildSettlement(vertexLoc));
+	}
 
 	@Test
 	public void testCanBuyCity() throws Exception {
