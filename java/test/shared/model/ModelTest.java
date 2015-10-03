@@ -601,7 +601,8 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
-            fail("stub");
+		//Building a road near the yellow player 0 settlement at hexLocation 0, 1
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 1), EdgeDirection.SouthEast)));
 	}
 
 	/**
