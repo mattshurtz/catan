@@ -152,12 +152,19 @@ public class Model {
 
     }
 
-    public boolean canBuySettlement()throws InsufficientSupplies{
+    /**
+     * Checks if current player has enough resources for a settlement, and then checks if they have 
+     * any settlements remaining.
+     * @return True if they player has enough resources and settlements, false if no
+     */
+    public boolean canBuySettlement() {
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
-            throw new InsufficientSupplies("Player does not have enough resources");
+            //Player doesn't have enough resources
+        	return false;
         }
         if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
-            throw new InsufficientSupplies("Player does not have a road to build");
+            //Player doesn't have enough settlements
+        	return false;
         }
         return true;
     }
