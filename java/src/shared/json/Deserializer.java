@@ -87,7 +87,6 @@ public class Deserializer {
 
         String sampleModelJson = new String(data, "UTF-8");
         
-        System.out.println("toJavaModel");
         Deserializer instance = new Deserializer();
         Model result = instance.toJavaModel( sampleModelJson );
         return result;
