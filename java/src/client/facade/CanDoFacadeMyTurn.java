@@ -23,8 +23,9 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canRobPlayer() {
-        return super.canRobPlayer(); //To change body of generated methods, choose Tools | Templates.
+    public boolean canRobPlayer(int playerIndex) {
+       
+        return model.canRobPlayer(playerIndex);
     }
 
     @Override

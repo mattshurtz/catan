@@ -34,7 +34,7 @@ public class CanDoFacadeNotMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canRobPlayer() {
+    public boolean canRobPlayer(int playerIndex) {
         return false;
     }
 

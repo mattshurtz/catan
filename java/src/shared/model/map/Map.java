@@ -10,6 +10,7 @@ import java.util.Objects;
 
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
 /**
@@ -129,6 +130,38 @@ public class Map {
     public void placeSettlmentAtLoc(Settlement settlement, VertexLocation location){
         
     }
+    
+    public boolean canRobPlayer(int playerIndex) {
+        //get rob-able locations
+        ArrayList<VertexLocation> validRobbingLocations = getValidNormalizedRobbingLocations();
+        
+        //create list of all vertex objects
+        ArrayList<VertexObject> allBuildings = new ArrayList(settlements);
+        allBuildings.addAll(cities);
+        
+        for(VertexObject building : allBuildings) {
+            if(validRobbingLocations.contains(building.getLocation().getNormalizedLocation()) && building.getOwner() == playerIndex) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+            
+    private ArrayList<VertexLocation> getValidNormalizedRobbingLocations() {
+        ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
+        
+        list.add(new VertexLocation(robber, VertexDirection.NorthEast));
+        list.add(new VertexLocation(robber, VertexDirection.NorthWest));
+        list.add(new VertexLocation(robber, VertexDirection.West).getNormalizedLocation());
+        list.add(new VertexLocation(robber, VertexDirection.SouthWest).getNormalizedLocation());
+        list.add(new VertexLocation(robber, VertexDirection.SouthEast).getNormalizedLocation());
+        list.add(new VertexLocation(robber, VertexDirection.East).getNormalizedLocation());
+        
+        return list;
+
+    }
+    
     
     /**
      * 

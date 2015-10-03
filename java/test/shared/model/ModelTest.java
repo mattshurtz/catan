@@ -694,4 +694,32 @@ public class ModelTest {
         
     }
     
+    @Test
+    public void testCanRobPlayer()
+    {
+        Model model = ModelTest.testModel();
+        
+        model.getMap().setRobber(new HexLocation(1,-1));
+        
+        boolean brookeFalse = model.canRobPlayer(1);
+        assertFalse(brookeFalse);
+        
+        boolean peteTrue = model.canRobPlayer(2);
+        assertTrue(peteTrue);
+        
+        boolean markTrue = model.canRobPlayer(3);
+        assertTrue(markTrue);      
+        
+        model.getMap().setRobber(new HexLocation(-1,1));
+        
+        brookeFalse = model.canRobPlayer(1);
+        assertFalse(brookeFalse);
+        
+        peteTrue = model.canRobPlayer(2);
+        assertTrue(peteTrue);
+        
+        markTrue = model.canRobPlayer(3);
+        assertTrue(markTrue);     
+    }
+    
 }

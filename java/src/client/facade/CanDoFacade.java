@@ -131,7 +131,7 @@ public abstract class CanDoFacade {
         return false;
     }
 
-    public boolean canRobPlayer() {
+    public boolean canRobPlayer(int playerIndex) {
         return false;
     }
 

@@ -160,6 +160,11 @@ public class Model {
     	return true;
     }
     
+    public boolean canRobPlayer(int playerIndex)
+    {
+        return map.canRobPlayer(playerIndex);
+    }
+    
     public boolean surroundingEdgeHasRoad(VertexLocation location){
         VertexLocation normLocation = location.getNormalizedLocation();
     	

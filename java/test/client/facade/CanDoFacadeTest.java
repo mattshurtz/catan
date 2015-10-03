@@ -265,7 +265,8 @@ public class CanDoFacadeTest {
         System.out.println("canRobPlayer");
         CanDoFacade instance = null;
         boolean expResult = false;
-        boolean result = instance.canRobPlayer();
+        
+        boolean result = instance.canRobPlayer(1);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
