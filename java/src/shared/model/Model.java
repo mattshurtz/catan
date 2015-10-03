@@ -5,9 +5,11 @@
  */
 package shared.model;
 
+import client.facade.CatanFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
@@ -443,6 +445,7 @@ public class Model {
         Player currentPlayer = players.get(turnTracker.getCurrentTurn());
     }
     
+    
     public boolean canBuyCity() throws InsufficientSupplies{
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()){
             throw new InsufficientSupplies("Player does not have enough resources");
@@ -495,6 +498,14 @@ public class Model {
     public void distributeResources(int rolledNumber)
     {
     	//Don't implement in phase 1
+    }
+    
+    public boolean canOfferResource(ResourceType type, int amount) {
+       return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
+    }
+    
+    public boolean canAcceptTrade(ResourceList tradeOffer){
+        return players.get(CatanFacade.getMyPlayerIndex()).getResources().canAcceptTrade(tradeOffer);
     }
 
     public TurnTracker getTurnTracker() {

@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import client.facade.CatanFacade;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -845,11 +846,52 @@ fail("stub");
         markTrue = model.canRobPlayer(3);
         assertTrue(markTrue);     
     }
-        
+    
+        /**
+         * Tests whether the current play has sufficient resources to offer for
+         * a trade.
+         */
 	@Test
-	public void canOfferResource() {
-        fail("stub");
+	public void canOfferResource() throws GetPlayerException {
+            // These are testing whether the current player sam is able to make the following trades
+            // this player has 1 wood in hand
+            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWood(),1);
+            assertEquals(instance.canOfferResource(ResourceType.WOOD, 1),true);
+            // this player has 1 wheat
+            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWheat(),1);
+            assertEquals(instance.canOfferResource(ResourceType.WHEAT, 1),true);
+            // this player has 1 ore
+            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getOre(),0);
+            assertEquals(instance.canOfferResource(ResourceType.ORE, 0),true);
+            // this player has 1 sheep
+            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getSheep(),1);
+            assertEquals(instance.canOfferResource(ResourceType.SHEEP, 3),false);
+            // this player has 1 brick
+            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getBrick(),0);
+            assertEquals(instance.canOfferResource(ResourceType.BRICK, 4),false);
 	}
+        
+        /**
+         * Tests whether this player has enough resources
+         */
+        @Test
+        public void canAcceptTrade(){
+           CatanFacade.setMyPlayerIndex(0);
+           ResourceList tradeOffer = new ResourceList();
+           tradeOffer.setBrick(0);
+           tradeOffer.setOre(0);
+           tradeOffer.setSheep(1);
+           tradeOffer.setWheat(1);
+           tradeOffer.setWood(1);
+           
+           assertEquals(instance.canAcceptTrade(tradeOffer),true);
+           
+           tradeOffer.setBrick(4);
+           
+           assertEquals(instance.canAcceptTrade(tradeOffer),false);
+            
+            
+        }
         
         
 } 
