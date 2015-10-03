@@ -460,7 +460,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuyRoadInsufficientBrick() throws Exception {
-		//Current player doesn't have supplies, should return false
+		// Current player doesn't have supplies, should return false
 		assertEquals(false, instance.canBuyRoad());
 	}
 
@@ -519,12 +519,12 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadAtFilledEdge() throws Exception {
-            
-            // this is an edge location that already has a road so it should fail. 
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(1,-1),EdgeDirection.NorthEast)));
-            // this is an edge location that already has a road so it should fail. 
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,2),EdgeDirection.North)));
-            // Any other cases are covered in the other tests
+
+		// this is an edge location that already has a road so it should fail.
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast)));
+		// this is an edge location that already has a road so it should fail.
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North)));
+		// Any other cases are covered in the other tests
 	}
 
 	/**
@@ -533,6 +533,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadIsolated() throws Exception {
+
             // this is an edge location that has no adjacent pieces 3 on Wood
             assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast)));
             // this is an edge location that has no adjacent pieces 3 on Wood
@@ -548,7 +549,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNotNextToCurrentPlayer() throws Exception {
-		
+
             // this is a nothern edge location that has adjacent pieces but none of them
             // belong to the current player. 6 on Wood
             assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-2,-2),EdgeDirection.North)));
@@ -568,9 +569,9 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadInOcean() throws Exception {
-            
-            // this edge is an invalid ocean edge
-            assertEquals(false, new EdgeLocation(new HexLocation(0,-3), EdgeDirection.NorthWest));
+
+		// this edge is an invalid ocean edge
+		assertEquals(false, new EdgeLocation(new HexLocation(0, -3), EdgeDirection.NorthWest));
 	}
 
 	/**
@@ -582,20 +583,21 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearRoad() throws Exception {
-        // this is a valid edgelocation for the player sam whose turn it is. 
-        assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest)));
-	
-        // this is a valid edgelocation for the player sam whose turn it is. 
-        assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0,2),EdgeDirection.NorthEast)));
-        
-        // this is a valid edgelocation for the player sam whose turn it is. 
-        assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1,1),EdgeDirection.North)));
-        
-        }
-	
+		// this is a valid edgelocation for the player sam whose turn it is.
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest)));
+
+		// this is a valid edgelocation for the player sam whose turn it is.
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast)));
+
+		// this is a valid edgelocation for the player sam whose turn it is.
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North)));
+
+	}
+
 	/**
-	 * Test of canBuildRoad connecting to an existing settlement of current player
-     * This is for when the game is starting and players are placing their first roads
+	 * Test of canBuildRoad connecting to an existing settlement of current
+	 * player This is for when the game is starting and players are placing
+	 * their first roads
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
@@ -604,17 +606,18 @@ public class ModelTest {
 
 	/**
 	 * Test of canBuildRoad connecting to an existing city of current player
-         * This is for when the game is starting and players are placing their first roads
+	 * This is for when the game is starting and players are placing their first
+	 * roads
 	 */
 	@Test
 	public void testCanBuildRoadNearCity() throws Exception {
             fail("stub");
 	}
-	
+
 	/**
 	 * INVALID CANBUYSETTLEMENT TESTS
 	 */
-	
+
 	/**
 	 * Test of canBuySettlement when there aren't enough resources
 	 */
@@ -627,26 +630,27 @@ public class ModelTest {
 			// This player did not have these supplies.
 		}
 	}
-	
+
 	/**
 	 * Test of canBuySettlement when player doesn't have settlements left
 	 */
 	@Test
 	public void testCanBuySettlementNoSettlements() throws Exception {
-		//Get the current player and add brick so they have enough to buy settlement
+		// Get the current player and add brick so they have enough to buy
+		// settlement
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
 		assertEquals(currentPlayerIndex, 0);
 		Player player = instance.getPlayer(currentPlayerIndex);
 		player.getResources().addResource(ResourceType.BRICK, 1);
-		
-		//Check if the current player has sufficient resources
+
+		// Check if the current player has sufficient resources
 		assertEquals(player.getResources().getBrick(), 1);
 		assertEquals(player.getResources().getWood(), 1);
 		assertEquals(player.getResources().getWheat(), 1);
 		assertEquals(player.getResources().getSheep(), 1);
-		
-		//This player has sufficient resources to buy a settlement,
-		//so this should pass
+
+		// This player has sufficient resources to buy a settlement,
+		// so this should pass
 		try {
 			instance.canBuySettlement();
 		} catch (InsufficientSupplies e) {

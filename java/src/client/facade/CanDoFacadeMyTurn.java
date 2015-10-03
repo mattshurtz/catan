@@ -97,16 +97,22 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
         return super.canOfferTrade(playerIndex, resourceList); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public boolean canBuyRoad() throws InsufficientSupplies {
+    /*@Override
+   	public boolean canBuyRoad() throws InsufficientSupplies {
         try {
             return model.canBuyRoad();
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(CanDoFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
+    } */
+    
+    @Override
+    public boolean canBuyRoad() {
+    	return model.canBuyRoad();
     }
 
+    /*
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
         try {
@@ -116,6 +122,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
         }  
         
         return false;
+    }
+    */
+    
+    @Override
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
+    	return model.canBuildRoad(roadLocation);
     }
     
    public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {

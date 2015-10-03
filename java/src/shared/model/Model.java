@@ -22,17 +22,15 @@ import shared.model.map.Settlement;
 import shared.model.map.VertexObject;
 
 /**
- * bank (ResourceList): The Resource cards available to be distributed to 
- * the players.,
- * remainingDevCards (DevCardList): the dev cards available to be distributed
- * to the players,
- * chat (MessageList): All the chat messages., log (MessageList): All the log
- * messages., map (Map), players (array[Player]), tradeOffer (TradeOffer,
- * optional): The current trade offer, if there is one., turnTracker
- * (TurnTracker): This tracks who's turn it is and what action's being done.,
- * version (index): The version of the model. This is incremented whenever
- * anyone makes a move., winner (index): This is -1 when nobody's won yet. When
- * they have, it's their order index [0-3]
+ * bank (ResourceList): The Resource cards available to be distributed to the
+ * players., remainingDevCards (DevCardList): the dev cards available to be
+ * distributed to the players, chat (MessageList): All the chat messages., log
+ * (MessageList): All the log messages., map (Map), players (array[Player]),
+ * tradeOffer (TradeOffer, optional): The current trade offer, if there is one.,
+ * turnTracker (TurnTracker): This tracks who's turn it is and what action's
+ * being done., version (index): The version of the model. This is incremented
+ * whenever anyone makes a move., winner (index): This is -1 when nobody's won
+ * yet. When they have, it's their order index [0-3]
  */
 public class Model {
 
@@ -160,7 +158,6 @@ public class Model {
     public boolean isValidRoadLocation(EdgeLocation location) throws InvalidLocation{
         EdgeLocation normEdge = location.getNormalizedLocation();
         int currentPlayer = turnTracker.getCurrentTurn();
-        
         
         for (Road road: map.getRoads()) {
            // check if road exists on this edge
@@ -547,5 +544,3 @@ public class Model {
     }
     
     
-
-}
