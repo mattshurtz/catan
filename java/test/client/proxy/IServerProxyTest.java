@@ -17,6 +17,10 @@ import shared.communication.params.LoadGameRequest;
 import shared.communication.params.PostCommandsRequest;
 import shared.communication.params.SaveGameRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.PlayRoadBuildingRequest;
+import shared.communication.params.moves.PlayYearOfPlentyRequest;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.communication.responses.CreateGameResponse;
@@ -24,7 +28,11 @@ import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
 import shared.exceptions.ServerException;
 import shared.json.Deserializer;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 import shared.model.Model;
+import shared.definitions.*;
 
 /**
  *
@@ -409,9 +417,10 @@ public class IServerProxyTest {
     @Test
     public void testBuyDevCard() throws Exception {
         System.out.println("buyDevCard");
-//        instance.buyDevCard();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.buyDevCard(new MoveRequest("buyDevCard",0));
+        if (result == null)
+        	fail("Could not buy a dev card");
     }
 
     /**
@@ -420,9 +429,10 @@ public class IServerProxyTest {
     @Test
     public void testPlayYearOfPlenty() throws Exception {
         System.out.println("playYearOfPlenty");
-//        instance.playYearOfPlenty();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.playYearOfPlenty(new PlayYearOfPlentyRequest(0,ResourceType.ORE,ResourceType.WHEAT));
+        if (result==null)
+        	fail("Did not play year of plenty");
     }
 
     /**
@@ -431,9 +441,12 @@ public class IServerProxyTest {
     @Test
     public void testPlayRoadBuilding() throws Exception {
         System.out.println("playRoadBuilding");
-//        instance.playRoadBuilding();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.playRoadBuilding(new PlayRoadBuildingRequest(0,new EdgeLocation(new HexLocation(1,1),EdgeDirection.North),new EdgeLocation(new HexLocation(1,2),EdgeDirection.North)));
+        if(result == null) {
+        	fail("Did not play road");
+        }
+        
     }
 
     /**
@@ -516,9 +529,10 @@ public class IServerProxyTest {
     @Test
     public void testRobPlayer() throws Exception {
         System.out.println("robPlayer");
-        //instance.robPlayer(new RobPlayerRequest(0,1,new HexLocation()));
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true, true, false);
+        Model result = instance.robPlayer(new RobPlayerRequest(0,1,new HexLocation(1,1)));
+        if (result == null)
+        	fail("Unable to rob player");
     }
 
     /**
@@ -527,9 +541,10 @@ public class IServerProxyTest {
     @Test
     public void testFinishTurn() throws Exception {
         System.out.println("finishTurn");
-//        instance.finishTurn();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        testSetup(true,true,false);
+        Model result = instance.finishTurn(new MoveRequest("finishTurn",0));
+        if (result == null)
+        	fail("Unable to finish turn");
     }
     
 }
