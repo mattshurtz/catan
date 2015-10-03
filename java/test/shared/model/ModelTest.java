@@ -532,8 +532,12 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadAtFilledEdge() throws Exception {
-		instance = ModelTest.testModel();
-		
+            
+            // this is an edge location that already has a road so it should fail. 
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(1,-1),EdgeDirection.NorthEast)));
+            // this is a valid edgelocation for the player sam whose turn it is. 
+            assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest)));
+            
 		
 	}
 	
