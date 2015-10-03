@@ -131,7 +131,7 @@ public class DoFacade {
         //NOTE(Scott): check if now the largest Army)
         
         //build request
-        RobPlayerRequest request = new RobPlayerRequest(victimIndex, location);
+        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
         request.setType("Soldier");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
@@ -241,10 +241,10 @@ public class DoFacade {
         int victimIndex = -1;
         //Note(Scott): choose location somehow
         HexLocation location = new HexLocation(0,0);
-        
-        RobPlayerRequest request = new RobPlayerRequest(victimIndex, location);
+        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
         request.setType("robPlayer");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        request.setPlayerIndex(currentPlayerIndex);
         
         proxy.robPlayer(request);
     }

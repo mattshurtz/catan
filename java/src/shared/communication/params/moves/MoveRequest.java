@@ -18,6 +18,13 @@ public class MoveRequest {
      * the index of the player making the move
      */
     int playerIndex = -1;
+    
+    public MoveRequest(String type, int playerIndex) {
+    	this.type = type;
+    	this.playerIndex = playerIndex;
+    }
+    
+    public MoveRequest(){}
 
     public String getType() {
         return type;

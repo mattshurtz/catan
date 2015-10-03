@@ -127,7 +127,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     */
     
     @Override
-    public boolean canBuildRoad(EdgeLocation roadLocation) {
+    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
     	return model.canBuildRoad(roadLocation);
     }
     

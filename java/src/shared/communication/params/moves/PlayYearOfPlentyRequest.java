@@ -21,6 +21,13 @@ public class PlayYearOfPlentyRequest extends MoveRequest {
         this.resource2 = resource2;
     }
     
+    public PlayYearOfPlentyRequest(int playerIndex, ResourceType resource1, ResourceType resource2) {
+        this.setType("Year_of_Plenty");
+        this.setPlayerIndex(playerIndex);
+    	this.resource1 = resource1;
+        this.resource2 = resource2;
+    }
+    
     public ResourceType getResource1() {
         return resource1;
     }
