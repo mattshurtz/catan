@@ -355,7 +355,7 @@ public class ModelTest {
 	/**
 	 * INVALID GETPLAYER TESTS
 	 */
-	
+
 	/**
 	 * Test of getPlayer method when index is > 3 or < 0 (out of bounds)
 	 */
@@ -405,9 +405,9 @@ public class ModelTest {
 	}
 
 	/**
-	 * VALID GETPLAYER TESTS 
+	 * VALID GETPLAYER TESTS
 	 */
-	
+
 	/**
 	 * Test of getPlayer method where inputs are valid
 	 */
@@ -450,7 +450,7 @@ public class ModelTest {
 
 		assertEquals(expResult, result);
 	}
-	
+
 	/**
 	 * INVALID CANBUYROAD TESTS
 	 */
@@ -464,65 +464,66 @@ public class ModelTest {
 			instance.canBuyRoad();
 			fail("but it didn't throw an exception!");
 		} catch (InsufficientSupplies e) {
-			// This player didn't have supplies, 
+			// This player didn't have supplies,
 			// and exception was thrown as expected
 		}
 	}
-	
+
 	/**
 	 * Test of canBuyRoad when the current player doesn't have enough roads
 	 */
 	@Test
 	public void testCanBuyRoadInsufficientRoads() throws Exception {
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
-		//current player is first player
+		// current player is first player
 		assertEquals(currentPlayerIndex, 0);
-		
+
 		// Set current player's roads to 0 so they don't have any roads to place
 		Player player = instance.getPlayer(currentPlayerIndex);
 		player.setRoads(0);
-		
-		//validate the roads were set to 0
+
+		// validate the roads were set to 0
 		assertEquals(0, player.getRoads());
-		
-		//Try to buy a road with zero roads
+
+		// Try to buy a road with zero roads
 		try {
 			instance.canBuyRoad();
 			fail("Player didn't have roads, but no exception was thrown!");
 		} catch (InsufficientSupplies e) {
-			//Player didn't have roads, and exception was thrown
+			// Player didn't have roads, and exception was thrown
 		}
 	}
-	
+
 	/**
 	 * VALID CANBUYROAD TESTS
 	 */
-	
+
 	/**
 	 * 
 	 */
-	@Test public void testCanBuyRoadValid() throws Exception {
+	@Test
+	public void testCanBuyRoadValid() throws Exception {
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
 		// The current player in the testModel is the first player
 		assertEquals(currentPlayerIndex, 0);
-		
+
 		// Set current player's bricks so that they can afford a road
 		Player player = instance.getPlayer(currentPlayerIndex);
-		player.getResources().addResource(ResourceType.BRICK,1);
-		
+		player.getResources().addResource(ResourceType.BRICK, 1);
+
 		// check if the current player has sufficient resources to buy a road
 		assertEquals(player.getResources().getBrick(), 1);
 		assertEquals(player.getResources().getWood(), 1);
-		
+
 		// this player has sufficient resources to buy a road so this should
 		// pass
 		try {
 			instance.canBuyRoad();
 		} catch (InsufficientSupplies e) {
 			fail(e.getMessage());
-		}	
+		}
 	}
-	
+
 	/**
 	 * INVALID CANBUILDROAD TESTS
 	 */
@@ -538,16 +539,15 @@ public class ModelTest {
             // this is an edge location that already has a road so it should fail. 
             assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,2),EdgeDirection.North)));
             // Any other cases are covered in the other tests
-            
-		
 	}
-	
+
 	/**
-	 * Test of canBuildRoad method when there's no connecting road or settlement/city 
+	 * Test of canBuildRoad method when there's no connecting road or
+	 * settlement/city
 	 */
 	@Test
 	public void testCanBuildRoadIsolated() throws Exception {
-            
+
             // this is an edge location that has no adjacent pieces 3 on Wood
             assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast));
             // this is an edge location that has no adjacent pieces 3 on Wood
@@ -556,10 +556,10 @@ public class ModelTest {
             assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthWest));
             
 	}
-	
+
 	/**
-	 * Test of canBuildRoad method when road connects to a settlement/city or road, 
-	 * but the settlement/city/road doesn't belong to current player
+	 * Test of canBuildRoad method when road connects to a settlement/city or
+	 * road, but the settlement/city/road doesn't belong to current player
 	 */
 	@Test
 	public void testCanBuildRoadNotNextToCurrentPlayer() throws Exception {
@@ -575,8 +575,9 @@ public class ModelTest {
             // this is a nothern edge location that has adjacent pieces but none of them
             // belong to the current player. 2 on Wheat
             assertEquals(false,new EdgeLocation(new HexLocation(-2,1),EdgeDirection.NorthWest));
+
 	}
-	
+
 	/**
 	 * Test of canBuildRoad method where the edge is in between two ocean hexes
 	 */
@@ -585,13 +586,12 @@ public class ModelTest {
             
             // this edge is an invalid ocean edge
             assertEquals(false, new EdgeLocation(new HexLocation(0,-3), EdgeDirection.NorthWest));
-            
 	}
-	
+
 	/**
 	 * VALID CANBUILDROAD TESTS
 	 */
-	
+
 	/**
 	 * Test of canBuildRoad connecting to an existing road of the current player
 	 */
@@ -611,33 +611,68 @@ public class ModelTest {
 	/**
 	 * Test of canBuildRoad connecting to an existing settlement of current player
          * This is for when the game is starting and players are placing their first roads
+
+	}
+
+	/**
+	 * Test of canBuildRoad connecting to an existing settlement of current
+	 * player
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
-		
+
 	}
-	
+
 	/**
 	 * Test of canBuildRoad connecting to an existing city of current player
          * This is for when the game is starting and players are placing their first roads
 	 */
 	@Test
 	public void testCanBuildRoadNearCity() throws Exception {
-		
-	}
 
+	}
+	
 	/**
-	 * Test of buildRoad method, of class Model.
+	 * INVALID CANBUYSETTLEMENT TESTS
+	 */
+	
+	/**
+	 * Test of canBuySettlement when there aren't enough resources
 	 */
 	@Test
-	public void testBuildRoad() {
-		System.out.println("buildRoad");
-		EdgeLocation location = null;
-		Model instance = new Model();
-		instance.buildRoad(location);
-		// TODO review the generated test code and remove the default call to
-		// fail.
-		fail("The test case is a prototype.");
+	public void testCanBuySettlementInsufficientResources() throws Exception {
+		try {
+			instance.canBuySettlement();
+			fail("Didn't throw an exception, but should've");
+		} catch (InsufficientSupplies e) {
+			// This player did not have these supplies.
+		}
+	}
+	
+	/**
+	 * Test of canBuySettlement when player doesn't have settlements left
+	 */
+	@Test
+	public void testCanBuySettlementNoSettlements() throws Exception {
+		//Get the current player and add brick so they have enough to buy settlement
+		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
+		assertEquals(currentPlayerIndex, 0);
+		Player player = instance.getPlayer(currentPlayerIndex);
+		player.getResources().addResource(ResourceType.BRICK, 1);
+		
+		//Check if the current player has sufficient resources
+		assertEquals(player.getResources().getBrick(), 1);
+		assertEquals(player.getResources().getWood(), 1);
+		assertEquals(player.getResources().getWheat(), 1);
+		assertEquals(player.getResources().getSheep(), 1);
+		
+		//This player has sufficient resources to buy a settlement,
+		//so this should pass
+		try {
+			instance.canBuySettlement();
+		} catch (InsufficientSupplies e) {
+			fail(e.getMessage());
+		}
 	}
 
 	/**
@@ -646,22 +681,14 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuySettlement() throws Exception {
-		Model model = ModelTest.testModel();
-		// current player has no brick so this test should fail.
-		try {
-			model.canBuySettlement();
-			fail("but it didn't throw an exception!");
-		} catch (InsufficientSupplies e) {
-			// This player did not have these supplies.
-		}
 
-		int currentPlayer = model.getTurnTracker().getCurrentTurn();
+		int currentPlayer = instance.getTurnTracker().getCurrentTurn();
 		// the current player in the testModel is the first player
 		assertEquals(currentPlayer, 0);
 		// add a brick to the current players resource list so they have enough
 		// to buy
 		// a settlement.
-		Player player = model.getPlayer(currentPlayer);
+		Player player = instance.getPlayer(currentPlayer);
 		// player.getResources().addResource(ResourceType.BRICK,1);
 
 		// check if the current player has sufficient resources to buy a road
@@ -672,7 +699,7 @@ public class ModelTest {
 		// this player has sufficient resources to buy a settlement so this
 		// should pass
 		try {
-			model.canBuySettlement();
+			instance.canBuySettlement();
 		} catch (InsufficientSupplies e) {
 			fail(e.getMessage());
 		}
@@ -684,7 +711,7 @@ public class ModelTest {
 		assertEquals(player.getSettlements(), 0);
 		// Player has no roads so an exception should be thrown
 		try {
-			model.canBuySettlement();
+			instance.canBuySettlement();
 			fail("did not have settlement");
 		} catch (InsufficientSupplies e) {
 
