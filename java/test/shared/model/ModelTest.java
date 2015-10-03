@@ -38,299 +38,299 @@ import shared.model.map.Settlement;
  */
 public class ModelTest {
 
-    private Model instance = null;
-
-    // private Map<Integer, HexLocation> numberToHexMap = new Map<Integer,
-    // HexLocation>();
-
-    public static Model testModel() {
-        Model testModel = new Model();
-
-        Player playerOne = new Player();
-        ResourceList pOneResourceList = new ResourceList();
-        pOneResourceList.setBrick(0);
-        pOneResourceList.setWood(1);
-        pOneResourceList.setWheat(1);
-        pOneResourceList.setSheep(1);
-        pOneResourceList.setOre(0);
-        playerOne.setCities(4);
-        playerOne.setColor(CatanColor.YELLOW);
-        playerOne.setDiscarded(false);
-        playerOne.setMonuments(0);
-        playerOne.setName("Sam");
-        playerOne.setNewDevCards(new DevCardList());
-        playerOne.setOldDevCards(new DevCardList());
-        playerOne.setPlayedDevCard(false);
-        playerOne.setPlayerID(0);
-        playerOne.setRoads(13);
-        playerOne.setSettlements(3);
-        playerOne.setSoldiers(0);
-        playerOne.setVictoryPoints(2);
-        playerOne.setResources(pOneResourceList);
-        playerOne.setPlayerIndex(0);
-
-        Player playerTwo = new Player();
-        ResourceList pTwoResourceList = new ResourceList();
-        pTwoResourceList.setBrick(1);
-        pTwoResourceList.setWood(0);
-        pTwoResourceList.setSheep(1);
-        pTwoResourceList.setWheat(0);
-        pTwoResourceList.setOre(1);
-        playerTwo.setResources(pTwoResourceList);
-        playerTwo.setOldDevCards(new DevCardList());
-        playerTwo.setNewDevCards(new DevCardList());
-        playerTwo.setRoads(13);
-        playerTwo.setCities(3);
-        playerTwo.setSettlements(4);
-        playerTwo.setSoldiers(0);
-        playerTwo.setVictoryPoints(2);
-        playerTwo.setMonuments(0);
-        playerTwo.setPlayedDevCard(false);
-        playerTwo.setDiscarded(false);
-        playerTwo.setPlayerID(1);
-        playerTwo.setPlayerIndex(1);
-        playerTwo.setName("Brooke");
-        playerTwo.setColor(CatanColor.BLUE);
-
-        Player playerThree = new Player();
-        ResourceList pThreeResourceList = new ResourceList();
-        pThreeResourceList.setBrick(0);
-        pThreeResourceList.setWood(1);
-        pThreeResourceList.setSheep(1);
-        pThreeResourceList.setWheat(1);
-        pThreeResourceList.setOre(0);
-        playerThree.setResources(pThreeResourceList);
-        playerThree.setOldDevCards(new DevCardList());
-        playerThree.setNewDevCards(new DevCardList());
-        playerThree.setRoads(13);
-        playerThree.setCities(4);
-        playerThree.setSettlements(3);
-        playerThree.setSoldiers(0);
-        playerThree.setVictoryPoints(2);
-        playerThree.setMonuments(0);
-        playerThree.setPlayedDevCard(false);
-        playerThree.setDiscarded(false);
-        playerThree.setPlayerID(10);
-        playerThree.setPlayerIndex(2);
-        playerThree.setName("Pete");
-        playerThree.setColor(CatanColor.RED);
-
-        Player playerFour = new Player();
-        ResourceList pFourResourceList = new ResourceList();
-        pFourResourceList.setBrick(0);
-        pFourResourceList.setWood(1);
-        pFourResourceList.setSheep(1);
-        pFourResourceList.setWheat(0);
-        pFourResourceList.setOre(1);
-        playerFour.setResources(pFourResourceList);
-        playerFour.setOldDevCards(new DevCardList());
-        playerFour.setNewDevCards(new DevCardList());
-        playerFour.setRoads(13);
-        playerFour.setCities(4);
-        playerFour.setSettlements(3);
-        playerFour.setSoldiers(0);
-        playerFour.setVictoryPoints(2);
-        playerFour.setMonuments(0);
-        playerFour.setPlayedDevCard(false);
-        playerFour.setDiscarded(false);
-        playerFour.setPlayerID(11);
-        playerFour.setPlayerIndex(3);
-        playerFour.setName("Mark");
-        playerFour.setColor(CatanColor.GREEN);
+	private Model instance = null;
+
+	// private Map<Integer, HexLocation> numberToHexMap = new Map<Integer,
+	// HexLocation>();
+
+	public static Model testModel() {
+		Model testModel = new Model();
+
+		Player playerOne = new Player();
+		ResourceList pOneResourceList = new ResourceList();
+		pOneResourceList.setBrick(0);
+		pOneResourceList.setWood(1);
+		pOneResourceList.setWheat(1);
+		pOneResourceList.setSheep(1);
+		pOneResourceList.setOre(0);
+		playerOne.setCities(4);
+		playerOne.setColor(CatanColor.YELLOW);
+		playerOne.setDiscarded(false);
+		playerOne.setMonuments(0);
+		playerOne.setName("Sam");
+		playerOne.setNewDevCards(new DevCardList());
+		playerOne.setOldDevCards(new DevCardList());
+		playerOne.setPlayedDevCard(false);
+		playerOne.setPlayerID(0);
+		playerOne.setRoads(13);
+		playerOne.setSettlements(3);
+		playerOne.setSoldiers(0);
+		playerOne.setVictoryPoints(2);
+		playerOne.setResources(pOneResourceList);
+		playerOne.setPlayerIndex(0);
+
+		Player playerTwo = new Player();
+		ResourceList pTwoResourceList = new ResourceList();
+		pTwoResourceList.setBrick(1);
+		pTwoResourceList.setWood(0);
+		pTwoResourceList.setSheep(1);
+		pTwoResourceList.setWheat(0);
+		pTwoResourceList.setOre(1);
+		playerTwo.setResources(pTwoResourceList);
+		playerTwo.setOldDevCards(new DevCardList());
+		playerTwo.setNewDevCards(new DevCardList());
+		playerTwo.setRoads(13);
+		playerTwo.setCities(3);
+		playerTwo.setSettlements(4);
+		playerTwo.setSoldiers(0);
+		playerTwo.setVictoryPoints(2);
+		playerTwo.setMonuments(0);
+		playerTwo.setPlayedDevCard(false);
+		playerTwo.setDiscarded(false);
+		playerTwo.setPlayerID(1);
+		playerTwo.setPlayerIndex(1);
+		playerTwo.setName("Brooke");
+		playerTwo.setColor(CatanColor.BLUE);
+
+		Player playerThree = new Player();
+		ResourceList pThreeResourceList = new ResourceList();
+		pThreeResourceList.setBrick(0);
+		pThreeResourceList.setWood(1);
+		pThreeResourceList.setSheep(1);
+		pThreeResourceList.setWheat(1);
+		pThreeResourceList.setOre(0);
+		playerThree.setResources(pThreeResourceList);
+		playerThree.setOldDevCards(new DevCardList());
+		playerThree.setNewDevCards(new DevCardList());
+		playerThree.setRoads(13);
+		playerThree.setCities(4);
+		playerThree.setSettlements(3);
+		playerThree.setSoldiers(0);
+		playerThree.setVictoryPoints(2);
+		playerThree.setMonuments(0);
+		playerThree.setPlayedDevCard(false);
+		playerThree.setDiscarded(false);
+		playerThree.setPlayerID(10);
+		playerThree.setPlayerIndex(2);
+		playerThree.setName("Pete");
+		playerThree.setColor(CatanColor.RED);
 
-        ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(playerOne, playerTwo, playerThree, playerFour));
+		Player playerFour = new Player();
+		ResourceList pFourResourceList = new ResourceList();
+		pFourResourceList.setBrick(0);
+		pFourResourceList.setWood(1);
+		pFourResourceList.setSheep(1);
+		pFourResourceList.setWheat(0);
+		pFourResourceList.setOre(1);
+		playerFour.setResources(pFourResourceList);
+		playerFour.setOldDevCards(new DevCardList());
+		playerFour.setNewDevCards(new DevCardList());
+		playerFour.setRoads(13);
+		playerFour.setCities(4);
+		playerFour.setSettlements(3);
+		playerFour.setSoldiers(0);
+		playerFour.setVictoryPoints(2);
+		playerFour.setMonuments(0);
+		playerFour.setPlayedDevCard(false);
+		playerFour.setDiscarded(false);
+		playerFour.setPlayerID(11);
+		playerFour.setPlayerIndex(3);
+		playerFour.setName("Mark");
+		playerFour.setColor(CatanColor.GREEN);
 
-        Hex a = new Hex(new HexLocation(0, -2), null, 0);
+		ArrayList<Player> players = new ArrayList<Player>(Arrays.asList(playerOne, playerTwo, playerThree, playerFour));
 
-        Hex b = new Hex(new HexLocation(1, -2), ResourceType.BRICK, 4);
+		Hex a = new Hex(new HexLocation(0, -2), null, 0);
 
-        Hex c = new Hex(new HexLocation(2, -2), ResourceType.WOOD, 11);
+		Hex b = new Hex(new HexLocation(1, -2), ResourceType.BRICK, 4);
 
-        Hex d = new Hex(new HexLocation(-1, -1), ResourceType.BRICK, 8);
+		Hex c = new Hex(new HexLocation(2, -2), ResourceType.WOOD, 11);
 
-        Hex e = new Hex(new HexLocation(0, -1), ResourceType.WOOD, 3);
+		Hex d = new Hex(new HexLocation(-1, -1), ResourceType.BRICK, 8);
 
-        Hex f = new Hex(new HexLocation(1, -1), ResourceType.ORE, 9);
+		Hex e = new Hex(new HexLocation(0, -1), ResourceType.WOOD, 3);
 
-        Hex g = new Hex(new HexLocation(2, -1), ResourceType.SHEEP, 12);
+		Hex f = new Hex(new HexLocation(1, -1), ResourceType.ORE, 9);
 
-        Hex h = new Hex(new HexLocation(-2, 0), ResourceType.ORE, 5);
+		Hex g = new Hex(new HexLocation(2, -1), ResourceType.SHEEP, 12);
 
-        Hex i = new Hex(new HexLocation(-1, 0), ResourceType.SHEEP, 10);
+		Hex h = new Hex(new HexLocation(-2, 0), ResourceType.ORE, 5);
 
-        Hex j = new Hex(new HexLocation(0, 0), ResourceType.WHEAT, 11);
+		Hex i = new Hex(new HexLocation(-1, 0), ResourceType.SHEEP, 10);
 
-        Hex k = new Hex(new HexLocation(1, 0), ResourceType.BRICK, 5);
+		Hex j = new Hex(new HexLocation(0, 0), ResourceType.WHEAT, 11);
 
-        Hex l = new Hex(new HexLocation(2, 0), ResourceType.WHEAT, 6);
+		Hex k = new Hex(new HexLocation(1, 0), ResourceType.BRICK, 5);
 
-        Hex m = new Hex(new HexLocation(-2, 1), ResourceType.WHEAT, 2);
+		Hex l = new Hex(new HexLocation(2, 0), ResourceType.WHEAT, 6);
 
-        Hex r = new Hex(new HexLocation(-1, 1), ResourceType.SHEEP, 9);
+		Hex m = new Hex(new HexLocation(-2, 1), ResourceType.WHEAT, 2);
 
-        Hex n = new Hex(new HexLocation(0, 1), ResourceType.WOOD, 4);
+		Hex r = new Hex(new HexLocation(-1, 1), ResourceType.SHEEP, 9);
 
-        Hex s = new Hex(new HexLocation(1, 1), ResourceType.SHEEP, 10);
+		Hex n = new Hex(new HexLocation(0, 1), ResourceType.WOOD, 4);
 
-        Hex o = new Hex(new HexLocation(-2, 2), ResourceType.WOOD, 6);
+		Hex s = new Hex(new HexLocation(1, 1), ResourceType.SHEEP, 10);
 
-        Hex p = new Hex(new HexLocation(-1, 2), ResourceType.ORE, 3);
+		Hex o = new Hex(new HexLocation(-2, 2), ResourceType.WOOD, 6);
 
-        Hex q = new Hex(new HexLocation(0, 2), ResourceType.WHEAT, 8);
+		Hex p = new Hex(new HexLocation(-1, 2), ResourceType.ORE, 3);
 
-        Road roadOne = new Road(1, new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.South));
+		Hex q = new Hex(new HexLocation(0, 2), ResourceType.WHEAT, 8);
 
-        Road roadTwo = new Road(3, new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.SouthWest));
+		Road roadOne = new Road(1, new EdgeLocation(new HexLocation(-1, -1), EdgeDirection.South));
 
-        Road roadThree = new Road(3, new EdgeLocation(new HexLocation(2, -2), EdgeDirection.SouthWest));
+		Road roadTwo = new Road(3, new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.SouthWest));
 
-        Road roadFour = new Road(2, new EdgeLocation(new HexLocation(1, -1), EdgeDirection.South));
+		Road roadThree = new Road(3, new EdgeLocation(new HexLocation(2, -2), EdgeDirection.SouthWest));
 
-        Road roadFive = new Road(0, new EdgeLocation(new HexLocation(0, 1), EdgeDirection.South));
+		Road roadFour = new Road(2, new EdgeLocation(new HexLocation(1, -1), EdgeDirection.South));
 
-        Road roadSix = new Road(2, new EdgeLocation(new HexLocation(0, 0), EdgeDirection.South));
-        
-        Road roadSeven = new Road(1, new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthWest));
+		Road roadFive = new Road(0, new EdgeLocation(new HexLocation(0, 1), EdgeDirection.South));
 
-        Road roadEight = new Road(0, new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthWest));
+		Road roadSix = new Road(2, new EdgeLocation(new HexLocation(0, 0), EdgeDirection.South));
 
-        Port portOne = new Port(3, null, null, EdgeDirection.NorthWest, new HexLocation(2, 1));
+		Road roadSeven = new Road(1, new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthWest));
 
-        Port portTwo = new Port(2, "brick", ResourceType.BRICK, EdgeDirection.NorthEast, new HexLocation(-2, 3));
+		Road roadEight = new Road(0, new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthWest));
 
-        Port portThree = new Port(3, null, null, EdgeDirection.SouthWest, new HexLocation(3, -3));
+		Port portOne = new Port(3, null, null, EdgeDirection.NorthWest, new HexLocation(2, 1));
 
-        Port portFour = new Port(3, null, null, EdgeDirection.North, new HexLocation(0, 3));
+		Port portTwo = new Port(2, "brick", ResourceType.BRICK, EdgeDirection.NorthEast, new HexLocation(-2, 3));
 
-        Port portFive = new Port(2, "wood", ResourceType.WOOD, EdgeDirection.NorthEast, new HexLocation(-3, 2));
+		Port portThree = new Port(3, null, null, EdgeDirection.SouthWest, new HexLocation(3, -3));
 
-        Port portSix = new Port(3, null, null, EdgeDirection.SouthEast, new HexLocation(-3, 0));
+		Port portFour = new Port(3, null, null, EdgeDirection.North, new HexLocation(0, 3));
 
-        Port portSeven = new Port(2, "wheat", ResourceType.WHEAT, EdgeDirection.South, new HexLocation(-1, -2));
+		Port portFive = new Port(2, "wood", ResourceType.WOOD, EdgeDirection.NorthEast, new HexLocation(-3, 2));
 
-        Port portEight = new Port(2, "ore", ResourceType.ORE, EdgeDirection.South, new HexLocation(1, -3));
+		Port portSix = new Port(3, null, null, EdgeDirection.SouthEast, new HexLocation(-3, 0));
 
-        Port portNine = new Port(2, "sheep", ResourceType.SHEEP, EdgeDirection.NorthWest, new HexLocation(3, -1));
+		Port portSeven = new Port(2, "wheat", ResourceType.WHEAT, EdgeDirection.South, new HexLocation(-1, -2));
 
-        Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest),
-                        new ArrayList<Hex>());
+		Port portEight = new Port(2, "ore", ResourceType.ORE, EdgeDirection.South, new HexLocation(1, -3));
 
-        Settlement sTwo = new Settlement(3, new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthEast),
-                        new ArrayList<Hex>());
+		Port portNine = new Port(2, "sheep", ResourceType.SHEEP, EdgeDirection.NorthWest, new HexLocation(3, -1));
 
-        Settlement sThree = new Settlement(2, new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthWest),
-                        new ArrayList<Hex>());
+		Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        Settlement sFour = new Settlement(2, new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthWest),
-                        new ArrayList<Hex>());
+		Settlement sTwo = new Settlement(3, new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthEast),
+				new ArrayList<Hex>());
 
-        Settlement sFive = new Settlement(1, new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthWest),
-                        new ArrayList<Hex>());
+		Settlement sThree = new Settlement(2, new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        Settlement sSix = new Settlement(0, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast),
-                        new ArrayList<Hex>());
+		Settlement sFour = new Settlement(2, new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        Settlement sSeven = new Settlement(0, new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthWest),
-                            new ArrayList<Hex>());
+		Settlement sFive = new Settlement(1, new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        City cOne = new City(1, new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest),
-                        new ArrayList<Hex>());
+		Settlement sSix = new Settlement(0, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast),
+				new ArrayList<Hex>());
 
-        Map toyMap = new Map();
+		Settlement sSeven = new Settlement(0, new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        ArrayList<Hex> hexes = new ArrayList<Hex>(
-                        Arrays.asList(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s));
+		City cOne = new City(1, new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest),
+				new ArrayList<Hex>());
 
-        ArrayList<Road> roads = new ArrayList<Road>(Arrays.asList(roadOne, roadTwo, roadThree, roadFour, roadFive,
-                        roadSix, roadSeven, roadEight));
+		Map toyMap = new Map();
 
-        ArrayList<Port> ports = new ArrayList<Port>(Arrays.asList(portOne, portTwo, portThree, portFour, portFive,
-                        portSix, portSeven, portEight, portNine));
+		ArrayList<Hex> hexes = new ArrayList<Hex>(
+				Arrays.asList(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s));
 
-        ArrayList<Settlement> settlements = new ArrayList<Settlement>(Arrays.asList(sOne, sTwo, sThree, sFour, sFive,
-                        sSix, sSeven));
+		ArrayList<Road> roads = new ArrayList<Road>(Arrays.asList(roadOne, roadTwo, roadThree, roadFour, roadFive,
+				roadSix, roadSeven, roadEight));
 
-        ArrayList<City> cities = new ArrayList<City>(Arrays.asList(cOne));
+		ArrayList<Port> ports = new ArrayList<Port>(Arrays.asList(portOne, portTwo, portThree, portFour, portFive,
+				portSix, portSeven, portEight, portNine));
 
-        toyMap.setRadius(3);
-        HexLocation robberLocation = new HexLocation(0, 2);
-        toyMap.setRobber(robberLocation);
-        toyMap.setCities(cities);
-        toyMap.setHexes(hexes);
-        toyMap.setPorts(ports);
-        toyMap.setRoads(roads);
-        toyMap.setSettlements(settlements);
+		ArrayList<Settlement> settlements = new ArrayList<Settlement>(Arrays.asList(sOne, sTwo, sThree, sFour, sFive,
+				sSix, sSeven));
 
-        ResourceList bank = new ResourceList();
-        bank.setBrick(23);
-        bank.setWood(21);
-        bank.setSheep(20);
-        bank.setWheat(22);
-        bank.setOre(22);
+		ArrayList<City> cities = new ArrayList<City>(Arrays.asList(cOne));
 
-        // Make the test chat
-        ArrayList<MessageLine> chatLines = new ArrayList<MessageLine>();
-        MessageList toyChat = new MessageList(chatLines);
+		toyMap.setRadius(3);
+		HexLocation robberLocation = new HexLocation(0, 2);
+		toyMap.setRobber(robberLocation);
+		toyMap.setCities(cities);
+		toyMap.setHexes(hexes);
+		toyMap.setPorts(ports);
+		toyMap.setRoads(roads);
+		toyMap.setSettlements(settlements);
 
-        // Make the test Log
-        ArrayList<MessageLine> logLines = new ArrayList<MessageLine>();
-        logLines.add(new MessageLine("Sam", "Sam built a road"));
-        logLines.add(new MessageLine("Sam", "Sam built a settlement"));
-        logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
-        logLines.add(new MessageLine("Brooke", "Brooke built a road"));
-        logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
-        logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
-        logLines.add(new MessageLine("Pete", "Pete built a road"));
-        logLines.add(new MessageLine("Pete", "Pete built a settlement"));
-        logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
-        logLines.add(new MessageLine("Mark", "Mark built a road"));
-        logLines.add(new MessageLine("Mark", "Mark built a settlement"));
-        logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
-        logLines.add(new MessageLine("Mark", "Mark built a road"));
-        logLines.add(new MessageLine("Mark", "Mark built a settlement"));
-        logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
-        logLines.add(new MessageLine("Pete", "Pete built a road"));
-        logLines.add(new MessageLine("Pete", "Pete built a settlement"));
-        logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
-        logLines.add(new MessageLine("Brooke", "Brooke built a road"));
-        logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
-        logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
-        logLines.add(new MessageLine("Sam", "Sam built a road"));
-        logLines.add(new MessageLine("Sam", "Sam built a settlement"));
-        logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
-        MessageList toyLog = new MessageList(logLines);
+		ResourceList bank = new ResourceList();
+		bank.setBrick(23);
+		bank.setWood(21);
+		bank.setSheep(20);
+		bank.setWheat(22);
+		bank.setOre(22);
 
-        // Make new devcard list for Deck
-        DevCardList deck = new DevCardList();
-        deck.setYearOfPlenty(2);
-        deck.setMonopoly(2);
-        deck.setSoldier(14);
-        deck.setRoadBuilding(2);
-        deck.setMonument(5);
+		// Make the test chat
+		ArrayList<MessageLine> chatLines = new ArrayList<MessageLine>();
+		MessageList toyChat = new MessageList(chatLines);
 
-        // Make tradeOffer
-        ResourceList resourceList = new ResourceList(1, -1, 0, 0, 0);
-        TradeOffer toyTradeOffer = new TradeOffer(1, 2, resourceList);
+		// Make the test Log
+		ArrayList<MessageLine> logLines = new ArrayList<MessageLine>();
+		logLines.add(new MessageLine("Sam", "Sam built a road"));
+		logLines.add(new MessageLine("Sam", "Sam built a settlement"));
+		logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
+		logLines.add(new MessageLine("Brooke", "Brooke built a road"));
+		logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
+		logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
+		logLines.add(new MessageLine("Pete", "Pete built a road"));
+		logLines.add(new MessageLine("Pete", "Pete built a settlement"));
+		logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
+		logLines.add(new MessageLine("Mark", "Mark built a road"));
+		logLines.add(new MessageLine("Mark", "Mark built a settlement"));
+		logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
+		logLines.add(new MessageLine("Mark", "Mark built a road"));
+		logLines.add(new MessageLine("Mark", "Mark built a settlement"));
+		logLines.add(new MessageLine("Mark", "Mark\u0027s turn just ended"));
+		logLines.add(new MessageLine("Pete", "Pete built a road"));
+		logLines.add(new MessageLine("Pete", "Pete built a settlement"));
+		logLines.add(new MessageLine("Pete", "Pete\u0027s turn just ended"));
+		logLines.add(new MessageLine("Brooke", "Brooke built a road"));
+		logLines.add(new MessageLine("Brooke", "Brooke built a settlement"));
+		logLines.add(new MessageLine("Brooke", "Brooke\u0027s turn just ended"));
+		logLines.add(new MessageLine("Sam", "Sam built a road"));
+		logLines.add(new MessageLine("Sam", "Sam built a settlement"));
+		logLines.add(new MessageLine("Sam", "Sam\u0027s turn just ended"));
+		MessageList toyLog = new MessageList(logLines);
 
-        // Make turnTracker
-        TurnTracker toyTurnTracker = new TurnTracker();
-        toyTurnTracker.setStatus(TurnStatus.ROLLING);
-        toyTurnTracker.setCurrentTurn(0);
-        toyTurnTracker.setLongestRoad(-1);
-        toyTurnTracker.setLargestArmy(-1);
+		// Make new devcard list for Deck
+		DevCardList deck = new DevCardList();
+		deck.setYearOfPlenty(2);
+		deck.setMonopoly(2);
+		deck.setSoldier(14);
+		deck.setRoadBuilding(2);
+		deck.setMonument(5);
 
-        testModel.setBank(bank);
-        testModel.setChat(toyChat);
-        testModel.setLog(toyLog);
-        testModel.setMap(toyMap);
-        testModel.setPlayers(players);
-        testModel.setDeck(deck);
-        testModel.setTradeOffer(toyTradeOffer);
-        testModel.setTurnTracker(new TurnTracker());
-        testModel.setVersion(0);
-        testModel.setWinner(-1);
+		// Make tradeOffer
+		ResourceList resourceList = new ResourceList(1, -1, 0, 0, 0);
+		TradeOffer toyTradeOffer = new TradeOffer(1, 2, resourceList);
 
-        return testModel;
+		// Make turnTracker
+		TurnTracker toyTurnTracker = new TurnTracker();
+		toyTurnTracker.setStatus(TurnStatus.ROLLING);
+		toyTurnTracker.setCurrentTurn(0);
+		toyTurnTracker.setLongestRoad(-1);
+		toyTurnTracker.setLargestArmy(-1);
+
+		testModel.setBank(bank);
+		testModel.setChat(toyChat);
+		testModel.setLog(toyLog);
+		testModel.setMap(toyMap);
+		testModel.setPlayers(players);
+		testModel.setDeck(deck);
+		testModel.setTradeOffer(toyTradeOffer);
+		testModel.setTurnTracker(new TurnTracker());
+		testModel.setVersion(0);
+		testModel.setWinner(-1);
+
+		return testModel;
 	}
 
 	public ModelTest() {
@@ -535,13 +535,13 @@ public class ModelTest {
 	@Test
 	public void testCanBuildRoadIsolated() throws Exception {
 
-            // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast)));
-            // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,-1),EdgeDirection.North)));
-            // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(1,-1),EdgeDirection.NorthWest)));
-            
+		// this is an edge location that has no adjacent pieces 3 on Wood
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast)));
+		// this is an edge location that has no adjacent pieces 3 on Wood
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North)));
+		// this is an edge location that has no adjacent pieces 3 on Wood
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest)));
+
 	}
 
 	/**
@@ -551,17 +551,20 @@ public class ModelTest {
 	@Test
 	public void testCanBuildRoadNotNextToCurrentPlayer() throws Exception {
 
-            // this is a nothern edge location that has adjacent pieces but none of them
-            // belong to the current player. 6 on Wood
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-2,-2),EdgeDirection.North)));
-            
-            // this is a nothern edge location that has adjacent pieces but none of them
-            // belong to the current player. 9 on sheep
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthEast)));
-          
-            // this is a nothern edge location that has adjacent pieces but none of them
-            // belong to the current player. 2 on Wheat
-            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-2,1),EdgeDirection.NorthWest)));
+		// this is a nothern edge location that has adjacent pieces but none of
+		// them
+		// belong to the current player. 6 on Wood
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, -2), EdgeDirection.North)));
+
+		// this is a nothern edge location that has adjacent pieces but none of
+		// them
+		// belong to the current player. 9 on sheep
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast)));
+
+		// this is a nothern edge location that has adjacent pieces but none of
+		// them
+		// belong to the current player. 2 on Wheat
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest)));
 
 	}
 
@@ -603,19 +606,19 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
-                // This removes all of the roads. 
-                instance.getMap().getRoads().clear();
-                // Set the turn to the first turn
-                instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
-		//Building a North Edge road near the yellow player 0 settlement at hexLocation 0, 1
+		// This removes all of the roads.
+		instance.getMap().getRoads().clear();
+		// Set the turn to the first turn
+		instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
+		// Building a North Edge road near the yellow player 0 settlement at
+		// hexLocation 0, 1
 		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North)));
-                // Test Building a NorthEast Edge road
-                assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest)));
-                //Test building a NorthWest Edge road
-                assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast)));
-                
-        }
+		// Test Building a NorthEast Edge road
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest)));
+		// Test building a NorthWest Edge road
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast)));
 
+	}
 
 	/**
 	 * INVALID CANBUYSETTLEMENT TESTS
@@ -626,7 +629,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuySettlementInsufficientResources() throws Exception {
-		//Current player 0 doesn't have enough resources to buy a settlement
+		// Current player 0 doesn't have enough resources to buy a settlement
 		assertEquals(false, instance.canBuySettlement());
 	}
 
@@ -635,7 +638,8 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuySettlementNoSettlements() throws Exception {
-		// Get the current player and add brick so they have enough to buy settlement
+		// Get the current player and add brick so they have enough to buy
+		// settlement
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
 		assertEquals(currentPlayerIndex, 0);
 		Player player = instance.getPlayer(currentPlayerIndex);
@@ -647,18 +651,18 @@ public class ModelTest {
 		assertEquals(player.getResources().getWheat(), 1);
 		assertEquals(player.getResources().getSheep(), 1);
 
-		//This player has enough resources, so now remove settlements
+		// This player has enough resources, so now remove settlements
 		player.setSettlements(0);
 		assertEquals(player.getSettlements(), 0);
-		
-		//Test buying a settlement without any settlements, should fail
+
+		// Test buying a settlement without any settlements, should fail
 		assertEquals(instance.canBuySettlement(), false);
 	}
-	
+
 	/**
 	 * VALID CANBUYSETTLEMENT TEST
 	 */
-	
+
 	/**
 	 * Test of canBuySettlement when player has enough resources and settlements
 	 */
@@ -668,23 +672,23 @@ public class ModelTest {
 		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
 		assertEquals(currentPlayerIndex, 0);
 		Player player = instance.getPlayer(currentPlayerIndex);
-		
+
 		// Add resources to the player so that they can afford a settlement
 		player.getResources().addResource(ResourceType.BRICK, 1);
-		
+
 		// check if the current player has sufficient resources to buy a road
 		assertEquals(player.getResources().getBrick(), 1);
 		assertEquals(player.getResources().getWood(), 1);
 		assertEquals(player.getResources().getWheat(), 1);
 		assertEquals(player.getResources().getSheep(), 1);
-		
+
 		// Check if the player has at least one settlement to place
 		assertTrue(player.getSettlements() > 0);
-		
+
 		// Buy the settlement - should return true
 		assertEquals(instance.canBuySettlement(), true);
 	}
-	
+
 	/**
 	 * INVALID CANBUILDSETTLEMENT TESTS
 	 */
@@ -694,221 +698,253 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildSettlementOccupiedVertex() throws Exception {
-		//Build on a hex that is occupied by this player's vertexObject
-		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast );
+		// Build on a hex that is occupied by this player's vertexObject
+		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast);
 		assertEquals(false, instance.canBuildSettlement(vertexLoc));
-		
-		//Attempt to build on a hex that is occupied by another player's vertexObject
-		VertexLocation vertexLoc2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.NorthWest );
+
+		// Attempt to build on a hex that is occupied by another player's
+		// vertexObject
+		VertexLocation vertexLoc2 = new VertexLocation(new HexLocation(0, 1), VertexDirection.NorthWest);
 		assertEquals(false, instance.canBuildSettlement(vertexLoc2));
 	}
-	
+
 	/**
-	 * Test of canBuildSettlement in isolated area when it's NOT the first round 
+	 * Test of canBuildSettlement in isolated area when it's NOT the first round
 	 */
 	@Test
 	public void testCanBuildSettlementIsolated() throws Exception {
-		//Current state of the game is 'ROLLING', so this should fail
+		// Current state of the game is 'ROLLING', so this should fail
 		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(0, 2), VertexDirection.East)));
 	}
-	
+
 	/**
 	 * Test of canBuildSettlement when too near another settlement
 	 */
 	@Test
 	public void testCanBuildSettlementNearOtherSettlement() throws Exception {
-		//Test building settlement within one road of the other settlement
+		// Test building settlement within one road of the other settlement
 		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(0, 2), VertexDirection.NorthWest)));
 	}
-	
+
 	/**
 	 * Test of canBuildSettlement when attached to road that's not player's own
 	 */
 	@Test
 	public void testCanBuildSettlementOnOpponentRoad() throws Exception {
-		//Reset roads so that there are two roads coming out of a player 0 settlement
-		//Settlements remain the same
+		// Reset roads so that there are two roads coming out of a player 0
+		// settlement
+		// Settlements remain the same
 		Road roadOne = new Road(2, new EdgeLocation(new HexLocation(1, 0), EdgeDirection.North));
 		Road roadTwo = new Road(2, new EdgeLocation(new HexLocation(1, 0), EdgeDirection.NorthEast));
 		ArrayList<Road> roads = new ArrayList<Road>(Arrays.asList(roadOne, roadTwo));
-		
-		//Set instance roads to newly created roads
+
+		// Set instance roads to newly created roads
 		instance.getMap().setRoads(roads);
-		
-		//Now there are only two red roads, but there are still other-colored settlements
-		//on nearby vertices
-		
-		//Try to build a yellow settlement attached to a red road (it's at least 2
-		//edges away from all other settlements) - should fail
+
+		// Now there are only two red roads, but there are still other-colored
+		// settlements
+		// on nearby vertices
+
+		// Try to build a yellow settlement attached to a red road (it's at
+		// least 2
+		// edges away from all other settlements) - should fail
 		assertFalse(instance.canBuildSettlement(new VertexLocation(new HexLocation(1, 0), VertexDirection.East)));
 	}
-	
+
 	/**
 	 * VALID CANBUILDSETTLEMENT TESTS
 	 */
-	
+
 	/**
-	 * Test of canBuildSettlement when there aren't any nearby roads, during FIRST_ROUND
+	 * Test of canBuildSettlement when there aren't any nearby roads, during
+	 * FIRST_ROUND
 	 */
 	@Test
 	public void testCanBuildSettlementValidFirstRound() throws Exception {
-		//Set model to be on the FIRST_ROUND
+		// Set model to be on the FIRST_ROUND
 		instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
-		
-		//Try to build a settlement in an isolated space
+
+		// Try to build a settlement in an isolated space
 		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, -1), VertexDirection.NorthEast);
+		assertTrue(instance.canBuildSettlement(vertexLoc));
+	}
+
+	/**
+	 * Test of canBuildSettlement when connecting to a road, not during
+	 * FIRST_ROUND
+	 */
+	@Test
+	public void testCanBuildSettlementValid() throws Exception {
+		// Reset yellow roads so that there are two roads between the existing
+		// yellow settlement and the target vertex Location
+		Road roadOne = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North));
+		Road roadTwo = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthWest));
+
+		// Set the roads within the map of the Model
+		instance.getMap().setRoads(new ArrayList<Road>(Arrays.asList(roadOne, roadTwo)));
+
+		// Test if you can build a settlement on the edge of the second road -
+		// should return true
+		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 2), VertexDirection.West);
 		assertTrue(instance.canBuildSettlement(vertexLoc));
 	}
 	
 	/**
-	 * Test of canBuildSettlement when connecting to a road, not during FIRST_ROUND
+	 * INVALID CANBUYCITY TESTS
+	 */
+	
+	/**
+	 * Test of canBuyCity when player doesn't have resources
 	 */
 	@Test
-	public void testCanBuildSettlementValid() throws Exception {
-		//Reset yellow roads so that there are two roads between the existing
-		//yellow settlement and the target vertex Location
-		Road roadOne = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North));
-		Road roadTwo = new Road(0, new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthWest));
-		
-		//Set the roads within the map of the Model
-		instance.getMap().setRoads(new ArrayList<Road>(Arrays.asList(roadOne, roadTwo)));
-		
-		//Test if you can build a settlement on the edge of the second road - should return true
-		VertexLocation vertexLoc = new VertexLocation(new HexLocation(0, 2), VertexDirection.West);
-		assertTrue(instance.canBuildSettlement(vertexLoc));
+	public void testCanBuyCityInsufficientResources() throws Exception {
+		//Current player has 1 wheat and 0 ore, so this should return false
+		assertFalse(instance.canBuyCity());
 	}
-
+	
+	/**
+	 * Test of canBuyCity where player has resources, but not enough cities
+	 */
 	@Test
-	public void testCanBuyCity() throws Exception {
-		Model model = ModelTest.testModel();
-		// current player has 1 wheat and 0 ore. So model.canBuyCity() should
-		// fail
-                boolean purchased = model.canBuyCity();
-		assertTrue(purchased);
-
-		int currentPlayer = model.getTurnTracker().getCurrentTurn();
-		// the current player in the testModel is the first player
-		assertEquals(currentPlayer, 0);
-		// add a wheat and 3 ore to the current players resource list so they
-		// have enough to buy
-		// a settlement.
-		Player player = model.getPlayer(currentPlayer);
-		// player.getResources().addResource(ResourceType.WHEAT,1);
-		// player.getResources().addResource(ResourceType.ORE,3);
-
-		// check if the current player has sufficient resources to buy a road
+	public void testCanBuyCityInsufficientCities() throws Exception {
+		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
+		// current player is the first player
+		assertEquals(currentPlayerIndex, 0);
+		
+		//Add resources so they have enough to afford buying a city
+		Player player = instance.getPlayer(currentPlayerIndex);
+		player.getResources().addResource(ResourceType.WHEAT, 1);
+		player.getResources().addResource(ResourceType.ORE, 3);
+		
+		//Check to make sure player has sufficient resources to buy city
 		assertEquals(player.getResources().getWheat(), 2);
 		assertEquals(player.getResources().getOre(), 3);
-		// this player has sufficient resources to buy a city so this should
-		// pass
 		
-                purchased = model.canBuyCity();
-		assertTrue(purchased);
-
-		// remove all of the players settlements to test that they must have a
-		// settlement in order
-		// to buy a city.
+		//This player has sufficient resources to buy a city, so now
+		//we remove the cities
+		
 		player.setCities(0);
 		assertEquals(player.getCities(), 0);
-		// Player has no settlements so an exception should be thrown
-		purchased = model.canBuyCity();
-                assertFalse(purchased);
-        }
+		
+		//Player has no cities, so canBuyCity should return false
+		assertFalse(instance.canBuyCity());
+	}
+	
+	/**
+	 * VALID CANBUYCITY TESTS
+	 */
+	
+	/**
+	 * Test of canBuyCity when player has enough resources and cities
+	 */
+	@Test
+	public void canBuyCityTestValid() throws Exception {
+		int currentPlayer = instance.getTurnTracker().getCurrentTurn();
+		assertEquals(currentPlayer, 0);
+		//add wheat and 3 ore so they can afford a settlement
+		Player player = instance.getPlayer(currentPlayer);
+		
+		player.getResources().addResource(ResourceType.WHEAT, 1);
+		player.getResources().addResource(ResourceType.ORE, 3);
+		
+		//make sure player has enough to buy city
+		assertEquals(player.getResources().getWheat(), 2);
+		assertEquals(player.getResources().getOre(), 3);
+		
+		//make sure player has a city to place
+		assertTrue(player.getCities() > 0);
+		
+		assertTrue(instance.canBuyCity());
+	}
 
 	/**
 	 * Test of canBuildCity method, of class Model.
 	 */
 	@Test
 	public void testCanBuildCity() throws Exception {
-            // tests a location of a settlement of the player whose turn it is
-            // this is a valid location for a city. it is Sam's turn. 
-            VertexLocation cityValidLocation = new VertexLocation(new HexLocation(0,2),VertexDirection.NorthEast);
-            assertEquals(instance.canBuildCity(cityValidLocation),true);
-            
-            // tests a location of a settlemnt of a player who is not the 
-            // player whose turn it is
-            VertexLocation cityInvalidLocation = new VertexLocation(new HexLocation(1,-1),VertexDirection.NorthEast);
-            assertEquals(instance.canBuildCity(cityInvalidLocation),false);            
-            
+		// tests a location of a settlement of the player whose turn it is
+		// this is a valid location for a city. it is Sam's turn.
+		VertexLocation cityValidLocation = new VertexLocation(new HexLocation(0, 2), VertexDirection.NorthEast);
+		assertEquals(instance.canBuildCity(cityValidLocation), true);
+
+		// tests a location of a settlemnt of a player who is not the
+		// player whose turn it is
+		VertexLocation cityInvalidLocation = new VertexLocation(new HexLocation(1, -1), VertexDirection.NorthEast);
+		assertEquals(instance.canBuildCity(cityInvalidLocation), false);
+
 	}
 
-    @Test
-    public void testCanRobPlayer()
-    {
-        Model model = ModelTest.testModel();
-        
-        model.getMap().setRobber(new HexLocation(1,-1));
-        
-        boolean brookeFalse = model.canRobPlayer(1);
-        assertFalse(brookeFalse);
-        
-        boolean peteTrue = model.canRobPlayer(2);
-        assertTrue(peteTrue);
-        
-        boolean markTrue = model.canRobPlayer(3);
-        assertTrue(markTrue);      
-        
-        model.getMap().setRobber(new HexLocation(-1,1));
-        
-        brookeFalse = model.canRobPlayer(1);
-        assertFalse(brookeFalse);
-        
-        peteTrue = model.canRobPlayer(2);
-        assertTrue(peteTrue);
-        
-        markTrue = model.canRobPlayer(3);
-        assertTrue(markTrue);     
-    }
-    
-        /**
-         * Tests whether the current play has sufficient resources to offer for
-         * a trade.
-         */
+	@Test
+	public void testCanRobPlayer() {
+		Model model = ModelTest.testModel();
+
+		model.getMap().setRobber(new HexLocation(1, -1));
+
+		boolean brookeFalse = model.canRobPlayer(1);
+		assertFalse(brookeFalse);
+
+		boolean peteTrue = model.canRobPlayer(2);
+		assertTrue(peteTrue);
+
+		boolean markTrue = model.canRobPlayer(3);
+		assertTrue(markTrue);
+
+		model.getMap().setRobber(new HexLocation(-1, 1));
+
+		brookeFalse = model.canRobPlayer(1);
+		assertFalse(brookeFalse);
+
+		peteTrue = model.canRobPlayer(2);
+		assertTrue(peteTrue);
+
+		markTrue = model.canRobPlayer(3);
+		assertTrue(markTrue);
+	}
+
+	/**
+	 * Tests whether the current play has sufficient resources to offer for a
+	 * trade.
+	 */
 	@Test
 	public void canOfferResource() throws GetPlayerException {
-            // These are testing whether the current player sam is able to make the following trades
-            // this player has 1 wood in hand
-            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWood(),1);
-            assertEquals(instance.canOfferResource(ResourceType.WOOD, 1),true);
-            // this player has 1 wheat
-            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWheat(),1);
-            assertEquals(instance.canOfferResource(ResourceType.WHEAT, 1),true);
-            // this player has 1 ore
-            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getOre(),0);
-            assertEquals(instance.canOfferResource(ResourceType.ORE, 0),true);
-            // this player has 1 sheep
-            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getSheep(),1);
-            assertEquals(instance.canOfferResource(ResourceType.SHEEP, 3),false);
-            // this player has 1 brick
-            assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getBrick(),0);
-            assertEquals(instance.canOfferResource(ResourceType.BRICK, 4),false);
+		// These are testing whether the current player sam is able to make the
+		// following trades
+		// this player has 1 wood in hand
+		assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWood(), 1);
+		assertEquals(instance.canOfferResource(ResourceType.WOOD, 1), true);
+		// this player has 1 wheat
+		assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWheat(), 1);
+		assertEquals(instance.canOfferResource(ResourceType.WHEAT, 1), true);
+		// this player has 1 ore
+		assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getOre(), 0);
+		assertEquals(instance.canOfferResource(ResourceType.ORE, 0), true);
+		// this player has 1 sheep
+		assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getSheep(), 1);
+		assertEquals(instance.canOfferResource(ResourceType.SHEEP, 3), false);
+		// this player has 1 brick
+		assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getBrick(), 0);
+		assertEquals(instance.canOfferResource(ResourceType.BRICK, 4), false);
 	}
-        
-        /**
-         * Tests whether this player has enough resources
-         */
-        @Test
-        public void canAcceptTrade(){
-           CatanFacade.setMyPlayerIndex(0);
-           ResourceList tradeOffer = new ResourceList();
-           tradeOffer.setBrick(0);
-           tradeOffer.setOre(0);
-           tradeOffer.setSheep(1);
-           tradeOffer.setWheat(1);
-           tradeOffer.setWood(1);
-           
-           assertEquals(instance.canAcceptTrade(tradeOffer),true);
-           
-           tradeOffer.setBrick(4);
-           
-           assertEquals(instance.canAcceptTrade(tradeOffer),false);
-            
-            
-        }
-        
-        
-} 
-        
-        
-        
 
+	/**
+	 * Tests whether this player has enough resources
+	 */
+	@Test
+	public void canAcceptTrade() {
+		CatanFacade.setMyPlayerIndex(0);
+		ResourceList tradeOffer = new ResourceList();
+		tradeOffer.setBrick(0);
+		tradeOffer.setOre(0);
+		tradeOffer.setSheep(1);
+		tradeOffer.setWheat(1);
+		tradeOffer.setWood(1);
+
+		assertEquals(instance.canAcceptTrade(tradeOffer), true);
+
+		tradeOffer.setBrick(4);
+
+		assertEquals(instance.canAcceptTrade(tradeOffer), false);
+
+	}
+
+}
