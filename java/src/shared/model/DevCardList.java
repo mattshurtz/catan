@@ -5,7 +5,7 @@
  */
 package shared.model;
 
-import shared.exceptions.InsufficentSupplies;
+import shared.exceptions.InsufficientSupplies;
 
 /**
  * Container for development cards
@@ -54,13 +54,13 @@ public class DevCardList {
 	
 	/**
 	 * If there is at least one monopoly card, removes it from list.
-	 * @throws InsufficentSupplies if there are no monopoly cards.
+	 * @throws InsufficientSupplies if there are no monopoly cards.
 	 */
-	public void removeMonopoly() throws InsufficentSupplies {
+	public void removeMonopoly() throws InsufficientSupplies {
 		if (monopoly > 0) {
 			this.monopoly--;
 		} else {
-			throw new InsufficentSupplies("Player does not have a Monopoly card to play");
+			throw new InsufficientSupplies("Player does not have a Monopoly card to play");
 		}		
 	}
 
@@ -89,13 +89,13 @@ public class DevCardList {
 	
 	/**
 	 * If there is at least one road building card, removes it from list.
-	 * @throws InsufficentSupplies if there are no road building cards.
+	 * @throws InsufficientSupplies if there are no road building cards.
 	 */
-	public void removeRoadBuilding() throws InsufficentSupplies {
+	public void removeRoadBuilding() throws InsufficientSupplies {
 		if (roadBuilding > 0) {
 			this.roadBuilding--;
 		} else {
-			throw new InsufficentSupplies("Player does not have a Road Building card to play");
+			throw new InsufficientSupplies("Player does not have a Road Building card to play");
 		}		
 	}
 
@@ -112,13 +112,13 @@ public class DevCardList {
 	
 	/**
 	 * If there is at least one soldier card, removes it from list.
-	 * @throws InsufficentSupplies if there are no soldier cards.
+	 * @throws InsufficientSupplies if there are no soldier cards.
 	 */
-	public void removeSoldier() throws InsufficentSupplies {
+	public void removeSoldier() throws InsufficientSupplies {
 		if (soldier > 0) {
 			this.soldier--;
 		} else {
-			throw new InsufficentSupplies("Player does not have a Road Building card to play");
+			throw new InsufficientSupplies("Player does not have a Road Building card to play");
 		}		
 	}
 
@@ -135,13 +135,13 @@ public class DevCardList {
 	
 	/**
 	 * If there is at least one year of plenty card, removes it from list.
-	 * @throws InsufficentSupplies if there are no year of plenty cards.
+	 * @throws InsufficientSupplies if there are no year of plenty cards.
 	 */
-	public void removeYearOfPlenty() throws InsufficentSupplies {
+	public void removeYearOfPlenty() throws InsufficientSupplies {
 		if (yearOfPlenty > 0) {
 			this.yearOfPlenty--;
 		} else {
-			throw new InsufficentSupplies("Player does not have a Year of Plenty card to play");
+			throw new InsufficientSupplies("Player does not have a Year of Plenty card to play");
 		}		
 	}
 	

@@ -19,8 +19,10 @@ public class RobPlayerRequest extends MoveRequest {
     private int victimIndex;
     private HexLocation location;
 
-    public RobPlayerRequest(int victimIndex, HexLocation location) {
-        this.victimIndex = victimIndex;
+    public RobPlayerRequest(int playerIndex, int victimIndex, HexLocation location) {
+        this.setType("robPlayer");
+        this.setPlayerIndex(playerIndex);
+    	this.victimIndex = victimIndex;
         this.location = location;
     }
     

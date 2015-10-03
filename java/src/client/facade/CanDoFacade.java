@@ -3,7 +3,7 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shared.exceptions.InsufficentSupplies;
+import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
@@ -90,7 +90,7 @@ public abstract class CanDoFacade {
      * 
      * @return true if insufficentSupplies is not thrown. 
      */
-    public boolean canBuyRoad() throws InsufficentSupplies {
+    public boolean canBuyRoad() throws InsufficientSupplies {
         return false;
     }
 

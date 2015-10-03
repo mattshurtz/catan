@@ -72,10 +72,10 @@ public class DevCardListTest {
 
     /**
      * Test of removeMonopoly method, of class DevCardList.
-     * @throws InsufficentSupplies 
+     * @throws InsufficientSupplies 
      */
-    @Test(expected=InsufficentSupplies.class)
-    public void testRemoveMonopoly_0available_throwError() throws InsufficentSupplies {
+    @Test(expected=InsufficientSupplies.class)
+    public void testRemoveMonopoly_0available_throwError() throws InsufficientSupplies {
         System.out.println("removeMonopoly");
         DevCardList instance = new DevCardList();
         instance.removeMonopoly();
@@ -90,7 +90,7 @@ public class DevCardListTest {
         try {
 			instance.removeMonopoly();
 			assertEquals(0,instance.getMonopoly());
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			fail();
 		}
     }
@@ -155,7 +155,7 @@ public class DevCardListTest {
         try {
 			instance.removeRoadBuilding();
 			fail();
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 		}
         
     }
@@ -171,7 +171,7 @@ public class DevCardListTest {
         try {
 			instance.removeRoadBuilding();
 			assertEquals(0, instance.getRoadBuilding());
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			fail();
 		}
         
@@ -212,7 +212,7 @@ public class DevCardListTest {
         try {
 			instance.removeSoldier();
 			fail();
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			
 		}        
     }
@@ -228,7 +228,7 @@ public class DevCardListTest {
         try {
 			instance.removeSoldier();
 			assertEquals(0,instance.getSoldier());
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			fail();
 		}        
     }
@@ -268,7 +268,7 @@ public class DevCardListTest {
         try {
 			instance.removeYearOfPlenty();
 			fail();
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			
 		}
     }
@@ -284,7 +284,7 @@ public class DevCardListTest {
         try {
 			instance.removeYearOfPlenty();
 			assertEquals(0,instance.getYearOfPlenty());
-		} catch (InsufficentSupplies e) {
+		} catch (InsufficientSupplies e) {
 			fail();
 		}
     }
