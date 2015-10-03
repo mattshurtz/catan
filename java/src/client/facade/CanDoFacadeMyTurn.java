@@ -19,7 +19,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canFinishTurn() {
-        return true;
+        return super.canFinishTurn();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canRollNumber() {
-        return true;
+        return model.canRollNumber();
     }
 
     @Override
@@ -64,27 +64,27 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canPlayMonopoly() {
-        return model.canPlayMonopoly();
+        return model.canPlayMonopoly(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
     public boolean canPlaySoldier() {
-        return super.canPlaySoldier(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlaySoldier(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
     public boolean canPlayRoadBuilding() {
-        return super.canPlayRoadBuilding(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayRoadBuilding(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean canPlayYearOfPlenty() {
-        return super.canPlayYearOfPlenty(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayYearOfPlenty(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public boolean canBuyDevCard() {
-        return super.canBuyDevCard(); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuyDevCard(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override

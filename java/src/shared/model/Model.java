@@ -12,6 +12,7 @@ import java.util.Objects;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
+import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficientSupplies;
@@ -454,7 +455,7 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(EdgeLocation location, int playerIndex) {
-        Player currentPlayer = players.get(turnTracker.getCurrentTurn());
+        //NOTE: to be implemented
     }
     
     
@@ -494,12 +495,53 @@ public class Model {
     	return false;
     }
 
-    public boolean canPlayMonopoly() {
-        int playerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+    public boolean canBuyDevCard(int playerIndex) {
+        Player current = players.get(playerIndex);
         
+        return current.getResources().canBuyDevCard();
+    }
+    
+    public boolean canPlayMonopoly(int playerIndex) {        
         Player current = players.get(playerIndex);
         
         return current.canPlayDevCard(DevCardType.MONOPOLY);
+    }
+    
+    public boolean canPlaySoldier(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.SOLDIER);
+    }
+    
+    public boolean canPlayRoadBuilding(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.ROAD_BUILD);
+    }
+    
+    public boolean canPlayYearOfPlenty(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.YEAR_OF_PLENTY);
+    }
+    
+    public boolean canPlayMonument(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.MONUMENT);
+    }
+    
+    /**
+     * returns true if its the players turn and turn status is ROLLING 
+     */
+    public boolean canRollNumber() {
+        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
+                && getTurnTracker().getStatus() == TurnStatus.ROLLING)
+        {
+            return true;
+        }
+        
+        return false;
     }
     
     /**

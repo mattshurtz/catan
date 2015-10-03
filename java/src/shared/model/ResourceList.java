@@ -118,6 +118,17 @@ public class ResourceList {
     }
 
     /**
+     * @return true if player has the resources to buy a development card
+     */
+    public boolean canBuyDevCard() {
+        if(ore > 0 && sheep > 0 && wheat > 0) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * subtracts one brick, wood, sheep, and wheat from the resourceList;
      */
     public void buySettlement() {
