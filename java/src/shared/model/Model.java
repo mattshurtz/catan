@@ -6,6 +6,7 @@
 package shared.model;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Objects;
 
 import shared.exceptions.GetPlayerException;
@@ -43,6 +44,7 @@ public class Model {
     private TurnTracker turnTracker;
     private int version;
     private int winner;
+    private HashSet<EdgeLocation> invalidWaterEdges;
 
     public Model() {
         bank = new ResourceList();
