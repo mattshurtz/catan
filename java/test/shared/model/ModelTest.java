@@ -535,8 +535,8 @@ public class ModelTest {
             
             // this is an edge location that already has a road so it should fail. 
             assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(1,-1),EdgeDirection.NorthEast)));
-            // this is a valid edgelocation for the player sam whose turn it is. 
-            assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest)));
+            
+            // Any other cases are covered in the other tests
             
 		
 	}
@@ -546,7 +546,11 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadIsolated() throws Exception {
-		
+            
+            // this is an edge location that has no adjacent pieces 3 on Wood
+            assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast));
+
+            
 	}
 	
 	/**
@@ -556,6 +560,11 @@ public class ModelTest {
 	@Test
 	public void testCanBuildRoadNotNextToCurrentPlayer() throws Exception {
 		
+            // this is an edge location that has adjacent peices but none of them
+            // belong to the current player. 6 on Wood
+            assertEquals(false,new EdgeLocation(new HexLocation(-2,-2),EdgeDirection.North));
+            
+            
 	}
 	
 	/**
@@ -563,7 +572,10 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadInOcean() throws Exception {
-		
+            
+            // this edge is an invalid ocean edge
+            assertEquals(false, new EdgeLocation(new HexLocation(0,-3), EdgeDirection.NorthWest));
+            
 	}
 	
 	/**
@@ -575,11 +587,13 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearRoad() throws Exception {
-		
+        // this is a valid edgelocation for the player sam whose turn it is. 
+        // assertEquals (true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest)));
 	}
 	
 	/**
 	 * Test of canBuildRoad connecting to an existing settlement of current player
+         * This is for when the game is starting and players are placing their first roads
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
@@ -588,6 +602,7 @@ public class ModelTest {
 	
 	/**
 	 * Test of canBuildRoad connecting to an existing city of current player
+         * This is for when the game is starting and players are placing their first roads
 	 */
 	@Test
 	public void testCanBuildRoadNearCity() throws Exception {

@@ -158,7 +158,7 @@ public class Model {
     }
     
     
-    public boolean isValidRoadLocation(EdgeLocation location){
+    public boolean isValidRoadLocation(EdgeLocation location) throws InvalidLocation{
         EdgeLocation normEdge = location.getNormalizedLocation();
         int currentPlayer = turnTracker.getCurrentTurn();
         
@@ -238,7 +238,7 @@ public class Model {
                 }
             }
         }
-        return false;
+        throw new InvalidLocation("This location does not a valid road location ");
     }
     
     public boolean isPortEdge(){
