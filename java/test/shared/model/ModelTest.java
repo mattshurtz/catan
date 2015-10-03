@@ -601,19 +601,19 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
-		//Building a road near the yellow player 0 settlement at hexLocation 0, 1
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 1), EdgeDirection.SouthEast)));
-	}
+                // This removes all of the roads. 
+                instance.getMap().getRoads().clear();
+                // Set the turn to the first turn
+                instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
+		//Building a North Edge road near the yellow player 0 settlement at hexLocation 0, 1
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North)));
+                // Test Building a NorthEast Edge road
+                assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest)));
+                //Test building a NorthWest Edge road
+                assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast)));
+                
+        }
 
-	/**
-	 * Test of canBuildRoad connecting to an existing city of current player
-	 * This is for when the game is starting and players are placing their first
-	 * roads
-	 */
-	@Test
-	public void testCanBuildRoadNearCity() throws Exception {
-            fail("stub");
-	}
 
 	/**
 	 * INVALID CANBUYSETTLEMENT TESTS

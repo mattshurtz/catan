@@ -8,6 +8,7 @@ package shared.model;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.InsufficientSupplies;
@@ -18,6 +19,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.Map;
+import shared.model.map.Port;
 import shared.model.map.Road;
 import shared.model.map.Settlement;
 import shared.model.map.VertexObject;
@@ -56,6 +58,20 @@ public class Model {
         turnTracker = new TurnTracker();
         version = 0;
         winner = -1;
+        invalidWaterEdges = new HashSet<EdgeLocation>();
+        
+    
+    }
+    
+    public void setInvalidWaterEdges(){
+        HashSet<EdgeLocation> invalidWaterEdges = new HashSet<EdgeLocation>();
+        
+        for(Port port: map.getPorts()){
+            
+        }
+        
+        
+        
     }
 
     /**
@@ -166,8 +182,11 @@ public class Model {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
-        ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
         
+        if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOUND_ROUND)){
+            return isValidFirstRoad(normEdge);
+        }
+
         for (Road road: map.getRoads()) {
            // check if road already exists on this edge
             if(road.getLocation().equals(location)){
@@ -178,14 +197,6 @@ public class Model {
 
                 //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
-                for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthEast))){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
-                        return true;
-                    }
-                 }
                 
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
@@ -213,14 +224,7 @@ public class Model {
                 HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
                 HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
 
-                for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().equals(new VertexLocation(southwestNeighbor,VertexDirection.NorthEast))){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
-                        return true;
-                    }
-                 }
+
                 
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
@@ -246,15 +250,6 @@ public class Model {
                 HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
                 HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
 
-                for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().equals(new VertexLocation(southeastNeighbor,VertexDirection.NorthWest))){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().equals(new VertexLocation(road.getLocation().getHexLoc(),VertexDirection.NorthWest))){
-                        return true;
-                    }
-                 }
-
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
@@ -273,6 +268,52 @@ public class Model {
                 }
             }
         }
+        return false;
+    }
+     
+    public boolean isValidFirstRoad(EdgeLocation normEdge){
+        ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
+        int currentPlayer = turnTracker.getCurrentTurn();
+        if(normEdge.getDir()==EdgeDirection.North){
+        for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                 }
+        }
+        
+        if(normEdge.getDir()==EdgeDirection.NorthWest){
+            HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+                for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(southwestNeighbor,VertexDirection.NorthEast))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                 }
+        }
+        if(normEdge.getDir()==EdgeDirection.NorthEast){
+            HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+                for(VertexObject vertexObject: allVObjects){
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(southeastNeighbor,VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                    if(vertexObject.getLocation().getNormalizedLocation().equals
+        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
+                        return true;
+                    }
+                 } 
+        }
+        
         return false;
     }
     
