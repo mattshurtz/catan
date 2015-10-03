@@ -460,13 +460,8 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuyRoadInsufficientBrick() throws Exception {
-		try {
-			instance.canBuyRoad();
-			fail("but it didn't throw an exception!");
-		} catch (InsufficientSupplies e) {
-			// This player didn't have supplies,
-			// and exception was thrown as expected
-		}
+		//Current player doesn't have supplies, should return false
+		assertEquals(false, instance.canBuyRoad());
 	}
 
 	/**
@@ -485,13 +480,8 @@ public class ModelTest {
 		// validate the roads were set to 0
 		assertEquals(0, player.getRoads());
 
-		// Try to buy a road with zero roads
-		try {
-			instance.canBuyRoad();
-			fail("Player didn't have roads, but no exception was thrown!");
-		} catch (InsufficientSupplies e) {
-			// Player didn't have roads, and exception was thrown
-		}
+		// Try to buy a road with zero roads - should return false
+		assertEquals(false, instance.canBuyRoad());
 	}
 
 	/**
@@ -517,11 +507,7 @@ public class ModelTest {
 
 		// this player has sufficient resources to buy a road so this should
 		// pass
-		try {
-			instance.canBuyRoad();
-		} catch (InsufficientSupplies e) {
-			fail(e.getMessage());
-		}
+		assertEquals(true, instance.canBuyRoad());
 	}
 
 	/**

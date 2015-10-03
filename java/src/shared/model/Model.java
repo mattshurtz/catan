@@ -104,18 +104,17 @@ public class Model {
     }
     
     /**
-     * 
-     * @return true if no exception is thrown
-     * @throws InsufficientSupplies if player doesn't have the resources or a road to place
+     * Checks whether the player has supplies to build a road. (Resources and road pieces)
+     * @return true if player has enough supplies, false if not
      */
-    public boolean canBuyRoad() throws InsufficientSupplies {
+    public boolean canBuyRoad() {
         int playerIndex = turnTracker.getCurrentTurn();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
-            throw new InsufficientSupplies("Player does not have enough resources.");
+            return false;
+        } else if (!players.get(playerIndex).hasRoad()) {
+            return false;
         }
-        if (!players.get(playerIndex).hasRoad()) {
-            throw new InsufficientSupplies("Player does not have a road to build.");
-        }
+        
         return true;
     }
 
