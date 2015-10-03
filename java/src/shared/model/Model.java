@@ -118,6 +118,13 @@ public class Model {
     }
 
     /**
+     * Checks if the player can be robbed
+     */
+    public boolean canRobPlayer(int playerIndex) {
+        return map.canRobPlayer(playerIndex);
+    }
+    
+    /**
      * Removes a brick and wood from the player building the road(player.resourceList.buyRoad();) and creates a
      * road located at the given EdgeLocation (Map.buildRoad())
      *
