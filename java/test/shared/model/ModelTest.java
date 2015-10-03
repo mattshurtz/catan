@@ -906,11 +906,13 @@ public class ModelTest {
            tradeOffer.setSheep(1);
            tradeOffer.setWheat(1);
            tradeOffer.setWood(1);
-           
+           // This tests whether the player can accept the trade resouce
+           // in the case that he can
            assertEquals(instance.canAcceptTrade(tradeOffer),true);
            
            tradeOffer.setBrick(4);
-           
+           // This tests whether the player can accept the trade resouce
+           // in the case that he can not because he has insufficient brick
            assertEquals(instance.canAcceptTrade(tradeOffer),false);
             
             
