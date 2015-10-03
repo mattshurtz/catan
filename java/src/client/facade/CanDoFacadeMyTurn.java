@@ -35,32 +35,32 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canSendChat() {
-        return super.canSendChat(); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     @Override
     public boolean canBuyCity() {
-        return super.canBuyCity(); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuyCity();
     }
 
     @Override
     public boolean canBuildCity(VertexLocation vertex) {
-        return super.canBuildCity(vertex); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuildCity(vertex); 
     }
 
     @Override
     public boolean canBuySettlement() {
-        return super.canBuySettlement(); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuySettlement();
     }
 
     @Override
     public boolean canBuildSettlement(VertexLocation vertex) {
-        return super.canBuildSettlement(vertex); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuildSettlement(vertex);
     }
 
     @Override
     public boolean canPlayMonopoly() {
-        return super.canPlayMonopoly(); //To change body of generated methods, choose Tools | Templates.
+        return super.canPlayMonopoly();
     }
 
     @Override

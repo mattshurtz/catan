@@ -152,12 +152,14 @@ public class Model {
 
     }
 
-    public boolean canBuySettlement()throws InsufficientSupplies{
+    public boolean canBuySettlement(){
+        //checks if the player has enough resources to build a settlement
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
-            throw new InsufficientSupplies("Player does not have enough resources");
+            return false;
         }
+        //checks if the player has remaining settlements available to build.
         if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
-            throw new InsufficientSupplies("Player does not have a road to build");
+            return false;
         }
         return true;
     }
@@ -172,7 +174,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a settlement
      */
-    public boolean canBuildSettlement(VertexLocation location) throws InsufficientSupplies, InvalidLocation {
+    public boolean canBuildSettlement(VertexLocation location) {
         
         if(!isValidVertex(location)){
             return false;
@@ -180,7 +182,7 @@ public class Model {
         return surroundingEdgeOfVertexHasRoad(location);
     }
     
-     public boolean isValidRoadLocation(EdgeLocation location) throws InvalidLocation{
+     public boolean isValidRoadLocation(EdgeLocation location) {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
@@ -446,12 +448,14 @@ public class Model {
     }
     
     
-    public boolean canBuyCity() throws InsufficientSupplies{
+    public boolean canBuyCity() {
+        //checks if the player has enough resources.
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()){
-            throw new InsufficientSupplies("Player does not have enough resources");
+            return false;
         }
+        //check if the player has remaining cities available to build
         if(!players.get(turnTracker.getCurrentTurn()).hasCity()){
-            throw new InsufficientSupplies("Player does not have a city to build");
+            return false;
         }
         return true;        
     }
