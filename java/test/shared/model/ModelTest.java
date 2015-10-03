@@ -189,7 +189,7 @@ public class ModelTest {
 
 		Road roadSix = new Road(2, new EdgeLocation(new HexLocation(0, 0), EdgeDirection.South));
 
-		Road roadSeven = new Road(0, new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthWest));
+		Road roadSeven = new Road(1, new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.SouthWest));
 
 		Road roadEight = new Road(0, new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthWest));
 
@@ -533,13 +533,12 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadIsolated() throws Exception {
-
             // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthEast)));
             // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.North));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(0,-1),EdgeDirection.North)));
             // this is an edge location that has no adjacent pieces 3 on Wood
-            assertEquals(false,new EdgeLocation(new HexLocation(0,-1),EdgeDirection.NorthWest));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(1,-1),EdgeDirection.NorthWest)));
             
 	}
 
@@ -552,15 +551,15 @@ public class ModelTest {
 		
             // this is a nothern edge location that has adjacent pieces but none of them
             // belong to the current player. 6 on Wood
-            assertEquals(false,new EdgeLocation(new HexLocation(-2,-2),EdgeDirection.North));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-2,-2),EdgeDirection.North)));
             
             // this is a nothern edge location that has adjacent pieces but none of them
             // belong to the current player. 9 on sheep
-            assertEquals(false, new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthEast));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthEast)));
           
             // this is a nothern edge location that has adjacent pieces but none of them
             // belong to the current player. 2 on Wheat
-            assertEquals(false,new EdgeLocation(new HexLocation(-2,1),EdgeDirection.NorthWest));
+            assertEquals(false,instance.canBuildRoad(new EdgeLocation(new HexLocation(-2,1),EdgeDirection.NorthWest)));
 
 	}
 
@@ -600,7 +599,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
-
+            fail("stub");
 	}
 
 	/**
@@ -609,7 +608,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildRoadNearCity() throws Exception {
-
+            fail("stub");
 	}
 	
 	/**
@@ -703,7 +702,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void testCanBuildSettlement() throws Exception {
-
+fail("stub");
 	}
 
 	/**
@@ -816,7 +815,7 @@ public class ModelTest {
 
 	@Test
 	public void canOfferResource() {
-
+fail("stub");
 	}
 
 }

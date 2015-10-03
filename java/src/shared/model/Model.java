@@ -98,9 +98,9 @@ public class Model {
       
         if(isValidRoadLocation(location)){
             return true;
+        }else{
+            return false;
         }
-
-        return false;
     }
     
     /**
@@ -170,47 +170,44 @@ public class Model {
            // check around North edge 
             if(normEdge.getDir()==EdgeDirection.North){
                 HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
                 HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northwestNeighbor, EdgeDirection.SouthEast))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                 normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                 normEdge.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-
             }
             //Check arround the NorthWest edge
             if(normEdge.getDir()==EdgeDirection.NorthWest){
-                System.out.println("got into this spot");
+                
                 HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
                     return true;
                 }
                 HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
-                
-                System.out.println(normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest)+" and road owner: "+
-                        road.getOwner());
-                
-                if(road.getLocation().equals(new EdgeLocation(
+   
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southwestNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                 normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
                     return true;
                 }
@@ -218,26 +215,26 @@ public class Model {
             //Check arround the NorthEast edge
             if(normEdge.getDir()==EdgeDirection.NorthEast){
                 HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
                 HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                             southeastNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
                     return true;
                 }
-                if(road.getLocation().equals(new EdgeLocation(
+                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                 normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
                     return true;
                 }
             }
         }
-        throw new InvalidLocation("This location does not a valid road location ");
+        return false;
     }
     
     public boolean isPortEdge(){
