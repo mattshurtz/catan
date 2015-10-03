@@ -110,7 +110,7 @@ public class DoFacade {
         EdgeLocation spot1 = null;
         EdgeLocation spot2 = null;
         
-        PlayRoadBuildingRequest request = new PlayRoadBuildingRequest(spot1, spot2);
+        PlayRoadBuildingRequest request = new PlayRoadBuildingRequest(CatanFacade.getMyPlayerIndex(), spot1, spot2);
         request.setType("Road_Building");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
@@ -253,7 +253,7 @@ public class DoFacade {
         //NOTE(Scott): get the cards that the player wants to discard
         ResourceList discardedCards = null;
         
-        DiscardCardsRequest request = new DiscardCardsRequest(discardedCards);
+        DiscardCardsRequest request = new DiscardCardsRequest(CatanFacade.getMyPlayerIndex(), discardedCards);
         request.setType("discardCards");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
