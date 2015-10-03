@@ -19,8 +19,9 @@ public class MaritimeTradeRequest extends MoveRequest {
     private ResourceType inputResource;
     private ResourceType outputResource;
 
-    public MaritimeTradeRequest(int ratio, ResourceType inputResource, ResourceType ouputResource) {
+    public MaritimeTradeRequest(int playerIndex, int ratio, ResourceType inputResource, ResourceType ouputResource) {
         this.ratio = ratio;
+        this.playerIndex = playerIndex;
         this.inputResource = inputResource;
         this.outputResource = outputResource;
     }

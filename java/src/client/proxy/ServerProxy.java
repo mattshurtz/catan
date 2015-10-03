@@ -411,7 +411,7 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public Model resetGame() throws ServerException {
-    	String JSON = doPost("moves/finishTurn", null);        
+    	String JSON = doPost("game/reset", null);        
         return deserializer.toJavaModel(JSON);
     }
 
