@@ -336,8 +336,7 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public Model finishTurn(MoveRequest req) throws ServerException {
-        String JSON = doPost("moves/finishTurn", req);
-    
+        String JSON = doPost("moves/finishTurn", req);    
         return deserializer.toJavaModel(JSON);
     }
 

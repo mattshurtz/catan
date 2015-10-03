@@ -12,8 +12,9 @@ public class PlayRoadBuildingRequest extends MoveRequest {
     private EdgeLocation spot1;
     private EdgeLocation spot2;
 
-    public PlayRoadBuildingRequest(EdgeLocation spot1, EdgeLocation spot2){
-        this.spot1 = spot1;
+    public PlayRoadBuildingRequest(int playerIndex, EdgeLocation spot1, EdgeLocation spot2){
+        super("Road_Building",playerIndex);
+    	this.spot1 = spot1;
         this.spot2 = spot2;
     }
     
