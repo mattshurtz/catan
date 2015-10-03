@@ -610,13 +610,7 @@ public class ModelTest {
 	
 	/**
 	 * Test of canBuildRoad connecting to an existing settlement of current player
-         * This is for when the game is starting and players are placing their first roads
-
-	}
-
-	/**
-	 * Test of canBuildRoad connecting to an existing settlement of current
-	 * player
+     * This is for when the game is starting and players are placing their first roads
 	 */
 	@Test
 	public void testCanBuildRoadNearSettlement() throws Exception {
