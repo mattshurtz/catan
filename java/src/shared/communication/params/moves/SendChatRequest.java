@@ -16,6 +16,12 @@ public class SendChatRequest extends MoveRequest {
             this.content = content;
     }
     
+    public SendChatRequest(int player, String content) {
+        this.playerIndex=player;
+    	this.content = content;
+    	this.setType("sendChat");
+}
+    
     public String getContent() {
         return content;
     }
