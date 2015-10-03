@@ -220,4 +220,11 @@ public class DoFacadeTest {
         instance.finishTurn();
     }
     
+    @Test
+    public void testDiscardCards() throws ServerException {
+        System.out.println("discardCards");
+        ResourceList list = new ResourceList( 1, 2, 3, 4, 5 );
+        instance.discardCards( list );
+    }
+    
 }

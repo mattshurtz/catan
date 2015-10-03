@@ -152,14 +152,20 @@ public class Model {
 
     }
 
-    public boolean canBuySettlement(){
-        //checks if the player has enough resources to build a settlement
+    /**
+     * Checks if current player has enough resources for a settlement, and then checks if they have 
+     * any settlements remaining.
+     * @return True if they player has enough resources and settlements, false if no
+     */
+    public boolean canBuySettlement() {
         if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
-            return false;
+            //Player doesn't have enough resources
+        	return false;
         }
         //checks if the player has remaining settlements available to build.
         if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
-            return false;
+            //Player doesn't have enough settlements
+        	return false;
         }
         return true;
     }

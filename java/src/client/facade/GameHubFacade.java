@@ -4,7 +4,6 @@ import client.data.GameInfo;
 import client.proxy.IServerProxy;
 import java.util.List;
 import shared.communication.responses.GameResponse;
-import shared.model.Model;
 
 /**
  * A facade dealing with all important game hub operations, such as getting the model,
@@ -14,15 +13,9 @@ import shared.model.Model;
 public class GameHubFacade {
     
     IServerProxy proxy;
-    Model model;
     
-    public GameHubFacade(IServerProxy proxy, Model model){
+    public GameHubFacade(IServerProxy proxy){
         this.proxy = proxy;
-        this.model = model;
-    }
-    
-    public void getModel(){
-        
     }
     
     public void resetCommands(){

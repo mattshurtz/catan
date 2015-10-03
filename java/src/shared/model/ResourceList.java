@@ -175,8 +175,30 @@ public class ResourceList {
      *
      * @param resourceType this is the type of resource to be decremented.
      */
-    public void subtractResource(ResourceType resourceType) {
-
+    public void subtractResource(ResourceType resourceType,int amount) {
+        switch(resourceType){
+            case BRICK:
+                brick-= amount;
+                break;
+            case WHEAT:
+                wheat-=amount;
+                break;
+            case SHEEP:
+                sheep-=amount;
+                break;
+            case ORE:
+                ore-=amount;
+                break;
+            case WOOD:
+                wood-=amount;
+                break;
+             } 
+    }
+    
+    public boolean canMarritimeTrade(){
+        
+        
+        return false;
     }
 
     /**

@@ -5,12 +5,23 @@
  */
 package client.paller;
 
+import client.facade.CatanFacade;
+import client.proxy.IServerProxy;
+import client.proxy.MockProxy;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import shared.communication.params.Credentials;
+import shared.communication.params.JoinGameRequest;
+import shared.definitions.CatanColor;
+import shared.exceptions.ServerException;
+import shared.json.Deserializer;
 
 /**
  *
@@ -30,7 +41,18 @@ public class ServerPallerTest {
     }
     
     @Before
-    public void setUp() {
+    public void setUp() throws ServerException, IOException {
+        IServerProxy mp = new MockProxy();
+        
+        // Gotta login and join a game before all these move requests work
+        Credentials cred = new Credentials();
+        cred.setUsername("Sam");
+        cred.setPassword("sam");
+        mp.login( cred );
+        JoinGameRequest joinReq = new JoinGameRequest( 0, CatanColor.RED.toString() );
+        mp.joinGame( joinReq );
+        
+        CatanFacade.setup( mp, new Deserializer().getTestModel() );
     }
     
     @After
@@ -42,11 +64,17 @@ public class ServerPallerTest {
      */
     @Test
     public void testRun() {
-        System.out.println("run");
         ServerPaller instance = new ServerPaller();
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.start();
+        
+        // Sleep for 2.5x the delay so that we get 2 events in for sure
+        try {
+            Thread.sleep( (ServerPaller.PALL_DELAY * 2) + (ServerPaller.PALL_DELAY / 2) );
+        } catch (InterruptedException ex) {
+            Logger.getLogger(ServerPallerTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals( 2, instance.getTimesPalled() );
     }
     
 }

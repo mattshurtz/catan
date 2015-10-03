@@ -138,5 +138,9 @@ public abstract class CanDoFacade {
     public boolean canFinishTurn() {
         return false;
     }
+    
+    public void setModel( Model m ) {
+        this.model = m;
+    }
 
 }
