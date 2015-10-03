@@ -60,7 +60,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canPlayMonopoly() {
-        return super.canPlayMonopoly();
+        return model.canPlayMonopoly();
     }
 
     @Override

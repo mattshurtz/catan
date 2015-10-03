@@ -7,6 +7,7 @@ package shared.model;
 
 import java.util.Objects;
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.locations.HexLocation;
 
 /**
@@ -56,8 +57,14 @@ public class Player {
     /**
      * @return true if player can play a development card
      */
-    public boolean canPlayDevCard() {
-        return false;
+    public boolean canPlayDevCard(DevCardType cardType) {
+        if(playedDevCard){
+            return false;
+        }
+        else{
+            //dont have a card of card Type in oldDevCards(playable)
+            return oldDevCards.canPlayDevCard(cardType);
+        }
     }
 
     /**

@@ -9,6 +9,7 @@ import client.facade.CatanFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
@@ -493,6 +494,14 @@ public class Model {
     	return false;
     }
 
+    public boolean canPlayMonopoly() {
+        int playerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.MONOPOLY);
+    }
+    
     /**
      * Removes three ore and two wheat from this player's ResourceList
      * Subtracts one city from players cities count

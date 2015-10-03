@@ -783,12 +783,8 @@ public class ModelTest {
 		Model model = ModelTest.testModel();
 		// current player has 1 wheat and 0 ore. So model.canBuyCity() should
 		// fail
-		try {
-			model.canBuyCity();
-			fail("but it didn't throw an exception!");
-		} catch (InsufficientSupplies e) {
-			// This player did not have these supplies.
-		}
+                boolean purchased = model.canBuyCity();
+		assertTrue(purchased);
 
 		int currentPlayer = model.getTurnTracker().getCurrentTurn();
 		// the current player in the testModel is the first player
@@ -805,25 +801,19 @@ public class ModelTest {
 		assertEquals(player.getResources().getOre(), 3);
 		// this player has sufficient resources to buy a city so this should
 		// pass
-		try {
-			model.canBuyCity();
-		} catch (InsufficientSupplies e) {
-			fail(e.getMessage());
-		}
+		
+                purchased = model.canBuyCity();
+		assertTrue(purchased);
 
 		// remove all of the players settlements to test that they must have a
-		// road in order
-		// to buy a road.
+		// settlement in order
+		// to buy a city.
 		player.setCities(0);
 		assertEquals(player.getCities(), 0);
-		// Player has no roads so an exception should be thrown
-		try {
-			model.canBuyCity();
-			fail("did not have settlement");
-		} catch (InsufficientSupplies e) {
-
-		}
-	}
+		// Player has no settlements so an exception should be thrown
+		purchased = model.canBuyCity();
+                assertFalse(purchased);
+        }
 
 	/**
 	 * Test of canBuildCity method, of class Model.

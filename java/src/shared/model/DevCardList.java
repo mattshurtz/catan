@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import shared.definitions.DevCardType;
 import shared.exceptions.InsufficientSupplies;
 
 /**
@@ -145,6 +146,45 @@ public class DevCardList {
 		}		
 	}
 	
+        /**
+         * Checks if there is at least one of the specified DevCardType to play.
+         * 
+         * @param cardType the type of DevCard to be played.
+         * @return true if at least one card of cardType
+         */
+        public boolean canPlayDevCard(DevCardType cardType) {
+            switch(cardType) {
+                case SOLDIER:
+                    if(soldier > 0){
+                        return true;
+                    }
+                    break;
+                case YEAR_OF_PLENTY:
+                    if(yearOfPlenty > 0){
+                        return true;
+                    }
+                    break;
+                case MONOPOLY:
+                    if(monopoly > 0){
+                        return true;
+                    }
+                    break;
+                case ROAD_BUILD:
+                    if(roadBuilding > 0){
+                        return true;
+                    }
+                    break;
+                case MONUMENT:
+                    if(monument > 0){
+                        return true;
+                    }
+                    break;
+            }
+            
+            return false;
+        }
+        
+        
 	/**
 	 * Checks if there is at least one monopoly card to play. It does not check other playing restraints.
 	 * @return true if there is at least one monopoly card to play
