@@ -42,10 +42,7 @@ public class DoFacade {
         this.model = model;
     }
     
-    public void offerTrade() throws ServerException{
-        //NOTE(Scott): somehow get the resources willing to trade
-        ResourceList offer = null;
-        int receiverIndex = -1;
+    public void offerTrade( ResourceList offer, int receiverIndex ) throws ServerException{
         
         OfferTradeRequest request = new OfferTradeRequest(offer, receiverIndex);
         request.setType("offerTrade");
@@ -59,9 +56,7 @@ public class DoFacade {
      * playerIndex (integer): Who's accepting / rejecting this trade,
      * willAccept (boolean): Whether you accept the trade or not
      */
-    public void acceptTrade() throws ServerException{
-        //NOTE(Scott): determine if will accept trade
-        boolean willAccept = false;
+    public void acceptTrade( boolean willAccept ) throws ServerException{
         
         AcceptTradeRequest request = new AcceptTradeRequest(willAccept);
         request.setType("acceptTrade");
@@ -70,12 +65,7 @@ public class DoFacade {
         proxy.acceptTrade(request);
     }
     
-    public void maritimeTrade() throws ServerException{
-        //NOTE(Scott): get ratio and the desired resources.
-        int ratio = -1;
-        ResourceType input = null;
-        ResourceType output = null;
-        
+    public void maritimeTrade( int ratio, ResourceType input, ResourceType output ) throws ServerException{
         MaritimeTradeRequest request = new MaritimeTradeRequest(ratio, input, output);
         request.setType("maritimeTrade");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
@@ -92,11 +82,7 @@ public class DoFacade {
         proxy.buyDevCard(request);        
     }
     
-    public void playYearOfPlenty() throws ServerException{
-        
-        //NOTE(Scott): somehow determine chosen resources
-        ResourceType resource1 = null;
-        ResourceType resource2 = null;
+    public void playYearOfPlenty( ResourceType resource1, ResourceType resource2 ) throws ServerException{
         
         PlayYearOfPlentyRequest request = new PlayYearOfPlentyRequest(resource1, resource2);
         request.setType("Year_of_Plenty");
@@ -105,11 +91,7 @@ public class DoFacade {
         proxy.playYearOfPlenty(request);
     }
     
-    public void playRoadBuilding() throws ServerException{
-        //NOTE(Scott): somehow determine (AND CHECK) chosen locations.
-        EdgeLocation spot1 = null;
-        EdgeLocation spot2 = null;
-        
+    public void playRoadBuilding( EdgeLocation spot1, EdgeLocation spot2 ) throws ServerException{
         PlayRoadBuildingRequest request = new PlayRoadBuildingRequest(CatanFacade.getMyPlayerIndex(), spot1, spot2);
         request.setType("Road_Building");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
@@ -117,18 +99,14 @@ public class DoFacade {
         proxy.playRoadBuilding(request);
     }
     
-    public void playSoldier() throws ServerException, GetPlayerException{
-        //NOTE(Scott): choose victim somehow
-        int victimIndex = -1;
-        //Note(Scott): choose location somehow
-        HexLocation location = new HexLocation(0,0);
+    public void playSoldier( int victimIndex, HexLocation location ) throws ServerException, GetPlayerException{
         
         //increment Player soldiers played
         int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
         Player current = CatanFacade.getModel().getPlayer(currentPlayerIndex);
         current.incrementSoldiers();
         
-        //NOTE(Scott): check if now the largest Army)
+        // TODO check if now the largest Army
         
         //build request
         RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
@@ -138,9 +116,7 @@ public class DoFacade {
         proxy.playSoldier(request); 
     }
     
-    public void playMonopoly() throws ServerException{
-        //NOTE(Scott): somehow determine resourcetype wanted
-        ResourceType resource = null;
+    public void playMonopoly( ResourceType resource ) throws ServerException{
         
         PlayMonopolyRequest request = new PlayMonopolyRequest(resource);
         request.setType("Monopoly");
@@ -168,12 +144,7 @@ public class DoFacade {
      * Create a build road request using the model and use the proxy
      * to send this parameter to the server. 
      */
-    public void buildRoad() throws ServerException{
-       //Create the build roads parameter using the model and pass it into build road then proxy sends request to server
-       //NOTE(Scott): somehow determine location for road and if free 
-       EdgeLocation location = null;
-       boolean free = false;
-        
+    public void buildRoad( EdgeLocation location, boolean free ) throws ServerException{
        BuildRoadRequest request = new BuildRoadRequest(location, free);
        request.setType("buildRoad");
        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
@@ -210,9 +181,7 @@ public class DoFacade {
         
     }
     
-    public void sendChat() throws ServerException{
-        //NOTE(Scott): get message somehow
-        String comment = "";
+    public void sendChat( String comment ) throws ServerException{
     
         SendChatRequest request = new SendChatRequest(comment);
         request.setType("sendChat");
@@ -236,11 +205,7 @@ public class DoFacade {
         proxy.rollNumber(request);
     }
     
-    public void robPlayer() throws ServerException{
-        //NOTE(Scott): choose victim somehow
-        int victimIndex = -1;
-        //Note(Scott): choose location somehow
-        HexLocation location = new HexLocation(0,0);
+    public void robPlayer(int victimIndex, HexLocation location) throws ServerException{
         int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
         RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
         request.setType("robPlayer");
