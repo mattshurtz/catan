@@ -465,13 +465,14 @@ public class Model {
      * city
      * @return true if the location specified already has a settlement owned by this player, false if not
      */
-    public boolean canBuildCity(VertexLocation location, int playerIndex) {
+    public boolean canBuildCity(VertexLocation location) {
     	//get all the settlements on the map
     	ArrayList<Settlement> settlements = map.getSettlements();
-    	
+    	int currentPlayer = turnTracker.getCurrentTurn();
     	//Iterate through settlements to make sure the player owns a settlement at the target location
     	for (Settlement settlement: settlements) {
-    		if (settlement.getOwner() == playerIndex && settlement.getLocation().equals(location)) { 
+    		if (settlement.getOwner() == currentPlayer && 
+                        settlement.getLocation().getNormalizedLocation().equals(location)) { 
     			return true;
     		}
     	}

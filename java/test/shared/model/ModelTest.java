@@ -711,20 +711,6 @@ public class ModelTest {
 fail("stub");
 	}
 
-	/**
-	 * Test of buildSettlement method, of class Model.
-	 */
-	@Test
-	public void testBuildSettlement() {
-		System.out.println("buildSettlement");
-		EdgeLocation location = null;
-		int playerIndex = 0;
-		Model instance = new Model();
-		instance.buildSettlement(location, playerIndex);
-		// TODO review the generated test code and remove the default call to
-		// fail.
-		fail("The test case is a prototype.");
-	}
 
 	@Test
 	public void testCanBuyCity() throws Exception {
@@ -778,45 +764,16 @@ fail("stub");
 	 */
 	@Test
 	public void testCanBuildCity() throws Exception {
-		System.out.println("canBuildCity");
-		VertexLocation location = null;
-		int playerIndex = 0;
-		Model instance = new Model();
-		boolean expResult = false;
-		boolean result = instance.canBuildCity(location, playerIndex);
-		assertEquals(expResult, result);
-		// TODO review the generated test code and remove the default call to
-		// fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of buildCity method, of class Model.
-	 */
-	@Test
-	public void testBuildCity() {
-		System.out.println("buildCity");
-		VertexLocation location = null;
-		int playerIndex = 0;
-		Model instance = new Model();
-		instance.buildCity(location, playerIndex);
-		// TODO review the generated test code and remove the default call to
-		// fail.
-		fail("The test case is a prototype.");
-	}
-
-	/**
-	 * Test of distributeResources method, of class Model.
-	 */
-	@Test
-	public void testDistributeResources() {
-		System.out.println("distributeResources");
-		int rolledNumber = 0;
-		Model instance = new Model();
-		instance.distributeResources(rolledNumber);
-		// TODO review the generated test code and remove the default call to
-		// fail.
-		fail("The test case is a prototype.");
+            // tests a location of a settlement of the player whose turn it is
+            // this is a valid location for a city. it is Sam's turn. 
+            VertexLocation cityValidLocation = new VertexLocation(new HexLocation(0,2),VertexDirection.NorthEast);
+            assertEquals(instance.canBuildCity(cityValidLocation),true);
+            
+            // tests a location of a settlemnt of a player who is not the 
+            // player whose turn it is
+            VertexLocation cityInvalidLocation = new VertexLocation(new HexLocation(1,-1),VertexDirection.NorthEast);
+            assertEquals(instance.canBuildCity(cityInvalidLocation),false);            
+            
 	}
 
     @Test
