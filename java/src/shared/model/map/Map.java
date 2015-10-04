@@ -37,7 +37,7 @@ public class Map {
     HexLocation robber;
     
     public Map() {
-		// TODO Auto-generated constructor stub
+
 	}
     
     
