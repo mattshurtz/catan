@@ -11,6 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import shared.model.Model;
+import shared.model.ModelTest;
+import shared.model.ResourceList;
 
 /**
  *
@@ -42,11 +45,15 @@ public class SerializerTest {
      */
     @Test
     public void testToJson() {
-        System.out.println("toJson");
+        // here we are serializing the bank object and testing to verify that the serializer converts it
+        // to the correct json representation
+        Model model = ModelTest.testModel();
+        ResourceList bank = model.getBank();
         Object o = null;
         Serializer instance = new Serializer();
-        String expResult = "";
-        String result = instance.toJson(o);
+        String expResult = "{\"brick\":23,\"ore\":22,\"sheep\":20,\"wheat\":22,\"wood\":21}";
+        String result = instance.toJson(bank);
+        System.out.println(result);
         assertEquals(expResult, result);
     }
     
