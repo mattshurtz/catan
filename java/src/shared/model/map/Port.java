@@ -6,6 +6,7 @@
 package shared.model.map;
 
 import java.util.Objects;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
@@ -19,25 +20,22 @@ import shared.locations.HexLocation;
 *ratio (integer): The ratio for trade in (ie, if this is 2, then it's a 2:1 port.
 */
 public class Port {
-   ResourceType type;
-   String resource;
+   PortType type;
    HexLocation location;
    EdgeDirection direction;
    int ratio;
    
-    public Port(int ratio, String resource, ResourceType type, EdgeDirection direction, HexLocation location) {
-            this.resource = resource;
+    public Port(PortType type, EdgeDirection direction, HexLocation location) {
             this.type = type;
             this.location = location;
             this.direction = direction;
-            this.ratio = ratio;
+            this.ratio = (type == PortType.THREE) ? 3:2;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
         hash = 37 * hash + Objects.hashCode(this.type);
-        hash = 37 * hash + Objects.hashCode(this.resource);
         hash = 37 * hash + Objects.hashCode(this.location);
         hash = 37 * hash + Objects.hashCode(this.direction);
         hash = 37 * hash + this.ratio;
@@ -54,9 +52,6 @@ public class Port {
         }
         final Port other = (Port) obj;
         if (this.type != other.type) {
-            return false;
-        }
-        if (!Objects.equals(this.resource, other.resource)) {
             return false;
         }
         if (!Objects.equals(this.location, other.location)) {

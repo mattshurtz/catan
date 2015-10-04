@@ -18,6 +18,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
+import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
@@ -195,23 +196,23 @@ public class ModelTest {
 
 		Road roadEight = new Road(0, new EdgeLocation(new HexLocation(2, 0), EdgeDirection.SouthWest));
 
-		Port portOne = new Port(3, null, null, EdgeDirection.NorthWest, new HexLocation(2, 1));
+		Port portOne = new Port(PortType.THREE, EdgeDirection.NorthWest, new HexLocation(2, 1));
 
-		Port portTwo = new Port(2, "brick", ResourceType.BRICK, EdgeDirection.NorthEast, new HexLocation(-2, 3));
+		Port portTwo = new Port(PortType.BRICK, EdgeDirection.NorthEast, new HexLocation(-2, 3));
 
-		Port portThree = new Port(3, null, null, EdgeDirection.SouthWest, new HexLocation(3, -3));
+		Port portThree = new Port(PortType.THREE, EdgeDirection.SouthWest, new HexLocation(3, -3));
 
-		Port portFour = new Port(3, null, null, EdgeDirection.North, new HexLocation(0, 3));
+		Port portFour = new Port(PortType.THREE, EdgeDirection.North, new HexLocation(0, 3));
 
-		Port portFive = new Port(2, "wood", ResourceType.WOOD, EdgeDirection.NorthEast, new HexLocation(-3, 2));
+		Port portFive = new Port(PortType.WOOD, EdgeDirection.NorthEast, new HexLocation(-3, 2));
 
-		Port portSix = new Port(3, null, null, EdgeDirection.SouthEast, new HexLocation(-3, 0));
+		Port portSix = new Port(PortType.THREE, EdgeDirection.SouthEast, new HexLocation(-3, 0));
 
-		Port portSeven = new Port(2, "wheat", ResourceType.WHEAT, EdgeDirection.South, new HexLocation(-1, -2));
+		Port portSeven = new Port(PortType.WHEAT, EdgeDirection.South, new HexLocation(-1, -2));
 
-		Port portEight = new Port(2, "ore", ResourceType.ORE, EdgeDirection.South, new HexLocation(1, -3));
+		Port portEight = new Port(PortType.ORE, EdgeDirection.South, new HexLocation(1, -3));
 
-		Port portNine = new Port(2, "sheep", ResourceType.SHEEP, EdgeDirection.NorthWest, new HexLocation(3, -1));
+		Port portNine = new Port(PortType.SHEEP, EdgeDirection.NorthWest, new HexLocation(3, -1));
 
 		Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest),
 				new ArrayList<Hex>());
