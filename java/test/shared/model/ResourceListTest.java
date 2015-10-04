@@ -67,7 +67,6 @@ public class ResourceListTest {
         } catch (GetPlayerException ex) {
             Logger.getLogger(ResourceListTest.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
 
