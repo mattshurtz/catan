@@ -545,6 +545,33 @@ public class Model {
     }
     
     /**
+     * 
+     * @return true if finish turn is a valid command
+     */
+    public boolean canFinishTurn()
+    {
+        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 
+     * @param playerIndex
+     * @return true if the player must discard cards because of a seven being rolled
+     */
+    public boolean canDiscardCards(int playerIndex) {
+        if(players.get(playerIndex).getResources().getTotalResources() > 7) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Removes three ore and two wheat from this player's ResourceList
      * Subtracts one city from players cities count
      * Adds settlement to players settlement count

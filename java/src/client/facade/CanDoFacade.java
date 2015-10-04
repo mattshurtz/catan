@@ -143,7 +143,7 @@ public abstract class CanDoFacade {
         return false;
     }
     
-    public boolean canDiscardCards( ResourceList discardedCards ) {
+    public boolean canDiscardCards( int playerIndex, ResourceList discardedCards ) {
         return false;
     }
     

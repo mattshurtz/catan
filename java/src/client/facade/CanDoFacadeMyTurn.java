@@ -19,7 +19,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canFinishTurn() {
-        return super.canFinishTurn();
+        return model.canFinishTurn();
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     
     @Override
     public boolean canPlayMonument() {
-        return false;
+        return model.canPlayMonopoly(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
@@ -74,17 +74,17 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canPlayRoadBuilding() {
-        return model.canPlayRoadBuilding(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayRoadBuilding(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
     public boolean canPlayYearOfPlenty() {
-        return model.canPlayYearOfPlenty(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayYearOfPlenty(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
     public boolean canBuyDevCard() {
-        return model.canBuyDevCard(CatanFacade.getMyPlayerIndex()); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuyDevCard(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
@@ -113,8 +113,8 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     }
     
     @Override
-    public boolean canDiscardCards( ResourceList discardedCards ) {
-        return false;
+    public boolean canDiscardCards(int playerIndex, ResourceList discardedCards ) {
+        return model.canDiscardCards(playerIndex);
     }
     
    public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {

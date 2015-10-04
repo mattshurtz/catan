@@ -261,6 +261,10 @@ public class ResourceList {
         this.wood = wood;
     }
 
+    public int getTotalResources() {
+        return brick + ore + sheep + wheat + wood;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;
