@@ -907,7 +907,7 @@ public class ModelTest {
 	 */
 	@Test
 	public void canOfferResource() throws GetPlayerException {
-<<<<<<< HEAD
+
             // These are testing whether the current player sam is able to make the following trades
             // this player has 1 wood in hand
             assertEquals(instance.getPlayer(instance.getTurnTracker().getCurrentTurn()).getResources().getWood(),1);
@@ -950,8 +950,8 @@ public class ModelTest {
             
         }
         
-        
-} 
+     
+
 
 
 }
