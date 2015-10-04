@@ -12,6 +12,8 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 /**
  *
@@ -45,8 +47,8 @@ public class SettlementTest {
     public void testDistributeResources() {
         System.out.println("distributeResources");
         int rolledNumber = 0;
-        HexLocation robber = null;
-        Settlement instance = null;
+        HexLocation robber = new HexLocation(0,0);
+        Settlement instance = new Settlement(0, new VertexLocation(robber,VertexDirection.NorthEast) , null);
         instance.distributeResources(rolledNumber, robber);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
