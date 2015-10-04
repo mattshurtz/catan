@@ -45,10 +45,23 @@ public class ResourceListTest {
      * Test of canAcceptTrade method, of class ResourceList.
      */
     @Test
-    public void testCanAcceptTrade() {
+    public void testCanAcceptTrade_yes() {
         System.out.println("canAcceptTrade");
-        ResourceList accept = null;
-        ResourceList instance = new ResourceList();
+        ResourceList accept = new ResourceList(1,0,0,0,0);
+        ResourceList instance = new ResourceList(1,0,0,0,0);
+        boolean expResult = true;
+        boolean result = instance.canAcceptTrade(accept);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of canAcceptTrade method, of class ResourceList.
+     */
+    @Test
+    public void testCanAcceptTrade_no() {
+        System.out.println("canAcceptTrade");
+        ResourceList accept = new ResourceList(1,0,0,0,0);
+        ResourceList instance = new ResourceList(0,1,1,1,1);
         boolean expResult = false;
         boolean result = instance.canAcceptTrade(accept);
         assertEquals(expResult, result);
