@@ -19,18 +19,17 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canFinishTurn() {
-        return true;
+        return model.canFinishTurn();
     }
 
     @Override
     public boolean canRobPlayer(int playerIndex) {
-       
         return model.canRobPlayer(playerIndex);
     }
 
     @Override
     public boolean canRollNumber() {
-        return true;
+        return model.canRollNumber();
     }
 
     @Override
@@ -55,32 +54,37 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canBuildSettlement(VertexLocation vertex) {
-        return model.canBuildSettlement(vertex);
+        return canBuySettlement() && model.canBuildSettlement(vertex);
+    }
+    
+    @Override
+    public boolean canPlayMonument() {
+        return model.canPlayMonopoly(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
     public boolean canPlayMonopoly() {
-        return super.canPlayMonopoly();
+        return model.canPlayMonopoly(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
     public boolean canPlaySoldier() {
-        return super.canPlaySoldier(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlaySoldier(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
     public boolean canPlayRoadBuilding() {
-        return super.canPlayRoadBuilding(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayRoadBuilding(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
     public boolean canPlayYearOfPlenty() {
-        return super.canPlayYearOfPlenty(); //To change body of generated methods, choose Tools | Templates.
+        return model.canPlayYearOfPlenty(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
     public boolean canBuyDevCard() {
-        return super.canBuyDevCard(); //To change body of generated methods, choose Tools | Templates.
+        return model.canBuyDevCard(CatanFacade.getMyPlayerIndex()); 
     }
 
     @Override
@@ -90,12 +94,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
 
     @Override
     public boolean canAcceptTrade(int playerIndex) {
-        return super.canAcceptTrade(playerIndex); //To change body of generated methods, choose Tools | Templates.
+        return false;
     }
 
     @Override
     public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-        return super.canOfferTrade(playerIndex, resourceList); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
     
     @Override
@@ -105,7 +109,12 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-    	return model.canBuildRoad(roadLocation);
+    	return model.canBuyRoad() && model.canBuildRoad(roadLocation);
+    }
+    
+    @Override
+    public boolean canDiscardCards(int playerIndex, ResourceList discardedCards ) {
+        return model.canDiscardCards(playerIndex);
     }
     
    public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {

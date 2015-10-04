@@ -9,7 +9,9 @@ import client.facade.CatanFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.TurnStatus;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
@@ -125,7 +127,7 @@ public class Model {
      * @return true if player has enough supplies, false if not
      */
     public boolean canBuyRoad() {
-        int playerIndex = turnTracker.getCurrentTurn();
+        int playerIndex = CatanFacade.getMyPlayerIndex();
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
             return false;
         } else if (!players.get(playerIndex).hasRoad()) {
@@ -453,7 +455,7 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(EdgeLocation location, int playerIndex) {
-        Player currentPlayer = players.get(turnTracker.getCurrentTurn());
+        //NOTE: to be implemented
     }
     
     
@@ -493,6 +495,82 @@ public class Model {
     	return false;
     }
 
+    public boolean canBuyDevCard(int playerIndex) {
+        Player current = players.get(playerIndex);
+        
+        return current.getResources().canBuyDevCard();
+    }
+    
+    public boolean canPlayMonopoly(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.MONOPOLY);
+    }
+    
+    public boolean canPlaySoldier(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.SOLDIER);
+    }
+    
+    public boolean canPlayRoadBuilding(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.ROAD_BUILD);
+    }
+    
+    public boolean canPlayYearOfPlenty(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.YEAR_OF_PLENTY);
+    }
+    
+    public boolean canPlayMonument(int playerIndex) {        
+        Player current = players.get(playerIndex);
+        
+        return current.canPlayDevCard(DevCardType.MONUMENT);
+    }
+    
+    /**
+     * returns true if its the players turn and turn status is ROLLING 
+     */
+    public boolean canRollNumber() {
+        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
+                && getTurnTracker().getStatus() == TurnStatus.ROLLING)
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 
+     * @return true if finish turn is a valid command
+     */
+    public boolean canFinishTurn()
+    {
+        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn())
+        {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 
+     * @param playerIndex
+     * @return true if the player must discard cards because of a seven being rolled
+     */
+    public boolean canDiscardCards(int playerIndex) {
+        if(players.get(playerIndex).getResources().getTotalResources() > 7) {
+            return true;
+        }
+        
+        return false;
+    }
+    
     /**
      * Removes three ore and two wheat from this player's ResourceList
      * Subtracts one city from players cities count
