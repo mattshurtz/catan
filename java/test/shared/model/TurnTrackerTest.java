@@ -48,8 +48,6 @@ public class TurnTrackerTest {
         int expResult = 0;
         int result = instance.getCurrentTurn();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -72,11 +70,9 @@ public class TurnTrackerTest {
     public void testGetStatus() {
         System.out.println("getStatus");
         TurnTracker instance = new TurnTracker();
-        TurnStatus expResult = null;
+        TurnStatus expResult = TurnStatus.ROLLING;
         TurnStatus result = instance.getStatus();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -102,8 +98,6 @@ public class TurnTrackerTest {
         int expResult = 0;
         int result = instance.getLongestRoad();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -129,8 +123,6 @@ public class TurnTrackerTest {
         int expResult = 0;
         int result = instance.getLargestArmy();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
