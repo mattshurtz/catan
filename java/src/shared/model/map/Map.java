@@ -7,6 +7,8 @@ package shared.model.map;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -112,7 +114,149 @@ public class Map {
         
     }
     
-
+    public int neededToOfferMaritimeTrade(int playerIndex, ResourceType resourceType) {
+        //create list of all vertex objects
+        ArrayList<VertexObject> allBuildings = new ArrayList(settlements);
+        allBuildings.addAll(cities);
+        
+        //check for player vertex objects on port edges
+        ArrayList<VertexLocation> verticiesOnResourcePorts = getResourcePortVerticies();
+        ArrayList<VertexLocation> verticiesOnGeneralPorts = getGeneralPortVerticies();
+        
+        ArrayList<VertexObject> resourcePortBuildings = new ArrayList<VertexObject>();
+        ArrayList<VertexObject> generalPortBuildings = new ArrayList<VertexObject>();
+        
+        for(VertexObject building : allBuildings) {
+            if(building.getOwner() == playerIndex) {
+                if(verticiesOnResourcePorts.contains(building.getLocation().getNormalizedLocation())) {
+                    resourcePortBuildings.add(building);
+                }
+                else if(verticiesOnGeneralPorts.contains(building.getLocation().getNormalizedLocation()))
+                {
+                    generalPortBuildings.add(building);
+                }
+            }
+        }
+        
+        if(!resourcePortBuildings.isEmpty()) {
+            return 2;
+        }
+        else if(!resourcePortBuildings.isEmpty()) {
+            return 3;
+        }
+        else {
+            return 4;
+        }
+    }
+    
+    private ArrayList<VertexLocation> getResourcePortVerticies() {
+        ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
+        
+        for(Port port: ports) {
+            
+            EdgeLocation portEdge = port.getEdgeLocation();
+            EdgeDirection portEdgeDirection = portEdge.getDir();
+            HexLocation portLocation = portEdge.getHexLoc();
+            
+            if(port.getRatio() == 2) {
+                switch(portEdgeDirection) {
+                    case North:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthEast));
+                        break;
+                    }
+                    case NorthEast:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case SouthEast:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case South:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case SouthWest:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast));
+                        break;
+                    }
+                    case NorthWest:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast));
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return list;
+    }
+    
+        private ArrayList<VertexLocation> getGeneralPortVerticies() {
+        ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
+        
+        for(Port port: ports) {
+            
+            EdgeLocation portEdge = port.getEdgeLocation();
+            EdgeDirection portEdgeDirection = portEdge.getDir();
+            HexLocation portLocation = portEdge.getHexLoc();
+            
+            if(port.getRatio() == 3) {
+                switch(portEdgeDirection) {
+                    case North:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthEast));
+                        break;
+                    }
+                    case NorthEast:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case SouthEast:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case South:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthEast));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest));
+                        break;
+                    }
+                    case SouthWest:
+                    {
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.South), VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast));
+                        break;
+                    }
+                    case NorthWest:
+                    {
+                        list.add(new VertexLocation(portLocation, VertexDirection.NorthWest));
+                        list.add(new VertexLocation(portLocation.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast));
+                        break;
+                    }
+                }
+            }
+        }
+        
+        return list;
+    }
+    
     /**
      * @param location specifies a HexLocation to see if a settlement can be
      * placed there

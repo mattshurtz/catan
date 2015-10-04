@@ -264,6 +264,38 @@ public class ResourceList {
         return brick + ore + sheep + wheat + wood;
     }
     
+    public boolean hasResource(ResourceType resourceType) {
+        switch(resourceType) {
+            case WOOD:
+                if(wood > 0) {
+                    return true;
+                }
+                break;  
+            case WHEAT:
+                if(wheat > 0) {
+                    return true;
+                }
+                break;
+            case ORE:
+                if(ore > 0) {
+                    return true;
+                }
+                break;
+            case BRICK:
+                if(brick > 0) {
+                    return true;
+                }
+                break;
+            case SHEEP:
+                if(sheep > 0) {
+                    return true;
+                }
+                break;
+        }
+        
+        return false;
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

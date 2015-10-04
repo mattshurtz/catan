@@ -3,6 +3,7 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.definitions.ResourceType;
 import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -88,10 +89,15 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canMaritimeTrade(String inputResource, String ouputResouce, double ratio) {
-        return super.canMaritimeTrade(inputResource, ouputResouce, ratio); //To change body of generated methods, choose Tools | Templates.
+    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
+        return model.canOfferMaritimeTrade(resourceType);
     }
-
+    
+    @Override
+    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
+        return model.canAcceptMaritimeTrade(resourceType);
+    }
+    
     @Override
     public boolean canAcceptTrade(ResourceList tradeOffer) {
         return false;

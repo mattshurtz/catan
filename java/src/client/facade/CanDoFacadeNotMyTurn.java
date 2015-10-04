@@ -1,6 +1,7 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
+import shared.definitions.ResourceType;
 import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -99,13 +100,18 @@ public class CanDoFacadeNotMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canMaritimeTrade(String inputResource, String ouputResouce, double ratio) {
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
         return false;
     }
 
     @Override
-    public boolean canAcceptTrade(ResourceList tradeOffer) {
-        return model.canAcceptTrade(tradeOffer);
+    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
+        return false;
+    }
+
+    @Override
+    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
+        return false;
     }
 
     @Override

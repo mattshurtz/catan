@@ -3,6 +3,7 @@ package client.facade;
 import client.proxy.IServerProxy;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.definitions.ResourceType;
 import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeLocation;
@@ -35,24 +36,15 @@ public abstract class CanDoFacade {
         return false;
     }
 
-    /**
-     * @param playerIndex (integer): Who's accepting / rejecting this trade,
-     * @return Whether you accept the trade or not, and actually have the
-     * resources to do so.
-     */
     public boolean canAcceptTrade(ResourceList tradeOffer) {
         return false;
     }
 
-    /**
-     * @param inputResource resource you offer
-     * @param ouputResouce resource you request
-     * @param ratio of input to output resources.
-     * @return true if you have a vertex object in the same location as this
-     * port, and the resource cards offered are the same type as the port, and
-     * the cards offered and requested have the correct ratio.
-     */
-    public boolean canMaritimeTrade(String inputResource, String ouputResouce, double ratio) {
+    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
+        return false;
+    }
+    
+    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
         return false;
     }
 

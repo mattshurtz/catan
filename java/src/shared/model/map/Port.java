@@ -9,6 +9,7 @@ import java.util.Objects;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 
 /**
@@ -32,6 +33,18 @@ public class Port {
             this.ratio = (type == PortType.THREE) ? 3:2;
     }
 
+    public PortType getPortType() {
+        return type;
+    }
+    
+    public int getRatio() {
+        return ratio;
+    }
+    
+    public EdgeLocation getEdgeLocation() {
+        return new EdgeLocation(location, direction);
+    }
+    
     @Override
     public int hashCode() {
         int hash = 3;

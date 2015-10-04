@@ -598,6 +598,15 @@ public class Model {
        return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
     }
     
+    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
+       int neededToTrade = map.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
+       return canOfferResource(resourceType, neededToTrade);
+    }
+    
+    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
+        return bank.hasResource(resourceType);
+    }
+    
     public boolean canAcceptTrade(ResourceList tradeOffer){
         return players.get(CatanFacade.getMyPlayerIndex()).getResources().canAcceptTrade(tradeOffer);
     }
