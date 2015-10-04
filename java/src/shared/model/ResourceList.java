@@ -124,7 +124,6 @@ public class ResourceList {
         if(ore > 0 && sheep > 0 && wheat > 0) {
             return true;
         }
-        
         return false;
     }
     

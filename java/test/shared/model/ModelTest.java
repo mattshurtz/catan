@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.definitions.TurnStatus;
@@ -946,12 +947,104 @@ public class ModelTest {
            // This tests whether the player can accept the trade resouce
            // in the case that he can not because he has insufficient brick
            assertEquals(instance.canAcceptTrade(tradeOffer),false);
+        }
+        /**
+         * This tests whether or canPlayDevCard works. IF a player owns the devcard
+         * and has not already played one this turn they should be able to play 
+         * the devcard. 
+         */
+        @Test
+        public void canPlayDevCard(){
             
+            Player currentPlayer = instance.getPlayers().get(0);
+            // this should be false becasue the 0 index player, sam does not have
+            // a soldier card.
+            assertFalse(currentPlayer.canPlayDevCard(DevCardType.SOLDIER));
+            
+            // now we add a DevCard and see if they player can play
+            // this should be true because we added a soldier
+            currentPlayer.getOldDevCards().AddSoldier();
+            assertTrue(currentPlayer.canPlayDevCard(DevCardType.SOLDIER));
+            
+            // Now we set that the player has played a dev card 
+            // so they should not be able to play it even though they already have
+            currentPlayer.setPlayedDevCard(true);
+            currentPlayer.getOldDevCards().AddSoldier();
+            assertFalse(currentPlayer.canPlayDevCard(DevCardType.SOLDIER));
             
         }
         
-     
-
+        
+        /**
+         * Tests whether a player has sufficient resources to buy a dev card. 
+         */
+        @Test
+        public void canBuyDevCard(){
+            // sam, the current player at index 0, has 1 sheep and one wheat but
+            // has no ore so this test should fail
+            assertFalse(instance.canBuyDevCard(0));
+            // it is not player 1 turn so this should fail
+            assertFalse(instance.canBuyDevCard(1));
+            
+            //Now we add a wheat to the current players turn and they should be
+            //able to buy a devcard
+            instance.getPlayers().get(0).getResources().addResource(ResourceType.WHEAT, 1);
+            instance.getPlayers().get(0).getResources().addResource(ResourceType.ORE, 1);
+            instance.getPlayers().get(0).getResources().addResource(ResourceType.SHEEP, 1);
+            assertEquals(instance.getPlayers().get(0).getResources().getOre(),1);
+            assertEquals(instance.getPlayers().get(0).getResources().getSheep(),2);
+            assertEquals(instance.getPlayers().get(0).getResources().getWheat(),2);
+            assertTrue(instance.canBuyDevCard(0));
+            
+        
+        }
+        
+        /**
+         * Tests whether it is this players turn and if the turn status is rolling.
+         * this is all in the model function canRollNumber() function
+         */
+        @Test
+        public void canRollNumber(){
+            //First we make sure that the turnStatus is rolling
+            instance.getTurnTracker().setStatus(TurnStatus.ROLLING);
+            assertEquals(instance.getTurnTracker().getStatus(),TurnStatus.ROLLING);
+            //This tests whether a player whos turn it is not can roll
+            // This should be false because 0 is the current player as shown
+            assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
+            CatanFacade.setMyPlayerIndex(1);
+            assertFalse(instance.canRollNumber());
+            //Now we set the CatanFacade player to the player whose turn it is
+            // this test will pass because the currentplayer is player 0
+            CatanFacade.setMyPlayerIndex(0);
+            assertEquals(CatanFacade.getMyPlayerIndex(),0);
+            assertTrue(instance.canRollNumber());
+            
+            //Test that it fails if the status is not rolling
+            instance.getTurnTracker().setStatus(TurnStatus.ROBBING);
+            assertEquals(instance.getTurnTracker().getStatus(),TurnStatus.ROBBING);
+            assertFalse(instance.canRollNumber());
+            
+        }
+        
+        /**
+         * Tests if this player can finish his turn. If it is this players current
+         * turn then they should be able to finish their turn. 
+         */
+        @Test
+        public void canFinishTurn(){
+            //This tests whether a player whos turn it IS NOT can finsih turn
+            // This should be false because 0 is the current player as shown
+            assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
+            CatanFacade.setMyPlayerIndex(1);
+            assertFalse(instance.canFinishTurn());
+            //This tests whether a player whos turn it IS can finish turn
+            // This should be false because 0 is the current player as shown
+            assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
+            CatanFacade.setMyPlayerIndex(0);
+            assertTrue(instance.canFinishTurn());
+            
+            
+        }
 
 
 }

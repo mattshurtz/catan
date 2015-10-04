@@ -14,7 +14,7 @@ import shared.exceptions.InsufficientSupplies;
  */
 public class DevCardList {
 	// 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument     
-	int yearOfPlenty;
+    int yearOfPlenty;
     int monopoly;
     int soldier;
     int roadBuilding;

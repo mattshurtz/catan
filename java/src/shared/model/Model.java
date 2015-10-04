@@ -497,8 +497,11 @@ public class Model {
 
     public boolean canBuyDevCard(int playerIndex) {
         Player current = players.get(playerIndex);
-        
-        return current.getResources().canBuyDevCard();
+        if(turnTracker.getCurrentTurn()==playerIndex){
+            return current.getResources().canBuyDevCard();
+        }else{
+            return false;
+        }
     }
     
     public boolean canPlayMonopoly(int playerIndex) {        
@@ -554,7 +557,6 @@ public class Model {
         {
             return true;
         }
-        
         return false;
     }
     
