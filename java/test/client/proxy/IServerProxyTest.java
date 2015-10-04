@@ -284,32 +284,32 @@ public class IServerProxyTest {
         assertEquals(expResult, result);
     }
 
-    /**
-     * Test of saveGame method, of class IServerProxy.
-     */
-    @Test
-    public void testSaveGame() throws Exception {
-        System.out.println("saveGame");
-        SaveGameRequest saveRequest = new SaveGameRequest();
-        saveRequest.setId(1);
-        saveRequest.setName("savedgame");
-        boolean expResult = true;
-        boolean result = instance.saveGame(saveRequest);
-        assertEquals(expResult, result);
-    }
+//    /**
+//     * Test of saveGame method, of class IServerProxy.
+//     */
+//    @Test
+//    public void testSaveGame() throws Exception {
+//        System.out.println("saveGame");
+//        SaveGameRequest saveRequest = new SaveGameRequest();
+//        saveRequest.setId(1);
+//        saveRequest.setName("savedgame");
+//        boolean expResult = true;
+//        boolean result = instance.saveGame(saveRequest);
+//        assertEquals(expResult, result);
+//    }
 
-    /**
-     * Test of loadGame method, of class IServerProxy.
-     */
-    @Test
-    public void testLoadGame() throws Exception {
-        System.out.println("loadGame");
-        LoadGameRequest loadRequest = new LoadGameRequest();
-        loadRequest.setName("Default Game");
-        boolean expResult = true;
-        boolean result = instance.loadGame(loadRequest);
-        assertEquals(expResult, result);
-    }
+//    /**
+//     * Test of loadGame method, of class IServerProxy.
+//     */
+//    @Test
+//    public void testLoadGame() throws Exception {
+//        System.out.println("loadGame");
+//        LoadGameRequest loadRequest = new LoadGameRequest();
+//        loadRequest.setName("Default Game");
+//        boolean expResult = true;
+//        boolean result = instance.loadGame(loadRequest);
+//        assertEquals(expResult, result);
+//    }
 
     /**
      * Test of getGameModel method, of class IServerProxy.
@@ -323,39 +323,39 @@ public class IServerProxyTest {
         assertNotNull(model);
     }
 
-    /**
-     * Test of resetGame method, of class IServerProxy.
-     */
-    @Test
-    public void testResetGame() throws Exception {
-        System.out.println("resetGame");
-        testSetup(true,true,false);
-        Model result = instance.resetGame();
-        if (result == null)
-        	fail("Unable to reset");
-    }
+//    /**
+//     * Test of resetGame method, of class IServerProxy.
+//     */
+//    @Test
+//    public void testResetGame() throws Exception {
+//        System.out.println("resetGame");
+//        testSetup(true,true,false);
+//        Model result = instance.resetGame();
+//        if (result == null)
+//        	fail("Unable to reset");
+//    }
 
-    /**
-     * Test of postCommands method, of class IServerProxy.
-     */
-    @Test
-    public void testPostCommands() throws Exception {
-        System.out.println("postCommands");
-        PostCommandsRequest postCommandsRequest = null;
-        Model expResult = new Deserializer().getTestModel();
-        Model result = instance.postCommands(postCommandsRequest);
-        assertEquals(expResult, result);
-    }
+//    /**
+//     * Test of postCommands method, of class IServerProxy.
+//     */
+//    @Test
+//    public void testPostCommands() throws Exception {
+//        System.out.println("postCommands");
+//        PostCommandsRequest postCommandsRequest = null;
+//        Model expResult = new Deserializer().getTestModel();
+//        Model result = instance.postCommands(postCommandsRequest);
+//        assertEquals(expResult, result);
+//    }
 
-    /**
-     * Test of getCommands method, of class IServerProxy.
-     */
-    @Test
-    public void testGetCommands() throws Exception {
-        System.out.println("getCommands");
-        String result = instance.getCommands();
-        assertNotNull(result);
-    }
+//    /**
+//     * Test of getCommands method, of class IServerProxy.
+//     */
+//    @Test
+//    public void testGetCommands() throws Exception {
+//        System.out.println("getCommands");
+//        String result = instance.getCommands();
+//        assertNotNull(result);
+//    }
 
     /**
      * Test of addAi method, of class IServerProxy.
