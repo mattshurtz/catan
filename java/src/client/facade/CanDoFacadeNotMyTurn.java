@@ -104,8 +104,8 @@ public class CanDoFacadeNotMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canAcceptTrade(int playerIndex) {
-        return true;
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
+        return model.canAcceptTrade(tradeOffer);
     }
 
     @Override

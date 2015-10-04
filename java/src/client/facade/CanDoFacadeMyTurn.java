@@ -93,7 +93,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
     }
 
     @Override
-    public boolean canAcceptTrade(int playerIndex) {
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
         return false;
     }
 

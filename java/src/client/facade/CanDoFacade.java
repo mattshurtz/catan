@@ -40,7 +40,7 @@ public abstract class CanDoFacade {
      * @return Whether you accept the trade or not, and actually have the
      * resources to do so.
      */
-    public boolean canAcceptTrade(int playerIndex) {
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
         return false;
     }
 
