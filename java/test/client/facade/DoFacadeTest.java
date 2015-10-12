@@ -29,7 +29,7 @@ import shared.model.ResourceList;
  */
 public class DoFacadeTest {
     
-    private DoFacade instance;
+    private StateBase instance;
     
     public DoFacadeTest() {
     }

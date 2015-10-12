@@ -13,9 +13,9 @@ import shared.model.ResourceList;
  * A "can do" facade for when it's not my turn -- basically just automatically
  * returns false for everything other than chatting and responding to trades.
  */
-public class CanDoFacadeNotMyTurn extends CanDoFacade {
+public class StateNotMyTurn extends StateBase {
 
-    public CanDoFacadeNotMyTurn(IServerProxy proxy, Model model) {
+    public StateNotMyTurn(IServerProxy proxy, Model model) {
        super( proxy, model );
     }
     

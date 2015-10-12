@@ -2,6 +2,8 @@ package client.facade;
 
 import client.proxy.IServerProxy;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import shared.communication.params.moves.AcceptTradeRequest;
 import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.BuildRoadRequest;
@@ -18,6 +20,8 @@ import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.InsufficientSupplies;
+import shared.exceptions.InvalidLocation;
 import shared.exceptions.ServerException;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -27,22 +31,141 @@ import shared.model.Player;
 import shared.model.ResourceList;
 
 /**
- * A facade for all the "doing" actions, as opposed to "can do" -- rather than
- * just checking whether a player *can* play a road, these method actually play
- * a road, build a settlement, take a development card, etc.
+ * An abstract class defining all the CanDo methods, extended by the 
+ * CanDo - MyTurn - facade (which actually checks whether things are doable)
+ * and the CanDo - NotMyturn - facade (which typically returns false because you
+ * can only accept trades and chat when it's not your turn).
  */
-public class DoFacade {
-    
-    
+public class StateBase {
+
     IServerProxy proxy;
     Model model;
-    
-    public DoFacade(IServerProxy proxy, Model model){
+
+    public StateBase(IServerProxy proxy, Model model) {
         this.proxy = proxy;
         this.model = model;
     }
+
+    /**
+     * @param playerIndex of whom you offer the trade.
+     * @param resourceList offer is a list or resources you offer.
+     * @return whether the player has actually has the resources to be offered.
+     */
+    public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
+        return false;
+    }
+
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
+        return false;
+    }
+
+    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
+        return false;
+    }
     
-    public void offerTrade( ResourceList offer, int receiverIndex ) throws ServerException{
+    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
+        return false;
+    }
+
+    public boolean canBuyDevCard() {
+        return false;
+    }
+    
+    public boolean canPlayMonument() {
+        return false;
+    }
+
+    public boolean canPlayYearOfPlenty() {
+        return false;
+    }
+
+    public boolean canPlayRoadBuilding() {
+        return false;
+    }
+
+    public boolean canPlaySoldier() {
+        return false;
+    }
+
+    public boolean canPlayMonopoly() {
+        return false;
+    }
+
+    /**
+     * @param roadLocation where player would like to place road
+     * @return true if player has enough resources to buy a road, the edge
+     * location in question is connected to a road or settlement/city belonging
+     * to the player.
+     */
+    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
+        return false;
+    }
+    
+    /**
+     * 
+     * @return true if insufficentSupplies is not thrown. 
+     */
+    public boolean canBuyRoad() throws InsufficientSupplies {
+        return false;
+    }
+
+    /**
+     * @param vertex this is where the player would like build a
+     * settlement
+     * @return true if player has enough resources to buy a Settlement, has a
+     * road connected to Hex vertex, and settlement is not within two hexEdges
+     * of another Settlement.
+     */
+    public boolean canBuildSettlement(VertexLocation vertex) {
+        return false;
+    }
+
+    public boolean canBuySettlement() {
+    	return false;
+    }
+    
+    /**
+     * @param vertex this is where the player would like build a City
+     * @return true if player owns a settlement at this location and has remaining cities
+     */
+    public boolean canBuildCity(VertexLocation vertex) {
+        return false;
+    }
+    /**
+     * @return true if the player has the resources to buy a city
+     */
+    public boolean canBuyCity() {
+    	return false;
+    }
+    
+    public boolean canSendChat() {
+        return true;
+    }
+
+    public boolean canRollNumber() {
+        return false;
+    }
+
+    public boolean canRobPlayer(int playerIndex) {
+        return false;
+    }
+
+    public boolean canFinishTurn() {
+        return false;
+    }
+    
+    public boolean canDiscardCards( int playerIndex, ResourceList discardedCards ) {
+        return false;
+    }
+    
+    public void setModel( Model m ) {
+        this.model = m;
+    }
+    
+    ////////////////////////// Do Facade Functions ////////////////////////////
+    
+    
+        public void offerTrade( ResourceList offer, int receiverIndex ) throws ServerException{
         
         OfferTradeRequest request = new OfferTradeRequest(offer, receiverIndex);
         request.setType("offerTrade");
@@ -229,10 +352,4 @@ public class DoFacade {
         
         proxy.finishTurn(request);
     }
-
-    void setModel(Model model) {
-        this.model = model;
-    }
-    
-    
 }

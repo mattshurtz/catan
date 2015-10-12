@@ -10,9 +10,9 @@ import shared.model.Model;
 public class CatanFacade {
     
     // the singleton facades
-    private static CanDoFacadeMyTurn myTurn;
-    private static CanDoFacadeNotMyTurn notMyTurn;
-    private static DoFacade doFacade;
+    private static StateMyTurn myTurn;
+    private static StateNotMyTurn notMyTurn;
+    private static StateBase doFacade;
     private static GameHubFacade gameHubFacade;
     private static IServerProxy proxy;
     private static Model model;
@@ -27,9 +27,12 @@ public class CatanFacade {
     public static void setup( IServerProxy proxy, Model model ) {
         CatanFacade.model = model;
         CatanFacade.proxy = proxy;
-        CatanFacade.myTurn = new CanDoFacadeMyTurn(proxy, model);
-        CatanFacade.notMyTurn = new CanDoFacadeNotMyTurn(proxy, model);
-        CatanFacade.doFacade = new DoFacade(proxy, model);
+        
+        CatanFacade.myTurn = new StateMyTurn(proxy, model);
+        CatanFacade.notMyTurn = new StateNotMyTurn(proxy, model);
+        CatanFacade.doFacade = new StateBase(proxy, model);
+        
+        
         CatanFacade.gameHubFacade = new GameHubFacade(proxy);
     }
     
@@ -48,14 +51,14 @@ public class CatanFacade {
         notMyTurn.setModel( model );
     }
     
-    public static CanDoFacade getCanDoFacade() {
+    public static StateBase getCanDoFacade() {
         if ( isMyTurn() )
             return myTurn;
         else
             return notMyTurn;
     }
     
-    public static DoFacade getDoFacade() {
+    public static StateBase getDoFacade() {
         return doFacade;
     }
     
@@ -80,8 +83,8 @@ public class CatanFacade {
     }
 
     // These 2 methods shouldn't be used except in test methods
-    public static CanDoFacadeMyTurn getMyTurn() { return myTurn; }
-    public static CanDoFacadeNotMyTurn getNotMyTurn() { return notMyTurn; }
+    public static StateMyTurn getMyTurn() { return myTurn; }
+    public static StateNotMyTurn getNotMyTurn() { return notMyTurn; }
 
     public static IServerProxy getProxy() {
         return proxy;

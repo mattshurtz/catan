@@ -14,6 +14,7 @@ import client.data.*;
 public class MapController extends Controller implements IMapController {
 	
 	private IRobView robView;
+        
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -105,7 +106,7 @@ public class MapController extends Controller implements IMapController {
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		
-		return true;
+//		CatanFacade.
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {

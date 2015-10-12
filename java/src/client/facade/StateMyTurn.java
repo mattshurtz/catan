@@ -16,7 +16,7 @@ import shared.model.ResourceList;
  * avoid an <code>if (it's my turn)</code> statement at the beginning of every
  * single method.
  */
-public class CanDoFacadeMyTurn extends CanDoFacade {
+public class StateMyTurn extends StateBase {
 
     @Override
     public boolean canFinishTurn() {
@@ -123,7 +123,7 @@ public class CanDoFacadeMyTurn extends CanDoFacade {
         return model.canDiscardCards(playerIndex);
     }
     
-   public CanDoFacadeMyTurn(IServerProxy proxy, Model model) {
+   public StateMyTurn(IServerProxy proxy, Model model) {
        super( proxy, model );
    }
    
