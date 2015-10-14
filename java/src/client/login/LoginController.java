@@ -1,6 +1,7 @@
 package client.login;
 
 import client.base.*;
+import client.facade.CatanFacade;
 import client.misc.*;
 
 import java.net.*;
@@ -70,13 +71,16 @@ public class LoginController extends Controller implements ILoginController {
 
 	@Override
 	public void signIn() {
-		
-		// TODO: log in user
-		
-
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+        String username = getLoginView().getLoginUsername();
+        String pass = getLoginView().getLoginPassword();
+		boolean success = CatanFacade.getGameHubFacade().login( username, pass );
+        
+        if ( success ) {
+            System.out.println("logged in!");
+            // If log in succeeded
+            getLoginView().closeModal();
+            loginAction.execute();
+        }
 	}
 
 	@Override
