@@ -71,11 +71,11 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 		this.resourceButtonsMap = new HashMap<ResourceType, ArrayList<JButton>>();
 		this.upDownPanels = new ArrayList<JPanel>();
 		this.upDownPanelByResourceType = new HashMap<ResourceType, JPanel>();
-		JPanel brickTile = this.setupResourceTile("images/resources/brick.png", ResourceType.BRICK);
-		JPanel oreTile = this.setupResourceTile("images/resources/ore.png", ResourceType.ORE);
-		JPanel sheepTile = this.setupResourceTile("images/resources/sheep.png", ResourceType.SHEEP);
-		JPanel wheatTile = this.setupResourceTile("images/resources/wheat.png", ResourceType.WHEAT);
-		JPanel woodTile = this.setupResourceTile("images/resources/wood.png", ResourceType.WOOD);
+		JPanel brickTile = this.setupResourceTile("java/images/resources/brick.png", ResourceType.BRICK);
+		JPanel oreTile = this.setupResourceTile("java/images/resources/ore.png", ResourceType.ORE);
+		JPanel sheepTile = this.setupResourceTile("java/images/resources/sheep.png", ResourceType.SHEEP);
+		JPanel wheatTile = this.setupResourceTile("java/images/resources/wheat.png", ResourceType.WHEAT);
+		JPanel woodTile = this.setupResourceTile("java/images/resources/wood.png", ResourceType.WOOD);
 		
 		JPanel resourceTilesPanel = new JPanel();
 		resourceTilesPanel.setLayout(new BoxLayout(resourceTilesPanel, BoxLayout.X_AXIS));
@@ -267,7 +267,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			JLabel resourceCountLabel = new JLabel("0");
 			this.resourceCounts.put(resourceType, resourceCountLabel);
 			
-			BufferedImage upImage = ImageIO.read(new File("images/misc/up.png"));
+			BufferedImage upImage = ImageIO.read(new File("java/images/misc/up.png"));
 			upImage = this.getScaledImage(upImage, upDownButtonWidth, upDownButtonWidth);
 			JButton upButton = new JButton(new ImageIcon(upImage));
 			upButton.addActionListener(new ActionListener(){
@@ -282,7 +282,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			});
 			this.resourceButtonsMap.get(resourceType).add(upButton);
 			
-			BufferedImage downImage = ImageIO.read(new File("images/misc/down.png"));
+			BufferedImage downImage = ImageIO.read(new File("java/images/misc/down.png"));
 			downImage = this.getScaledImage(downImage, upDownButtonWidth, upDownButtonWidth);
 			JButton downButton = new JButton(new ImageIcon(downImage));
 			downButton.addActionListener(new ActionListener(){
@@ -304,7 +304,8 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			upDownButtonsPanel.add(downButton);
 			
 		} catch (IOException e) {
-			throw new RuntimeException("error possibly with image path, error: " + e.getLocalizedMessage());
+            throw new RuntimeException(e);
+//			throw new RuntimeException("error possibly with image path, error: " + e.getLocalizedMessage());
 		}
 		
 		return upDownButtonsPanel;
