@@ -1,6 +1,8 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
+import java.util.Observable;
+import java.util.Observer;
 import shared.definitions.TurnStatus;
 import shared.model.Model;
 
@@ -25,8 +27,9 @@ public class CatanFacade {
     private static IServerProxy proxy;
     private static Model model;
     
-//    private static boolean isServer = false;
     private static int myPlayerIndex = 0;
+    
+    private static Observable observable;
     
     private CatanFacade() {
         // Can't be constructed -- is singleton class
@@ -45,6 +48,8 @@ public class CatanFacade {
         updateCurrentState();
         
         CatanFacade.gameHubFacade = new GameHubFacade(proxy);
+        
+        observable = new Observable();
     }
     
     /** 
@@ -127,4 +132,11 @@ public class CatanFacade {
         return proxy;
     }
     
+    public static void addObserver( Observer o ) {
+        observable.addObserver(o);
+    }
+    
+    public static void notifyObservers() {
+        observable.notifyObservers();
+    }
 }
