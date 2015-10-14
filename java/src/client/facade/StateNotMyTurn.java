@@ -1,9 +1,11 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
+import shared.communication.params.moves.AcceptTradeRequest;
 import shared.definitions.ResourceType;
 import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
+import shared.exceptions.ServerException;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
@@ -20,102 +22,18 @@ public class StateNotMyTurn extends StateBase {
     }
     
     @Override
-    public boolean canBuyRoad() throws InsufficientSupplies {
-        return false;
-    }
-
-    @Override
-    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-        return false;
-    }
-
-    @Override
-    public boolean canFinishTurn() {
-        return false;
-    }
-
-    @Override
-    public boolean canRobPlayer(int playerIndex) {
-        return false;
-    }
-
-    @Override
-    public boolean canRollNumber() {
-        return false;
-    }
-
-    @Override
-    public boolean canSendChat() {
-        return true;
-    }
-
-    @Override
-    public boolean canBuyCity() {
-        return false;
-    }
-
-    @Override
-    public boolean canBuildCity(VertexLocation vertex) {
-        return false;
-    }
-
-    @Override
-    public boolean canBuySettlement() {
-        return false;
-    }
-
-    @Override
-    public boolean canBuildSettlement(VertexLocation vertex) {
-        return false;
-    }
-
-    @Override
-    public boolean canPlayMonopoly() {
-        return false;
-    }
-
-    @Override
-    public boolean canPlaySoldier() {
-        return false;
-    }
-
-    @Override
-    public boolean canPlayRoadBuilding() {
-        return false;
-    }
-
-    @Override
-    public boolean canPlayYearOfPlenty() {
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
+        // TODO check if we have sufficient resources to accept this trade
         return false;
     }
     
     @Override
-    public boolean canPlayMonument() {
-        return false;
-    }
-
-    @Override
-    public boolean canBuyDevCard() {
-        return false;
-    }
-
-    @Override
-    public boolean canAcceptTrade(ResourceList tradeOffer) {
-        return false;
-    }
-
-    @Override
-    public boolean canOfferMaritimeTrade(ResourceType resourceType) {
-        return false;
-    }
-
-    @Override
-    public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
-        return false;
-    }
-
-    @Override
-    public boolean canOfferTrade(int playerIndex, ResourceList resourceList) {
-        return false;
+    public void acceptTrade( boolean willAccept ) throws ServerException{
+        
+        AcceptTradeRequest request = new AcceptTradeRequest(willAccept);
+        request.setType("acceptTrade");
+        request.setPlayerIndex(CatanFacade.getMyPlayerIndex());
+ 
+        proxy.acceptTrade(request);
     }
 }

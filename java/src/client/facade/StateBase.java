@@ -164,115 +164,47 @@ public class StateBase {
     
     ////////////////////////// Do Facade Functions ////////////////////////////
     
-    
-        public void offerTrade( ResourceList offer, int receiverIndex ) throws ServerException{
-        
-        OfferTradeRequest request = new OfferTradeRequest(offer, receiverIndex);
-        request.setType("offerTrade");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.offerTrade(request);
-    }
-    
     /**
      * type (acceptTrade),
      * playerIndex (integer): Who's accepting / rejecting this trade,
      * willAccept (boolean): Whether you accept the trade or not
      */
     public void acceptTrade( boolean willAccept ) throws ServerException{
-        
-        AcceptTradeRequest request = new AcceptTradeRequest(willAccept);
-        request.setType("acceptTrade");
-        request.setPlayerIndex(CatanFacade.getMyPlayerIndex());
- 
-        proxy.acceptTrade(request);
     }
     
-    public void maritimeTrade( int ratio, ResourceType input, ResourceType output ) throws ServerException{
-        MaritimeTradeRequest request = new MaritimeTradeRequest(0,ratio, input, output);
-        request.setType("maritimeTrade");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+    public void offerTrade( ResourceList offer, int receiverIndex ) throws ServerException{
+    }
     
-        proxy.maritimeTrade(request);
+    
+    
+    public void maritimeTrade( int ratio, ResourceType input, ResourceType output ) throws ServerException{
+        
     }
     
         
     public void buyDevCard() throws ServerException{
-        MoveRequest request = new MoveRequest();
-        request.setType("buyDevCard");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.buyDevCard(request);        
     }
     
     public void playYearOfPlenty( ResourceType resource1, ResourceType resource2 ) throws ServerException{
-        
-        PlayYearOfPlentyRequest request = new PlayYearOfPlentyRequest(resource1, resource2);
-        request.setType("Year_of_Plenty");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.playYearOfPlenty(request);
     }
     
     public void playRoadBuilding( EdgeLocation spot1, EdgeLocation spot2 ) throws ServerException{
-        PlayRoadBuildingRequest request = new PlayRoadBuildingRequest(CatanFacade.getMyPlayerIndex(), spot1, spot2);
-        request.setType("Road_Building");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.playRoadBuilding(request);
     }
     
     public void playSoldier( int victimIndex, HexLocation location ) throws ServerException, GetPlayerException{
-        
-        //increment Player soldiers played
-        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
-        Player current = CatanFacade.getModel().getPlayer(currentPlayerIndex);
-        current.incrementSoldiers();
-        
-        // TODO check if now the largest Army
-        
-        //build request
-        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
-        request.setType("Soldier");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.playSoldier(request); 
     }
     
     public void playMonopoly( ResourceType resource ) throws ServerException{
-        
-        PlayMonopolyRequest request = new PlayMonopolyRequest(resource);
-        request.setType("Monopoly");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.playMonopoly(request);
     }
     
     
     public void playMonument() throws ServerException, GetPlayerException {
-        //increment victory points and number of monuments
-        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
-        Player current = CatanFacade.getModel().getPlayer(currentPlayerIndex);
-        
-        current.incrementMonuments();
-        current.incrementVictoryPoints();
-        
-        MoveRequest request = new MoveRequest();
-        request.setType("Monument");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.playMonument(request);
     }
     /**
      * Create a build road request using the model and use the proxy
      * to send this parameter to the server. 
      */
     public void buildRoad( EdgeLocation location, boolean free ) throws ServerException{
-       BuildRoadRequest request = new BuildRoadRequest(location, free);
-       request.setType("buildRoad");
-       request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-       
-       proxy.buildRoad(request);
     }
     
     /**
@@ -281,14 +213,6 @@ public class StateBase {
      * @param location where settlement is to be built
      */
     public void buildSettlement(VertexLocation location) throws ServerException{
-        //NOTE(Scott): get location to build
-        boolean free = false;
-        
-        BuildSettlementRequest request = new BuildSettlementRequest(location, free);
-        request.setType("buildSettlement");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.buildSettlement(request);
     }
     /**
     * Create a build city request using the model and use the proxy
@@ -296,12 +220,6 @@ public class StateBase {
      * @param location where settlement is to be built
     */
     public void buildCity(VertexLocation location) throws ServerException{
-        BuildCityRequest request = new BuildCityRequest(location);
-        request.setType("buildCity");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.buildCity(request);
-        
     }
     
     public void sendChat( String comment ) throws ServerException{
@@ -314,42 +232,14 @@ public class StateBase {
     }
     
     public void rollNumber() throws ServerException{
-        Random rand = new Random();
-        
-        int firstDice = rand.nextInt(6) + 1;
-        int secondDice = rand.nextInt(6) + 1;
-        
-        int total = firstDice + secondDice;
-        
-        RollNumberRequest request = new RollNumberRequest(total);
-        request.setType("rollNumber");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.rollNumber(request);
     }
     
     public void robPlayer(int victimIndex, HexLocation location) throws ServerException{
-        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
-        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
-        request.setType("robPlayer");
-        request.setPlayerIndex(currentPlayerIndex);
-        
-        proxy.robPlayer(request);
     }
     
     public void discardCards( ResourceList discardedCards ) throws ServerException {
-        DiscardCardsRequest request = new DiscardCardsRequest(CatanFacade.getMyPlayerIndex(), discardedCards);
-        request.setType("discardCards");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.discardCards(request);
     }
     
     public void finishTurn() throws ServerException{
-        MoveRequest request = new MoveRequest();
-        request.setType("finishTurn");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.finishTurn(request);
     }
 }

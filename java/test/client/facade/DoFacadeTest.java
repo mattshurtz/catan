@@ -55,7 +55,7 @@ public class DoFacadeTest {
         mp.joinGame( joinReq );
         
         CatanFacade.setup( mp, new Deserializer().getTestModel() );
-        instance = CatanFacade.getDoFacade();
+        instance = CatanFacade.getCurrentState();
     }
     
     @After

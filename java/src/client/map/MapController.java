@@ -6,6 +6,10 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import client.facade.CatanFacade;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import shared.exceptions.InvalidLocation;
 
 
 /**
@@ -106,7 +110,12 @@ public class MapController extends Controller implements IMapController {
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		
-//		CatanFacade.
+        try {
+            return CatanFacade.getCurrentState().canBuildRoad( edgeLoc );
+        } catch (InvalidLocation ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
