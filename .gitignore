@@ -3,6 +3,7 @@ out/
 *.class
 *.classpath
 *.project
+.vagrant
 manifest.mf
 nbbuild.xml
 .metadata/
