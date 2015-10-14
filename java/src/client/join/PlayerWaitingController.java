@@ -1,6 +1,8 @@
 package client.join;
 
 import client.base.*;
+import client.data.PlayerInfo;
+import client.facade.CatanFacade;
 
 
 /**
@@ -21,15 +23,18 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 
 	@Override
 	public void start() {
-
+        String[] AIs = CatanFacade.getGameHubFacade().listAI();
+        getView().setAIChoices(AIs);
+        
+        PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
+        getView().setPlayers(playas);
+        
 		getView().showModal();
 	}
 
 	@Override
 	public void addAI() {
 
-		// TEMPORARY
-		getView().closeModal();
 	}
 
 }

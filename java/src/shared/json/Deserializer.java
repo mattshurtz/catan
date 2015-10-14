@@ -47,7 +47,6 @@ public class Deserializer {
     	if(json == null) {
     		return null;
     	}
-    	
         return gson.fromJson(json, String[].class);
     }
     

@@ -21,6 +21,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+    
+    private GameInfo currentGame;
 	
 	/**
 	 * JoinGameController constructor
@@ -121,8 +123,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-            
+        currentGame = game;
 		getSelectColorView().showModal();
+        
 	}
 
 	@Override
@@ -133,11 +136,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void joinGame(CatanColor color) {
+		boolean success = CatanFacade.getGameHubFacade().join( currentGame, color.toString() );
 		
-		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+        if ( success ) {
+            getSelectColorView().closeModal();
+            getJoinGameView().closeModal();
+            CatanFacade.setCurrentGamePlayers( currentGame.getPlayers().toArray( new PlayerInfo[0] ));
+            joinAction.execute();
+        } else {
+            System.out.println("Join game failed!");
+        }
 	}
 
 }

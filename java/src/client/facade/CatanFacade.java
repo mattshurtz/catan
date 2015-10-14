@@ -30,8 +30,17 @@ public class CatanFacade {
     
     private static int myPlayerIndex = 0;
     private static PlayerInfo myPlayerInfo = new PlayerInfo();
+    private static PlayerInfo[] currentGamePlayers = null;
     
     private static Observable observable;
+
+    public static void setCurrentGamePlayers( PlayerInfo[] players ) {
+        currentGamePlayers = players;
+    }
+    
+    public static PlayerInfo[] getCurrentGamePlayers() {
+        return currentGamePlayers;
+    }
     
     private CatanFacade() {
         // Can't be constructed -- is singleton class

@@ -194,8 +194,8 @@ public class ServerProxy implements IServerProxy {
 
     @Override
     public String[] listAi() throws ServerException {
-    	String responce = doGet("game/listAi");
-    	return null;
+    	String response = doGet("game/listAI");
+    	return deserializer.toStringArray( response );
     }
 
     @Override

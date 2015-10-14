@@ -1,11 +1,14 @@
 package client.facade;
 
 import client.data.GameInfo;
+import client.data.PlayerInfo;
 import client.proxy.IServerProxy;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.communication.params.Credentials;
+import shared.communication.params.JoinGameRequest;
 import shared.communication.responses.GameResponse;
 import shared.communication.responses.PlayerResponse;
 import shared.exceptions.ServerException;
@@ -41,8 +44,16 @@ public class GameHubFacade {
         
     }
     
-    public void listAI(){
-        
+    /** 
+     * List different possible AI's that can be added to games.
+     */
+    public String[] listAI(){
+        try {
+            return proxy.listAi();
+        } catch (ServerException ex) {
+            Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
     }
     
     public GameInfo[] listGames(){
@@ -53,7 +64,7 @@ public class GameHubFacade {
             Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
-        GameInfo[] ret = new GameInfo[ gamesList.size() ];
+        List<GameInfo> ret = new ArrayList<>();
         for ( int i = 0; i < gamesList.size(); i++ ) {
             GameResponse gr = gamesList.get(i);
             GameInfo gi = new GameInfo();
@@ -61,19 +72,29 @@ public class GameHubFacade {
             gi.setTitle( gr.getTitle() );
             List<PlayerResponse> players = gr.getPlayers();
             for ( PlayerResponse pr : players ) {
-                gi.addPlayer( deserializer.toPlayerInfo( pr ) );
+                PlayerInfo pi = deserializer.toPlayerInfo( pr );
+                if ( pi != null )
+                    gi.addPlayer( pi );
             }
-            ret[i] = gi;
+            ret.add(gi);
         }
-        return ret;
+        return ret.toArray(new GameInfo[0]);
     }
     
     public void createGame(){
         
     }
     
-    public void join(GameInfo gameInfo, String color){
-
+    public boolean join(GameInfo gameInfo, String color){
+        JoinGameRequest jgr = new JoinGameRequest();
+        jgr.setGameID( gameInfo.getId() );
+        jgr.setColor(color);
+        try {
+            return proxy.joinGame( jgr );
+        } catch (ServerException ex) {
+            Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     public void save(){
