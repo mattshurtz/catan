@@ -13,7 +13,6 @@ import shared.model.Model;
 
 /**
  *
- * @author JanPaul
  */
 public class StateRobbing extends StateBase {
 
@@ -28,11 +27,8 @@ public class StateRobbing extends StateBase {
 
     @Override
     public boolean canPlaceRobber(HexLocation hexLocation) {
-        
         return model.canPlaceRobber(hexLocation);
     }
-    
-    
     
     @Override
     public void robPlayer(int victimIndex, HexLocation location) throws ServerException{

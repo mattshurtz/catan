@@ -110,12 +110,12 @@ public class MapController extends Controller implements IMapController {
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		
-        try {
-            return CatanFacade.getCurrentState().canBuildRoad( edgeLoc );
-        } catch (InvalidLocation ex) {
-            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+            try {
+                return CatanFacade.getCurrentState().canBuildRoad( edgeLoc );
+            } catch (InvalidLocation ex) {
+                Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+                return false;
+            }
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {

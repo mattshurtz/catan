@@ -53,40 +53,6 @@ public class Map {
 		this.radius = radius;
 		this.robber = robber;
 	}
-
-	/**
-     * @param location specifies a HexLocation to see if a road can be placed
-     * there
-     * @return true if the place can accept a road
-     */
-    public boolean canPlaceRoadAtLoc(int playerIndex, EdgeLocation location, boolean restricted ) {
-    	boolean valid = false;
-    	
-    	
-        return valid;
-    }
-    
-    private boolean edgeOccupied(EdgeLocation location) {
-    	boolean occupied = false;
-    	
-//    	foreach(Road road : roads) {
-//    		if(road.getLocation() == location) {
-//    			occupied = true;
-//    			break;
-//    		}
-//    	}
-//    	
-    	return occupied;
-    }
-    
-    private boolean edgeAdjacent(int playerIndex) {
-//    	bool adjacent = false;
-    	
-//    	foreachlhlkhj;;;;
-//    	'';l
-        return false;
-    }
-    
     
     /**
      * add road to roads list
@@ -95,25 +61,7 @@ public class Map {
     public void placeRoadAtLocation(Road road) {
     	roads.add(road);
     }
-
-    /**
-     * @param location specifies a HexLocation to see if a city can be placed
-     * there
-     * @return true if the place can accept a city
-     */
-    public boolean canPlaceCityAtLoc(VertexLocation location) {
-        return false;
-    }
-    
-    /**
-     * add city to city List
-     * @param location where the city is to be placed
-     * @param city this is the city to be placed
-     */
-    public void placeCityAtLocation(City city, VertexLocation location){
-        
-    }
-    
+ 
     public int neededToOfferMaritimeTrade(int playerIndex, ResourceType resourceType) {
         //create list of all vertex objects
         ArrayList<VertexObject> allBuildings = new ArrayList(settlements);
