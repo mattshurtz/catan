@@ -7,6 +7,9 @@ import client.login.*;
 import client.join.*;
 import client.misc.*;
 import client.base.*;
+import client.facade.CatanFacade;
+import client.proxy.IServerProxy;
+import client.proxy.ServerProxy;
 
 /**
  * Main entry point for the Catan program
@@ -99,6 +102,9 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				
 				loginController.start();
+                
+                IServerProxy proxy = new ServerProxy("localhost", 8081);
+                CatanFacade.setup( proxy, null );
 			}
 		});
 	}

@@ -57,6 +57,9 @@ public class CatanFacade {
      * to the turn status in the current model
      */
     private static void updateCurrentState() {
+        if ( model == null )
+            return;
+     
         TurnStatus currStatus = model.getTurnTracker().getStatus();
         int currPlayer = model.getTurnTracker().getCurrentTurn();
         
