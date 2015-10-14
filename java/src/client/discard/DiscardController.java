@@ -1,7 +1,11 @@
 package client.discard;
 
 import shared.definitions.*;
+import shared.exceptions.GetPlayerException;
+import shared.exceptions.ServerException;
+import shared.model.ResourceList;
 import client.base.*;
+import client.facade.CatanFacade;
 import client.misc.*;
 
 
@@ -11,6 +15,8 @@ import client.misc.*;
 public class DiscardController extends Controller implements IDiscardController {
 
 	private IWaitView waitView;
+	
+	private ResourceList discardedCards;
 	
 	/**
 	 * DiscardController constructor
@@ -26,7 +32,14 @@ public class DiscardController extends Controller implements IDiscardController 
 	}
 
 	public IDiscardView getDiscardView() {
-		return (IDiscardView)super.getView();
+		try {
+			discardedCards = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources();
+			return (IDiscardView)super.getView();
+		} catch (GetPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public IWaitView getWaitView() {
@@ -35,18 +48,24 @@ public class DiscardController extends Controller implements IDiscardController 
 
 	@Override
 	public void increaseAmount(ResourceType resource) {
-		
+		discardedCards.addResource(resource, 1);
 	}
 
 	@Override
 	public void decreaseAmount(ResourceType resource) {
-		
+		discardedCards.subtractResource(resource, 1);
 	}
 
 	@Override
 	public void discard() {
+		try {
+			CatanFacade.getCurrentState().discardCards(discardedCards);
+			getDiscardView().closeModal();
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		getDiscardView().closeModal();
 	}
 
 }

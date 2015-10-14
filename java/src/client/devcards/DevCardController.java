@@ -1,7 +1,11 @@
 package client.devcards;
 
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.exceptions.GetPlayerException;
+import shared.exceptions.ServerException;
 import client.base.*;
+import client.facade.CatanFacade;
 
 
 /**
@@ -59,7 +63,17 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startPlayCard() {
-		
+		//SOLDIER, YEAR_OF_PLENTY, MONOPOLY, ROAD_BUILD, MONUMENT
+		getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CatanFacade.getCurrentState().canPlaySoldier());
+		getPlayCardView().setCardAmount(DevCardType.SOLDIER, CatanFacade.getModel().getDeck().getSoldier());
+		getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, CatanFacade.getCurrentState().canPlayMonopoly());
+		getPlayCardView().setCardAmount(DevCardType.MONOPOLY, CatanFacade.getModel().getDeck().getMonopoly());
+		getPlayCardView().setCardEnabled(DevCardType.MONUMENT, CatanFacade.getCurrentState().canPlayMonument());
+		getPlayCardView().setCardAmount(DevCardType.MONUMENT, CatanFacade.getModel().getDeck().getMonument());
+		getPlayCardView().setCardEnabled(DevCardType.ROAD_BUILD, CatanFacade.getCurrentState().canPlayRoadBuilding());
+		getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, CatanFacade.getModel().getDeck().getRoadBuilding());
+		getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, CatanFacade.getCurrentState().canPlayYearOfPlenty());
+		getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, CatanFacade.getModel().getDeck().getYearOfPlenty());
 		getPlayCardView().showModal();
 	}
 
@@ -71,29 +85,44 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
-		
+		try {
+			CatanFacade.getCurrentState().playMonopoly(resource);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	@Override
 	public void playMonumentCard() {
-		
+		try {
+			CatanFacade.getCurrentState().playMonument();
+		} catch (ServerException | GetPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void playRoadBuildCard() {
-		
+		//TODO WHAT DO YOU DO HERE
 		roadAction.execute();
 	}
 
 	@Override
-	public void playSoldierCard() {
-		
+	public void playSoldierCard() {	
+		//TODO WHAT DO YOU DO HERE
 		soldierAction.execute();
 	}
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
-		
+		try {
+			CatanFacade.getCurrentState().playYearOfPlenty(resource1, resource2);
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
