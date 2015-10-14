@@ -1,22 +1,6 @@
 package client.facade;
 
 import client.proxy.IServerProxy;
-import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import shared.communication.params.moves.AcceptTradeRequest;
-import shared.communication.params.moves.BuildCityRequest;
-import shared.communication.params.moves.BuildRoadRequest;
-import shared.communication.params.moves.BuildSettlementRequest;
-import shared.communication.params.moves.DiscardCardsRequest;
-import shared.communication.params.moves.MaritimeTradeRequest;
-import shared.communication.params.moves.MoveRequest;
-import shared.communication.params.moves.OfferTradeRequest;
-import shared.communication.params.moves.PlayMonopolyRequest;
-import shared.communication.params.moves.PlayRoadBuildingRequest;
-import shared.communication.params.moves.PlayYearOfPlentyRequest;
-import shared.communication.params.moves.RobPlayerRequest;
-import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
@@ -27,7 +11,6 @@ import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexLocation;
 import shared.model.Model;
-import shared.model.Player;
 import shared.model.ResourceList;
 
 /**
@@ -231,10 +214,15 @@ public class StateBase {
         proxy.sendChat(request);
     }
     
-    public void rollNumber() throws ServerException{
+    public int rollNumber() throws ServerException{
+        return 0;
     }
     
     public void robPlayer(int victimIndex, HexLocation location) throws ServerException{
+    }
+    
+    public boolean canPlaceRobber(HexLocation hexLocation){
+        return false;
     }
     
     public void discardCards( ResourceList discardedCards ) throws ServerException {

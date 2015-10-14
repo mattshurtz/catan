@@ -1,6 +1,10 @@
 package client.roll;
 
 import client.base.*;
+import client.facade.CatanFacade;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import shared.exceptions.ServerException;
 
 
 /**
@@ -17,9 +21,7 @@ public class RollController extends Controller implements IRollController {
 	 * @param resultView Roll result view
 	 */
 	public RollController(IRollView view, IRollResultView resultView) {
-
 		super(view);
-		
 		setResultView(resultView);
 	}
 	
@@ -36,8 +38,12 @@ public class RollController extends Controller implements IRollController {
 	
 	@Override
 	public void rollDice() {
-
-		getResultView().showModal();
+            try {
+                getResultView().setRollValue(CatanFacade.getCurrentState().rollNumber());
+            } catch (ServerException ex) {
+                Logger.getLogger(RollController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            getResultView().showModal();
 	}
 
 }

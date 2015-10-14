@@ -12,16 +12,15 @@ import java.util.Objects;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
-import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.InsufficientSupplies;
 import shared.exceptions.InvalidLocation;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.map.Hex;
 import shared.model.map.Map;
 import shared.model.map.Port;
 import shared.model.map.Road;
@@ -63,8 +62,6 @@ public class Model {
         version = 0;
         winner = -1;
         invalidWaterEdges = new HashSet<EdgeLocation>();
-        
-    
     }
     
     public void setInvalidWaterEdges(){
@@ -73,9 +70,6 @@ public class Model {
         for(Port port: map.getPorts()){
             
         }
-        
-        
-        
     }
 
     /**
@@ -142,6 +136,16 @@ public class Model {
      */
     public boolean canRobPlayer(int playerIndex) {
         return map.canRobPlayer(playerIndex);
+    }
+    
+    public boolean canPlaceRobber(HexLocation hexLocation){
+            if(map.getRobber().equals(hexLocation)){
+                return false;
+            }
+            if(hexLocation.getX()>3 || hexLocation.getY()>3){
+                return false;
+            }
+            return true;
     }
     
     /**

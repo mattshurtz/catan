@@ -25,6 +25,14 @@ public class StateRobbing extends StateBase {
     public boolean canRobPlayer(int playerIndex) {
         return model.canRobPlayer(playerIndex);
     }
+
+    @Override
+    public boolean canPlaceRobber(HexLocation hexLocation) {
+        
+        return model.canPlaceRobber(hexLocation);
+    }
+    
+    
     
     @Override
     public void robPlayer(int victimIndex, HexLocation location) throws ServerException{

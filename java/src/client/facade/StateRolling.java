@@ -22,7 +22,7 @@ public class StateRolling extends StateBase {
     }
     
     @Override
-    public void rollNumber() throws ServerException{
+    public int rollNumber() throws ServerException{
         Random rand = new Random();
         
         int firstDice = rand.nextInt(6) + 1;
@@ -35,6 +35,7 @@ public class StateRolling extends StateBase {
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
         proxy.rollNumber(request);
+        return total;
     }
     
 }
