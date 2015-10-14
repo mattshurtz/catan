@@ -1,5 +1,6 @@
 package shared.json;
 
+import client.data.PlayerInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.File;
@@ -11,6 +12,8 @@ import java.util.List;
 
 import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.GameResponse;
+import shared.communication.responses.PlayerResponse;
+import shared.definitions.CatanColor;
 import shared.model.MessageLine;
 import shared.model.Model;
 
@@ -90,5 +93,17 @@ public class Deserializer {
         Deserializer instance = new Deserializer();
         Model result = instance.toJavaModel( sampleModelJson );
         return result;
+    }
+    
+    public PlayerInfo toPlayerInfo( PlayerResponse pr ) {
+        if ( pr == null )
+            return null;
+        
+        PlayerInfo pi = new PlayerInfo();
+        pi.setColor( CatanColor.fromString( pr.getColor() ) );
+        pi.setId(pr.getId());
+        pi.setName(pr.getName());
+        
+        return pi;
     }
 }

@@ -1,5 +1,6 @@
 package client.facade;
 
+import client.data.PlayerInfo;
 import client.proxy.IServerProxy;
 import java.util.Observable;
 import java.util.Observer;
@@ -28,6 +29,7 @@ public class CatanFacade {
     private static Model model;
     
     private static int myPlayerIndex = 0;
+    private static PlayerInfo myPlayerInfo = new PlayerInfo();
     
     private static Observable observable;
     
@@ -142,4 +144,13 @@ public class CatanFacade {
     public static void notifyObservers() {
         observable.notifyObservers();
     }
+
+    public static PlayerInfo getMyPlayerInfo() {
+        return myPlayerInfo;
+    }
+
+    public static void setMyPlayerInfo(PlayerInfo myPlayerInfo) {
+        CatanFacade.myPlayerInfo = myPlayerInfo;
+    }
+    
 }

@@ -3,7 +3,13 @@ package client.join;
 import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
+import client.facade.CatanFacade;
 import client.misc.*;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import shared.communication.responses.GameResponse;
+import shared.exceptions.ServerException;
 
 
 /**
@@ -89,6 +95,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void start() {
+        GameInfo[] games = CatanFacade.getGameHubFacade().listGames();
+        getJoinGameView().setGames(games, CatanFacade.getMyPlayerInfo() );
 		
 		getJoinGameView().showModal();
 	}

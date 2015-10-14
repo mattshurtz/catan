@@ -39,4 +39,28 @@ public enum CatanColor {
     public String toString() {
         return strName;
     }
+    
+    public static CatanColor fromString( String color ) {
+        if ( color == null )
+            return BROWN;
+        
+        if ( color.equalsIgnoreCase("red") )
+            return RED;
+        else if ( color.equalsIgnoreCase("orange") )
+            return ORANGE;
+        else if ( color.equalsIgnoreCase("yellow") )
+            return YELLOW;
+        else if ( color.equalsIgnoreCase("blue") )
+            return BLUE;
+        else if ( color.equalsIgnoreCase("green") )
+            return GREEN;
+        else if ( color.equalsIgnoreCase("purple") )
+            return PURPLE;
+        else if ( color.equalsIgnoreCase("puce") )
+            return PUCE;
+        else if ( color.equalsIgnoreCase("white") )
+            return WHITE;
+        else
+            return BROWN;
+    }
 }

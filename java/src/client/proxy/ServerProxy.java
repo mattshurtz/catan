@@ -1,5 +1,6 @@
 package client.proxy;
 
+import client.facade.CatanFacade;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -342,10 +343,15 @@ public class ServerProxy implements IServerProxy {
     public boolean login(Credentials userCredentials) throws ServerException {
         try {
             String response = doPost( "user/login", userCredentials );
-            return toBoolean( response );
+            boolean success = toBoolean( response );
+            
+            if ( success ) {
+                CatanFacade.getMyPlayerInfo().setName( userCredentials.getUsername() );
+            }
+            
+            return success;
         } catch ( Exception e ) {
         	return false;
-            //throw new ServerException( e.getMessage() );
         }
     }
 
