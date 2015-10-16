@@ -208,7 +208,7 @@ public class DoFacadeTest {
         System.out.println("robPlayer");
         int victim = 1;
         HexLocation loc = new HexLocation( 1, 1 );
-        instance.robPlayer( victim, loc );
+//        instance.robPlayer( victim, loc );
     }
 
     /**
