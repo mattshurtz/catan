@@ -83,7 +83,7 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
         String username = getLoginView().getLoginUsername();
         String pass = getLoginView().getLoginPassword();
-		boolean success = CatanFacade.getGameHubFacade().login( username, pass );
+	boolean success = CatanFacade.getGameHubFacade().login( username, pass );
         
         if ( success ) {
             System.out.println("logged in!");
@@ -100,11 +100,18 @@ public class LoginController extends Controller implements ILoginController {
 	@Override
 	public void register() {
 		
-		// TODO: register new user (which, if successful, also logs them in)
-		
+	// TODO: register new user (which, if successful, also logs them in)
+	String username = getLoginView().getLoginUsername();
+        String pass = getLoginView().getLoginPassword();
+	boolean success = CatanFacade.getGameHubFacade().register( username, pass );
+        
+        if ( success ) {
+            System.out.println("registered!");
 		// If register succeeded
 		getLoginView().closeModal();
 		loginAction.execute();
+        }
+
 	}
 
 }

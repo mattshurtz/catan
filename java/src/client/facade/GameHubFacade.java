@@ -117,8 +117,16 @@ public class GameHubFacade {
         }
     }
     
-    public void register(){
-        
+    public boolean register(String username, String password){
+        Credentials cred = new Credentials();
+        cred.setUsername( username );
+        cred.setPassword( password );
+        try {
+            return this.proxy.register( cred );
+        } catch (ServerException ex) {
+            Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
     
     public void changeLogLevel(){
