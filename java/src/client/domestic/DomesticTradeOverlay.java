@@ -286,7 +286,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			});
 			this.resourceButtonsMap.get(resourceType).add(upButton);
 			
-			BufferedImage downImage = ImageIO.read(new File("images/misc/down.png"));
+			BufferedImage downImage = ImageIO.read(new File("java/images/misc/down.png"));
 			downImage = this.getScaledImage(downImage, upDownButtonWidth, upDownButtonWidth);
 			JButton downButton = new JButton(new ImageIcon(downImage));
 			downButton.addActionListener(new ActionListener(){
