@@ -271,7 +271,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			JLabel resourceCountLabel = new JLabel("0");
 			this.resourceCounts.put(resourceType, resourceCountLabel);
 			
-			BufferedImage upImage = ImageIO.read(new File("images/misc/up.png"));
+			BufferedImage upImage = ImageIO.read(new File("java/images/misc/up.png"));
 			upImage = this.getScaledImage(upImage, upDownButtonWidth, upDownButtonWidth);
 			JButton upButton = new JButton(new ImageIcon(upImage));
 			upButton.addActionListener(new ActionListener(){
@@ -308,7 +308,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			upDownButtonsPanel.add(downButton);
 			
 		} catch (IOException e) {
-			throw new RuntimeException("error possibly with image path, error: " + e.getLocalizedMessage());
+			throw new RuntimeException(e);//"error possibly with image path, error: " + e.getLocalizedMessage());
 		}
 		
 		return upDownButtonsPanel;

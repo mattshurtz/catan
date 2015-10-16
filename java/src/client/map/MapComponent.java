@@ -1063,19 +1063,19 @@ public class MapComponent extends JComponent
 		switch (hexType)
 		{
 			case WOOD:
-				return "images/land/forest.gif";
+				return "java/images/land/forest.gif";
 			case BRICK:
-				return "images/land/brick.gif";
+				return "java/images/land/brick.gif";
 			case SHEEP:
-				return "images/land/pasture.gif";
+				return "java/images/land/pasture.gif";
 			case WHEAT:
-				return "images/land/wheat.gif";
+				return "java/images/land/wheat.gif";
 			case ORE:
-				return "images/land/ore.gif";
+				return "java/images/land/ore.gif";
 			case DESERT:
-				return "images/land/desert.gif";
+				return "java/images/land/desert.gif";
 			case WATER:
-				return "images/land/water.gif";
+				return "java/images/land/water.gif";
 			default:
 				assert false;
 				return null;
@@ -1088,17 +1088,17 @@ public class MapComponent extends JComponent
 		switch (portType)
 		{
 			case WOOD:
-				return "images/ports/port_wood.png";
+				return "java/images/ports/port_wood.png";
 			case BRICK:
-				return "images/ports/port_brick.png";
+				return "java/images/ports/port_brick.png";
 			case SHEEP:
-				return "images/ports/port_sheep.png";
+				return "java/images/ports/port_sheep.png";
 			case WHEAT:
-				return "images/ports/port_wheat.png";
+				return "java/images/ports/port_wheat.png";
 			case ORE:
-				return "images/ports/port_ore.png";
+				return "java/images/ports/port_ore.png";
 			case THREE:
-				return "images/ports/port_three.png";
+				return "java/images/ports/port_three.png";
 			default:
 				assert false;
 				return null;
@@ -1110,7 +1110,7 @@ public class MapComponent extends JComponent
 		
 		if((2 <= num && num <= 6) || (8 <= num && num <= 12))
 		{
-			return "images/numbers/small_prob/" + num + ".png";
+			return "java/images/numbers/small_prob/" + num + ".png";
 		}
 		else
 		{
@@ -1121,12 +1121,12 @@ public class MapComponent extends JComponent
 	
 	private static String getRobberImageFile()
 	{
-		return "images/misc/robber.gif";
+		return "java/images/misc/robber.gif";
 	}
 	
 	private static String getDisallowImageFile()
 	{
-		return "images/misc/noIcon.png";
+		return "java/images/misc/noIcon.png";
 	}
 	
 	private static Point2D average(Point2D pt1, Point2D pt2)

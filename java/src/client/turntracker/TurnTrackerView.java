@@ -48,8 +48,8 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		playerRoad = new JLabel[NUM_PLAYERS];
 		playerArmy = new JLabel[NUM_PLAYERS];
 		
-		longestRoadImage = ImageUtils.loadImage("images/misc/road.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		largestArmyImage = ImageUtils.loadImage("images/misc/army.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		longestRoadImage = ImageUtils.loadImage("java/images/misc/road.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+		largestArmyImage = ImageUtils.loadImage("java/images/misc/army.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	}
 
 	@Override
