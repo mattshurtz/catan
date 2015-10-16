@@ -5,11 +5,6 @@ import client.base.*;
 import client.data.*;
 import client.facade.CatanFacade;
 import client.misc.*;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import shared.communication.responses.GameResponse;
-import shared.exceptions.ServerException;
 
 
 /**
@@ -117,7 +112,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void createNewGame() {
-		
+	// Create the game on the server 
 		getNewGameView().closeModal();
 	}
 

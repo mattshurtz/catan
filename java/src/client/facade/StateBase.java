@@ -218,7 +218,7 @@ public class StateBase {
         return 0;
     }
     
-    public void robPlayer(int victimIndex, HexLocation location) throws ServerException{
+    public void robPlayer(int victimIndex) throws ServerException{
     }
     
     public boolean canPlaceRobber(HexLocation hexLocation){

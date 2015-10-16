@@ -31,9 +31,9 @@ public class StateRobbing extends StateBase {
     }
     
     @Override
-    public void robPlayer(int victimIndex, HexLocation location) throws ServerException{
+    public void robPlayer(int victimIndex) throws ServerException{
         int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
-        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, location);
+        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, model.getMap().getRobber());
         request.setType("robPlayer");
         request.setPlayerIndex(currentPlayerIndex);
         

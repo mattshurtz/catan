@@ -10,6 +10,7 @@ import client.facade.CatanFacade;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.exceptions.InvalidLocation;
+import shared.exceptions.ServerException;
 
 
 /**
@@ -169,8 +170,12 @@ public class MapController extends Controller implements IMapController {
 		
 	}
 	
-	public void robPlayer(RobPlayerInfo victim) {	
-		
+	public void robPlayer(RobPlayerInfo victim) {
+            try {
+                CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex());
+            } catch (ServerException ex) {
+                Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            }
 	}
 	
 }
