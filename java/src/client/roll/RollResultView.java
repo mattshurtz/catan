@@ -59,7 +59,7 @@ public class RollResultView extends OverlayView implements IRollResultView {
 		rollLabel.setBorder(BorderFactory.createEmptyBorder(25, 0, 25, 0));
 		
 		//create the picture
-		picture = new ImageIcon(ImageUtils.loadImage("images/resources/resources.png").getScaledInstance(250, 250, Image.SCALE_SMOOTH));
+		picture = new ImageIcon(ImageUtils.loadImage("java/images/resources/resources.png").getScaledInstance(250, 250, Image.SCALE_SMOOTH));
 		pictureLabel = new JLabel();
 		pictureLabel.setIcon(picture);
 		
