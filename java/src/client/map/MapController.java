@@ -149,23 +149,31 @@ public class MapController extends Controller implements IMapController {
 	
 	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+		if(CatanFacade.getCurrentState().canBuyRoad() && CatanFacade.getCurrentState().canBuildRoad(edgeLoc))
+                {
+                    return true;
+                }
+                return false;
 	}
 
-	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
+	public boolean canPlaceSettlement(VertexLocation vertLoc) {		
+		if(CatanFacade.getCurrentState().canBuySettlement() && CatanFacade.getCurrentState().canBuildSettlement(vertLoc))
+                {
+                    return true;
+                }
+                return false;
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		
-		return true;
+		if(CatanFacade.getCurrentState().canBuyCity() && CatanFacade.getCurrentState().canBuildCity(vertLoc))
+                {
+                    return true;
+                }
+                return false;
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
+		return CatanFacade.getCurrentState().canPlaceRobber(hexLoc);		
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {

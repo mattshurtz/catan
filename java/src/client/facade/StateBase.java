@@ -80,7 +80,7 @@ public class StateBase {
      * location in question is connected to a road or settlement/city belonging
      * to the player.
      */
-    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
         return false;
     }
     
@@ -88,7 +88,7 @@ public class StateBase {
      * 
      * @return true if insufficentSupplies is not thrown. 
      */
-    public boolean canBuyRoad() throws InsufficientSupplies {
+    public boolean canBuyRoad() {
         return false;
     }
 
