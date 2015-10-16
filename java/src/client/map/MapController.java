@@ -4,11 +4,15 @@ import java.util.*;
 
 import shared.definitions.*;
 import shared.locations.*;
+import shared.model.Model;
+import shared.model.map.*;
 import client.base.*;
 import client.data.*;
 import client.facade.CatanFacade;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import shared.exceptions.InvalidLocation;
 import shared.exceptions.ServerException;
 
@@ -48,6 +52,27 @@ public class MapController extends Controller implements IMapController {
 	
 	protected void initFromModel() {
 		
+		//Get Model's map from CatanFacade
+		Model model  = CatanFacade.getModel();
+		CatanMap map = model.getMap();
+		
+		//Add all the hexes
+		ArrayList<Hex> hexList = map.getHexes();
+			//Set the hex type
+			//Add all the numbers
+		
+		//Add the robber to hex type of desert, number 7
+		
+		//If the Model has settlements, add those
+		
+		//If the Model has roads, add those
+		
+		//Initialize the ports
+		
+		
+		
+		
+		/*
 		//<temp>
 		
 		Random rand = new Random();
@@ -110,7 +135,7 @@ public class MapController extends Controller implements IMapController {
 		getView().addNumber(new HexLocation(2, -1), 11);
 		getView().addNumber(new HexLocation(2, 0), 12);
 		
-		//</temp>
+		//</temp>*/
 	}
 
 	

@@ -21,7 +21,7 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.Hex;
-import shared.model.map.Map;
+import shared.model.map.CatanMap;
 import shared.model.map.Port;
 import shared.model.map.Road;
 import shared.model.map.Settlement;
@@ -31,7 +31,7 @@ import shared.model.map.VertexObject;
  * bank (ResourceList): The Resource cards available to be distributed to the
  * players., remainingDevCards (DevCardList): the dev cards available to be
  * distributed to the players, chat (MessageList): All the chat messages., log
- * (MessageList): All the log messages., map (Map), players (array[Player]),
+ * (MessageList): All the log messages., catanMap (CatanMap), players (array[Player]),
  * tradeOffer (TradeOffer, optional): The current trade offer, if there is one.,
  * turnTracker (TurnTracker): This tracks who's turn it is and what action's
  * being done., version (index): The version of the model. This is incremented
@@ -43,7 +43,7 @@ public class Model {
     private DevCardList deck;
     private MessageList chat;
     private MessageList log;
-    private Map map;
+    private CatanMap catanMap;
     private ArrayList<Player> players;
     private TradeOffer tradeOffer;
     private TurnTracker turnTracker;
@@ -55,7 +55,7 @@ public class Model {
         bank = new ResourceList();
         chat = new MessageList();
         log = new MessageList();
-        map = new Map();
+        catanMap = new CatanMap();
         players = new ArrayList<Player>();
         TradeOffer tradeOffer;
         turnTracker = new TurnTracker();
@@ -67,7 +67,7 @@ public class Model {
     public void setInvalidWaterEdges(){
         HashSet<EdgeLocation> invalidWaterEdges = new HashSet<EdgeLocation>();
         
-        for(Port port: map.getPorts()){
+        for(Port port: catanMap.getPorts()){
             
         }
     }
@@ -88,7 +88,7 @@ public class Model {
     }
 
     /**
-     * Iterates through all of the settlements and cities in the map and gives
+     * Iterates through all of the settlements and cities in the catanMap and gives
      * each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
@@ -97,7 +97,7 @@ public class Model {
 
     /**
      * Checks if a player has a road, the resources to build this road, if it is in a
-     * valid location on the map, and if the player has a road left to play
+     * valid location on the catanMap, and if the player has a road left to play
      *
      * @param location this is the location of the Road you would like to build
      * playerIndex identifies the player who would like to build the road
@@ -135,11 +135,11 @@ public class Model {
      * Checks if the player can be robbed
      */
     public boolean canRobPlayer(int playerIndex) {
-        return map.canRobPlayer(playerIndex);
+        return catanMap.canRobPlayer(playerIndex);
     }
     
     public boolean canPlaceRobber(HexLocation hexLocation){
-            if(map.getRobber().equals(hexLocation)){
+            if(catanMap.getRobber().equals(hexLocation)){
                 return false;
             }
             if(hexLocation.getX()>3 || hexLocation.getY()>3){
@@ -150,7 +150,7 @@ public class Model {
     
     /**
      * Removes a brick and wood from the player building the road(player.resourceList.buyRoad();) and creates a
-     * road located at the given EdgeLocation (Map.buildRoad())
+     * road located at the given EdgeLocation (CatanMap.buildRoad())
      *
      * @param location where the player is playing the road
      */
@@ -206,7 +206,7 @@ public class Model {
             return isValidFirstRoad(normEdge);
         }
 
-        for (Road road: map.getRoads()) {
+        for (Road road: catanMap.getRoads()) {
            // check if road already exists on this edge
             if(road.getLocation().equals(location)){
                 return false;
@@ -291,7 +291,7 @@ public class Model {
     }
      
     public boolean isValidFirstRoad(EdgeLocation normEdge){
-        ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
+        ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
         if(normEdge.getDir()==EdgeDirection.North){
         for(VertexObject vertexObject: allVObjects){
@@ -346,7 +346,7 @@ public class Model {
     public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location){
         VertexLocation normLocation = location.getNormalizedLocation();
         int currentPlayer = turnTracker.getCurrentTurn();
-        for (Road road: map.getRoads()) {
+        for (Road road: catanMap.getRoads()) {
         //Assume that vObject.getLocation is returning the Normalized location
         //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
     	// checks the surrounding vertices around the northeast vertex for vertex objects	
@@ -394,7 +394,7 @@ public class Model {
     
     public boolean isValidVertex(VertexLocation location){
         VertexLocation normVertLocation = location.getNormalizedLocation();
-    	ArrayList<VertexObject> allVObjects = map.getCitiesAndSettlements();
+    	ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         
         for (VertexObject vObject: allVObjects) {
             //Assume that vObject.getLocation is returning the Normalized location
@@ -453,7 +453,7 @@ public class Model {
      /**
      * Removes a brick, wood, sheep, and wheat from the player building the 
      * settlement(player.resourceList.buySettlement();) 
-     * and creates a road located at the given EdgeLocation (Map.buildSettlment())
+     * and creates a road located at the given EdgeLocation (CatanMap.buildSettlment())
      *
      * @param location where the player is playing the road
      * @param playerIndex is used to identify the player playing the road
@@ -485,8 +485,8 @@ public class Model {
      * @return true if the location specified already has a settlement owned by this player, false if not
      */
     public boolean canBuildCity(VertexLocation location) {
-    	//get all the settlements on the map
-    	ArrayList<Settlement> settlements = map.getSettlements();
+    	//get all the settlements on the catanMap
+    	ArrayList<Settlement> settlements = catanMap.getSettlements();
     	int currentPlayer = turnTracker.getCurrentTurn();
     	//Iterate through settlements to make sure the player owns a settlement at the target location
     	for (Settlement settlement: settlements) {
@@ -582,7 +582,7 @@ public class Model {
      * Subtracts one city from players cities count
      * Adds settlement to players settlement count
      * (player.resourceList.buyCity();) 
-     * Replace settlement located on the given VertexLocation with a city(Map.buildCity())
+     * Replace settlement located on the given VertexLocation with a city(CatanMap.buildCity())
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
@@ -603,7 +603,7 @@ public class Model {
     }
     
     public boolean canOfferMaritimeTrade(ResourceType resourceType) {
-       int neededToTrade = map.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
+       int neededToTrade = catanMap.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
        return canOfferResource(resourceType, neededToTrade);
     }
     
@@ -655,12 +655,12 @@ public class Model {
         this.log = log;
     }
 
-    public Map getMap() {
-        return map;
+    public CatanMap getMap() {
+        return catanMap;
     }
 
-    public void setMap(Map map) {
-        this.map = map;
+    public void setMap(CatanMap catanMap) {
+        this.catanMap = catanMap;
     }
 
     public ArrayList<Player> getPlayers() {
@@ -723,7 +723,7 @@ public class Model {
         if (!Objects.equals(this.log, other.log)) {
             return false;
         }
-        if (!Objects.equals(this.map, other.map)) {
+        if (!Objects.equals(this.catanMap, other.catanMap)) {
             return false;
         }
         if (!Objects.equals(this.players, other.players)) {

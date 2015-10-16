@@ -30,7 +30,7 @@ import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.City;
 import shared.model.map.Hex;
-import shared.model.map.Map;
+import shared.model.map.CatanMap;
 import shared.model.map.Port;
 import shared.model.map.Road;
 import shared.model.map.Settlement;
@@ -42,7 +42,7 @@ public class ModelTest {
 
 	private Model instance = null;
 
-	// private Map<Integer, HexLocation> numberToHexMap = new Map<Integer,
+	// private CatanMap<Integer, HexLocation> numberToHexMap = new CatanMap<Integer,
 	// HexLocation>();
 
 	public static Model testModel() {
@@ -238,7 +238,7 @@ public class ModelTest {
 		City cOne = new City(1, new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest),
 				new ArrayList<Hex>());
 
-		Map toyMap = new Map();
+		CatanMap toyMap = new CatanMap();
 
 		ArrayList<Hex> hexes = new ArrayList<Hex>(
 				Arrays.asList(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s));

@@ -26,7 +26,7 @@ import shared.locations.VertexLocation;
 /**
  *
  */
-public class Map {
+public class CatanMap {
 
     ArrayList<Hex> hexes;
     ArrayList<Port> ports;
@@ -36,13 +36,13 @@ public class Map {
     int radius;
     HexLocation robber;
     
-    public Map() {
+    public CatanMap() {
 
 	}
     
     
 
-    public Map(ArrayList<Hex> hexes, ArrayList<Port> ports, ArrayList<Road> roads, ArrayList<Settlement> settlements,
+    public CatanMap(ArrayList<Hex> hexes, ArrayList<Port> ports, ArrayList<Road> roads, ArrayList<Settlement> settlements,
 			ArrayList<City> cities, int radius, HexLocation robber) {
 		super();
 		this.hexes = hexes;
@@ -353,7 +353,7 @@ public class Map {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Map other = (Map) obj;
+        final CatanMap other = (CatanMap) obj;
         if (!Objects.equals(this.hexes, other.hexes)) {
             return false;
         }
