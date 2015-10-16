@@ -3,6 +3,9 @@ package client.resources;
 import java.util.*;
 
 import client.base.*;
+import client.facade.CatanFacade;
+import shared.definitions.ResourceType;
+import shared.exceptions.GetPlayerException;
 
 
 /**
@@ -42,7 +45,24 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	 */
 	public void setResources()
 		{
-		
+			try {
+				getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
+				getView().setElementAmount(ResourceBarElement.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
+				getView().setElementAmount(ResourceBarElement.SHEEP, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getSheep());
+				getView().setElementAmount(ResourceBarElement.WHEAT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWheat());
+				getView().setElementAmount(ResourceBarElement.WOOD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWood());
+				
+				getView().setElementAmount(ResourceBarElement.BUY_CARD, 0);
+				getView().setElementAmount(ResourceBarElement.CITY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getCities());
+				getView().setElementAmount(ResourceBarElement.ROAD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getRoads());
+				getView().setElementAmount(ResourceBarElement.SETTLEMENT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSettlements());
+				getView().setElementAmount(ResourceBarElement.SOLDIERS, 0);
+				
+			} catch (GetPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		
 		}
 	
