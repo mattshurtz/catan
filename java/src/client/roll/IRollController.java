@@ -14,4 +14,3 @@ public interface IRollController extends IController
 	void rollDice();
 	
 }
-

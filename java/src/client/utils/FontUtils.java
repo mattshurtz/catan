@@ -12,4 +12,3 @@ public class FontUtils
 		comp.setFont(font);
 	}
 }
-

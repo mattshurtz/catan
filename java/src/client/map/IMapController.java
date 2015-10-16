@@ -137,4 +137,3 @@ public interface IMapController extends IController
 	 */
 	void robPlayer(RobPlayerInfo victim);
 }
-

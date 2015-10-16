@@ -13,4 +13,3 @@ public interface ITurnTrackerController extends IController
 	 */
 	void endTurn();
 }
-

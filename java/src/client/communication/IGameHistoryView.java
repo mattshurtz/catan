@@ -18,4 +18,3 @@ public interface IGameHistoryView extends IView
 	 */
 	void setEntries(List<LogEntry> entries);
 }
-

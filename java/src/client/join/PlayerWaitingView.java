@@ -9,8 +9,6 @@ import javax.swing.*;
 import client.base.*;
 import client.data.*;
 import client.utils.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -120,13 +118,6 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		if(value.length == NUMBER_OF_PLAYERS){
 			labelText = "This game is ready to go!";
 			addAiButton.setEnabled(false);
-            try {
-                Thread.sleep( 1000 ); // Wait for 1 second, then join the game!
-            } catch (InterruptedException ex) {
-                Logger.getLogger(PlayerWaitingView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            this.closeModal();
-            System.out.println("starting game ...");
 		}
 		else{
 			labelText = ("Waiting for Players: Need " + (NUMBER_OF_PLAYERS-value.length) + " more");
@@ -179,4 +170,3 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 	}
 
 }
-

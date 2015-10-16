@@ -15,7 +15,6 @@ import javax.swing.*;
 import shared.definitions.*;
 import client.base.*;
 import client.data.*;
-import client.utils.FontUtils;
 
 
 /**
@@ -60,10 +59,15 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 		Font labelFont = label.getFont();
 		labelFont = labelFont.deriveFont(labelFont.getStyle(), LABEL_TEXT_SIZE);
 		label.setFont(labelFont);
-
+		
+		
+		
+		
 		this.add(label, BorderLayout.NORTH);
 		this.add(this.setupResourceTradePanel(), BorderLayout.CENTER);
-		this.add(this.setupUserSelectPanel(), BorderLayout.SOUTH);		
+		this.add(this.setupUserSelectPanel(), BorderLayout.SOUTH);
+		
+		
 	}
 
 	private JPanel setupResourceTradePanel() {
@@ -71,11 +75,11 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 		this.resourceButtonsMap = new HashMap<ResourceType, ArrayList<JButton>>();
 		this.upDownPanels = new ArrayList<JPanel>();
 		this.upDownPanelByResourceType = new HashMap<ResourceType, JPanel>();
-		JPanel brickTile = this.setupResourceTile("java/images/resources/brick.png", ResourceType.BRICK);
-		JPanel oreTile = this.setupResourceTile("java/images/resources/ore.png", ResourceType.ORE);
-		JPanel sheepTile = this.setupResourceTile("java/images/resources/sheep.png", ResourceType.SHEEP);
-		JPanel wheatTile = this.setupResourceTile("java/images/resources/wheat.png", ResourceType.WHEAT);
-		JPanel woodTile = this.setupResourceTile("java/images/resources/wood.png", ResourceType.WOOD);
+		JPanel brickTile = this.setupResourceTile("images/resources/brick.png", ResourceType.BRICK);
+		JPanel oreTile = this.setupResourceTile("images/resources/ore.png", ResourceType.ORE);
+		JPanel sheepTile = this.setupResourceTile("images/resources/sheep.png", ResourceType.SHEEP);
+		JPanel wheatTile = this.setupResourceTile("images/resources/wheat.png", ResourceType.WHEAT);
+		JPanel woodTile = this.setupResourceTile("images/resources/wood.png", ResourceType.WOOD);
 		
 		JPanel resourceTilesPanel = new JPanel();
 		resourceTilesPanel.setLayout(new BoxLayout(resourceTilesPanel, BoxLayout.X_AXIS));
@@ -104,9 +108,9 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 				getController().sendTradeOffer();
 			}
 		});
-				
+		
+		
 		this.cancelButton = new JButton("Cancel");
-		FontUtils.setFont(this.cancelButton, BUTTON_TEXT_SIZE);
 		this.cancelButton.setAlignmentX(CENTER_ALIGNMENT);
 		this.cancelButton.addActionListener(new ActionListener(){
 
@@ -267,7 +271,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			JLabel resourceCountLabel = new JLabel("0");
 			this.resourceCounts.put(resourceType, resourceCountLabel);
 			
-			BufferedImage upImage = ImageIO.read(new File("java/images/misc/up.png"));
+			BufferedImage upImage = ImageIO.read(new File("images/misc/up.png"));
 			upImage = this.getScaledImage(upImage, upDownButtonWidth, upDownButtonWidth);
 			JButton upButton = new JButton(new ImageIcon(upImage));
 			upButton.addActionListener(new ActionListener(){
@@ -282,7 +286,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			});
 			this.resourceButtonsMap.get(resourceType).add(upButton);
 			
-			BufferedImage downImage = ImageIO.read(new File("java/images/misc/down.png"));
+			BufferedImage downImage = ImageIO.read(new File("images/misc/down.png"));
 			downImage = this.getScaledImage(downImage, upDownButtonWidth, upDownButtonWidth);
 			JButton downButton = new JButton(new ImageIcon(downImage));
 			downButton.addActionListener(new ActionListener(){
@@ -304,8 +308,7 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 			upDownButtonsPanel.add(downButton);
 			
 		} catch (IOException e) {
-            throw new RuntimeException(e);
-//			throw new RuntimeException("error possibly with image path, error: " + e.getLocalizedMessage());
+			throw new RuntimeException("error possibly with image path, error: " + e.getLocalizedMessage());
 		}
 		
 		return upDownButtonsPanel;
@@ -438,5 +441,4 @@ public class DomesticTradeOverlay extends OverlayView implements IDomesticTradeO
 	}
 
 }
-
 

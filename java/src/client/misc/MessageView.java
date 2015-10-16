@@ -76,4 +76,3 @@ public class MessageView extends OverlayView implements IMessageView {
 	
 }
 
-

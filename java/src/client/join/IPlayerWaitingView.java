@@ -33,4 +33,3 @@ public interface IPlayerWaitingView extends IOverlayView
 	 */
 	String getSelectedAI();
 }
-

@@ -25,4 +25,3 @@ public abstract class Controller implements IController
 	}
 	
 }
-

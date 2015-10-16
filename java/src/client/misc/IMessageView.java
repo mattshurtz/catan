@@ -24,4 +24,3 @@ public interface IMessageView extends IOverlayView
 	 */
 	void setMessage(String message);
 }
-

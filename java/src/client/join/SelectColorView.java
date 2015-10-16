@@ -387,4 +387,3 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 	}
 	
 }
-

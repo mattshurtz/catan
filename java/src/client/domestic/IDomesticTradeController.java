@@ -90,4 +90,3 @@ public interface IDomesticTradeController extends IController
 	 */
 	void acceptTrade(boolean willAccept);
 }
-

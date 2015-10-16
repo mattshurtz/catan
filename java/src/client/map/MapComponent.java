@@ -879,7 +879,7 @@ public class MapComponent extends JComponent
 													 tx,
 													 AffineTransformOp.TYPE_BILINEAR);
 		
-//		drawImage(g2, op.filter(image, null), location);
+		drawImage(g2, op.filter(image, null), location);
 	}
 	
 	private void
@@ -1144,4 +1144,3 @@ public class MapComponent extends JComponent
 	}
 	
 }
-

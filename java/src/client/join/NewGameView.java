@@ -172,4 +172,3 @@ public class NewGameView extends OverlayView implements INewGameView
     }
 
 }
-

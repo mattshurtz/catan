@@ -24,4 +24,3 @@ public interface ILoginController extends IController
 	void register();
 	
 }
-

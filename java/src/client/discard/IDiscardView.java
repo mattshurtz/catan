@@ -65,4 +65,3 @@ public interface IDiscardView extends IOverlayView
 	 */
 	void setStateMessage(String message);
 }
-

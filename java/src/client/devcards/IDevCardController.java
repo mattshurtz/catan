@@ -70,4 +70,3 @@ public interface IDevCardController extends IController
 	 */
 	void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2);
 }
-

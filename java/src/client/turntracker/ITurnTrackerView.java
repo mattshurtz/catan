@@ -58,4 +58,3 @@ public interface ITurnTrackerView extends IView
 	 */
 	void updateGameState(String stateMessage, boolean enable);
 }
-

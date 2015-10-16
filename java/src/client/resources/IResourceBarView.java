@@ -28,4 +28,3 @@ public interface IResourceBarView extends IView
 	 */
 	void setElementAmount(ResourceBarElement element, int amount);
 }
-

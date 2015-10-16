@@ -1,8 +1,6 @@
 package client.join;
 
 import client.base.*;
-import client.data.PlayerInfo;
-import client.facade.CatanFacade;
 
 
 /**
@@ -21,20 +19,28 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		return (IPlayerWaitingView)super.getView();
 	}
 
+	
+	/**
+	 * make a list of players from the current game
+	 * getView().setPlayers(that list)
+	 * getView().setAIChoices(if you happen to hve AI)
+	 * showModal
+	 */
 	@Override
 	public void start() {
-        String[] AIs = CatanFacade.getGameHubFacade().listAI();
-        getView().setAIChoices(AIs);
-        
-        PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
-        getView().setPlayers(playas);
-        
+
 		getView().showModal();
 	}
 
+	
+	/**
+	 * Do whatever you need to do to generate an AI and and it to the player list;
+	 */
 	@Override
 	public void addAI() {
 
+		// TEMPORARY
+		getView().closeModal();
 	}
 
 }

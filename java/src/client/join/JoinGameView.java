@@ -7,7 +7,6 @@ import javax.swing.*;
 
 import client.base.*;
 import client.data.*;
-import client.facade.CatanFacade;
 
 /**
  * Implementation for the join game view, which lets the user select a game to
@@ -31,7 +30,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 	private JLabel join;
 
 	private JButton createButton;
-	private JButton tempJoinButton;
+	private JButton joinButton;
 
 	private JPanel labelPanel;
 	private JPanel gamePanel;
@@ -115,12 +114,9 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				gamePanel.add(tmp3);
 				JButton joinButton;
 				
-                int idx = game.getPlayers().indexOf( localPlayer );
-				if ( idx >= 0 )
+				if (game.getPlayers().contains(localPlayer))
 				{
-					int theirId = game.getPlayers().get( idx ).getId();
-                    CatanFacade.getMyPlayerInfo().setId( theirId );
-                    joinButton = new JButton("Re-Join");
+					joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
 				{
@@ -140,11 +136,11 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		//Add all the above
 		this.add(gamePanel, BorderLayout.CENTER);
 
-		tempJoinButton = new JButton("Temporary Join Button");
-		tempJoinButton.addActionListener(actionListener);
-		Font buttonFont = tempJoinButton.getFont();
+		joinButton = new JButton("Join");
+		joinButton.addActionListener(actionListener);
+		Font buttonFont = joinButton.getFont();
 		buttonFont = buttonFont.deriveFont(buttonFont.getStyle(), BUTTON_TEXT_SIZE);
-		tempJoinButton.setFont(buttonFont);
+		joinButton.setFont(buttonFont);
 
 		createButton = new JButton("Create Game");
 		createButton.addActionListener(actionListener);
@@ -153,7 +149,7 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		buttonPanel.add(createButton);
-		buttonPanel.add(tempJoinButton);		
+//		buttonPanel.add(joinButton);		
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -181,11 +177,11 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 			{
 				getController().startCreateNewGame();
 			}
-			else if (e.getSource() == tempJoinButton)
+			else if (e.getSource() == joinButton)
 			{
 				getController().startJoinGame(null);
 			}
-            else // it's from one of the Re-join game buttons on the right
+			else
 			{
 				try
 				{
@@ -210,4 +206,3 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 		}
 	};
 }
-

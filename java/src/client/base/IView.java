@@ -21,4 +21,3 @@ public interface IView
 	 */
 	IController getController();
 }
-

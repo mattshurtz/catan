@@ -1,7 +1,6 @@
 package client.login;
 
 import client.base.*;
-import client.facade.CatanFacade;
 import client.misc.*;
 
 import java.net.*;
@@ -69,20 +68,31 @@ public class LoginController extends Controller implements ILoginController {
 		getLoginView().showModal();
 	}
 
+	
+	/**
+	 * get username and password from the view
+	 * Send verification request to server
+	 * if it works:
+	 * Create any data objects you need for a player in the pre-game state
+	 * close theModal, loginAction.execute
+	 * else
+	 * show a dialogue to reprompt user for info
+	 */
 	@Override
 	public void signIn() {
-        String username = getLoginView().getLoginUsername();
-        String pass = getLoginView().getLoginPassword();
-		boolean success = CatanFacade.getGameHubFacade().login( username, pass );
-        
-        if ( success ) {
-            System.out.println("logged in!");
-            // If log in succeeded
-            getLoginView().closeModal();
-            loginAction.execute();
-        }
+		
+		// TODO: log in user
+		
+
+		// If log in succeeded
+		getLoginView().closeModal();
+		loginAction.execute();
 	}
 
+	
+	/**
+	 * pretty much the same as above but with different error message
+	 */
 	@Override
 	public void register() {
 		

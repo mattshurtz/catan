@@ -17,4 +17,3 @@ public interface IWaitView extends IOverlayView
 	 */
 	void setMessage(String message);
 }
-

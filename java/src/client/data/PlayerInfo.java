@@ -89,7 +89,6 @@ public class PlayerInfo
 		}
 		final PlayerInfo other = (PlayerInfo) obj;
 		
-		return this.name.equals( other.name );
+		return this.id == other.id;
 	}
 }
-

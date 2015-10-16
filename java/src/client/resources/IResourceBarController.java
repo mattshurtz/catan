@@ -33,4 +33,3 @@ public interface IResourceBarController extends IController
 	 */
 	void playCard();
 }
-

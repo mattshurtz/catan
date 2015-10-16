@@ -101,4 +101,3 @@ public class RollResultView extends OverlayView implements IRollResultView {
 
 }
 
-

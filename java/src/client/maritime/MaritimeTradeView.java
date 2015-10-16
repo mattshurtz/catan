@@ -50,4 +50,3 @@ public class MaritimeTradeView extends PanelView implements IMaritimeTradeView {
 	
 }
 
-

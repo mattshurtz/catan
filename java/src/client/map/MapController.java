@@ -19,7 +19,6 @@ import shared.exceptions.ServerException;
 public class MapController extends Controller implements IMapController {
 	
 	private IRobView robView;
-        
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -41,6 +40,11 @@ public class MapController extends Controller implements IMapController {
 	private void setRobView(IRobView robView) {
 		this.robView = robView;
 	}
+	
+	/**
+	 * all of this is hard coded info, you need to use these same 
+	 * functions and format to generate the map from your model
+	 */
 	
 	protected void initFromModel() {
 		
@@ -109,26 +113,34 @@ public class MapController extends Controller implements IMapController {
 		//</temp>
 	}
 
+	
+	
+	
+	
+	//================================================================
+	// For each of the following "Can" methods: call the appropriate canDo(0
+	//For each "Do" send the request to the server and update all info as a result of the 
+	//action (bank amounts, remaining settlements, map...)
+	
+	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
 		
-            try {
-                return CatanFacade.getCurrentState().canBuildRoad( edgeLoc );
-            } catch (InvalidLocation ex) {
-                Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-                return false;
-            }
+		return true;
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		return CatanFacade.getCurrentState().canBuildSettlement(vertLoc);
+		
+		return true;
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		return CatanFacade.getCurrentState().canBuildCity(vertLoc);
+		
+		return true;
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		return CatanFacade.getCurrentState().canPlaceRobber(hexLoc);
+		
+		return true;
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {

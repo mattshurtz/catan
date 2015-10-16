@@ -170,7 +170,7 @@ public class AcceptTradeOverlay extends OverlayView implements IAcceptTradeOverl
 			contentPanel.add(requesting_component,requesting_component_gbc);
 		}
 		//The Image
-		Image i = ImageUtils.loadImage("images/resources/"+resource.toString().toLowerCase()+".png");
+		Image i = ImageUtils.loadImage("images/resources/"+resource.toString().toLowercase()+".png");
 		ImageIcon ii = new ImageIcon(i.getScaledInstance(50, 50, 0));
 		
 		//The Number (and image)
@@ -255,5 +255,4 @@ public class AcceptTradeOverlay extends OverlayView implements IAcceptTradeOverl
 	}
 	
 }
-
 

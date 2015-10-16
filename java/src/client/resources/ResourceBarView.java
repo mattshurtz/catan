@@ -598,4 +598,3 @@ public class ResourceBarView extends PanelView implements IResourceBarView
 		}
 	}
 }
-

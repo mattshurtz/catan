@@ -28,7 +28,7 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 	private JLabel label;
 	private JButton acceptButton;
 	private JButton rejectButton;
-        private JLabel imageLabel;
+    private JLabel imageLabel;
 	private JPanel buttonPanel;
 
 	public BuyDevCardView() {
@@ -89,5 +89,4 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 	};
 
 }
-
 

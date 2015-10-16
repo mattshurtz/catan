@@ -99,4 +99,3 @@ public class PointsView extends ComponentView implements IPointsView
 	}
 	
 }
-

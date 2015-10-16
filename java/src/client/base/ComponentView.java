@@ -22,4 +22,3 @@ public class ComponentView extends JComponent implements IView
 	}
 	
 }
-

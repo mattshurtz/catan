@@ -505,4 +505,3 @@ public class MaritimeTradeOverlay extends OverlayView implements IMaritimeTradeO
 		return bi;
 	}
 }
-

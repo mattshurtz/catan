@@ -18,4 +18,3 @@ public interface IPlayerWaitingController extends IController
 	 */
 	void addAI();
 }
-

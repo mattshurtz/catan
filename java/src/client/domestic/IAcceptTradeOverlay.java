@@ -51,4 +51,3 @@ public interface IAcceptTradeOverlay extends IOverlayView
 	 */
 	void reset();
 }
-

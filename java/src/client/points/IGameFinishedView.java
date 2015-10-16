@@ -20,4 +20,3 @@ public interface IGameFinishedView extends IOverlayView
 	void setWinner(String name, boolean isLocalPlayer);
 	
 }
-

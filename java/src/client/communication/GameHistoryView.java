@@ -56,4 +56,3 @@ public class GameHistoryView extends PanelView implements IGameHistoryView
 	}
 	
 }
-

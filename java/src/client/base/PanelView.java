@@ -22,4 +22,3 @@ public class PanelView extends JPanel implements IView
 	}
 	
 }
-

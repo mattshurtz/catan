@@ -111,4 +111,3 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 
 }
 
-

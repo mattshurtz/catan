@@ -52,4 +52,3 @@ public interface IMaritimeTradeController extends IController
 	void unsetGiveValue();
 	
 }
-

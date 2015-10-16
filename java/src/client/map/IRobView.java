@@ -11,4 +11,3 @@ public interface IRobView extends IOverlayView
 	
 	void setPlayers(RobPlayerInfo[] candidateVictims);
 }
-

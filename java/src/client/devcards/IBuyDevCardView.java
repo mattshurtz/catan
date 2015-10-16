@@ -10,4 +10,3 @@ public interface IBuyDevCardView extends IOverlayView
 	
 	// EMPTY
 }
-

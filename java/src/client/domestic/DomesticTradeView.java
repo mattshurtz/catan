@@ -55,4 +55,3 @@ public class DomesticTradeView extends PanelView implements IDomesticTradeView
 	};
 	
 }
-

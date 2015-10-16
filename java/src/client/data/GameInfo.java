@@ -56,4 +56,3 @@ public class GameInfo
 		return Collections.unmodifiableList(players);
 	}
 }
-

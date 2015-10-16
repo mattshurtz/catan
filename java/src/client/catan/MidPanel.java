@@ -48,4 +48,3 @@ public class MidPanel extends JPanel
 	}
 	
 }
-

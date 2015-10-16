@@ -10,4 +10,3 @@ public interface IPointsController extends IController
 	
 	// EMPTY
 }
-

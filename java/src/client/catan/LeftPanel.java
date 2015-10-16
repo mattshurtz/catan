@@ -64,4 +64,3 @@ public class LeftPanel extends JPanel {
 
 }
 
-

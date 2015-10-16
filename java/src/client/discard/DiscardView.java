@@ -630,4 +630,3 @@ public class DiscardView extends OverlayView implements IDiscardView
 		};
 	}
 }
-

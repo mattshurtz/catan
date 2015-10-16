@@ -32,4 +32,3 @@ public interface IDiscardController extends IController
 	void discard();
 	
 }
-

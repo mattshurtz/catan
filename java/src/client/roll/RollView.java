@@ -23,7 +23,7 @@ public class RollView extends OverlayView implements IRollView {
 
 	private final int LABEL_TEXT_SIZE = 20;
 	private final int BUTTON_TEXT_SIZE = 28;
-	private final int BORDER_WIDTH = 10;
+	private final int BORDER_WIDTH = 1;
 
 	private JLabel label;
     private JLabel imageLabel;
@@ -68,7 +68,9 @@ public class RollView extends OverlayView implements IRollView {
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == rollButton) {
+				
 				closeModal();
+				
 				getController().rollDice();
 			}
 		}	
@@ -86,5 +88,4 @@ public class RollView extends OverlayView implements IRollView {
 	}
 
 }
-
 

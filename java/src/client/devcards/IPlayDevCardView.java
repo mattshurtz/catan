@@ -34,4 +34,3 @@ public interface IPlayDevCardView extends IOverlayView
 	 */
 	void setCardAmount(DevCardType cardType, int amount);
 }
-

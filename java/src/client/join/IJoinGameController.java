@@ -55,4 +55,3 @@ public interface IJoinGameController extends IController
 	void joinGame(CatanColor color);
 	
 }
-

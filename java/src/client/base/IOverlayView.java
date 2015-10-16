@@ -23,4 +23,3 @@ public interface IOverlayView extends IView
 	 */
 	boolean isModalShowing();
 }
-

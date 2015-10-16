@@ -10,4 +10,3 @@ public interface IGameHistoryController extends IController
 	
 	// EMPTY
 }
-

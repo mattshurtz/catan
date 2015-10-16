@@ -70,4 +70,3 @@ public interface INewGameView extends IOverlayView
 	boolean getUseRandomPorts();
 	
 }
-
