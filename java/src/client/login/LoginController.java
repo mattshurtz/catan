@@ -110,8 +110,12 @@ public class LoginController extends Controller implements ILoginController {
 		// If register succeeded
 		getLoginView().closeModal();
 		loginAction.execute();
+        }else{
+            MessageView error = new MessageView();
+            error.setTitle("Title");
+            error.setMessage("this is the message");
+            error.showModal();
         }
-
 	}
 
 }
