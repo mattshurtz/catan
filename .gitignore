@@ -3,6 +3,7 @@ out/
 *.class
 *.classpath
 *.project
+.vagrant
 manifest.mf
 nbbuild.xml
 .metadata/
@@ -12,3 +13,4 @@ demo/logs/
 build/
 nbdist/
 java/build/**
+java/dist/
