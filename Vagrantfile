@@ -1,6 +1,22 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+
+#########################################
+# Vagrant is a fast way of setting up virtual machines
+# We can use this for testing purposes, as this enviroment is more like what the TA's will be using
+# To use you must install:
+## VirtualBox | https://www.virtualbox.org/wiki/Downloads
+## Vagrant | https://www.vagrantup.com/downloads.html
+# The documentation for Vagrant is found here: https://docs.vagrantup.com/v2/
+# Quickstart
+## After you have installed the above programs, you can quickly start using this file with the following commands from the catan directory.
+## vagrant up | starts the virtual machine. If this is the first time starting the machine it will take some time to download the box and install the software specified in this config file.
+## vagrant destroy | destroy the vagrant box.
+## vagrant halt | shutsdown the box. can be turned on by vagrant up
+## vagrant provision | reperforms the shell commands found at the end of this file.
+#########################################
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -12,7 +28,7 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "box-cutter/ubuntu1404-desktop"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -43,13 +59,13 @@ Vagrant.configure(2) do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider "virtualbox" do |vb|
+   config.vm.provider "virtualbox" do |vb|
   #   # Display the VirtualBox GUI when booting the machine
-  #   vb.gui = true
+     vb.gui = true
   #
   #   # Customize the amount of memory on the VM:
   #   vb.memory = "1024"
-  # end
+   end
   #
   # View the documentation for the provider you are using for more
   # information on available options.

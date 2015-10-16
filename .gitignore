@@ -13,3 +13,4 @@ demo/logs/
 build/
 nbdist/
 java/build/**
+java/dist/
