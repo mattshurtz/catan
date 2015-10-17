@@ -35,8 +35,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
-
-		getView().showModal();
+        
+        if ( playas.length == 4 )
+            getView().closeModal();
+        else
+            getView().showModal();
 	}
 
 	
