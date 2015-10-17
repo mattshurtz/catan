@@ -142,7 +142,7 @@ public class Model {
             if(catanMap.getRobber().equals(hexLocation)){
                 return false;
             }
-            if(hexLocation.getX()>3 || hexLocation.getY()>3){
+            if(hexLocation.getX()>=3 || hexLocation.getY()>=3){
                 return false;
             }
             return true;

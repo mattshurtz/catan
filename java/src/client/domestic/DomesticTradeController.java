@@ -1,7 +1,9 @@
 package client.domestic;
 
 import shared.definitions.*;
+import shared.model.ResourceList;
 import client.base.*;
+import client.facade.CatanFacade;
 import client.misc.*;
 
 
@@ -13,6 +15,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
+	
+	private int playerTradeWith;
+	private ResourceList resourceList;
+	
 
 	/**
 	 * DomesticTradeController constructor
@@ -86,22 +92,21 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
-
+		playerTradeWith = playerIndex;
 	}
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
-
+		resourceList.addResource(resource, 1);
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
-
+		resourceList.addResource(resource, -1);
 	}
 
 	@Override
 	public void unsetResource(ResourceType resource) {
-
 	}
 
 	@Override
@@ -112,8 +117,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void acceptTrade(boolean willAccept) {
-
-		getAcceptOverlay().closeModal();
 	}
 
 }
