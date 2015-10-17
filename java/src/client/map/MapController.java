@@ -61,8 +61,17 @@ public class MapController extends Controller implements IMapController {
 		
 		//Add all the hexes
 		ArrayList<Hex> hexList = map.getHexes();
+		for (Hex hex : hexList)
+		{
 			//Set the hex type
-			//Add all the numbers
+			
+			//Add the number to this hex
+		}
+		
+		/*HexType hexType = HexType.values()[r];
+					HexLocation hexLoc = new HexLocation(-x, y);
+					getView().addHex(hexLoc, hexType); */
+			
 		
 		//Add the robber to hex type of desert, number 7
 		
