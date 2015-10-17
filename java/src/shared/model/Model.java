@@ -7,6 +7,7 @@ package shared.model;
 
 import client.data.PlayerInfo;
 import client.facade.CatanFacade;
+import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +46,10 @@ public class Model {
     private DevCardList deck;
     private MessageList chat;
     private MessageList log;
+    
+    @SerializedName("map")
     private CatanMap catanMap;
+    
     private ArrayList<Player> players;
     private TradeOffer tradeOffer;
     private TurnTracker turnTracker;

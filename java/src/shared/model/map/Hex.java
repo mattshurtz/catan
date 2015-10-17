@@ -64,7 +64,21 @@ public class Hex {
     //Looks at the resource type and location of this hex to determine it's HexType
     public HexType getHexType()
     {
-    	switch (resource)
+    	if ( resource == null ) {
+            //Water or Desert
+    		int x = location.getX();
+    		int y = location.getY();
+    		//Check for water coordinates
+    		if (Math.abs(x) == 3 || Math.abs(y) == 3){
+    			return HexType.WATER;
+    		} else if (Math.abs(x + y) == 3) {
+    			return HexType.WATER;
+    		} else {
+    			return HexType.DESERT;
+    		}
+        }
+
+        switch (resource)
     	{
     	case WOOD:
     		return HexType.WOOD;
@@ -76,19 +90,8 @@ public class Hex {
     		return HexType.WHEAT;
     	case ORE:
     		return HexType.ORE;
-    	default:
-    		//Water or Desert
-    		int x = location.getX();
-    		int y = location.getY();
-    		//Check for water coordinates
-    		if (Math.abs(x) == 3 || Math.abs(y) == 3){
-    			return HexType.WATER;
-    		} else if (Math.abs(x + y) == 3) {
-    			return HexType.WATER;
-    		} else {
-    			return HexType.DESERT;
-    		}
     	}
+        return null;
     }
     
     public int getNumber() {

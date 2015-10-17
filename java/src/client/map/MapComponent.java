@@ -644,10 +644,12 @@ public class MapComponent extends JComponent
 		{
 			
 			BufferedImage numImage = getNumberImage(entry.getValue());
+            if ( numImage == null )
+                continue; // If no number, just skip it, nbd
 			
 			Point2D hexCenter = getHexPoint(entry.getKey());
 			
-			drawImage(g2, numImage, hexCenter);
+            drawImage(g2, numImage, hexCenter);
 		}
 	}
 	
@@ -989,7 +991,6 @@ public class MapComponent extends JComponent
 	
 	private static BufferedImage getHexImage(HexType hexType)
 	{
-		
 		return HEX_IMAGES.get(hexType);
 	}
 	

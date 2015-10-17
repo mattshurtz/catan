@@ -194,8 +194,6 @@ public class CatanFacade {
         
         // Replace old model with new one
         setModel(model);
-        
-        System.out.println("Notifying observers.");
         observable.notifyObservers();
     }
 }
