@@ -44,7 +44,7 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 		this.add(label, BorderLayout.NORTH);
 
         try {
-            BufferedImage devCardImg = ImageIO.read(new File("java/images/building/card.jpg"));
+            BufferedImage devCardImg = ImageIO.read(new File("images/building/card.jpg"));
             imageLabel = new JLabel(new ImageIcon(devCardImg));
             this.setBackground(Color.WHITE);
             this.add(imageLabel, BorderLayout.CENTER);

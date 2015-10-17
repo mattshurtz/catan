@@ -30,7 +30,7 @@ public class WaitView extends OverlayView implements IWaitView {
 
 	private JLabel label;
 	private BufferedImage img;
-	private String imageLocation = "java/images"+File.separator + "misc"+ File.separator +"hourglass.png";
+	private String imageLocation = "images"+File.separator + "misc"+ File.separator +"hourglass.png";
 
 	public WaitView() {
 

@@ -96,11 +96,11 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		if (isLocalPlayer)
 		{ // We won!
 			field = "Congratulations! You won!";
-			imagePath = "java/images/misc/winner2.png";
+			imagePath = "images/misc/winner2.png";
 		} else
 		{ // We lost!
 			field = name + " won! Better luck next time.";
-			imagePath = "java/images/misc/loser2.png";
+			imagePath = "images/misc/loser2.png";
 		}
 		message.setText(field);
 		

@@ -16,6 +16,7 @@ import shared.communication.responses.PlayerResponse;
 import shared.definitions.CatanColor;
 import shared.model.MessageLine;
 import shared.model.Model;
+import shared.model.Player;
 
 /**
  * The Deserializer is used to receive the Json representation of the model and
@@ -102,6 +103,18 @@ public class Deserializer {
         pi.setColor( CatanColor.fromString( pr.getColor() ) );
         pi.setId(pr.getId());
         pi.setName(pr.getName());
+        
+        return pi;
+    }
+    
+    public PlayerInfo toPlayerInfo( Player p ) {
+        if ( p == null )
+            return null;
+        
+        PlayerInfo pi = new PlayerInfo();
+        pi.setColor( p.getColor() );
+        pi.setId( 0 );
+        pi.setName( p.getName() );
         
         return pi;
     }

@@ -54,6 +54,9 @@ public class MapController extends Controller implements IMapController {
 		
 		//Get Model's map from CatanFacade
 		Model model  = CatanFacade.getModel();
+        if ( model == null )
+            return;
+        
 		CatanMap map = model.getMap();
 		
 		//Add all the hexes

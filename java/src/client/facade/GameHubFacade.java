@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.communication.params.AddAiRequest;
+import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
 import shared.communication.responses.GameResponse;
@@ -40,8 +42,13 @@ public class GameHubFacade {
         
     }
     
-    public void addAI(){
-        
+    public void addAI( String aiType ) {
+        AddAiRequest aar = new AddAiRequest( aiType );
+        try {
+            proxy.addAi( aar );
+        } catch (ServerException ex) {
+            Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     /** 
@@ -73,7 +80,7 @@ public class GameHubFacade {
             List<PlayerResponse> players = gr.getPlayers();
             for ( PlayerResponse pr : players ) {
                 PlayerInfo pi = deserializer.toPlayerInfo( pr );
-                if ( pi != null )
+                if ( pi != null && pi.getName() != null )
                     gi.addPlayer( pi );
             }
             ret.add(gi);
@@ -81,8 +88,12 @@ public class GameHubFacade {
         return ret.toArray(new GameInfo[0]);
     }
     
-    public void createGame(){
-        
+    public void createGame( CreateGameRequest cgr ){
+        try {
+            proxy.createGame( cgr );
+        } catch (ServerException ex) {
+            Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public boolean join(GameInfo gameInfo, String color){
@@ -90,7 +101,12 @@ public class GameHubFacade {
         jgr.setGameID( gameInfo.getId() );
         jgr.setColor(color);
         try {
-            return proxy.joinGame( jgr );
+            boolean success = proxy.joinGame( jgr );
+            if ( ! success )
+                throw new ServerException("join failed!");
+            // else, set current game player info in catanfacade
+            CatanFacade.updateGameModel();
+            return true;
         } catch (ServerException ex) {
             Logger.getLogger(GameHubFacade.class.getName()).log(Level.SEVERE, null, ex);
             return false;

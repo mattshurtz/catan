@@ -30,8 +30,8 @@ public class PointsView extends ComponentView implements IPointsView
 		
 		this.setPreferredSize(new Dimension(100, 700));
 		
-		fullPointImage = ImageUtils.loadImage("java/images/victory_points/full_point.png");
-		emptyPointImage = ImageUtils.loadImage("java/images/victory_points/empty_point.png");
+		fullPointImage = ImageUtils.loadImage("images/victory_points/full_point.png");
+		emptyPointImage = ImageUtils.loadImage("images/victory_points/empty_point.png");
 		
 		this.setPoints(0);
 	}
