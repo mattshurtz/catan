@@ -108,7 +108,7 @@ public class Model {
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
-    public boolean canBuildRoad(EdgeLocation location) throws InvalidLocation {
+    public boolean canBuildRoad(EdgeLocation location) {
     // check if it is port edge.       
       
         if(isValidRoadLocation(location)){

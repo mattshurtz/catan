@@ -61,21 +61,52 @@ public class MapController extends Controller implements IMapController {
 		
 		//Add all the hexes
 		ArrayList<Hex> hexList = map.getHexes();
+		for (Hex hex : hexList) {
+			
 			//Set the hex type
-			//Add all the numbers
-		
-		//Add the robber to hex type of desert, number 7
-		
-		//If the Model has settlements, add those
+			HexType hexType = hex.getHexType();
+			HexLocation hexLoc = hex.getLocation();
+			getView().addHex(hexLoc, hexType);
+			
+			//Add the number to this hex
+			getView().addNumber(hexLoc, hex.getNumber());
+			
+			//Add the robber if this hexType is Desert
+			if (hexType == HexType.DESERT) {
+				getView().placeRobber(hexLoc);
+			}
+			
+		}
+			
+		//If the Model has settlements or cities, add those
+		ArrayList<VertexObject> vObjects = map.getCitiesAndSettlements();
+		for (VertexObject vObj : vObjects) {
+				CatanColor color = vObj.getColor();
+				VertexLocation vertLoc = vObj.getLocation();
+			if (vObj instanceof Settlement) {
+				getView().placeSettlement(vertLoc, color);
+			} else if (vObj instanceof City) {
+				getView().placeCity(vertLoc, color);
+			}
+		}
 		
 		//If the Model has roads, add those
+		ArrayList<Road> roads = map.getRoads();
+		for (Road road : roads) {
+			EdgeLocation edgeLoc = road.getLocation();
+			CatanColor color = road.getColor();
+			getView().placeRoad(edgeLoc, color);
+		}
 		
 		//Initialize the ports
+		ArrayList<Port> ports = map.getPorts();
+		for (Port port : ports) {
+			EdgeLocation edgeLoc = port.getEdgeLocation();
+			PortType type = port.getPortType();
+			getView().addPort(edgeLoc, type);
+		}
 		
-		
-		
-		
-		/*
+		/* TA CODE FOR GENERATING A DEFAULT MODEL VIEW
 		//<temp>
 		
 		Random rand = new Random();

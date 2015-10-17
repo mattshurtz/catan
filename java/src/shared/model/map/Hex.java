@@ -1,6 +1,8 @@
 package shared.model.map;
 
 import java.util.Objects;
+
+import shared.definitions.HexType;
 import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
@@ -57,6 +59,40 @@ public class Hex {
 
     public void setLocation(HexLocation location) {
         this.location = location;
+    }
+    
+    //Looks at the resource type and location of this hex to determine it's HexType
+    public HexType getHexType()
+    {
+    	switch (resource)
+    	{
+    	case WOOD:
+    		return HexType.WOOD;
+    	case BRICK:
+    		return HexType.BRICK;
+    	case SHEEP:
+    		return HexType.SHEEP;
+    	case WHEAT:
+    		return HexType.WHEAT;
+    	case ORE:
+    		return HexType.ORE;
+    	default:
+    		//Water or Desert
+    		int x = location.getX();
+    		int y = location.getY();
+    		//Check for water coordinates
+    		if (Math.abs(x) == 3 || Math.abs(y) == 3){
+    			return HexType.WATER;
+    		} else if (Math.abs(x + y) == 3) {
+    			return HexType.WATER;
+    		} else {
+    			return HexType.DESERT;
+    		}
+    	}
+    }
+    
+    public int getNumber() {
+    	return number;
     }
     
     
