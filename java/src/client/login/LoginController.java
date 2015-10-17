@@ -112,8 +112,8 @@ public class LoginController extends Controller implements ILoginController {
 		loginAction.execute();
         }else{
             MessageView error = new MessageView();
-            error.setTitle("Title");
-            error.setMessage("this is the message");
+            error.setTitle("Warning!");
+            error.setMessage("Invalid username or password.");
             error.showModal();
         }
 	}
