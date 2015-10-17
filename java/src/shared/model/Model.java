@@ -5,9 +5,11 @@
  */
 package shared.model;
 
+import client.data.PlayerInfo;
 import client.facade.CatanFacade;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -15,12 +17,12 @@ import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.InvalidLocation;
+import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
-import shared.model.map.Hex;
 import shared.model.map.CatanMap;
 import shared.model.map.Port;
 import shared.model.map.Road;
@@ -665,6 +667,17 @@ public class Model {
 
     public ArrayList<Player> getPlayers() {
         return players;
+    }
+    
+    public PlayerInfo[] getPlayerInfos() {
+        List<PlayerInfo> ret = new ArrayList<>();
+        List<Player> playas = getPlayers();
+        Deserializer deserializer = new Deserializer();
+        for ( Player p : playas ) {
+            if ( p != null && p.getName() != null )
+                ret.add( deserializer.toPlayerInfo( p ) );
+        }
+        return ret.toArray(new PlayerInfo[0]);
     }
 
     public void setPlayers(ArrayList<Player> players) {
