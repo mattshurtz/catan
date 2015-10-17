@@ -417,11 +417,11 @@ class DevelopmentCardChooser extends ButtonGroupPanel {
 		devCards = new HashMap<DevCardType, JToggleButton>();
 		devCardTypes = new HashMap<JToggleButton, DevCardType>();
 
-		soldier = createDevCardButton("0", "java/images/cards/soldier.jpg");		
-		yearofplenty = createDevCardButton("0", "java/images/cards/year-of-plenty.jpg");		
-		monopoly = createDevCardButton("0", "java/images/cards/monopoly.jpg");
-		roadbuilding = createDevCardButton("0", "java/images/cards/road-building.jpg");
-		monument = createDevCardButton("0", "java/images/cards/monument.jpg");
+		soldier = createDevCardButton("0", "images/cards/soldier.jpg");		
+		yearofplenty = createDevCardButton("0", "images/cards/year-of-plenty.jpg");		
+		monopoly = createDevCardButton("0", "images/cards/monopoly.jpg");
+		roadbuilding = createDevCardButton("0", "images/cards/road-building.jpg");
+		monument = createDevCardButton("0", "images/cards/monument.jpg");
 
 		this.add(DevCardType.SOLDIER, soldier);
 		this.add(DevCardType.YEAR_OF_PLENTY, yearofplenty);

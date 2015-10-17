@@ -43,7 +43,7 @@ public class RollView extends OverlayView implements IRollView {
 		this.add(label, BorderLayout.NORTH);
 		
         try {
-            BufferedImage diceImg = ImageIO.read(new File("java/images/misc/dice.jpg"));
+            BufferedImage diceImg = ImageIO.read(new File("images/misc/dice.jpg"));
             Image smallDiceImg = diceImg.getScaledInstance(300, 224, Image.SCALE_SMOOTH);
             imageLabel = new JLabel(new ImageIcon(smallDiceImg));
             this.add(imageLabel, BorderLayout.CENTER);

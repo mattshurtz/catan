@@ -123,8 +123,14 @@ public class StatePlaying extends StateBase {
     }
     
     @Override
-    public boolean canBuildRoad(EdgeLocation roadLocation) throws InvalidLocation {
-    	return model.canBuyRoad() && model.canBuildRoad(roadLocation);
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
+    	try {
+			return model.canBuyRoad() && model.canBuildRoad(roadLocation);
+		} catch (InvalidLocation e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
     }
     
    public StatePlaying(IServerProxy proxy, Model model) {
