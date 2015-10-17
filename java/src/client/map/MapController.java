@@ -20,13 +20,13 @@ import shared.exceptions.ServerException;
 /**
  * Implementation for the map controller
  */
-public class MapController extends Controller implements IMapController {
+public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
 	
 	public MapController(IMapView view, IRobView robView) {
-		
 		super(view);
+        CatanFacade.addObserver( this );
 		
 		setRobView(robView);
 		
@@ -51,6 +51,7 @@ public class MapController extends Controller implements IMapController {
 	 */
 	
 	protected void initFromModel() {
+        System.out.println("Initing from model inside MapController...");
 		
 		//Get Model's map from CatanFacade
 		Model model  = CatanFacade.getModel();
@@ -256,6 +257,12 @@ public class MapController extends Controller implements IMapController {
                 Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Updating!");
+        initFromModel();
+    }
 	
 }
 

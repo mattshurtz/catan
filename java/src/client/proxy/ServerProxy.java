@@ -1,6 +1,7 @@
 package client.proxy;
 
 import client.facade.CatanFacade;
+import client.paller.ServerPaller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -390,7 +391,13 @@ public class ServerProxy implements IServerProxy {
     public boolean joinGame(JoinGameRequest joinRequest) throws ServerException {
         try {
         	String response = doPost("games/join",joinRequest);
-			return toBoolean( response );
+			boolean success = toBoolean( response );
+            if ( ! success )
+                return false;
+            // else, start the Paller so we can get updated when other people join the game
+            // & do other stuff
+            CatanFacade.startServerPalling();
+            return true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -2,6 +2,7 @@ package client.facade;
 
 import client.data.PlayerInfo;
 import client.paller.ServerPallTask;
+import client.paller.ServerPaller;
 import client.proxy.IServerProxy;
 import java.util.Observable;
 import java.util.Observer;
@@ -37,6 +38,8 @@ public class CatanFacade {
     private static PlayerInfo[] currentGamePlayers = null;
     
     private static Observable observable;
+    
+    private static ServerPaller paller;
 
     public static void setCurrentGamePlayers( PlayerInfo[] players ) {
         currentGamePlayers = players;
@@ -44,6 +47,11 @@ public class CatanFacade {
     
     public static PlayerInfo[] getCurrentGamePlayers() {
         return currentGamePlayers;
+    }
+
+    public static void startServerPalling() {
+        paller = new ServerPaller();
+        paller.start();
     }
     
     private CatanFacade() {
@@ -64,7 +72,12 @@ public class CatanFacade {
         
         CatanFacade.gameHubFacade = new GameHubFacade(proxy);
         
-        observable = new Observable();
+        observable = new Observable() {
+            public void notifyObservers() {
+                setChanged();
+                super.notifyObservers();
+            }
+        };
     }
     
     /** 
@@ -181,5 +194,8 @@ public class CatanFacade {
         
         // Replace old model with new one
         setModel(model);
+        
+        System.out.println("Notifying observers.");
+        observable.notifyObservers();
     }
 }
