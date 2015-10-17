@@ -1,8 +1,26 @@
 package shared.definitions;
 
+import com.google.gson.annotations.SerializedName;
+
 public enum TurnStatus {
 	//'Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or
 	//*'SecondRound'
 	
-	ROLLING, ROBBING, PLAYING, DISCARDING, FIRST_ROUND, SECOUND_ROUND
+	@SerializedName("Rolling")
+    ROLLING, 
+    
+    @SerializedName("Robbing")
+    ROBBING, 
+    
+    @SerializedName("Playing")
+    PLAYING, 
+    
+    @SerializedName("Discarding")
+    DISCARDING, 
+    
+    @SerializedName("FirstRound")
+    FIRST_ROUND, 
+    
+    @SerializedName("SecondRound")
+    SECOUND_ROUND
 }

@@ -1,0 +1,6 @@
+{  
+      "status":"Rolling",
+      "currentTurn":0,
+      "longestRoad":-1,
+      "largestArmy":-1
+   }

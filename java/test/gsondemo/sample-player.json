@@ -1,0 +1,35 @@
+{  
+   "resources":{  
+      "brick":0,
+      "wood":1,
+      "sheep":1,
+      "wheat":1,
+      "ore":0
+   },
+   "oldDevCards":{  
+      "yearOfPlenty":1,
+      "monopoly":2,
+      "soldier":3,
+      "roadBuilding":0,
+      "monument":0
+   },
+   "newDevCards":{  
+      "yearOfPlenty":0,
+      "monopoly":0,
+      "soldier":4,
+      "roadBuilding":5,
+      "monument":0
+   },
+   "roads":13,
+   "cities":4,
+   "settlements":3,
+   "soldiers":0,
+   "victoryPoints":2,
+   "monuments":0,
+   "playedDevCard":false,
+   "discarded":true,
+   "playerID":0,
+   "playerIndex":0,
+   "name":"Sam",
+   "color":"brown"
+}
