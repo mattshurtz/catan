@@ -50,6 +50,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	 * call getView().updatePlayer(...) to update the player's acheivements and score.
 	 */
 	private void initFromModel() {
+		if(CatanFacade.getModel()==null)
+			return;
+		
+		
 		Player player;
 		try {
 			player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
