@@ -61,6 +61,7 @@ public class Hex {
         this.location = location;
     }
     
+    //Looks at the resource type and location of this hex to determine it's HexType
     public HexType getHexType()
     {
     	switch (resource)
@@ -88,6 +89,10 @@ public class Hex {
     			return HexType.DESERT;
     		}
     	}
+    }
+    
+    public int getNumber() {
+    	return number;
     }
     
     

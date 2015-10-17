@@ -7,7 +7,12 @@ package shared.model.map;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import client.facade.CatanFacade;
+import shared.definitions.CatanColor;
+import shared.exceptions.GetPlayerException;
 import shared.locations.VertexLocation;
+import shared.model.*;
 
 /**
 *owner (index): The index (not id) of the player who owns this piece (0-3),
@@ -63,6 +68,24 @@ public abstract class VertexObject{
 
 	public void setOwner(int owner) {
 		this.owner = owner;
+	}
+	
+	/**
+	 * @pre CatanFacade.getModel() is not null, and has a valid list of Players
+	 * @return Color of this City/Settlement
+	 */
+	public CatanColor getColor() {
+		Model currentModel = CatanFacade.getModel();
+		if (currentModel == null)
+			System.out.println("Catan Model is null but shouldn't be");
+		
+		try {
+			Player player = currentModel.getPlayer(owner);
+			return player.getColor();
+		} catch (GetPlayerException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public VertexLocation getLocation() {
