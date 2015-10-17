@@ -1,10 +1,14 @@
 package client.facade;
 
 import client.data.PlayerInfo;
+import client.paller.ServerPallTask;
 import client.proxy.IServerProxy;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import shared.definitions.TurnStatus;
+import shared.exceptions.ServerException;
 import shared.model.Model;
 
 /**
@@ -74,7 +78,7 @@ public class CatanFacade {
         TurnStatus currStatus = model.getTurnTracker().getStatus();
         int currPlayer = model.getTurnTracker().getCurrentTurn();
         
-        if ( currPlayer != myPlayerIndex )
+        if ( currPlayer != myPlayerIndex || currStatus == null )
             currentState = notMyTurn;
         else {
             // It's our turn, so determine which facade to use
@@ -116,6 +120,8 @@ public class CatanFacade {
         rolling.setModel( model );
         setup.setModel( model );
         updateCurrentState();
+        if ( model != null ) // avoiding NullPointerExceptions
+            setCurrentGamePlayers( model.getPlayerInfos() );
     }
     
     public static StateBase getCurrentState() {
@@ -162,4 +168,18 @@ public class CatanFacade {
         CatanFacade.myPlayerInfo = myPlayerInfo;
     }
     
+    public static void updateGameModel() {
+        int versionNumber = 0;
+        if ( model != null )
+            versionNumber = model.getVersion();
+        
+        try {
+            model = proxy.getGameModel( versionNumber );
+        } catch (ServerException ex) {
+            Logger.getLogger(ServerPallTask.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        // Replace old model with new one
+        setModel(model);
+    }
 }

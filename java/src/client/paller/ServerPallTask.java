@@ -18,7 +18,6 @@ public class ServerPallTask extends TimerTask {
     
     private Model model;
     private IServerProxy proxy;
-    private int currVersion;
     
     private ServerPaller parent = null;
 
@@ -34,7 +33,6 @@ public class ServerPallTask extends TimerTask {
     ServerPallTask(IServerProxy proxy, Model model){
         this.proxy = proxy;
         this.model = model;
-        this.currVersion = 0;
     }
 
     /**
@@ -43,18 +41,6 @@ public class ServerPallTask extends TimerTask {
     @Override
     public void run() {
         this.parent.incrementTimesPalled();
-        
-        try {
-            this.model = this.proxy.getGameModel( this.currVersion );
-        } catch (ServerException ex) {
-            Logger.getLogger(ServerPallTask.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        // Update current version number
-        if ( this.model != null )
-            this.currVersion = this.model.getVersion();
-        
-        // Replace old model with new one
-        CatanFacade.setModel(this.model);
+        CatanFacade.updateGameModel();
     }
 }

@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import client.base.*;
 import client.data.*;
+import client.facade.CatanFacade;
 
 /**
  * Implementation for the join game view, which lets the user select a game to
@@ -114,9 +115,12 @@ public class JoinGameView extends OverlayView implements IJoinGameView
 				gamePanel.add(tmp3);
 				JButton joinButton;
 				
-				if (game.getPlayers().contains(localPlayer))
+                int idx = game.getPlayers().indexOf( localPlayer );
+				if ( idx >= 0 )
 				{
-					joinButton = new JButton("Re-Join");
+					int theirId = game.getPlayers().get( idx ).getId();
+                    CatanFacade.getMyPlayerInfo().setId( theirId );
+                    joinButton = new JButton("Re-Join");
 				}
 				else if (game.getPlayers().size() >= 4)
 				{

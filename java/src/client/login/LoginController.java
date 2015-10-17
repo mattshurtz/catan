@@ -100,19 +100,18 @@ public class LoginController extends Controller implements ILoginController {
 	@Override
 	public void register() {
 		
-	// TODO: register new user (which, if successful, also logs them in)
-	String username = getLoginView().getLoginUsername();
+    	String username = getLoginView().getLoginUsername();
         String pass = getLoginView().getLoginPassword();
-	boolean success = CatanFacade.getGameHubFacade().register( username, pass );
+        boolean success = CatanFacade.getGameHubFacade().register( username, pass );
         
         if ( success ) {
             System.out.println("registered!");
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
-        }else{
+            // If register succeeded
+            getLoginView().closeModal();
+            loginAction.execute();
+        } else {
             MessageView error = new MessageView();
-            error.setTitle("Title");
+            error.setTitle("Error");
             error.setMessage("this is the message");
             error.showModal();
         }

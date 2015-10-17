@@ -3,7 +3,9 @@ package client.join;
 import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
+import client.facade.CatanFacade;
 import client.misc.*;
+import shared.communication.params.CreateGameRequest;
 
 
 /**
@@ -15,6 +17,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+    
+    private GameInfo currentGame;
 	
 	/**
 	 * JoinGameController constructor
@@ -94,7 +98,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	@Override
 	public void start() {
-		
+		GameInfo[] games = CatanFacade.getGameHubFacade().listGames();
+        getJoinGameView().setGames(games, CatanFacade.getMyPlayerInfo() );
+        
 		getJoinGameView().showModal();
 	}
 
@@ -119,7 +125,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	@Override
 	public void createNewGame() {
-	// Create the game on the server 
+        // Get game board options 
+        CreateGameRequest cgr = new CreateGameRequest();
+        cgr.setName( getNewGameView().getTitle() );
+        cgr.setRandomNumbers( getNewGameView().getRandomlyPlaceNumbers() );
+        cgr.setRandomPorts( getNewGameView().getUseRandomPorts() );
+        cgr.setRandomTiles( getNewGameView().getRandomlyPlaceHexes() );
+        // Send create game request to server
+        CatanFacade.getGameHubFacade().createGame( cgr );
+        // Update game lsit
+        GameInfo[] games = CatanFacade.getGameHubFacade().listGames();
+        getJoinGameView().setGames(games, CatanFacade.getMyPlayerInfo() );
+        // Close modal
 		getNewGameView().closeModal();
 	}
 
@@ -128,10 +145,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 * Iterate through player in GameInfo and 
 	 * disable each color that has already been used in ColorSelectView
 	 * check if you are already in
-	 * if so,call JoinGame with the color you had already picked
+	 * if so, call JoinGame with the color you had already picked
 	 */
 	@Override
 	public void startJoinGame(GameInfo game) {
+        currentGame = game;
+        
+//        if ( currentGame.getPlayers().contains( CatanFacade.getMyPlayerInfo() ) )
+//            // join game
 
 		getSelectColorView().showModal();
 	}
@@ -148,11 +169,16 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	@Override
 	public void joinGame(CatanColor color) {
-		
-		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+		boolean success = CatanFacade.getGameHubFacade().join(currentGame, color.toString());
+        if ( success ) {
+            System.out.println("Join succeeded!");
+            // If join succeeded
+            getSelectColorView().closeModal();
+            getJoinGameView().closeModal();
+            joinAction.execute();
+        } else {
+            System.out.println("Join failed.");
+        }
 	}
 
 }
