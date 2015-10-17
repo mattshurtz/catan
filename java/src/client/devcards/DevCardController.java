@@ -68,8 +68,13 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void buyCard() {
-		
-		getBuyCardView().closeModal();
+		try {
+			CatanFacade.getCurrentState().buyDevCard();
+			getBuyCardView().closeModal();
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import java.util.*;
 
 import client.base.*;
 import client.facade.CatanFacade;
+import client.misc.MessageView;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
 
@@ -56,7 +57,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 				getView().setElementAmount(ResourceBarElement.CITY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getCities());
 				getView().setElementAmount(ResourceBarElement.ROAD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getRoads());
 				getView().setElementAmount(ResourceBarElement.SETTLEMENT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSettlements());
-				getView().setElementAmount(ResourceBarElement.SOLDIERS, 0);
+				getView().setElementAmount(ResourceBarElement.SOLDIERS, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSoldiers());
 				
 			} catch (GetPlayerException e) {
 				// TODO Auto-generated catch block
@@ -76,7 +77,14 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	 */
 	@Override
 	public void buildRoad() {
-		executeElementAction(ResourceBarElement.ROAD);
+		if(CatanFacade.getCurrentState().canBuyRoad()) {
+			executeElementAction(ResourceBarElement.ROAD);
+		} else {
+			MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Not enough resources or settlements.");
+            error.showModal();
+		}		
 	}
 
 	
@@ -85,7 +93,15 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	 */
 	@Override
 	public void buildSettlement() {
-		executeElementAction(ResourceBarElement.SETTLEMENT);
+		if(CatanFacade.getCurrentState().canBuySettlement()) {
+			executeElementAction(ResourceBarElement.SETTLEMENT);
+		} else {
+			MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Not enough resources or settlements.");
+            error.showModal();
+		}
+		
 	}
 
 	/** 
