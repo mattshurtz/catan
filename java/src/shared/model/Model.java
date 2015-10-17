@@ -8,6 +8,7 @@ package shared.model;
 import client.data.PlayerInfo;
 import client.facade.CatanFacade;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -51,7 +52,27 @@ public class Model {
     private TurnTracker turnTracker;
     private int version;
     private int winner;
-    private HashSet<EdgeLocation> invalidWaterEdges;
+    
+    
+    public static final EdgeLocation[] setValues = new EdgeLocation[] {
+        new EdgeLocation(new HexLocation(-3,1), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-3,2), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-3,3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-2,3), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(-2,3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-1,3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-1,3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(0,3), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(1,2), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(1,2), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(2,1), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(3,0), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(3,-1), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(3,-2), EdgeDirection.NorthEast),
+    };
+    public static final HashSet<EdgeLocation> invalidWaterEdges = new HashSet<EdgeLocation>(Arrays.asList(setValues));
+   
 
     public Model() {
         bank = new ResourceList();
@@ -63,17 +84,9 @@ public class Model {
         turnTracker = new TurnTracker();
         version = 0;
         winner = -1;
-        invalidWaterEdges = new HashSet<EdgeLocation>();
+        
     }
     
-    public void setInvalidWaterEdges(){
-        HashSet<EdgeLocation> invalidWaterEdges = new HashSet<EdgeLocation>();
-        
-        for(Port port: catanMap.getPorts()){
-            
-        }
-    }
-
     /**
      * @param playerIndex this is the index of the player
      * @return Player at the specified playerIndex
@@ -338,10 +351,19 @@ public class Model {
         return false;
     }
     
-    public boolean isPortEdge(){
+    public boolean isValidPortEdge(EdgeLocation normEdge){
         // Create a HashSet of invalid port eddge locations and check them
         // at the beginning of the can build edge function
-        
+        HexLocation hexLocation = normEdge.getHexLoc();
+            		//Water or Desert
+    		int x = hexLocation.getX();
+    		int y = hexLocation.getY();
+    		//Check for water coordinates
+    		if (Math.abs(x) == 3 || Math.abs(y) == 3 || Math.abs(x + y) == 3){
+    			if(invalidWaterEdges.contains(normEdge)){
+                    return true;
+                }
+            }
         return false;
     }
     
