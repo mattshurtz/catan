@@ -61,7 +61,10 @@ public class EdgeLocation
 	@Override
 	public boolean equals(Object obj)
 	{
-		if(this == obj)
+		// Load hex location from x & y ints if not already there
+        getHexLoc();
+        
+        if(this == obj)
 			return true;
 		if(obj == null)
 			return false;
@@ -90,9 +93,10 @@ public class EdgeLocation
 	 */
 	public EdgeLocation getNormalizedLocation()
 	{
-		
+        // Loads hex location from x & y if null
+		getHexLoc();
+        
 		// Return an EdgeLocation that has direction NW, N, or NE
-		
 		switch (direction)
 		{
 			case NorthWest:

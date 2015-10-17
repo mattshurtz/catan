@@ -14,3 +14,4 @@ build/
 nbdist/
 java/build/**
 java/dist/
+/dist/

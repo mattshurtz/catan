@@ -36,6 +36,7 @@ public class ServerPaller extends Thread {
     public void run() {
         ServerPallTask task = new ServerPallTask( CatanFacade.getProxy(), CatanFacade.getModel() );
         task.setParent( this );
+        System.out.println("About to start palling ...");
         timer.schedule( task, PALL_DELAY, PALL_DELAY );
     }
     

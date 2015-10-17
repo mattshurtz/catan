@@ -58,7 +58,10 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				new Catan();
+				IServerProxy proxy = new ServerProxy("localhost", 8081);
+                CatanFacade.setup( proxy, null );
+                
+                new Catan();
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
@@ -103,8 +106,7 @@ public class Catan extends JFrame
 				
 				loginController.start();
                 
-                IServerProxy proxy = new ServerProxy("localhost", 8081);
-                CatanFacade.setup( proxy, null );
+                
 			}
 		});
 	}

@@ -3,16 +3,18 @@ package client.join;
 import client.base.*;
 import client.data.PlayerInfo;
 import client.facade.CatanFacade;
+import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  * Implementation for the player waiting controller
  */
-public class PlayerWaitingController extends Controller implements IPlayerWaitingController {
+public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer {
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
-
 		super(view);
+        CatanFacade.addObserver( this );
 	}
 
 	@Override
@@ -35,8 +37,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
-
-		getView().showModal();
+        
+        if ( playas.length == 4 )
+            getView().closeModal();
+        else
+            getView().showModal();
 	}
 
 	
@@ -47,6 +52,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	public void addAI() {
         CatanFacade.getGameHubFacade().addAI( getView().getSelectedAI() );
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        start();
+    }
 
 }
 

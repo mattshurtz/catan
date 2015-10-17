@@ -89,9 +89,10 @@ public class VertexLocation
 	 */
 	public VertexLocation getNormalizedLocation()
 	{
-		
+		// Makes hex location from x & y ints if it's not set already
+        getHexLoc();
+        
 		// Return location that has direction NW or NE
-		
 		switch (direction)
 		{
 			case NorthWest:
