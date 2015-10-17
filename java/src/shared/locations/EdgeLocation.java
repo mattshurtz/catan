@@ -5,9 +5,9 @@ package shared.locations;
  */
 public class EdgeLocation
 {
-	
+	private int x, y;
 	private HexLocation hexLoc;
-	private EdgeDirection dir;
+	private EdgeDirection direction;
 	
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir)
 	{
@@ -17,7 +17,10 @@ public class EdgeLocation
 	
 	public HexLocation getHexLoc()
 	{
-		return hexLoc;
+		if ( hexLoc == null )
+            hexLoc = new HexLocation(x, y);
+        
+        return hexLoc;
 	}
 	
 	private void setHexLoc(HexLocation hexLoc)
@@ -31,18 +34,18 @@ public class EdgeLocation
 	
 	public EdgeDirection getDir()
 	{
-		return dir;
+		return direction;
 	}
 	
 	private void setDir(EdgeDirection dir)
 	{
-		this.dir = dir;
+		this.direction = dir;
 	}
 	
 	@Override
 	public String toString()
 	{
-		return "EdgeLocation [hexLoc=" + hexLoc + ", dir=" + dir + "]";
+		return "EdgeLocation [hexLoc=" + hexLoc + ", dir=" + direction + "]";
 	}
 	
 	@Override
@@ -50,7 +53,7 @@ public class EdgeLocation
 	{
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dir == null) ? 0 : dir.hashCode());
+		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
 		result = prime * result + ((hexLoc == null) ? 0 : hexLoc.hashCode());
 		return result;
 	}
@@ -65,7 +68,7 @@ public class EdgeLocation
 		if(getClass() != obj.getClass())
 			return false;
 		EdgeLocation other = (EdgeLocation)obj;
-		if(dir != other.dir)
+		if(direction != other.direction)
 			return false;
 		if(hexLoc == null)
 		{
@@ -90,7 +93,7 @@ public class EdgeLocation
 		
 		// Return an EdgeLocation that has direction NW, N, or NE
 		
-		switch (dir)
+		switch (direction)
 		{
 			case NorthWest:
 			case North:
@@ -99,8 +102,8 @@ public class EdgeLocation
 			case SouthWest:
 			case South:
 			case SouthEast:
-				return new EdgeLocation(hexLoc.getNeighborLoc(dir),
-                                    dir.getOppositeDirection());
+				return new EdgeLocation(hexLoc.getNeighborLoc(direction),
+                                    direction.getOppositeDirection());
 			default:
 				assert false;
 				return null;

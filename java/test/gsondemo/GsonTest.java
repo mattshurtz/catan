@@ -10,6 +10,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 import shared.model.Player;
 import shared.model.TurnTracker;
+import shared.model.map.CatanMap;
 
 
 /**
@@ -77,6 +78,20 @@ public class GsonTest {
         {
             Gson gson = new GsonBuilder().create();
             t = gson.fromJson( in, TurnTracker.class );
+            System.out.println("Made it.");
+        } catch (IOException ex) {
+            Logger.getLogger(GsonTest.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
+    
+    @Test
+    public void testImportMap() {
+        CatanMap m;
+        try (FileReader in = new FileReader( "test/gsondemo/sample-map.json" ) )
+        {
+            Gson gson = new GsonBuilder().create();
+            m = gson.fromJson( in, CatanMap.class );
             System.out.println("Made it.");
         } catch (IOException ex) {
             Logger.getLogger(GsonTest.class.getName()).log(Level.SEVERE, null, ex);

@@ -21,20 +21,23 @@ import shared.locations.HexLocation;
 *ratio (integer): The ratio for trade in (ie, if this is 2, then it's a 2:1 port.
 */
 public class Port {
-   PortType type;
+   PortType resource = PortType.THREE;
    HexLocation location;
    EdgeDirection direction;
    int ratio;
    
     public Port(PortType type, EdgeDirection direction, HexLocation location) {
-            this.type = type;
+            this.resource = type;
             this.location = location;
             this.direction = direction;
             this.ratio = (type == PortType.THREE) ? 3:2;
     }
 
     public PortType getPortType() {
-        return type;
+        if ( resource != null )
+            return resource;
+        else
+            return PortType.THREE;
     }
     
     public int getRatio() {
@@ -48,7 +51,7 @@ public class Port {
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 37 * hash + Objects.hashCode(this.type);
+        hash = 37 * hash + Objects.hashCode(this.resource);
         hash = 37 * hash + Objects.hashCode(this.location);
         hash = 37 * hash + Objects.hashCode(this.direction);
         hash = 37 * hash + this.ratio;
@@ -64,7 +67,7 @@ public class Port {
             return false;
         }
         final Port other = (Port) obj;
-        if (this.type != other.type) {
+        if (this.resource != other.resource) {
             return false;
         }
         if (!Objects.equals(this.location, other.location)) {
