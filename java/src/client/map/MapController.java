@@ -237,6 +237,9 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeRoad(EdgeLocation edgeLoc) {
 		
 		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+                CatanFacade.getCurrentState().buildRoad(edgeLoc);
+            
+		getView().placeRoad(edgeLoc, CatanFacade.getMyPlayerInfo().getColor());
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
