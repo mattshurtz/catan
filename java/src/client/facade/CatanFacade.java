@@ -199,18 +199,21 @@ public class CatanFacade {
     }
     
     public static void updateGameModel() {
-        int versionNumber = 0;
+        int oldVersion = 0;
         if ( model != null )
-            versionNumber = model.getVersion();
+            oldVersion = model.getVersion();
         
         try {
-            model = proxy.getGameModel( versionNumber );
+            model = proxy.getGameModel( oldVersion );
         } catch (ServerException ex) {
             Logger.getLogger(ServerPallTask.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        // Replace old model with new one
-        setModel(model);
-        observable.notifyObservers();
+        int newVersion = model.getVersion();
+        if ( oldVersion != newVersion ) {
+            // Replace old model with new one
+            setModel(model);
+            observable.notifyObservers();
+        }
     }
 }

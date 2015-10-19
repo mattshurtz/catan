@@ -5,6 +5,7 @@ import shared.exceptions.ServerException;
 import shared.model.Player;
 import client.base.*;
 import client.facade.CatanFacade;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
@@ -20,6 +21,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
     private static Map<TurnStatus, Pair<String, Boolean> > states;
     
     static {
+        states = new HashMap<>();
         states.put( TurnStatus.ROLLING, new Pair<>( "Roll the Dice", false ) );
         states.put( TurnStatus.PLAYING, new Pair<>( "Finish Turn", true ) );
         states.put( TurnStatus.FIRST_ROUND, new Pair<>( "Setup", false ) );
