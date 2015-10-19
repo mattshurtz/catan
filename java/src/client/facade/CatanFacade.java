@@ -55,6 +55,13 @@ public class CatanFacade {
         paller = new ServerPaller();
         paller.start();
     }
+
+    public static boolean isMyTurn() {
+        TurnStatus currStatus = model.getTurnTracker().getStatus();
+        int currPlayer = model.getTurnTracker().getCurrentTurn();
+        
+        return ( currStatus != null && currPlayer == myPlayerIndex );
+    }
     
     private CatanFacade() {
         // Can't be constructed -- is singleton class
