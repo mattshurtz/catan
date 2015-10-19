@@ -4,6 +4,7 @@ import client.data.PlayerInfo;
 import client.paller.ServerPallTask;
 import client.paller.ServerPaller;
 import client.proxy.IServerProxy;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -11,6 +12,7 @@ import java.util.logging.Logger;
 import shared.definitions.TurnStatus;
 import shared.exceptions.ServerException;
 import shared.model.Model;
+import shared.model.Player;
 
 /**
  * A singleton facade that gives out the actual facades. Everything in this
@@ -33,7 +35,7 @@ public class CatanFacade {
     private static IServerProxy proxy;
     private static Model model;
     
-    private static int myPlayerIndex = 0;
+    private static int myPlayerIndex = -1;
     private static PlayerInfo myPlayerInfo = new PlayerInfo();
     private static PlayerInfo[] currentGamePlayers = null;
     
@@ -133,8 +135,24 @@ public class CatanFacade {
         rolling.setModel( model );
         setup.setModel( model );
         updateCurrentState();
+        
+        if ( myPlayerIndex == -1 )
+            setMyPlayerIndex();
+        
         if ( model != null ) // avoiding NullPointerExceptions
             setCurrentGamePlayers( model.getPlayerInfos() );
+    }
+    
+    public static void setMyPlayerIndex() {
+        ArrayList<Player> playas = model.getPlayers();
+        // finds by name
+        int idx = playas.indexOf( myPlayerInfo );
+        if ( idx >= 0 ) {
+            int index = playas.get(idx).getPlayerIndex();
+            myPlayerInfo.setPlayerIndex(index);
+            int id = playas.get(idx).getPlayerID();
+            myPlayerInfo.setId(id);
+        }
     }
     
     public static StateBase getCurrentState() {
@@ -144,14 +162,6 @@ public class CatanFacade {
     public static GameHubFacade getGameHubFacade() {
         return gameHubFacade;
     }
-    
-//    public static boolean isServer() {
-//        return isServer;
-//    }
-//
-//    public static void setIsServer(boolean isServer) {
-//        CatanFacade.isServer = isServer;
-//    }
 
     public static int getMyPlayerIndex() {
         return myPlayerIndex;
