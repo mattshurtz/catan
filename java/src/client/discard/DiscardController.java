@@ -29,7 +29,7 @@ public class DiscardController extends Controller implements IDiscardController 
 	public DiscardController(IDiscardView view, IWaitView waitView) {
 		
 		super(view);
-		
+		discardedCards = new ResourceList();
 		this.waitView = waitView;
 	}
 
@@ -61,6 +61,7 @@ public class DiscardController extends Controller implements IDiscardController 
 	@Override
 	public void increaseAmount(ResourceType resource) {
         discardedCards.addResource(resource, 1);
+        updateAfterIncreaseOrDecrease(resource);
 
 	}
 
@@ -70,7 +71,27 @@ public class DiscardController extends Controller implements IDiscardController 
 	@Override
 	public void decreaseAmount(ResourceType resource) {
         discardedCards.subtractResource(resource, 1);
+        updateAfterIncreaseOrDecrease(resource);
 
+	}
+	
+	private void updateAfterIncreaseOrDecrease(ResourceType resource) {
+        getDiscardView().setResourceDiscardAmount(resource, discardedCards.getResource(resource));
+        boolean increase = false;
+        boolean decrease = false;
+        try {
+			if(discardedCards.getResource(resource) < CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getResource(resource)){
+				increase = true;
+			}
+		} catch (GetPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        if(discardedCards.getResource(resource) > 0){
+        	decrease = true;
+        }
+        
+        getDiscardView().setResourceAmountChangeEnabled(resource, increase, decrease);
 	}
 
 	/**
