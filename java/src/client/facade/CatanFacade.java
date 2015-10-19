@@ -56,6 +56,13 @@ public class CatanFacade {
         paller.start();
     }
 
+    public static boolean isMyTurn() {
+        TurnStatus currStatus = model.getTurnTracker().getStatus();
+        int currPlayer = model.getTurnTracker().getCurrentTurn();
+        
+        return ( currStatus != null && currPlayer == myPlayerIndex );
+    }
+    
     private CatanFacade() {
         // Can't be constructed -- is singleton class
     }
@@ -201,19 +208,22 @@ public class CatanFacade {
     }
 
     public static void updateGameModel() {
-        int versionNumber = 0;
-        if (model != null) {
-            versionNumber = model.getVersion();
-        }
 
+        int oldVersion = 0;
+        if ( model != null )
+            oldVersion = model.getVersion();
+        
         try {
-            model = proxy.getGameModel(versionNumber);
+            model = proxy.getGameModel( oldVersion );
         } catch (ServerException ex) {
             Logger.getLogger(ServerPallTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        // Replace old model with new one
-        setModel(model);
-        observable.notifyObservers();
+        
+        int newVersion = model.getVersion();
+        if ( oldVersion != newVersion ) {
+            // Replace old model with new one
+            setModel(model);
+            observable.notifyObservers();
+        }
     }
 }

@@ -332,5 +332,22 @@ public class ResourceList {
             return false;
         }
         return true;
-    } 
+    }
+
+	public int getResource(ResourceType resource) {
+		switch (resource){
+			case BRICK:
+				return getBrick();
+			case ORE:
+				return getOre();
+			case SHEEP:
+				return getSheep();
+			case WHEAT:
+				return getWheat();
+			case WOOD:
+				return getWood();
+			default:
+				return -1;
+		}
+	} 
 }
