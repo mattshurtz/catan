@@ -12,14 +12,15 @@ import shared.exceptions.GetPlayerException;
 /**
  * Implementation for the resource bar controller
  */
-public class ResourceBarController extends Controller implements IResourceBarController {
+public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
 	private Map<ResourceBarElement, IAction> elementActions;
 	
 	public ResourceBarController(IResourceBarView view) {
+        
 
 		super(view);
-		
+		CatanFacade.addObserver(this);
 		elementActions = new HashMap<ResourceBarElement, IAction>();
 	}
 
@@ -136,6 +137,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 			action.execute();
 		}
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+            setResources();
+    }
 
 }
 
