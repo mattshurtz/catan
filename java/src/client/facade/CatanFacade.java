@@ -19,7 +19,7 @@ import shared.model.Player;
  * class is static.
  */
 public class CatanFacade {
-    
+
     // the singleton facades
     private static StateDiscarding discarding;
     private static StateRobbing robbing;
@@ -27,26 +27,26 @@ public class CatanFacade {
     private static StateSetup setup;
     private static StatePlaying playing;
     private static StateNotMyTurn notMyTurn;
-    
+
     // Pointer to one of the concrete states above
     private static StateBase currentState;
-    
+
     private static GameHubFacade gameHubFacade;
     private static IServerProxy proxy;
     private static Model model;
-    
+
     private static int myPlayerIndex = -1;
     private static PlayerInfo myPlayerInfo = new PlayerInfo();
     private static PlayerInfo[] currentGamePlayers = null;
-    
+
     private static Observable observable;
-    
+
     private static ServerPaller paller;
 
-    public static void setCurrentGamePlayers( PlayerInfo[] players ) {
+    public static void setCurrentGamePlayers(PlayerInfo[] players) {
         currentGamePlayers = players;
     }
-    
+
     public static PlayerInfo[] getCurrentGamePlayers() {
         return currentGamePlayers;
     }
@@ -55,25 +55,25 @@ public class CatanFacade {
         paller = new ServerPaller();
         paller.start();
     }
-    
+
     private CatanFacade() {
         // Can't be constructed -- is singleton class
     }
-    
-    public static void setup( IServerProxy proxy, Model model ) {
+
+    public static void setup(IServerProxy proxy, Model model) {
         CatanFacade.model = model;
         CatanFacade.proxy = proxy;
-        
-        CatanFacade.discarding = new StateDiscarding( proxy, model );
-        CatanFacade.rolling = new StateRolling( proxy, model );
-        CatanFacade.setup = new StateSetup( proxy, model );
-        CatanFacade.robbing = new StateRobbing( proxy, model );
+
+        CatanFacade.discarding = new StateDiscarding(proxy, model);
+        CatanFacade.rolling = new StateRolling(proxy, model);
+        CatanFacade.setup = new StateSetup(proxy, model);
+        CatanFacade.robbing = new StateRobbing(proxy, model);
         CatanFacade.playing = new StatePlaying(proxy, model);
         CatanFacade.notMyTurn = new StateNotMyTurn(proxy, model);
         updateCurrentState();
-        
+
         CatanFacade.gameHubFacade = new GameHubFacade(proxy);
-        
+
         observable = new Observable() {
             public void notifyObservers() {
                 setChanged();
@@ -81,84 +81,92 @@ public class CatanFacade {
             }
         };
     }
-    
-    /** 
-     * Update this.currentState pointer to the correct one corresponding
-     * to the turn status in the current model
+
+    /**
+     * Update this.currentState pointer to the correct one corresponding to the
+     * turn status in the current model
      */
     private static void updateCurrentState() {
-        if ( model == null )
+        if (model == null) {
             return;
-     
+        }
+
         TurnStatus currStatus = model.getTurnTracker().getStatus();
         int currPlayer = model.getTurnTracker().getCurrentTurn();
-        
-        if ( currPlayer != myPlayerIndex || currStatus == null )
+
+        if (currPlayer != myPlayerIndex || currStatus == null) {
             currentState = notMyTurn;
-        else {
+        } else {
             // It's our turn, so determine which facade to use
-            switch ( currStatus ) {
+            switch (currStatus) {
                 case DISCARDING:
                     currentState = discarding;
                     break;
-                    
+
                 case FIRST_ROUND:
                 case SECOUND_ROUND:
                     currentState = setup;
                     break;
-                    
+
                 case PLAYING:
                     currentState = playing;
                     break;
-                
+
                 case ROBBING:
                     currentState = robbing;
                     break;
-                
+
                 case ROLLING:
                     currentState = rolling;
                     break;
             }
         }
     }
-    
+
     public static Model getModel() {
         return model;
     }
 
     public static void setModel(Model model) {
         CatanFacade.model = model;
-        discarding.setModel( model );
-        notMyTurn.setModel( model );
-        playing.setModel( model );
-        robbing.setModel( model );
-        rolling.setModel( model );
-        setup.setModel( model );
+        discarding.setModel(model);
+        notMyTurn.setModel(model);
+        playing.setModel(model);
+        robbing.setModel(model);
+        rolling.setModel(model);
+        setup.setModel(model);
         updateCurrentState();
-        
-        if ( myPlayerIndex == -1 )
+
+        if (myPlayerIndex == -1) {
             setMyPlayerIndex();
-        
-        if ( model != null ) // avoiding NullPointerExceptions
-            setCurrentGamePlayers( model.getPlayerInfos() );
-    }
-    
-    public static void setMyPlayerIndex() {
-        ArrayList<Player> playas = model.getPlayers();
-        // finds by name
-        int idx = playas.indexOf( myPlayerInfo );
-        if ( idx >= 0 ) {
-            int index = playas.get(idx).getPlayerIndex();
-            myPlayerInfo.setPlayerIndex(index);
-            int id = playas.get(idx).getPlayerID();
-            myPlayerInfo.setId(id);
+        }
+
+        if (model != null) // avoiding NullPointerExceptions
+        {
+            setCurrentGamePlayers(model.getPlayerInfos());
         }
     }
-    
+
+    public static void setMyPlayerIndex() {
+        System.out.println("set my player index name: " + myPlayerInfo.getName());
+        ArrayList<Player> playas = model.getPlayers();
+        // finds by name
+        for (int i = 0; i<playas.size();i++) {
+            if (playas.get(i).getName().equals(myPlayerInfo.getName())) {
+                    int index = playas.get(i).getPlayerIndex();
+                    myPlayerInfo.setPlayerIndex(index);
+                    int id = playas.get(i).getPlayerID();
+                    myPlayerInfo.setId(id);
+                    setMyPlayerIndex(i);
+                
+            }
+        }
+    }
+
     public static StateBase getCurrentState() {
         return CatanFacade.currentState;
     }
-    
+
     public static GameHubFacade getGameHubFacade() {
         return gameHubFacade;
     }
@@ -168,17 +176,18 @@ public class CatanFacade {
     }
 
     public static void setMyPlayerIndex(int myPlayerIndex) {
+        System.out.println("setMyPlayerIndex: " + myPlayerIndex);
         CatanFacade.myPlayerIndex = myPlayerIndex;
     }
 
     public static IServerProxy getProxy() {
         return proxy;
     }
-    
-    public static void addObserver( Observer o ) {
+
+    public static void addObserver(Observer o) {
         observable.addObserver(o);
     }
-    
+
     public static void notifyObservers() {
         observable.notifyObservers();
     }
@@ -190,18 +199,19 @@ public class CatanFacade {
     public static void setMyPlayerInfo(PlayerInfo myPlayerInfo) {
         CatanFacade.myPlayerInfo = myPlayerInfo;
     }
-    
+
     public static void updateGameModel() {
         int versionNumber = 0;
-        if ( model != null )
+        if (model != null) {
             versionNumber = model.getVersion();
-        
+        }
+
         try {
-            model = proxy.getGameModel( versionNumber );
+            model = proxy.getGameModel(versionNumber);
         } catch (ServerException ex) {
             Logger.getLogger(ServerPallTask.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Replace old model with new one
         setModel(model);
         observable.notifyObservers();

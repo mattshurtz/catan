@@ -8,140 +8,134 @@ import client.misc.MessageView;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
 
-
 /**
  * Implementation for the resource bar controller
  */
 public class ResourceBarController extends Controller implements IResourceBarController, Observer {
 
-	private Map<ResourceBarElement, IAction> elementActions;
-	
-	public ResourceBarController(IResourceBarView view) {
-        
+    private Map<ResourceBarElement, IAction> elementActions;
 
-		super(view);
-		CatanFacade.addObserver(this);
-		elementActions = new HashMap<ResourceBarElement, IAction>();
-	}
+    public ResourceBarController(IResourceBarView view) {
 
-	@Override
-	public IResourceBarView getView() {
-		return (IResourceBarView)super.getView();
-	}
+        super(view);
+        CatanFacade.addObserver(this);
+        elementActions = new HashMap<ResourceBarElement, IAction>();
+    }
 
-	/**
-	 * Sets the action to be executed when the specified resource bar element is clicked by the user
-	 * 
-	 * @param element The resource bar element with which the action is associated
-	 * @param action The action to be executed
-	 */
-	public void setElementAction(ResourceBarElement element, IAction action) {
+    @Override
+    public IResourceBarView getView() {
+        return (IResourceBarView) super.getView();
+    }
 
-		elementActions.put(element, action);
-	}
+    /**
+     * Sets the action to be executed when the specified resource bar element is
+     * clicked by the user
+     *
+     * @param element The resource bar element with which the action is
+     * associated
+     * @param action The action to be executed
+     */
+    public void setElementAction(ResourceBarElement element, IAction action) {
 
-	
-	/**
-	 * For each resourceType, buildingType, and cardType for your client's player
-	 * call getView().setElementAmount
-	 */
-	public void setResources()
-		{
-			try {
-				getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
-				getView().setElementAmount(ResourceBarElement.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
-				getView().setElementAmount(ResourceBarElement.SHEEP, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getSheep());
-				getView().setElementAmount(ResourceBarElement.WHEAT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWheat());
-				getView().setElementAmount(ResourceBarElement.WOOD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWood());
-				
-				getView().setElementAmount(ResourceBarElement.BUY_CARD, 0);
-				getView().setElementAmount(ResourceBarElement.CITY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getCities());
-				getView().setElementAmount(ResourceBarElement.ROAD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getRoads());
-				getView().setElementAmount(ResourceBarElement.SETTLEMENT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSettlements());
-				getView().setElementAmount(ResourceBarElement.SOLDIERS, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSoldiers());
-				
-			} catch (GetPlayerException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		
-		}
-	
-	
-	/**
-	 * Verify they can build a road (resources and remaining settlement amount)
-	 * if so: call the 	executeElementAction(ResourceBarElement.ROAD);
-	 * else
-	 * display message why they can't
-	 * 
-	 */
-	@Override
-	public void buildRoad() {
-		if(CatanFacade.getCurrentState().canBuyRoad()) {
-			executeElementAction(ResourceBarElement.ROAD);
-		} else {
-			MessageView error = new MessageView();
+        elementActions.put(element, action);
+    }
+
+    /**
+     * For each resourceType, buildingType, and cardType for your client's
+     * player call getView().setElementAmount
+     */
+    public void setResources() {
+        try {
+            System.out.println("setResources: "+ CatanFacade.getMyPlayerIndex());
+                
+            if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
+                System.out.println("got into set resources "+CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
+                getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
+                getView().setElementAmount(ResourceBarElement.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
+                getView().setElementAmount(ResourceBarElement.SHEEP, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getSheep());
+                getView().setElementAmount(ResourceBarElement.WHEAT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWheat());
+                getView().setElementAmount(ResourceBarElement.WOOD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWood());
+
+                getView().setElementAmount(ResourceBarElement.BUY_CARD, 0);
+                getView().setElementAmount(ResourceBarElement.CITY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getCities());
+                getView().setElementAmount(ResourceBarElement.ROAD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getRoads());
+                getView().setElementAmount(ResourceBarElement.SETTLEMENT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSettlements());
+                getView().setElementAmount(ResourceBarElement.SOLDIERS, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getSoldiers());
+            }
+        } catch (GetPlayerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * Verify they can build a road (resources and remaining settlement amount)
+     * if so: call the executeElementAction(ResourceBarElement.ROAD); else
+     * display message why they can't
+     *
+     */
+    @Override
+    public void buildRoad() {
+        if (CatanFacade.getCurrentState().canBuyRoad()) {
+            executeElementAction(ResourceBarElement.ROAD);
+        } else {
+            MessageView error = new MessageView();
             error.setTitle("Warning!");
             error.setMessage("Not enough resources or settlements.");
             error.showModal();
-		}		
-	}
+        }
+    }
 
-	
-	/** 
-	 * same as for build road
-	 */
-	@Override
-	public void buildSettlement() {
-		if(CatanFacade.getCurrentState().canBuySettlement()) {
-			executeElementAction(ResourceBarElement.SETTLEMENT);
-		} else {
-			MessageView error = new MessageView();
+    /**
+     * same as for build road
+     */
+    @Override
+    public void buildSettlement() {
+        if (CatanFacade.getCurrentState().canBuySettlement()) {
+            executeElementAction(ResourceBarElement.SETTLEMENT);
+        } else {
+            MessageView error = new MessageView();
             error.setTitle("Warning!");
             error.setMessage("Not enough resources or settlements.");
             error.showModal();
-		}
-		
-	}
+        }
 
-	/** 
-	 * same as for build road
-	 */
-	@Override
-	public void buildCity() {
-		executeElementAction(ResourceBarElement.CITY);
-	}
-	
-	
+    }
 
-	@Override
-	public void buyCard() {
-		executeElementAction(ResourceBarElement.BUY_CARD);
-	}
+    /**
+     * same as for build road
+     */
+    @Override
+    public void buildCity() {
+        executeElementAction(ResourceBarElement.CITY);
+    }
 
-	
-	/** 
-	 * same as for build road
-	 */
-	@Override
-	public void playCard() {
-		executeElementAction(ResourceBarElement.PLAY_CARD);
-	}
-	
-	private void executeElementAction(ResourceBarElement element) {
-		
-		if (elementActions.containsKey(element)) {
-			
-			IAction action = elementActions.get(element);
-			action.execute();
-		}
-	}
+    @Override
+    public void buyCard() {
+        executeElementAction(ResourceBarElement.BUY_CARD);
+    }
+
+    /**
+     * same as for build road
+     */
+    @Override
+    public void playCard() {
+        executeElementAction(ResourceBarElement.PLAY_CARD);
+    }
+
+    private void executeElementAction(ResourceBarElement element) {
+
+        if (elementActions.containsKey(element)) {
+
+            IAction action = elementActions.get(element);
+            action.execute();
+        }
+    }
 
     @Override
     public void update(Observable o, Object arg) {
-            setResources();
+        setResources();
     }
 
 }
-

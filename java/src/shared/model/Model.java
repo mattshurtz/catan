@@ -97,7 +97,8 @@ public class Model {
      * @throws GetPlayerException if the player list is empty, or if the index is invalid
      */
     public Player getPlayer(int playerIndex) throws GetPlayerException{
-    	if (players == null || players.size() == 0) {
+        
+        if (players == null || players.size() == 0) {
     		throw new GetPlayerException("There are currently no players in this model's player list");
     	}
     	if (playerIndex > 3 || playerIndex < 0) {
