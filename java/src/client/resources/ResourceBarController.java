@@ -46,8 +46,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     public void setResources() {
         try {
-            System.out.println("setResources: "+ CatanFacade.getMyPlayerIndex());
-                
             if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
                 System.out.println("got into set resources "+CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
                 getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
@@ -77,6 +75,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     @Override
     public void buildRoad() {
+        
+        CatanFacade.setCurrentStateToPlaying();
+        
         if (CatanFacade.getCurrentState().canBuyRoad()) {
             executeElementAction(ResourceBarElement.ROAD);
         } else {

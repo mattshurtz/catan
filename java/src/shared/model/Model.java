@@ -75,7 +75,7 @@ public class Model {
         new EdgeLocation(new HexLocation(3,-1), EdgeDirection.NorthEast),
         new EdgeLocation(new HexLocation(3,-2), EdgeDirection.NorthEast),
     };
-    public static final HashSet<EdgeLocation> invalidWaterEdges = new HashSet<EdgeLocation>(Arrays.asList(setValues));
+    public static final HashSet<EdgeLocation> validWaterEdges = new HashSet<EdgeLocation>(Arrays.asList(setValues));
    
 
     public Model() {
@@ -96,7 +96,7 @@ public class Model {
      * @return Player at the specified playerIndex
      * @throws GetPlayerException if the player list is empty, or if the index is invalid
      */
-    public Player getPlayer(int playerIndex) throws GetPlayerException{
+        public Player getPlayer(int playerIndex) throws GetPlayerException{
         
         if (players == null || players.size() == 0) {
     		throw new GetPlayerException("There are currently no players in this model's player list");
@@ -221,6 +221,7 @@ public class Model {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
+        players.get(currentPlayer).setResources(new ResourceList(5,5,5,5,5));
         
         if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOUND_ROUND)){
             return isValidFirstRoad(normEdge);
@@ -231,30 +232,30 @@ public class Model {
             if(road.getLocation().equals(location)){
                 return false;
             }
+            
            // check around North edge 
             if(normEdge.getDir()==EdgeDirection.North){
-
                 //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
                 
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
                     return true;
                 }
                 
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northwestNeighbor, EdgeDirection.SouthEast))&&road.getOwner()==currentPlayer){
+                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
                     return true;
                 }
                 
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+                normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
                     return true;
                 }
                 if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                normEdge.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
                     return true;
                 }
             }
@@ -357,7 +358,7 @@ public class Model {
     }
     
     public boolean isValidPortEdge(EdgeLocation normEdge){
-        // Create a HashSet of invalid port eddge locations and check them
+// Create a HashSet of invalid port eddge locations and check them
         // at the beginning of the can build edge function
         HexLocation hexLocation = normEdge.getHexLoc();
             		//Water or Desert
@@ -365,11 +366,13 @@ public class Model {
     		int y = hexLocation.getY();
     		//Check for water coordinates
     		if (Math.abs(x) == 3 || Math.abs(y) == 3 || Math.abs(x + y) == 3){
-    			if(invalidWaterEdges.contains(normEdge)){
+    			if(validWaterEdges.contains(normEdge)){
                     return true;
+                }else{
+                    return false;
                 }
             }
-        return false;
+        return true;
     }
     
     public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location){

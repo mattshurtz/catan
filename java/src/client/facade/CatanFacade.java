@@ -155,7 +155,6 @@ public class CatanFacade {
     }
 
     public static void setMyPlayerIndex() {
-        System.out.println("set my player index name: " + myPlayerInfo.getName());
         ArrayList<Player> playas = model.getPlayers();
         // finds by name
         for (int i = 0; i<playas.size();i++) {
@@ -183,7 +182,6 @@ public class CatanFacade {
     }
 
     public static void setMyPlayerIndex(int myPlayerIndex) {
-        System.out.println("setMyPlayerIndex: " + myPlayerIndex);
         CatanFacade.myPlayerIndex = myPlayerIndex;
     }
 
@@ -225,5 +223,9 @@ public class CatanFacade {
             setModel(model);
             observable.notifyObservers();
         }
+    }
+    
+    public static void setCurrentStateToPlaying(){
+        currentState = playing;
     }
 }
