@@ -2,12 +2,7 @@ package client.facade;
 
 import client.proxy.IServerProxy;
 import shared.communication.params.moves.AcceptTradeRequest;
-import shared.definitions.ResourceType;
-import shared.exceptions.InsufficientSupplies;
-import shared.exceptions.InvalidLocation;
 import shared.exceptions.ServerException;
-import shared.locations.EdgeLocation;
-import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.ResourceList;
 

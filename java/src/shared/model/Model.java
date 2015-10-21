@@ -221,7 +221,7 @@ public class Model {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
-        players.get(currentPlayer).setResources(new ResourceList(5,5,5,5,5));
+        
         
         if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOUND_ROUND)){
             return isValidFirstRoad(normEdge);

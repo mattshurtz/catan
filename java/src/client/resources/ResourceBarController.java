@@ -47,7 +47,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
     public void setResources() {
         try {
             if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
-                System.out.println("got into set resources "+CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
                 getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
                 getView().setElementAmount(ResourceBarElement.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
                 getView().setElementAmount(ResourceBarElement.SHEEP, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getSheep());
@@ -133,9 +132,20 @@ public class ResourceBarController extends Controller implements IResourceBarCon
             action.execute();
         }
     }
+    
+    public void setButtonsNotMyTurn(){
+        if(!CatanFacade.isMyTurn()){
+            getView().setElementEnabled(ResourceBarElement.CITY, false);
+            getView().setElementEnabled(ResourceBarElement.ROAD, false);
+            getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+            getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+            getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false); 
+        }
+    }
 
     @Override
     public void update(Observable o, Object arg) {
+        setButtonsNotMyTurn();
         setResources();
     }
 
