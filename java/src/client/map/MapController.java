@@ -24,6 +24,8 @@ import shared.exceptions.ServerException;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
+	private boolean isRobbing;
+	private HexLocation robLocation;
     
     private static HexLocation[] waterHexes = new HexLocation[] {
         new HexLocation( 0, -3 ),
@@ -51,6 +53,7 @@ public class MapController extends Controller implements IMapController, Observe
         CatanFacade.addObserver( this );
 		
 		setRobView(robView);
+		isRobbing = false;
 		
 		initFromModel();
 	}
@@ -94,7 +97,8 @@ public class MapController extends Controller implements IMapController, Observe
 			getView().addNumber(hexLoc, hex.getNumber());
 			
 			//Add the robber if this hexType is Desert
-			if (hexType == HexType.DESERT) {
+			//Do not update the robber position if the robber modal is up
+			if (hexType == HexType.DESERT && !isRobbing) {
 				getView().placeRobber(hexLoc);
 			}
 		}
@@ -257,9 +261,33 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		
+		//Move the robber to the rob hex (do not update server model until robPlayer is called
+		robLocation = hexLoc;
+		isRobbing = true; //Robber position won't revert back when the poller updates the model 
 		getView().placeRobber(hexLoc);
 		
+		//Get all the players on the Hex where robber got moved to
+		ArrayList<RobPlayerInfo> playersToRob = new ArrayList<RobPlayerInfo>();
+		
+		int numPlayers = CatanFacade.getCurrentGamePlayers().length;
+		assert(numPlayers == 4); //Assuming there are 4 players in the game
+		for (int i = 0; i < numPlayers; i++) {
+			//If the player is rob-able at this hex
+			if (CatanFacade.getModel().canRobPlayer(i, hexLoc)) {
+				//Add them to the arraylist of players to rob
+				RobPlayerInfo playerToRob = CatanFacade.getModel().getRobPlayerInfo(i);
+				playersToRob.add(playerToRob);
+			}
+		}
+		
+		//Convert playersToRob from ArrayList to Array
+		RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[playersToRob.size()];
+		robPlayerArray = playersToRob.toArray(robPlayerArray);
+		
+		//Set the RobPlayerInfo objects in the RobView modal
+		getRobView().setPlayers(robPlayerArray);
+		
+		//Bring up the RobView's modal
 		getRobView().showModal();
 	}
 	
@@ -271,11 +299,11 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void cancelMove() {
-		
+		((MapView)getView()).cancelDrop();
 	}
 	
 	public void playSoldierCard() {	
-		
+		getRobView().showModal();
 	}
 	
 	public void playRoadBuildingCard() {	
@@ -284,7 +312,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void robPlayer(RobPlayerInfo victim) {
             try {
-                CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex());
+                CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex(), robLocation);
             } catch (ServerException ex) {
                 Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             }

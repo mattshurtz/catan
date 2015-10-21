@@ -6,6 +6,7 @@
 package shared.model;
 
 import client.data.PlayerInfo;
+import client.data.RobPlayerInfo;
 import client.facade.CatanFacade;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
@@ -173,20 +174,24 @@ public class Model {
     }
 
     /**
-     * Checks if the player can be robbed
+     * Checks if the player can be robbed at a given location
+     * i.e. if the given player has either a settlement or city at given hexLoc
      */
-    public boolean canRobPlayer(int playerIndex) {
-        return catanMap.canRobPlayer(playerIndex);
+    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
+        return catanMap.canRobPlayer(playerIndex, hexLoc);
     }
-
-    public boolean canPlaceRobber(HexLocation hexLocation) {
-        if (catanMap.getRobber().equals(hexLocation)) {
-            return false;
-        }
-        if (hexLocation.getX() >= 3 || hexLocation.getY() >= 3) {
-            return false;
-        }
-        return true;
+    
+    public boolean canPlaceRobber(HexLocation hexLocation){
+            if(catanMap.getRobber().equals(hexLocation)){
+                return false;
+            }
+            if(Math.abs(hexLocation.getX()) >= 3 || Math.abs(hexLocation.getY()) >= 3){
+                return false;
+            } else if (Math.abs(hexLocation.getX() + hexLocation.getY()) == 3) {
+            	//water hex
+            	return false;
+            }
+            return true;
     }
 
     /**
@@ -755,6 +760,29 @@ public class Model {
             }
         }
         return ret.toArray(new PlayerInfo[0]);
+    }
+    
+    /**
+     * Gets a RobPlayerInfo object given a player's index
+     * @param index Index of the player
+     * @return RobPlayerInfo object representing the player at the given index
+     */
+    public RobPlayerInfo getRobPlayerInfo(int index) {
+    	RobPlayerInfo robInfo = new RobPlayerInfo();
+    	
+    	// Get playerInfo and build RobInfo
+    	try {
+    		Deserializer deserializer = new Deserializer();
+			Player player = getPlayer(index);
+			PlayerInfo playerInfo = deserializer.toPlayerInfo(player);
+			robInfo = new RobPlayerInfo(playerInfo);
+			robInfo.setNumCards(player.getResources().getNumResources());
+    	} catch (GetPlayerException e) {
+			//Something's wrong with the given player index
+			e.printStackTrace();
+		}
+    	
+    	return robInfo;
     }
 
     public void setPlayers(ArrayList<Player> players) {

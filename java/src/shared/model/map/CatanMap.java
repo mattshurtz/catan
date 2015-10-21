@@ -223,12 +223,12 @@ public class CatanMap {
         
     }
     
-    public boolean canRobPlayer(int playerIndex) {
+    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
         //get rob-able locations
-        ArrayList<VertexLocation> validRobbingLocations = getValidNormalizedRobbingLocations();
+        ArrayList<VertexLocation> validRobbingLocations = getValidNormalizedRobbingLocations(hexLoc);
         
         //create list of all vertex objects
-        ArrayList<VertexObject> allBuildings = new ArrayList(settlements);
+        ArrayList<VertexObject> allBuildings = new ArrayList<VertexObject>(settlements);
         allBuildings.addAll(cities);
         
         for(VertexObject building : allBuildings) {
@@ -240,15 +240,15 @@ public class CatanMap {
         return false;
     }
             
-    private ArrayList<VertexLocation> getValidNormalizedRobbingLocations() {
+    private ArrayList<VertexLocation> getValidNormalizedRobbingLocations(HexLocation hexLoc) {
         ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
         
-        list.add(new VertexLocation(robber, VertexDirection.NorthEast));
-        list.add(new VertexLocation(robber, VertexDirection.NorthWest));
-        list.add(new VertexLocation(robber, VertexDirection.West).getNormalizedLocation());
-        list.add(new VertexLocation(robber, VertexDirection.SouthWest).getNormalizedLocation());
-        list.add(new VertexLocation(robber, VertexDirection.SouthEast).getNormalizedLocation());
-        list.add(new VertexLocation(robber, VertexDirection.East).getNormalizedLocation());
+        list.add(new VertexLocation(hexLoc, VertexDirection.NorthEast));
+        list.add(new VertexLocation(hexLoc, VertexDirection.NorthWest));
+        list.add(new VertexLocation(hexLoc, VertexDirection.West).getNormalizedLocation());
+        list.add(new VertexLocation(hexLoc, VertexDirection.SouthWest).getNormalizedLocation());
+        list.add(new VertexLocation(hexLoc, VertexDirection.SouthEast).getNormalizedLocation());
+        list.add(new VertexLocation(hexLoc, VertexDirection.East).getNormalizedLocation());
         
         return list;
 
