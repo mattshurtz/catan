@@ -207,7 +207,7 @@ public class CatanFacade {
 
     public static void updateGameModel() {
 
-        int oldVersion = 0;
+        int oldVersion = -1;
         if ( model != null )
             oldVersion = model.getVersion();
         
