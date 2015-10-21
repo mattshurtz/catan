@@ -151,12 +151,20 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
         currentGame = game;
         
-//        if ( currentGame.getPlayers().contains( CatanFacade.getMyPlayerInfo() ) )
-//            // join game
+//      if ( currentGame.getPlayers().contains( CatanFacade.getMyPlayerInfo() ) )
+//      {	}
 
-		getSelectColorView().showModal();
-	}
-
+        // disable colors used by other payers.
+        for(PlayerInfo player : currentGame.getPlayers())
+        {
+            if(!player.equals(CatanFacade.getMyPlayerInfo()))
+            {
+                getSelectColorView().setColorEnabled(player.getColor(), false);
+            }
+        }
+        getSelectColorView().showModal();
+        
+        }
 	@Override
 	public void cancelJoinGame() {
 	
