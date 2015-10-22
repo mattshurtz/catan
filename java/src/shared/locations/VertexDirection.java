@@ -38,5 +38,23 @@ public enum VertexDirection
 	{
 		return opposite;
 	}
+    
+    public String toString() {
+        switch (this) {
+            case West:
+                return "W";
+            case East:
+                return "E";
+            case NorthEast:
+                return "NE";
+            case NorthWest:
+                return "NW";
+            case SouthEast:
+                return "SE";
+            case SouthWest:
+                return "SW";
+        }
+        return null;
+    }
 }
 

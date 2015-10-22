@@ -23,7 +23,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		return (IPlayerWaitingView)super.getView();
 	}
 
-	
 	/**
 	 * make a list of players from the current game
 	 * getView().setPlayers(that list)
@@ -38,10 +37,10 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
         
-        if ( playas.length == 4 )
-            getView().closeModal();
-        else
+        if ( CatanFacade.isWaitingForPlayers() )
             getView().showModal();
+        else
+            getView().closeModal();
 	}
 
 	

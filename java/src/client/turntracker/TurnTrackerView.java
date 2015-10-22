@@ -71,7 +71,6 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 
 	@Override
 	public void setLocalPlayerColor(CatanColor value) {
-		
 		titlePanel.setLocalPlayerColor(value);
 	}
 

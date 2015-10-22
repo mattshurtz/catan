@@ -223,7 +223,7 @@ public class Model {
         int currentPlayer = turnTracker.getCurrentTurn();
         
         
-        if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOUND_ROUND)){
+        if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOND_ROUND)){
             return isValidFirstRoad(normEdge);
         }
 

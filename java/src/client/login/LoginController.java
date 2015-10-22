@@ -83,13 +83,19 @@ public class LoginController extends Controller implements ILoginController {
 	public void signIn() {
         String username = getLoginView().getLoginUsername();
         String pass = getLoginView().getLoginPassword();
-	boolean success = CatanFacade.getGameHubFacade().login( username, pass );
+        boolean success = CatanFacade.getGameHubFacade().login( username, pass );
         
         if ( success ) {
             System.out.println("logged in!");
             // If log in succeeded
             getLoginView().closeModal();
             loginAction.execute();
+        } else {
+            // didn't work
+            MessageView error = new MessageView();
+            error.setTitle("You're so in the wrong");
+            error.setMessage("Invalid username or password. Try registering. Dope.");
+            error.showModal();
         }
 	}
 

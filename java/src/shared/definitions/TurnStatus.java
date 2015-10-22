@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 public enum TurnStatus {
 	//'Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or
 	//*'SecondRound'
+//'Rolling' or 'Robbing' or 'Playing' or 'Discarding' or 'FirstRound' or
+	//*'SecondRound'
 	
 	@SerializedName("Rolling")
     ROLLING, 
@@ -22,5 +24,5 @@ public enum TurnStatus {
     FIRST_ROUND, 
     
     @SerializedName("SecondRound")
-    SECOUND_ROUND
+    SECOND_ROUND
 }

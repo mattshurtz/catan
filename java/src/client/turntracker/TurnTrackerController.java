@@ -5,7 +5,6 @@ import shared.exceptions.ServerException;
 import shared.model.Player;
 import client.base.*;
 import client.facade.CatanFacade;
-import client.resources.ResourceBarController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -19,6 +18,8 @@ import shared.definitions.TurnStatus;
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
     
+    private boolean initializedPlayers = false;
+    
     private static Map<TurnStatus, Pair<String, Boolean> > states;
     
     static {
@@ -26,7 +27,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         states.put( TurnStatus.ROLLING, new Pair<>( "Roll the Dice", false ) );
         states.put( TurnStatus.PLAYING, new Pair<>( "Finish Turn", true ) );
         states.put( TurnStatus.FIRST_ROUND, new Pair<>( "Setup", false ) );
-        states.put( TurnStatus.SECOUND_ROUND, new Pair<>( "Setup", false ) );
+        states.put(TurnStatus.SECOND_ROUND, new Pair<>( "Setup", false ) );
         states.put( TurnStatus.ROBBING, new Pair<>( "Place the Robber", false ) );
         states.put( TurnStatus.DISCARDING, new Pair<>( "Discard Cards", false ) );
     }
@@ -68,23 +69,30 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	 * call getView().updatePlayer(...) to update the player's acheivements and score.
 	 */
 	private void initFromModel() {
-		if(CatanFacade.getModel()==null)
+		if( CatanFacade.getModel() == null || CatanFacade.isWaitingForPlayers() )
 			return;
-		
+        
+        if ( !initializedPlayers ) {
+            for ( Player p : CatanFacade.getModel().getPlayers() ) {
+                if ( p == null )
+                    continue;
+                getView().initializePlayer(p.getPlayerIndex(), p.getName(), p.getColor());
+            }
+            initializedPlayers = true;
+        }
 		
 		Player player;
 		try {
 			player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
-			boolean largestArmy = false;
-			boolean longestRoad = false;
-			
-			if(CatanFacade.getModel().getTurnTracker().getLargestArmy() == player.getPlayerIndex())
-				largestArmy = true;
-			if(CatanFacade.getModel().getTurnTracker().getLongestRoad() == player.getPlayerIndex())
-				longestRoad = true;
 				
 			getView().setLocalPlayerColor(CatanFacade.getMyPlayerInfo().getColor());
-			getView().updatePlayer(CatanFacade.getMyPlayerIndex(), player.getVictoryPoints(), false, largestArmy, longestRoad);
+            for ( Player p : CatanFacade.getModel().getPlayers() ) {
+                boolean highlight = ( p.getPlayerIndex() == CatanFacade.getModel().getTurnTracker().getCurrentTurn() );
+                boolean largestArmy = CatanFacade.getModel().getTurnTracker().getLargestArmy() == p.getPlayerIndex();
+                boolean longestRoad = CatanFacade.getModel().getTurnTracker().getLongestRoad() == p.getPlayerIndex();
+                
+                getView().updatePlayer( p.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
+            }
 		} catch (GetPlayerException e) {
 			e.printStackTrace();
 		}
@@ -92,16 +100,20 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
     @Override
     public void update(Observable o, Object arg) {
-        // Just set the text & enabled of the game state button
+        initFromModel();
+        
+        // set the text & enabled of the game state button
         try {
-            if ( !CatanFacade.isMyTurn() ) {
+            TurnStatus currStatus = null;
+            if ( ! CatanFacade.isMyTurn() || CatanFacade.isWaitingForPlayers() ) {
                 getView().updateGameState( "Waiting for other players", false );
             }
-            
-            // Get current turn status and update game state button
-            TurnStatus currStatus = CatanFacade.getModel().getTurnTracker().getStatus();
-            Pair<String, Boolean> msgEnabled = states.get( currStatus );
-            getView().updateGameState(msgEnabled.getKey(), msgEnabled.getValue());
+            else {
+                // Get current turn status and update game state button
+                currStatus = CatanFacade.getModel().getTurnTracker().getStatus();
+                Pair<String, Boolean> msgEnabled = states.get( currStatus );
+                getView().updateGameState(msgEnabled.getKey(), msgEnabled.getValue());
+            }
             
             // Do current state actions, whatever it is
             doStateActions( currStatus );
@@ -117,10 +129,6 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         if ( CatanFacade.isMyTurn() ) {
             
         }
-    }
-    
-    private void doSetupActions() {
-        
     }
 }
 

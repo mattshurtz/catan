@@ -2,6 +2,8 @@ package client.roll;
 
 import client.base.*;
 import client.facade.CatanFacade;
+import java.util.Observable;
+import java.util.Observer;
 import shared.exceptions.ServerException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,7 +13,7 @@ import java.util.logging.Logger;
 /**
  * Implementation for the roll controller
  */
-public class RollController extends Controller implements IRollController {
+public class RollController extends Controller implements IRollController, Observer {
 
 	private IRollResultView resultView;
 
@@ -24,6 +26,7 @@ public class RollController extends Controller implements IRollController {
 	public RollController(IRollView view, IRollResultView resultView) {
 
 		super(view);
+        CatanFacade.addObserver(this);
 		
 		setResultView(resultView);
 	}
@@ -61,6 +64,12 @@ public class RollController extends Controller implements IRollController {
         getResultView().showModal();
 
 	}
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if ( CatanFacade.isRolling() )
+            rollDice();
+    }
 
 }
 
