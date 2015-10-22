@@ -9,11 +9,12 @@ import shared.model.map.*;
 import client.base.*;
 import client.data.*;
 import client.facade.CatanFacade;
+import client.facade.StatePlaying;
+import client.facade.StateSetup;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import shared.exceptions.InvalidLocation;
 import shared.exceptions.ServerException;
 
 
@@ -236,18 +237,21 @@ public class MapController extends Controller implements IMapController, Observe
 
 	public void placeRoad(EdgeLocation edgeLoc) {
         try {
-            CatanFacade.getCurrentState().buildRoad(edgeLoc,true);
+            boolean free = CatanFacade.isSetup();
+            CatanFacade.getCurrentState().buildRoad(edgeLoc,free);
             getView().placeRoad(edgeLoc, CatanFacade.getMyPlayerInfo().getColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-		
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
-		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+        try {
+            CatanFacade.getCurrentState().buildSettlement(vertLoc);
+    		getView().placeSettlement(vertLoc, CatanFacade.getMyPlayerInfo().getColor());
+        } catch (ServerException ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
@@ -263,8 +267,10 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
-		
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+        // Allow to cancel if it's in normal gameplay rather than setup
+		boolean isCancelAllowed = CatanFacade.isPlaying();
+        
+		getView().startDrop(pieceType, CatanFacade.getMyPlayerInfo().getColor(), isCancelAllowed);
 	}
 	
 	public void cancelMove() {

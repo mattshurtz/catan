@@ -368,7 +368,11 @@ public class ServerProxy implements IServerProxy {
     public boolean register(Credentials userCredentials) throws ServerException {
         try {
             String response = doPost( "user/register", userCredentials );
-            return toBoolean( response );
+            boolean success = toBoolean( response );
+            if ( success ) {
+                CatanFacade.getMyPlayerInfo().setName( userCredentials.getUsername() );
+            }
+            return success;
         } catch ( Exception e ) {
             throw new ServerException( e.getMessage() );
         }

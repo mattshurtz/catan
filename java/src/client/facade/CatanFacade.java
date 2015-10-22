@@ -56,11 +56,37 @@ public class CatanFacade {
         paller.start();
     }
 
+    // Methods to get the current state
+
     public static boolean isMyTurn() {
         TurnStatus currStatus = model.getTurnTracker().getStatus();
         int currPlayer = model.getTurnTracker().getCurrentTurn();
         
         return ( currStatus != null && currPlayer == myPlayerIndex );
+    }
+    
+    public static boolean isSetup() {
+        return ( currentState instanceof StateSetup );
+    }
+    
+    public static boolean isPlaying() {
+        return ( currentState instanceof StatePlaying );
+    }
+    
+    public static boolean isDiscarding() {
+        return ( currentState instanceof StateDiscarding );
+    }
+    
+    public static boolean isNotMyTurn() {
+        return ( currentState instanceof StateNotMyTurn );
+    }
+    
+    public static boolean isRobbing() {
+        return ( currentState instanceof StateRobbing );
+    }
+    
+    public static boolean isRolling() {
+        return ( currentState instanceof StateRolling );
     }
     
     private CatanFacade() {
@@ -142,11 +168,12 @@ public class CatanFacade {
         robbing.setModel(model);
         rolling.setModel(model);
         setup.setModel(model);
-        updateCurrentState();
-
+        
         if (myPlayerIndex == -1) {
             setMyPlayerIndex();
         }
+        
+        updateCurrentState();
 
         if (model != null) // avoiding NullPointerExceptions
         {
@@ -159,12 +186,11 @@ public class CatanFacade {
         // finds by name
         for (int i = 0; i<playas.size();i++) {
             if (playas.get(i).getName().equals(myPlayerInfo.getName())) {
-                    int index = playas.get(i).getPlayerIndex();
-                    myPlayerInfo.setPlayerIndex(index);
-                    int id = playas.get(i).getPlayerID();
-                    myPlayerInfo.setId(id);
-                    setMyPlayerIndex(i);
-                
+                int index = playas.get(i).getPlayerIndex();
+                myPlayerInfo.setPlayerIndex(index);
+                int id = playas.get(i).getPlayerID();
+                myPlayerInfo.setId(id);
+                setMyPlayerIndex(i);
             }
         }
     }
@@ -228,4 +254,6 @@ public class CatanFacade {
     public static void setCurrentStateToPlaying(){
         currentState = playing;
     }
+    
+    
 }

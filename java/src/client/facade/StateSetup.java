@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package client.facade;
 
 import client.proxy.IServerProxy;
@@ -49,5 +44,44 @@ public class StateSetup extends StateBase {
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
         proxy.buildSettlement(request);
+    }
+    
+    /**
+     * We can always afford to buy a road when we're in setup
+     * @return 
+     */
+    public boolean canBuyRoad() {
+        return true;
+    }
+    
+    /**
+     * We can always afford to buy a settlement when we're in setup
+     * @return 
+     */
+    public boolean canBuySettlement() {
+        return true;
+    }
+    
+    /**
+     * Roads can only be placed next to settlements during setup, so we let this method
+     * call the corresponding canDo method in the model.
+     * 
+     * @param roadLocation
+     * @return 
+     */
+    @Override
+    public boolean canBuildRoad(EdgeLocation roadLocation) {
+    	return model.canBuildRoad(roadLocation);
+    }
+    
+    /** 
+     * Settlements can be placed basically anywhere during setup
+     * 
+     * @param vertex
+     * @return 
+     */
+    @Override
+    public boolean canBuildSettlement(VertexLocation vertex) {
+        return true;
     }
 }

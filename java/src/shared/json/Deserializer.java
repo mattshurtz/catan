@@ -37,7 +37,7 @@ public class Deserializer {
      * server.
      */
     public Model toJavaModel(String json) {
-    	if(json == null) {
+    	if( json == null ) {
     		return null;
     	}
     	

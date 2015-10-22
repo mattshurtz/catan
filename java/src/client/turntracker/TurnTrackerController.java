@@ -5,6 +5,7 @@ import shared.exceptions.ServerException;
 import shared.model.Player;
 import client.base.*;
 import client.facade.CatanFacade;
+import client.resources.ResourceBarController;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
@@ -93,16 +94,33 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
     public void update(Observable o, Object arg) {
         // Just set the text & enabled of the game state button
         try {
-            if ( CatanFacade.isMyTurn() ) {
+            if ( !CatanFacade.isMyTurn() ) {
                 getView().updateGameState( "Waiting for other players", false );
             }
             
+            // Get current turn status and update game state button
             TurnStatus currStatus = CatanFacade.getModel().getTurnTracker().getStatus();
             Pair<String, Boolean> msgEnabled = states.get( currStatus );
             getView().updateGameState(msgEnabled.getKey(), msgEnabled.getValue());
+            
+            // Do current state actions, whatever it is
+            doStateActions( currStatus );
+            
         } catch (NullPointerException e ) {
             // do nothing, it's FINE
         }
+    }
+    
+    private void doStateActions( TurnStatus currStatus ) {
+        int playerIndex = CatanFacade.getMyPlayerIndex();
+        
+        if ( CatanFacade.isMyTurn() ) {
+            
+        }
+    }
+    
+    private void doSetupActions() {
+        
     }
 }
 

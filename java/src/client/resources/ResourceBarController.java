@@ -5,8 +5,9 @@ import java.util.*;
 import client.base.*;
 import client.facade.CatanFacade;
 import client.misc.MessageView;
-import shared.definitions.ResourceType;
+import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
+import shared.model.Player;
 
 /**
  * Implementation for the resource bar controller
@@ -74,9 +75,6 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     @Override
     public void buildRoad() {
-        
-        CatanFacade.setCurrentStateToPlaying();
-        
         if (CatanFacade.getCurrentState().canBuyRoad()) {
             executeElementAction(ResourceBarElement.ROAD);
         } else {
@@ -147,6 +145,79 @@ public class ResourceBarController extends Controller implements IResourceBarCon
     public void update(Observable o, Object arg) {
         setButtonsNotMyTurn();
         setResources();
+        
+        // Pop up the correct dialogs if it's setup
+        if ( CatanFacade.isSetup() ) {
+            doSetup();
+        }
     }
+    
+    private void doSetup() {
+        int playerIndex = CatanFacade.getMyPlayerIndex();
+        Player p;
+        try {
+            p = CatanFacade.getModel().getPlayer( playerIndex );
+        } catch ( GetPlayerException e ) {
+            System.err.println("Error while getting player!");
+            return;
+        }
+        // Check whether we're playing a road or a settlement
+        int numSettlementsPlayed = 5 - p.getSettlements();
+        int numRoadsPlayed = 15 - p.getRoads();
 
+        // Have to use the delayed methods for building roads & settlements
+        // here because we need to wait for the join game modal to close.
+        if ( numRoadsPlayed == 0 ) {
+            if ( numSettlementsPlayed == 0 ) {
+                // play first settlement
+                delayedBuildSettlement();
+            } else {
+                // play first road
+                delayedBuildRoad();
+            }
+        } else {
+            if ( numSettlementsPlayed == 1 ) {
+                // play another settlement
+                delayedBuildSettlement();
+            } else {
+                // play another road
+                delayedBuildRoad();
+            }
+        }
+    }
+    
+    /**
+     * Calls buildSettlement() after a delay of 1 second.
+     * (uses a timer so it's on a separate thread and this one can continue
+     * doing stuff.)
+     */
+    private void delayedBuildSettlement() {
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    buildSettlement();
+                }
+            }, 
+            750 
+        );
+    }
+    
+    /**
+     * Calls buildRoad() after a delay of 1 second.
+     * (uses a timer so it's on a separate thread and this one can continue
+     * doing stuff.)
+     */
+    private void delayedBuildRoad() {
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    buildRoad();
+                }
+            }, 
+            750
+        );
+    }
+    
 }
