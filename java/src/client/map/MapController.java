@@ -208,7 +208,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		if(CatanFacade.getCurrentState().canBuyRoad() && CatanFacade.getCurrentState().canBuildRoad(edgeLoc))
+		if(CatanFacade.getCurrentState().canBuildRoad(edgeLoc))
                 {
                     return true;
                 }

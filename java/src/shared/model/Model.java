@@ -127,8 +127,6 @@ public class Model {
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) {
-    // check if it is port edge.       
-      
         if(isValidRoadLocation(location)){
             return true;
         }else{
@@ -221,7 +219,6 @@ public class Model {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
-        
         
         if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOUND_ROUND)){
             return isValidFirstRoad(normEdge);

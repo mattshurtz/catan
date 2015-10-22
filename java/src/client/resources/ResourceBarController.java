@@ -75,6 +75,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     @Override
     public void buildRoad() {
+
         if (CatanFacade.getCurrentState().canBuyRoad()) {
             executeElementAction(ResourceBarElement.ROAD);
         } else {
