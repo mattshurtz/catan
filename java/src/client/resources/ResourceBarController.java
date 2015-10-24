@@ -123,7 +123,14 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
     @Override
     public void buyCard() {
-        executeElementAction(ResourceBarElement.BUY_CARD);
+        if(CatanFacade.getCurrentState().canBuyDevCard()){
+            executeElementAction(ResourceBarElement.BUY_CARD);
+        }else{
+            MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Not enough resources or cities.");
+            error.showModal(); 
+        }
     }
 
     /**

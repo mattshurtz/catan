@@ -55,7 +55,7 @@ public class RollController extends Controller implements IRollController, Obser
 	 */
 	@Override
 	public void rollDice() {		
-        getResultView().showModal();
+//        getRollView().closeModal();
         try {
             getResultView().setRollValue(CatanFacade.getCurrentState().rollNumber());
         } catch (ServerException ex) {
@@ -68,7 +68,7 @@ public class RollController extends Controller implements IRollController, Obser
     @Override
     public void update(Observable o, Object arg) {
         if ( CatanFacade.isRolling() )
-            rollDice();
+            getRollView().showModal();
     }
 
 }
