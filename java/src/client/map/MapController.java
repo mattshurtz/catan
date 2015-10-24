@@ -303,7 +303,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playSoldierCard() {	
-		getRobView().showModal();
+		getView().startDrop(PieceType.ROBBER, CatanFacade.getMyPlayerInfo().getColor(), false);
 	}
 	
 	public void playRoadBuildingCard() {	

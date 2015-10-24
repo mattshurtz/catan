@@ -770,7 +770,7 @@ public class Model {
     public RobPlayerInfo getRobPlayerInfo(int index) {
     	RobPlayerInfo robInfo = new RobPlayerInfo();
     	
-    	// Get playerInfo and build RobInfo
+    	// Get playerInfo and make RobPlayerInfo object
     	try {
     		Deserializer deserializer = new Deserializer();
 			Player player = getPlayer(index);
