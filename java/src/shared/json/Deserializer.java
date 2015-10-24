@@ -113,9 +113,9 @@ public class Deserializer {
         
         PlayerInfo pi = new PlayerInfo();
         pi.setColor( p.getColor() );
-        pi.setId( 0 );
+        pi.setId( p.getPlayerID() );
         pi.setName( p.getName() );
-        
+        pi.setPlayerIndex(p.getPlayerIndex());
         return pi;
     }
 }
