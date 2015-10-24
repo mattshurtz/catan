@@ -11,6 +11,8 @@ import java.util.Observer;
  * Implementation for the player waiting controller
  */
 public class PlayerWaitingController extends Controller implements IPlayerWaitingController, Observer {
+    
+    private boolean modalIsUp;
 
 	public PlayerWaitingController(IPlayerWaitingView view) {
 		super(view);
@@ -37,10 +39,13 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
         
-        if ( CatanFacade.isWaitingForPlayers() )
+        if ( CatanFacade.isWaitingForPlayers() ) {
             getView().showModal();
-        else
+            modalIsUp = true;
+        } else if ( modalIsUp ) {
             getView().closeModal();
+            modalIsUp = false;
+        } // else do nothing
 	}
 
 	
