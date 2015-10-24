@@ -23,6 +23,14 @@ public class RobPlayerInfo extends PlayerInfo
 		super();
 	}
 	
+	public RobPlayerInfo(PlayerInfo playerInfo) {
+		super();
+		setId(playerInfo.getId());
+		setPlayerIndex(playerInfo.getPlayerIndex());
+		setName(playerInfo.getName());
+		setColor(playerInfo.getColor());
+	}
+	
 	public int getNumCards()
 	{
 		return numCards;
@@ -32,5 +40,4 @@ public class RobPlayerInfo extends PlayerInfo
 	{
 		this.numCards = numCards;
 	}
-	
 }

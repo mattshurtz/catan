@@ -129,7 +129,7 @@ public class StateBase {
         return false;
     }
 
-    public boolean canRobPlayer(int playerIndex) {
+    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
         return false;
     }
 
@@ -218,7 +218,7 @@ public class StateBase {
         return 0;
     }
     
-    public void robPlayer(int victimIndex) throws ServerException{
+    public void robPlayer(int victimIndex, HexLocation hexLoc) throws ServerException{
     }
     
     public boolean canPlaceRobber(HexLocation hexLocation){

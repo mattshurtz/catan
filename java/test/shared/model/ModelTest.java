@@ -880,26 +880,26 @@ public class ModelTest {
 	public void testCanRobPlayer() {
 		Model model = ModelTest.testModel();
 
-		model.getMap().setRobber(new HexLocation(1, -1));
+		HexLocation robberLocation = new HexLocation(1, -1);
 
-		boolean brookeFalse = model.canRobPlayer(1);
+		boolean brookeFalse = model.canRobPlayer(1, robberLocation);
 		assertFalse(brookeFalse);
 
-		boolean peteTrue = model.canRobPlayer(2);
+		boolean peteTrue = model.canRobPlayer(2, robberLocation);
 		assertTrue(peteTrue);
 
-		boolean markTrue = model.canRobPlayer(3);
+		boolean markTrue = model.canRobPlayer(3, robberLocation);
 		assertTrue(markTrue);
 
-		model.getMap().setRobber(new HexLocation(-1, 1));
+		robberLocation = new HexLocation(-1, 1);
 
-		brookeFalse = model.canRobPlayer(1);
+		brookeFalse = model.canRobPlayer(1, robberLocation);
 		assertFalse(brookeFalse);
 
-		peteTrue = model.canRobPlayer(2);
+		peteTrue = model.canRobPlayer(2, robberLocation);
 		assertTrue(peteTrue);
 
-		markTrue = model.canRobPlayer(3);
+		markTrue = model.canRobPlayer(3, robberLocation);
 		assertTrue(markTrue);
 	}
 
