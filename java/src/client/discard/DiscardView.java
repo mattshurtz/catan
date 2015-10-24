@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
 
 import javax.imageio.ImageIO;
@@ -67,8 +69,7 @@ import client.utils.FontUtils;
  * Discard view implementation
  */
 @SuppressWarnings({"serial", "unused"})
-public class DiscardView extends OverlayView implements IDiscardView
-{
+public class DiscardView extends OverlayView implements IDiscardView{
 	private final boolean TESTING = false;
 	
 	private final int LABEL_TEXT_SIZE = 20;
@@ -629,4 +630,6 @@ public class DiscardView extends OverlayView implements IDiscardView
 			}
 		};
 	}
+
+
 }
