@@ -82,7 +82,7 @@ public class MapController extends Controller implements IMapController, Observe
         if ( map == null )
             return;
 		
-		//Add all the hexes
+        //Add all the hexes
 		ArrayList<Hex> hexList = map.getHexes();
 		for (Hex hex : hexList) {
 			//Set the hex type
@@ -213,22 +213,17 @@ public class MapController extends Controller implements IMapController, Observe
                     return true;
                 }
                 return false;
+
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {		
-		if(CatanFacade.getCurrentState().canBuySettlement() && CatanFacade.getCurrentState().canBuildSettlement(vertLoc))
-                {
-                    return true;
-                }
-                return false;
+		 return CatanFacade.getCurrentState().canBuySettlement() 
+            && CatanFacade.getCurrentState().canBuildSettlement(vertLoc);
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		if(CatanFacade.getCurrentState().canBuyCity() && CatanFacade.getCurrentState().canBuildCity(vertLoc))
-                {
-                    return true;
-                }
-                return false;
+		return CatanFacade.getCurrentState().canBuyCity() 
+            && CatanFacade.getCurrentState().canBuildCity(vertLoc);
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
@@ -242,6 +237,7 @@ public class MapController extends Controller implements IMapController, Observe
             getView().placeRoad(edgeLoc, CatanFacade.getMyPlayerInfo().getColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            CatanFacade.triggerUpdate();
         }
 	}
 
@@ -251,6 +247,7 @@ public class MapController extends Controller implements IMapController, Observe
     		getView().placeSettlement(vertLoc, CatanFacade.getMyPlayerInfo().getColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            CatanFacade.triggerUpdate();
         }
 	}
 

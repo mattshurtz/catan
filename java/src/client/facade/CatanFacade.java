@@ -9,6 +9,7 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.definitions.CatanColor;
 import shared.definitions.TurnStatus;
 import shared.exceptions.ServerException;
 import shared.model.Model;
@@ -66,27 +67,54 @@ public class CatanFacade {
     }
     
     public static boolean isSetup() {
-        return ( currentState instanceof StateSetup );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateSetup );
+    }
+    
+    public static boolean isFirstRound() {
+        return isSetup() && (getModel().getTurnTracker().getStatus() == TurnStatus.FIRST_ROUND);
+    }
+    
+    public static boolean isSecondRound() {
+        return isSetup() && (getModel().getTurnTracker().getStatus() == TurnStatus.SECOND_ROUND);
     }
     
     public static boolean isPlaying() {
-        return ( currentState instanceof StatePlaying );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StatePlaying );
     }
     
     public static boolean isDiscarding() {
-        return ( currentState instanceof StateDiscarding );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateDiscarding );
     }
     
     public static boolean isNotMyTurn() {
-        return ( currentState instanceof StateNotMyTurn );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateNotMyTurn );
     }
     
     public static boolean isRobbing() {
-        return ( currentState instanceof StateRobbing );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateRobbing );
     }
     
     public static boolean isRolling() {
-        return ( currentState instanceof StateRolling );
+        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateRolling );
+    }
+    
+    public static boolean isWaitingForPlayers() {
+        PlayerInfo[] inf = getCurrentGamePlayers();
+        if ( inf == null || inf.length < 4 )
+            return true;
+        for ( PlayerInfo p : inf ) {
+            if ( p == null )
+                return true;
+        }
+        return false;
+    }
+
+    public static CatanColor getColorFromPlayerName(String source) {
+        for ( PlayerInfo p : getCurrentGamePlayers() ) {
+            if ( p.getName().equals( source ) )
+                return p.getColor();
+        }
+        return null;
     }
     
     private CatanFacade() {
@@ -137,7 +165,7 @@ public class CatanFacade {
                     break;
 
                 case FIRST_ROUND:
-                case SECOUND_ROUND:
+                case SECOND_ROUND:
                     currentState = setup;
                     break;
 
@@ -184,7 +212,10 @@ public class CatanFacade {
     public static void setMyPlayerIndex() {
         ArrayList<Player> playas = model.getPlayers();
         // finds by name
-        for (int i = 0; i<playas.size()-1;i++) {
+
+        for (int i = 0; i<playas.size();i++) {
+            if ( playas.get(i) == null )
+                continue;// skip it
             if (playas.get(i).getName().equals(myPlayerInfo.getName())) {
                 int index = playas.get(i).getPlayerIndex();
                 myPlayerInfo.setPlayerIndex(index);
@@ -234,8 +265,11 @@ public class CatanFacade {
     public static void updateGameModel() {
 
         int oldVersion = -1;
-        if ( model != null )
+        int oldNumPlayers = 0;
+        if ( model != null ) {
             oldVersion = model.getVersion();
+            oldNumPlayers = model.getPlayerInfos().length;
+        }
         
         try {
             model = proxy.getGameModel( oldVersion );
@@ -244,7 +278,8 @@ public class CatanFacade {
         }
         
         int newVersion = model.getVersion();
-        if ( oldVersion != newVersion ) {
+        int newNumPlayers = model.getPlayerInfos().length;
+        if ( oldVersion != newVersion || oldNumPlayers != newNumPlayers ) {
             // Replace old model with new one
             setModel(model);
             observable.notifyObservers();
@@ -255,5 +290,11 @@ public class CatanFacade {
         currentState = playing;
     }
     
-    
+    /** 
+     * To be called after an unsuccessful server request, so we can reset to back
+     * before that request.
+     */
+    public static void triggerUpdate() {
+        observable.notifyObservers();
+    }
 }

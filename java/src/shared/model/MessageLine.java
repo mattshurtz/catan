@@ -12,12 +12,32 @@ import java.util.Objects;
  * @author karahartley
  */
 public class MessageLine {
-        String message;
-        String source; //TODO: Is this just the name of the player that sent it??  JSON documentation didn't specify.
+    
+    String message;
+    
+    String source; // Name of the player that sent it
+    
     public MessageLine() {}
+    
     public MessageLine(String source, String message) {
     	this.source = source;
     	this.message = message;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override

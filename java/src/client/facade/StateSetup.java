@@ -3,6 +3,7 @@ package client.facade;
 import client.proxy.IServerProxy;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.MoveRequest;
 import shared.exceptions.ServerException;
 import shared.locations.EdgeLocation;
 import shared.locations.VertexLocation;
@@ -37,9 +38,9 @@ public class StateSetup extends StateBase {
      * @param location where settlement is to be built
      */
     public void buildSettlement(VertexLocation location) throws ServerException{
-        //NOTE(Scott): get location to build
-        boolean free = false;
-        System.out.println("build Settlement Location: "+location);
+
+        boolean free = CatanFacade.isSetup();
+        
         BuildSettlementRequest request = new BuildSettlementRequest(location, free);
         request.setType("buildSettlement");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
@@ -84,5 +85,14 @@ public class StateSetup extends StateBase {
     @Override
     public boolean canBuildSettlement(VertexLocation vertex) {
         return true;
+    }
+    
+    @Override
+    public void finishTurn() throws ServerException{
+        MoveRequest request = new MoveRequest();
+        request.setType("finishTurn");
+        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+        
+        proxy.finishTurn(request);
     }
 }

@@ -215,6 +215,7 @@ public class ServerProxy implements IServerProxy {
     public boolean addAi( AddAiRequest add ) throws ServerException {
         String response = doPost( "game/addAI", add );
         try {
+            CatanFacade.updateGameModel();
             return toBoolean( response );
         } catch (Exception ex) {
             Logger.getLogger(ServerProxy.class.getName()).log(Level.SEVERE, null, ex);

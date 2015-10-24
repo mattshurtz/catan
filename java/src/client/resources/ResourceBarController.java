@@ -5,8 +5,11 @@ import java.util.*;
 import client.base.*;
 import client.facade.CatanFacade;
 import client.misc.MessageView;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.ServerException;
 import shared.model.Player;
 
 /**
@@ -168,22 +171,36 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
         // Have to use the delayed methods for building roads & settlements
         // here because we need to wait for the join game modal to close.
-        if ( numRoadsPlayed == 0 ) {
+        if ( CatanFacade.isFirstRound() ) {
             if ( numSettlementsPlayed == 0 ) {
                 // play first settlement
                 delayedBuildSettlement();
-            } else {
+            } else if ( numRoadsPlayed == 0 ) {
                 // play first road
                 delayedBuildRoad();
+            } else {
+                // They've played both -- finish the turn
+                finishTurn();
             }
-        } else {
+        } else { // second round
             if ( numSettlementsPlayed == 1 ) {
                 // play another settlement
                 delayedBuildSettlement();
-            } else {
+            } else if ( numRoadsPlayed == 1 ) {
                 // play another road
                 delayedBuildRoad();
+            } else {
+                // They've played both -- finish the turn
+                finishTurn();
             }
+        }
+    }
+    
+    private void finishTurn() {
+        try {
+            CatanFacade.getCurrentState().finishTurn();
+        } catch (ServerException ex) {
+            Logger.getLogger(ResourceBarController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -200,7 +217,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
                     buildSettlement();
                 }
             }, 
-            750 
+            750
         );
     }
     

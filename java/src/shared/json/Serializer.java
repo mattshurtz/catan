@@ -1,20 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package shared.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import shared.locations.EdgeLocation;
+import shared.locations.VertexLocation;
 
 /**
  *
  */
 public class Serializer {
     
-    private GsonBuilder gsonBuilder = new GsonBuilder();
-    private Gson gson = gsonBuilder.create();
+    private GsonBuilder gsonBuilder;
+    private Gson gson;
+    
+    public Serializer() {
+        gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(VertexLocation.class, new VertexLocationSerializer());
+        gsonBuilder.registerTypeAdapter(EdgeLocation.class, new EdgeLocationSerializer());
+        gson = gsonBuilder.create();
+    }
     
     /**
      * @param o The Java object to be sent to the server. 
