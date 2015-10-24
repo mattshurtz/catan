@@ -258,13 +258,18 @@ public class Model {
         if (turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOND_ROUND)) {
             return isValidFirstRoad(normEdge);
         }
-
+        
         for (Road road : catanMap.getRoads()) {
             // check if road already exists on this edge
-            if (road.getLocation().equals(location)) {
+                if (road.getLocation().getNormalizedLocation().equals(normEdge)) {
                 return false;
             }
+        }
 
+        for (Road road : catanMap.getRoads()) {
+
+
+           
             // check around North edge 
             if (normEdge.getDir() == EdgeDirection.North) {
                 //There exists a vertex an adjecent vertex object owned by the player

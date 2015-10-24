@@ -227,8 +227,8 @@ public class StatePlaying extends StateBase {
        BuildRoadRequest request = new BuildRoadRequest(location, free);
        request.setType("buildRoad");
        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-       
        proxy.buildRoad(request);
+       
     }
     
     @Override
