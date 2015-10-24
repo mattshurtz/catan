@@ -242,7 +242,6 @@ public class Model {
                 return false;
             }
         }
-        System.out.println("can build settlement: " + location);
         if (!isValidVertex(location.getNormalizedLocation())) {
             return false;
         }
@@ -345,13 +344,13 @@ public class Model {
     public boolean isValidFirstRoad(EdgeLocation normEdge) {
         ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
-
         if (normEdge.getDir() == EdgeDirection.North) {
             for (VertexObject vertexObject : allVObjects) {
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -360,10 +359,11 @@ public class Model {
         if (normEdge.getDir() == EdgeDirection.NorthWest) {
             HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
             for (VertexObject vertexObject : allVObjects) {
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -372,10 +372,11 @@ public class Model {
         if (normEdge.getDir() == EdgeDirection.NorthEast) {
             HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
             for (VertexObject vertexObject : allVObjects) {
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -421,6 +422,8 @@ public class Model {
     }
 
     public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location) {
+                
+
         VertexLocation normLocation = location.getNormalizedLocation();
         int currentPlayer = turnTracker.getCurrentTurn();
         for (Road road : catanMap.getRoads()) {
@@ -429,18 +432,18 @@ public class Model {
             // checks the surrounding vertices around the northeast vertex for vertex objects	
             if (normLocation.getDir() == VertexDirection.NorthEast) {
                 HexLocation northeastNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
                     //check southeast of current hex
 
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normLocation.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
 
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normLocation.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
@@ -450,17 +453,17 @@ public class Model {
 
                 HexLocation northwestNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
 
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
 
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normLocation.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
 
-                if (road.getLocation().equals(new EdgeLocation(
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normLocation.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
@@ -476,7 +479,6 @@ public class Model {
         for (VertexObject vObject : allVObjects) {
             //Assume that vObject.getLocation is returning the Normalized location
             //checks if a vertex object already exists at this location.
-//            System.out.println("vObject location: "+vObject.getLocation());
             VertexLocation normVObjectLocation = vObject.getLocation().getNormalizedLocation();
             if (normVObjectLocation.equals(normVertLocation)) {
                 return false;
@@ -527,7 +529,6 @@ public class Model {
             }
 
         }
-                     System.out.println("is valid port index:"+!isValidPortVertex(normVertLocation));   
 
         if(!isValidPortVertex(normVertLocation)){
                return false; 
