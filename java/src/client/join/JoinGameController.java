@@ -151,9 +151,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
         currentGame = game;
         
-//      if ( currentGame.getPlayers().contains( CatanFacade.getMyPlayerInfo() ) )
-//      {	}
-
         // disable colors used by other payers.
         for(PlayerInfo player : currentGame.getPlayers())
         {
@@ -163,8 +160,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             }
         }
         getSelectColorView().showModal();
-        
-        }
+    }
+    
 	@Override
 	public void cancelJoinGame() {
 	
@@ -181,8 +178,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
         if ( success ) {
             System.out.println("Join succeeded!");
             // If join succeeded
-            getSelectColorView().closeModal();
-            getJoinGameView().closeModal();
+            OverlayView.closeAllModals();
             joinAction.execute();
         } else {
             System.out.println("Join failed.");
