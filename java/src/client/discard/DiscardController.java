@@ -129,6 +129,7 @@ public class DiscardController extends Controller implements IDiscardController,
         //getDiscardView().closeModal();
 
 		getDiscardView().closeModal();
+		
 	}
 
 	@Override
