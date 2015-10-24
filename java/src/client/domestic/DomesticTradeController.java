@@ -5,6 +5,7 @@ import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
 import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.TradeOffer;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +17,7 @@ import java.util.Observer;
 import client.base.*;
 import client.data.PlayerInfo;
 import client.facade.CatanFacade;
+import client.facade.StatePlaying;
 import client.misc.*;
 
 
@@ -48,6 +50,8 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay) {
 
 		super(tradeView);
+		
+		CatanFacade.addObserver(this);
 		
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
@@ -90,8 +94,21 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
-		if(!CatanFacade.isMyTurn())
+		if(!CatanFacade.isMyTurn() || !(CatanFacade.getCurrentState() instanceof StatePlaying)) {
+			getTradeOverlay().setTradeEnabled(false);
+			getTradeOverlay().setStateMessage("not your turn or not in playing mode");
+			getTradeOverlay().setResourceSelectionEnabled(false);
+			getTradeOverlay().setPlayerSelectionEnabled(false);
+			getTradeOverlay().showModal();
 			return;
+		}
+		
+		status = new ResourceList();
+		available = new ResourceList();
+		offered = new ResourceList();
+		desired = new ResourceList();
+		this.playerTradeWith = -1;
+		getTradeOverlay().reset();
 		
 		getTradeOverlay().setStateMessage("set the trade you want to make");
 		getTradeOverlay().setResourceSelectionEnabled(true);
@@ -112,7 +129,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		ArrayList<PlayerInfo> arrayPlayer = new ArrayList<PlayerInfo>(Arrays.asList(players));
 		
 		arrayPlayer.remove(arrayPlayer.remove(CatanFacade.getMyPlayerIndex()));
-		getTradeOverlay().setPlayers( arrayPlayer.toArray(new PlayerInfo[arrayPlayer.size()]));
+		PlayerInfo[] newPlayerArray = arrayPlayer.toArray(new PlayerInfo[arrayPlayer.size()]);
+		
+		getTradeOverlay().setPlayers(newPlayerArray);
 		checkResourcesEnabled();
 		getTradeOverlay().showModal();
 		getTradeOverlay().setPlayerSelectionEnabled(true);
@@ -161,8 +180,16 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
+		int brick = (this.offered.getBrick() == 0) ? -this.desired.getBrick() : this.offered.getBrick();
+		int wood = (this.offered.getWood() == 0) ? -this.desired.getWood() : this.offered.getWood();
+		int sheep = (this.offered.getSheep() == 0) ? -this.desired.getSheep() : this.offered.getSheep();
+		int wheat = (this.offered.getWheat() == 0) ? -this.desired.getWheat() : this.offered.getWheat();
+		int ore = (this.offered.getOre() == 0) ? -this.desired.getOre() : this.offered.getOre();
+		ResourceList offer = new ResourceList(brick, wood, sheep, wheat, ore);
+		
+		
 		try {
-			CatanFacade.getCurrentState().offerTrade(offered, playerTradeWith);
+			CatanFacade.getCurrentState().offerTrade(offer, playerTradeWith);
 			getTradeOverlay().closeModal();
 			getTradeOverlay().reset();
 			getWaitOverlay().showModal();
@@ -246,8 +273,55 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
+		
+		
 		getTradeOverlay().setPlayers(CatanFacade.getCurrentGamePlayers());
-		//getTradeOverlay().
+		TradeOffer offer = CatanFacade.getModel().getTradeOffer();
+		if(offer != null){
+			if(offer.getReceiver()==CatanFacade.getMyPlayerIndex() && !this.getAcceptOverlay().isModalShowing())
+			{
+				boolean canTrade = false;
+				ResourceList resources = offer.getOffer();
+				if(resources.getResource(ResourceType.BRICK) > 0)
+					getAcceptOverlay().addGetResource(ResourceType.BRICK, resources.getResource(ResourceType.BRICK));
+				else if (resources.getResource(ResourceType.BRICK) < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.BRICK, Math.abs(resources.getResource(ResourceType.BRICK)));
+				}
+				
+				if(resources.getResource(ResourceType.ORE) > 0)
+					getAcceptOverlay().addGetResource(ResourceType.ORE, resources.getResource(ResourceType.ORE));
+				else if (resources.getResource(ResourceType.ORE) < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.ORE, Math.abs(resources.getResource(ResourceType.ORE)));
+				}
+				
+				if(resources.getResource(ResourceType.SHEEP) > 0)
+					getAcceptOverlay().addGetResource(ResourceType.SHEEP, resources.getResource(ResourceType.SHEEP));
+				else if (resources.getResource(ResourceType.SHEEP) < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.SHEEP, Math.abs(resources.getResource(ResourceType.SHEEP)));
+				}
+				
+				if(resources.getResource(ResourceType.WHEAT) > 0)
+					getAcceptOverlay().addGetResource(ResourceType.WHEAT, resources.getResource(ResourceType.WHEAT));
+				else if (resources.getResource(ResourceType.WHEAT) < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.WHEAT, Math.abs(resources.getResource(ResourceType.WHEAT)));
+				}
+				
+				if(resources.getResource(ResourceType.WOOD) > 0)
+					getAcceptOverlay().addGetResource(ResourceType.WOOD, resources.getResource(ResourceType.WOOD));
+				else if (resources.getResource(ResourceType.WOOD) < 0) {
+					getAcceptOverlay().addGiveResource(ResourceType.WOOD, Math.abs(resources.getResource(ResourceType.WOOD)));
+				}
+				
+				getAcceptOverlay().setPlayerName(CatanFacade.getCurrentGamePlayers()[offer.getSender()].getName());
+				
+				getAcceptOverlay().setAcceptEnabled(CatanFacade.getCurrentState().canAcceptTrade(resources));
+				getAcceptOverlay().showModal();
+			}
+		} else {
+			if(this.getWaitOverlay().isModalShowing()) {
+				this.getWaitOverlay().closeModal();
+			}
+		}
 	}
 
 }
