@@ -50,6 +50,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     public void setResources() {
         try {
+    System.out.println("Setting Resources...");
             if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
                 getView().setElementAmount(ResourceBarElement.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
                 getView().setElementAmount(ResourceBarElement.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
@@ -162,6 +163,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 
     @Override
     public void update(Observable o, Object arg) {
+System.out.println("Updating Resource Bar...");
         setButtonsNotMyTurn();
         setResources();
         

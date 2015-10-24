@@ -89,7 +89,7 @@ public class CatanMap {
         if(!resourcePortBuildings.isEmpty()) {
             return 2;
         }
-        else if(!resourcePortBuildings.isEmpty()) {
+        else if(!generalPortBuildings.isEmpty()) {
             return 3;
         }
         else {

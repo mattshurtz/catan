@@ -60,13 +60,13 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			} catch (ServerException e) {
 				e.printStackTrace();
 			}
-			getView().updateGameState("waiting for other player", false);
+			getView().updateGameState("Waiting for other players", false);
 		}
 	}
 	
 	/**
 	 * getView().setLocalPlayerColor( your Player's color);
-	 * call getView().updatePlayer(...) to update the player's acheivements and score.
+	 * call getView().updatePlayer(...) to update the player's achievements and score.
 	 */
 	private void initFromModel() {
 		if( CatanFacade.getModel() == null || CatanFacade.isWaitingForPlayers() )
