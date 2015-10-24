@@ -201,18 +201,24 @@ public class Model {
      * @return true if given VertexLocation is valid, false if not
      */
     public boolean canBuildSettlement(VertexLocation location) {
-        
+        System.out.println("can build settlement: "+location);
 		if (!isValidVertex(location)){
             return false;
         }
 		
 		//If it's the first round, then no need to check for roads
-		if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND){
-			return true;
+        // also need check for if a settlement already exists at this location
+		if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND || turnTracker.getStatus() == TurnStatus.SECOUND_ROUND){
+            return true;
 		}
 		
 		//Check to make sure the target vertex is touching a road (if not FIRST_ROUND)
         return surroundingEdgeOfVertexHasRoad(location);
+    }
+    
+    public boolean isInvalidWaterVertex(VertexLocation location){
+        
+        return true;
     }
     
      public boolean isValidRoadLocation(EdgeLocation location) {
@@ -309,6 +315,7 @@ public class Model {
     }
      
     public boolean isValidFirstRoad(EdgeLocation normEdge){
+        System.out.println("in is valid Frist Raod: "+normEdge);
         ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
         if(normEdge.getDir()==EdgeDirection.North){

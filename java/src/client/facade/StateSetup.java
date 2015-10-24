@@ -24,6 +24,7 @@ public class StateSetup extends StateBase {
      */
     public void buildRoad( EdgeLocation location, boolean free ) throws ServerException{
        BuildRoadRequest request = new BuildRoadRequest(location, free);
+        System.out.println("build Road Location: "+location);
        request.setType("buildRoad");
        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
        
@@ -38,7 +39,7 @@ public class StateSetup extends StateBase {
     public void buildSettlement(VertexLocation location) throws ServerException{
         //NOTE(Scott): get location to build
         boolean free = false;
-        
+        System.out.println("build Settlement Location: "+location);
         BuildSettlementRequest request = new BuildSettlementRequest(location, free);
         request.setType("buildSettlement");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());

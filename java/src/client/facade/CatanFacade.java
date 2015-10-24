@@ -184,7 +184,7 @@ public class CatanFacade {
     public static void setMyPlayerIndex() {
         ArrayList<Player> playas = model.getPlayers();
         // finds by name
-        for (int i = 0; i<playas.size();i++) {
+        for (int i = 0; i<playas.size()-1;i++) {
             if (playas.get(i).getName().equals(myPlayerInfo.getName())) {
                 int index = playas.get(i).getPlayerIndex();
                 myPlayerInfo.setPlayerIndex(index);
