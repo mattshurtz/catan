@@ -110,7 +110,15 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     @Override
     public void buildCity() {
-        executeElementAction(ResourceBarElement.CITY);
+    	if (CatanFacade.getCurrentState().canBuyCity()) {
+    		executeElementAction(ResourceBarElement.CITY);
+        } else {
+            MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Not enough resources or cities.");
+            error.showModal();
+        }
+        
     }
 
     @Override

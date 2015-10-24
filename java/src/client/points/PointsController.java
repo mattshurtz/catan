@@ -1,6 +1,8 @@
 package client.points;
 
 import client.base.*;
+import client.facade.CatanFacade;
+import shared.exceptions.GetPlayerException;
 
 
 /**
@@ -43,8 +45,12 @@ public class PointsController extends Controller implements IPointsController {
 	
 	public void setPoints(int amount)
 		{
-		
-		
+			try {
+				getPointsView().setPoints(CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getVictoryPoints());
+			} catch (GetPlayerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	
 	/**
