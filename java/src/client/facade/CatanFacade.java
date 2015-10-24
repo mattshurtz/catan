@@ -11,9 +11,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.definitions.CatanColor;
 import shared.definitions.TurnStatus;
+import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
+import shared.model.DevCardList;
 import shared.model.Model;
 import shared.model.Player;
+import shared.model.ResourceList;
 
 /**
  * A singleton facade that gives out the actual facades. Everything in this
@@ -281,6 +284,7 @@ public class CatanFacade {
         int newNumPlayers = model.getPlayerInfos().length;
         if ( oldVersion != newVersion || oldNumPlayers != newNumPlayers ) {
             // Replace old model with new one
+            hackPlayer();
             setModel(model);
             observable.notifyObservers();
         }
@@ -296,5 +300,14 @@ public class CatanFacade {
      */
     public static void triggerUpdate() {
         observable.notifyObservers();
+    }
+    
+    public static void hackPlayer(){
+        try {
+            model.getPlayer(0).setResources(new ResourceList(5,5,5,5,5));
+            model.getPlayer(0).setOldDevCards(new DevCardList(1,1,1,1,1));
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CatanFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
