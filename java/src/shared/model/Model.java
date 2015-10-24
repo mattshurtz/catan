@@ -35,49 +35,68 @@ import shared.model.map.VertexObject;
  * bank (ResourceList): The Resource cards available to be distributed to the
  * players., remainingDevCards (DevCardList): the dev cards available to be
  * distributed to the players, chat (MessageList): All the chat messages., log
- * (MessageList): All the log messages., catanMap (CatanMap), players (array[Player]),
- * tradeOffer (TradeOffer, optional): The current trade offer, if there is one.,
- * turnTracker (TurnTracker): This tracks who's turn it is and what action's
- * being done., version (index): The version of the model. This is incremented
- * whenever anyone makes a move., winner (index): This is -1 when nobody's won
- * yet. When they have, it's their order index [0-3]
+ * (MessageList): All the log messages., catanMap (CatanMap), players
+ * (array[Player]), tradeOffer (TradeOffer, optional): The current trade offer,
+ * if there is one., turnTracker (TurnTracker): This tracks who's turn it is and
+ * what action's being done., version (index): The version of the model. This is
+ * incremented whenever anyone makes a move., winner (index): This is -1 when
+ * nobody's won yet. When they have, it's their order index [0-3]
  */
 public class Model {
+
     private ResourceList bank;
     private DevCardList deck;
     private MessageList chat;
     private MessageList log;
-    
+
     @SerializedName("map")
     private CatanMap catanMap;
-    
+
     private ArrayList<Player> players;
     private TradeOffer tradeOffer;
     private TurnTracker turnTracker;
     private int version;
     private int winner;
-    
-    
-    public static final EdgeLocation[] setValues = new EdgeLocation[] {
-        new EdgeLocation(new HexLocation(-3,1), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(-3,2), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(-3,3), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(-2,3), EdgeDirection.North),
-        new EdgeLocation(new HexLocation(-2,3), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(-1,3), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(-1,3), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(0,3), EdgeDirection.North),
-        new EdgeLocation(new HexLocation(1,2), EdgeDirection.North),
-        new EdgeLocation(new HexLocation(1,2), EdgeDirection.NorthWest),
-        new EdgeLocation(new HexLocation(2,1), EdgeDirection.North),
-        new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthWest),
-        new EdgeLocation(new HexLocation(3,0), EdgeDirection.NorthWest),
-        new EdgeLocation(new HexLocation(3,-1), EdgeDirection.NorthEast),
-        new EdgeLocation(new HexLocation(3,-2), EdgeDirection.NorthEast),
-    };
-    public static final HashSet<EdgeLocation> validWaterEdges = new HashSet<EdgeLocation>(Arrays.asList(setValues));
-   
 
+    public static final EdgeLocation[] setValues = new EdgeLocation[]{
+        new EdgeLocation(new HexLocation(-3, 1), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-3, 2), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-2, 3), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(-2, 3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(-1, 3), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(-1, 3), EdgeDirection.NorthEast),
+        new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(1, 2), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(1, 2), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(2, 1), EdgeDirection.North),
+        new EdgeLocation(new HexLocation(2, 1), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(3, -1), EdgeDirection.NorthWest),
+        new EdgeLocation(new HexLocation(3, -2), EdgeDirection.NorthWest),};
+    public static final HashSet<EdgeLocation> validWaterEdges = new HashSet<EdgeLocation>(Arrays.asList(setValues));
+    
+    public static final VertexLocation[] vertexValues = new VertexLocation[]{
+        new VertexLocation(new HexLocation(-3, 1), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(-3, 2), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(-3, 3), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(-2, 3), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(-1, 3), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(0, 3), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(1, 2), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthEast),
+        new VertexLocation(new HexLocation(2, 1), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(3, 0), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(3, -1), VertexDirection.NorthWest),
+        new VertexLocation(new HexLocation(3, -2), VertexDirection.NorthWest),};        
+    public static final HashSet<VertexLocation> validWaterVertex = new HashSet<VertexLocation>(Arrays.asList(vertexValues));
+    
+    
+    
     public Model() {
         bank = new ResourceList();
         chat = new MessageList();
@@ -88,54 +107,58 @@ public class Model {
         turnTracker = new TurnTracker();
         version = 0;
         winner = -1;
-        
+
     }
-    
+
     /**
      * @param playerIndex this is the index of the player
      * @return Player at the specified playerIndex
-     * @throws GetPlayerException if the player list is empty, or if the index is invalid
+     * @throws GetPlayerException if the player list is empty, or if the index
+     * is invalid
      */
-        public Player getPlayer(int playerIndex) throws GetPlayerException{
-        
+    public Player getPlayer(int playerIndex) throws GetPlayerException {
+
         if (players == null || players.size() == 0) {
-    		throw new GetPlayerException("There are currently no players in this model's player list");
-    	}
-    	if (playerIndex > 3 || playerIndex < 0) {
-    		throw new GetPlayerException("Invalid playerIndex:  Must be 0-3");
-    	}
+            throw new GetPlayerException("There are currently no players in this model's player list");
+        }
+        if (playerIndex > 3 || playerIndex < 0) {
+            throw new GetPlayerException("Invalid playerIndex:  Must be 0-3");
+        }
         return players.get(playerIndex);
     }
 
     /**
-     * Iterates through all of the settlements and cities in the catanMap and gives
-     * each player the resources they deserve for the given role.
+     * Iterates through all of the settlements and cities in the catanMap and
+     * gives each player the resources they deserve for the given role.
      */
     public void receiveNewResources() {
-    	//Do not implement for Phase 1
+        //Do not implement for Phase 1
     }
 
     /**
-     * Checks if a player has a road, the resources to build this road, if it is in a
-     * valid location on the catanMap, and if the player has a road left to play
+     * Checks if a player has a road, the resources to build this road, if it is
+     * in a valid location on the catanMap, and if the player has a road left to
+     * play
      *
      * @param location this is the location of the Road you would like to build
      * playerIndex identifies the player who would like to build the road
-     * @return true if no exception is thrown
-     * InsufficientSupplies if the player did not have enough resources or pieces
+     * @return true if no exception is thrown InsufficientSupplies if the player
+     * did not have enough resources or pieces
      * @throws InvalidLocation if this is an invalid location for this player to
      * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) {
-        if(isValidRoadLocation(location)){
+        if (isValidRoadLocation(location)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    
+
     /**
-     * Checks whether the player has supplies to build a road. (Resources and road pieces)
+     * Checks whether the player has supplies to build a road. (Resources and
+     * road pieces)
+     *
      * @return true if player has enough supplies, false if not
      */
     public boolean canBuyRoad() {
@@ -145,7 +168,7 @@ public class Model {
         } else if (!players.get(playerIndex).hasRoad()) {
             return false;
         }
-        
+
         return true;
     }
 
@@ -155,20 +178,21 @@ public class Model {
     public boolean canRobPlayer(int playerIndex) {
         return catanMap.canRobPlayer(playerIndex);
     }
-    
-    public boolean canPlaceRobber(HexLocation hexLocation){
-            if(catanMap.getRobber().equals(hexLocation)){
-                return false;
-            }
-            if(hexLocation.getX()>=3 || hexLocation.getY()>=3){
-                return false;
-            }
-            return true;
+
+    public boolean canPlaceRobber(HexLocation hexLocation) {
+        if (catanMap.getRobber().equals(hexLocation)) {
+            return false;
+        }
+        if (hexLocation.getX() >= 3 || hexLocation.getY() >= 3) {
+            return false;
+        }
+        return true;
     }
-    
+
     /**
-     * Removes a brick and wood from the player building the road(player.resourceList.buyRoad();) and creates a
-     * road located at the given EdgeLocation (CatanMap.buildRoad())
+     * Removes a brick and wood from the player building the
+     * road(player.resourceList.buyRoad();) and creates a road located at the
+     * given EdgeLocation (CatanMap.buildRoad())
      *
      * @param location where the player is playing the road
      */
@@ -177,321 +201,339 @@ public class Model {
     }
 
     /**
-     * Checks if current player has enough resources for a settlement, and then checks if they have 
-     * any settlements remaining.
-     * @return True if they player has enough resources and settlements, false if no
+     * Checks if current player has enough resources for a settlement, and then
+     * checks if they have any settlements remaining.
+     *
+     * @return True if they player has enough resources and settlements, false
+     * if no
      */
     public boolean canBuySettlement() {
-        if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()){
+        if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()) {
             //Player doesn't have enough resources
-        	return false;
+            return false;
         }
         //checks if the player has remaining settlements available to build.
-        if(!players.get(turnTracker.getCurrentTurn()).hasSettlment()){
+        if (!players.get(turnTracker.getCurrentTurn()).hasSettlment()) {
             //Player doesn't have enough settlements
-        	return false;
+            return false;
         }
         return true;
     }
-    
+
     /**
-     * Checks if a settlement can be built by the current player at the given VertexLocation
+     * Checks if a settlement can be built by the current player at the given
+     * VertexLocation
      *
      * @param location where the player would like to build the settlement
      * @return true if given VertexLocation is valid, false if not
      */
     public boolean canBuildSettlement(VertexLocation location) {
-        System.out.println("can build settlement: "+location);
-		if (!isValidVertex(location)){
+        //If it's the first round, then no need to check for roads
+        // also need check for if a settlement already exists at this location
+        if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND || turnTracker.getStatus() == TurnStatus.SECOND_ROUND) {
+            if(isValidVertex(location.getNormalizedLocation())){
+                return true;
+            }else{
+                return false;
+            }
+        }
+        System.out.println("can build settlement: " + location);
+        if (!isValidVertex(location.getNormalizedLocation())) {
             return false;
         }
-		
-		//If it's the first round, then no need to check for roads
-        // also need check for if a settlement already exists at this location
-		if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND || turnTracker.getStatus() == TurnStatus.SECOUND_ROUND){
-            return true;
-		}
-		
-		//Check to make sure the target vertex is touching a road (if not FIRST_ROUND)
+        //Check to make sure the target vertex is touching a road (if not FIRST_ROUND)
         return surroundingEdgeOfVertexHasRoad(location);
     }
-    
-    public boolean isInvalidWaterVertex(VertexLocation location){
-        
-        return true;
-    }
-    
-     public boolean isValidRoadLocation(EdgeLocation location) {
+
+
+    public boolean isValidRoadLocation(EdgeLocation location) {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
-        
 
-        
-        if(turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOND_ROUND)){
+        if (turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOND_ROUND)) {
             return isValidFirstRoad(normEdge);
         }
 
-        for (Road road: catanMap.getRoads()) {
-           // check if road already exists on this edge
-            if(road.getLocation().equals(location)){
+        for (Road road : catanMap.getRoads()) {
+            // check if road already exists on this edge
+            if (road.getLocation().equals(location)) {
                 return false;
             }
-            
-           // check around North edge 
-            if(normEdge.getDir()==EdgeDirection.North){
+
+            // check around North edge 
+            if (normEdge.getDir() == EdgeDirection.North) {
                 //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
-                
+
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                
+
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
+
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer&&isValidPortEdge(normEdge)){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
             }
             //Check arround the NorthWest edge
-            if(normEdge.getDir()==EdgeDirection.NorthWest){
+            if (normEdge.getDir() == EdgeDirection.NorthWest) {
                 HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
                 HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
 
-
-                
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-   
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            southwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
+
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        southwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            southwestNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        southwestNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
             }
             //Check arround the NorthEast edge
-            if(normEdge.getDir()==EdgeDirection.NorthEast){
+            if (normEdge.getDir() == EdgeDirection.NorthEast) {
                 HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
                 HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
 
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            southeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        southeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                            southeastNeighbor, EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        southeastNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
-                if(road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                normEdge.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
+                if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     return true;
                 }
             }
         }
         return false;
     }
-     
-    public boolean isValidFirstRoad(EdgeLocation normEdge){
-        System.out.println("in is valid Frist Raod: "+normEdge);
+
+    public boolean isValidFirstRoad(EdgeLocation normEdge) {
         ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
-        if(normEdge.getDir()==EdgeDirection.North){
-        for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                 }
+
+        if (normEdge.getDir() == EdgeDirection.North) {
+            for (VertexObject vertexObject : allVObjects) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+            }
         }
-        
-        if(normEdge.getDir()==EdgeDirection.NorthWest){
+
+        if (normEdge.getDir() == EdgeDirection.NorthWest) {
             HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
-                for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(southwestNeighbor,VertexDirection.NorthEast))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                 }
+            for (VertexObject vertexObject : allVObjects) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+            }
         }
-        if(normEdge.getDir()==EdgeDirection.NorthEast){
+
+        if (normEdge.getDir() == EdgeDirection.NorthEast) {
             HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
-                for(VertexObject vertexObject: allVObjects){
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(southeastNeighbor,VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                    if(vertexObject.getLocation().getNormalizedLocation().equals
-        (new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest))&& vertexObject.getOwner()==currentPlayer){
-                        return true;
-                    }
-                 } 
+            for (VertexObject vertexObject : allVObjects) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                    return true;
+                }
+            }
         }
-        
+
         return false;
     }
-    
-    public boolean isValidPortEdge(EdgeLocation normEdge){
+
+    public boolean isValidPortEdge(EdgeLocation normEdge) {
 // Create a HashSet of invalid port eddge locations and check them
         // at the beginning of the can build edge function
         HexLocation hexLocation = normEdge.getHexLoc();
-            		//Water or Desert
-    		int x = hexLocation.getX();
-    		int y = hexLocation.getY();
-    		//Check for water coordinates
-    		if (Math.abs(x) == 3 || Math.abs(y) == 3 || Math.abs(x + y) == 3){
-    			if(validWaterEdges.contains(normEdge)){
+        //Water or Desert
+        int x = hexLocation.getX();
+        int y = hexLocation.getY();
+        //Check for water coordinates
+        if (Math.abs(x) >= 3 || Math.abs(y) >= 3 || Math.abs(x + y) >= 3) {
+            if (validWaterEdges.contains(normEdge)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean isValidPortVertex(VertexLocation location){
+        // Create a HashSet of invalid port eddge locations and check them
+        // at the beginning of the can build edge function
+        HexLocation hexLocation = location.getHexLoc();
+        //Water or Desert
+        int x = hexLocation.getX();
+        int y = hexLocation.getY();
+        //Check for water coordinates
+        if (Math.abs(x) >= 3 || Math.abs(y) >= 3 || Math.abs(x + y) >= 3) {
+            if (validWaterVertex.contains(location)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location) {
+        VertexLocation normLocation = location.getNormalizedLocation();
+        int currentPlayer = turnTracker.getCurrentTurn();
+        for (Road road : catanMap.getRoads()) {
+        //Assume that vObject.getLocation is returning the Normalized location
+            //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+            // checks the surrounding vertices around the northeast vertex for vertex objects	
+            if (normLocation.getDir() == VertexDirection.NorthEast) {
+                HexLocation northeastNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                if (road.getLocation().equals(new EdgeLocation(
+                        northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer) {
                     return true;
-                }else{
+                }
+                    //check southeast of current hex
+
+                if (road.getLocation().equals(new EdgeLocation(
+                        normLocation.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer) {
+                    return true;
+                }
+
+                if (road.getLocation().equals(new EdgeLocation(
+                        normLocation.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer) {
+                    return true;
+                }
+            }
+            // checks the surrounding vertices around the northwest vertex for vertex objects	
+            if (normLocation.getDir() == VertexDirection.NorthWest) {
+
+                HexLocation northwestNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+
+                if (road.getLocation().equals(new EdgeLocation(
+                        northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer) {
+                    return true;
+                }
+
+                if (road.getLocation().equals(new EdgeLocation(
+                        normLocation.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer) {
+                    return true;
+                }
+
+                if (road.getLocation().equals(new EdgeLocation(
+                        normLocation.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isValidVertex(VertexLocation location) {
+        VertexLocation normVertLocation = location.getNormalizedLocation();
+        ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
+
+        for (VertexObject vObject : allVObjects) {
+            //Assume that vObject.getLocation is returning the Normalized location
+            //checks if a vertex object already exists at this location.
+//            System.out.println("vObject location: "+vObject.getLocation());
+            VertexLocation normVObjectLocation = vObject.getLocation().getNormalizedLocation();
+            if (normVObjectLocation.equals(normVertLocation)) {
+                return false;
+            }
+        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+            // checks the surrounding vertices around the northeast vertex for vertex objects	
+            if (normVertLocation.getDir() == VertexDirection.NorthEast) {
+                HexLocation northEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        northEastNeighbor, VertexDirection.NorthWest))) {
+                    return false;
+                }
+                //check southeast of current hex
+                HexLocation southEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        southEastNeighbor, VertexDirection.NorthWest))) {
+                    return false;
+                }
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        normVertLocation.getHexLoc(), VertexDirection.NorthWest))) {
                     return false;
                 }
             }
-        return true;
-    }
-    
-    public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location){
-        VertexLocation normLocation = location.getNormalizedLocation();
-        int currentPlayer = turnTracker.getCurrentTurn();
-        for (Road road: catanMap.getRoads()) {
-        //Assume that vObject.getLocation is returning the Normalized location
-        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
-    	// checks the surrounding vertices around the northeast vertex for vertex objects	
-    		if (normLocation.getDir()==VertexDirection.NorthEast) {
-                    HexLocation northeastNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
-                    if(road.getLocation().equals(new EdgeLocation(
-                            northeastNeighbor, EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
-                            return true;
-                    }
-                    //check southeast of current hex
-                    
-                    if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
-                            return true;
-                    }
-                    
-                    if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
-                            return true;
-                    }
-    		}
-    	// checks the surrounding vertices around the northwest vertex for vertex objects	
-                if(normLocation.getDir()==VertexDirection.NorthWest){
-                    
-                    HexLocation northwestNeighbor = normLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
-                    
-                    if(road.getLocation().equals(new EdgeLocation(
-                            northwestNeighbor, EdgeDirection.NorthEast))&&road.getOwner()==currentPlayer){
-                        return true;
-                    }
-                    
-                    if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.North))&&road.getOwner()==currentPlayer){
-                        return true;
-                    }
-                    
-                    if(road.getLocation().equals(new EdgeLocation(
-                            normLocation.getHexLoc(), EdgeDirection.NorthWest))&&road.getOwner()==currentPlayer){
-                        return true;
-                    }
-                }
-    	}
-        return false;
-    }
-    
-    public boolean isValidVertex(VertexLocation location){
-        VertexLocation normVertLocation = location.getNormalizedLocation();
-    	ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
-        
-        for (VertexObject vObject: allVObjects) {
-            //Assume that vObject.getLocation is returning the Normalized location
-            //checks if a vertex object already exists at this location.
-            if (vObject.getLocation().equals(normVertLocation)) {
-    			return false;
-    		}
-        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
-    	// checks the surrounding vertices around the northeast vertex for vertex objects	
-    		if (normVertLocation.getDir()==VertexDirection.NorthEast) {
-                    HexLocation northEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
-                  
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            northEastNeighbor, VertexDirection.NorthWest))){
-                            return false;
-                    }
-                    //check southeast of current hex
-                    HexLocation southEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
-                    
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            southEastNeighbor, VertexDirection.NorthWest))){
-                            return false;
-                    }
-                    
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            normVertLocation.getHexLoc(), VertexDirection.NorthWest))){
-                            return false;
-                    }
-    		}
-                // checks the surrounding vertices around the northwest vertex for vertex objects	
-                if(normVertLocation.getDir()==VertexDirection.NorthWest){
-                    
-                    HexLocation northwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
-                    
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            northwestNeighbor, VertexDirection.NorthEast))){
-                        return false;
-                    }
-                    
-                    HexLocation southwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+            // checks the surrounding vertices around the northwest vertex for vertex objects	
+            if (normVertLocation.getDir() == VertexDirection.NorthWest) {
 
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            southwestNeighbor, VertexDirection.NorthEast))){
-                        return false;
-                    }
-                    
-                    if(vObject.getLocation().equals(new VertexLocation(
-                            normVertLocation.getHexLoc(), VertexDirection.NorthEast))){
-                        return false;
-                    }
+                HexLocation northwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        northwestNeighbor, VertexDirection.NorthEast))) {
+                    return false;
                 }
-    	}
+
+                HexLocation southwestNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        southwestNeighbor, VertexDirection.NorthEast))) {
+                    return false;
+                }
+
+                if (normVObjectLocation.equals(new VertexLocation(
+                        normVertLocation.getHexLoc(), VertexDirection.NorthEast))) {
+                    return false;
+                }
+            }
+
+        }
+                     System.out.println("is valid port index:"+!isValidPortVertex(normVertLocation));   
+
+        if(!isValidPortVertex(normVertLocation)){
+               return false; 
+        }
         return true;
     }
-    
-     /**
-     * Removes a brick, wood, sheep, and wheat from the player building the 
-     * settlement(player.resourceList.buySettlement();) 
-     * and creates a road located at the given EdgeLocation (CatanMap.buildSettlment())
+
+    /**
+     * Removes a brick, wood, sheep, and wheat from the player building the
+     * settlement(player.resourceList.buySettlement();) and creates a road
+     * located at the given EdgeLocation (CatanMap.buildSettlment())
      *
      * @param location where the player is playing the road
      * @param playerIndex is used to identify the player playing the road
@@ -499,157 +541,155 @@ public class Model {
     public void buildSettlement(EdgeLocation location, int playerIndex) {
         //NOTE: to be implemented
     }
-    
-    
+
     public boolean canBuyCity() {
         //checks if the player has enough resources.
-        if(!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()){
+        if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()) {
             return false;
         }
         //check if the player has remaining cities available to build
-        if(!players.get(turnTracker.getCurrentTurn()).hasCity()){
+        if (!players.get(turnTracker.getCurrentTurn()).hasCity()) {
             return false;
         }
-        return true;        
+        return true;
     }
 
     /**
-     * This function is going to be called only after canBuyCity is called and returns true.
-     * This checks if the player owns a settlement at the location specified.
+     * This function is going to be called only after canBuyCity is called and
+     * returns true. This checks if the player owns a settlement at the location
+     * specified.
      *
      * @param location where the player would like to build the city
      * @param playerIndex identifies the player who would like to build this
      * city
-     * @return true if the location specified already has a settlement owned by this player, false if not
+     * @return true if the location specified already has a settlement owned by
+     * this player, false if not
      */
     public boolean canBuildCity(VertexLocation location) {
-    	//get all the settlements on the catanMap
-    	ArrayList<Settlement> settlements = catanMap.getSettlements();
-    	int currentPlayer = turnTracker.getCurrentTurn();
-    	//Iterate through settlements to make sure the player owns a settlement at the target location
-    	for (Settlement settlement: settlements) {
-    		if (settlement.getOwner() == currentPlayer && 
-                        settlement.getLocation().getNormalizedLocation().equals(location)) { 
-    			return true;
-    		}
-    	}
-    	
-    	return false;
+        //get all the settlements on the catanMap
+        ArrayList<Settlement> settlements = catanMap.getSettlements();
+        int currentPlayer = turnTracker.getCurrentTurn();
+        //Iterate through settlements to make sure the player owns a settlement at the target location
+        for (Settlement settlement : settlements) {
+            if (settlement.getOwner() == currentPlayer
+                    && settlement.getLocation().getNormalizedLocation().equals(location)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public boolean canBuyDevCard(int playerIndex) {
         Player current = players.get(playerIndex);
-        if(turnTracker.getCurrentTurn()==playerIndex){
+        if (turnTracker.getCurrentTurn() == playerIndex) {
             return current.getResources().canBuyDevCard();
-        }else{
+        } else {
             return false;
         }
     }
-    
-    public boolean canPlayMonopoly(int playerIndex) {        
+
+    public boolean canPlayMonopoly(int playerIndex) {
         Player current = players.get(playerIndex);
-        
+
         return current.canPlayDevCard(DevCardType.MONOPOLY);
     }
-    
-    public boolean canPlaySoldier(int playerIndex) {        
+
+    public boolean canPlaySoldier(int playerIndex) {
         Player current = players.get(playerIndex);
-        
+
         return current.canPlayDevCard(DevCardType.SOLDIER);
     }
-    
-    public boolean canPlayRoadBuilding(int playerIndex) {        
+
+    public boolean canPlayRoadBuilding(int playerIndex) {
         Player current = players.get(playerIndex);
-        
+
         return current.canPlayDevCard(DevCardType.ROAD_BUILD);
     }
-    
-    public boolean canPlayYearOfPlenty(int playerIndex) {        
+
+    public boolean canPlayYearOfPlenty(int playerIndex) {
         Player current = players.get(playerIndex);
-        
+
         return current.canPlayDevCard(DevCardType.YEAR_OF_PLENTY);
     }
-    
-    public boolean canPlayMonument(int playerIndex) {        
+
+    public boolean canPlayMonument(int playerIndex) {
         Player current = players.get(playerIndex);
-        
+
         return current.canPlayDevCard(DevCardType.MONUMENT);
     }
-    
+
     /**
-     * returns true if its the players turn and turn status is ROLLING 
+     * returns true if its the players turn and turn status is ROLLING
      */
     public boolean canRollNumber() {
-        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
-                && getTurnTracker().getStatus() == TurnStatus.ROLLING)
-        {
+        if (CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
+                && getTurnTracker().getStatus() == TurnStatus.ROLLING) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @return true if finish turn is a valid command
      */
-    public boolean canFinishTurn()
-    {
-        if(CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn())
-        {
+    public boolean canFinishTurn() {
+        if (CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()) {
             return true;
         }
         return false;
     }
-    
+
     /**
-     * 
+     *
      * @param playerIndex
-     * @return true if the player must discard cards because of a seven being rolled
+     * @return true if the player must discard cards because of a seven being
+     * rolled
      */
     public boolean canDiscardCards(int playerIndex) {
-        if(players.get(playerIndex).getResources().getTotalResources() > 7) {
+        if (players.get(playerIndex).getResources().getTotalResources() > 7) {
             return true;
         }
-        
+
         return false;
     }
-    
+
     /**
-     * Removes three ore and two wheat from this player's ResourceList
-     * Subtracts one city from players cities count
-     * Adds settlement to players settlement count
-     * (player.resourceList.buyCity();) 
-     * Replace settlement located on the given VertexLocation with a city(CatanMap.buildCity())
+     * Removes three ore and two wheat from this player's ResourceList Subtracts
+     * one city from players cities count Adds settlement to players settlement
+     * count (player.resourceList.buyCity();) Replace settlement located on the
+     * given VertexLocation with a city(CatanMap.buildCity())
+     *
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
     public void buildCity(VertexLocation location, int playerIndex) {
-    	//Don't implement for phase one
+        //Don't implement for phase one
     }
-    
+
     /**
      * @param rolledNumber - int not equal to 7
      */
-    public void distributeResources(int rolledNumber)
-    {
-    	//Don't implement in phase 1
+    public void distributeResources(int rolledNumber) {
+        //Don't implement in phase 1
     }
-    
+
     public boolean canOfferResource(ResourceType type, int amount) {
-       return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
+        return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
     }
-    
+
     public boolean canOfferMaritimeTrade(ResourceType resourceType) {
-       int neededToTrade = catanMap.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
-       return canOfferResource(resourceType, neededToTrade);
+        int neededToTrade = catanMap.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
+        return canOfferResource(resourceType, neededToTrade);
     }
-    
+
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
         return bank.hasResource(resourceType);
     }
-    
-    public boolean canAcceptTrade(ResourceList tradeOffer){
+
+    public boolean canAcceptTrade(ResourceList tradeOffer) {
         return players.get(CatanFacade.getMyPlayerIndex()).getResources().canAcceptTrade(tradeOffer);
     }
 
@@ -704,14 +744,15 @@ public class Model {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    
+
     public PlayerInfo[] getPlayerInfos() {
         List<PlayerInfo> ret = new ArrayList<>();
         List<Player> playas = getPlayers();
         Deserializer deserializer = new Deserializer();
-        for ( Player p : playas ) {
-            if ( p != null && p.getName() != null )
-                ret.add( deserializer.toPlayerInfo( p ) );
+        for (Player p : playas) {
+            if (p != null && p.getName() != null) {
+                ret.add(deserializer.toPlayerInfo(p));
+            }
         }
         return ret.toArray(new PlayerInfo[0]);
     }
@@ -794,5 +835,3 @@ public class Model {
     }
 
 }
-    
-    

@@ -84,7 +84,7 @@ public class StateSetup extends StateBase {
      */
     @Override
     public boolean canBuildSettlement(VertexLocation vertex) {
-        return true;
+        return model.canBuildSettlement(vertex);
     }
     
     @Override
