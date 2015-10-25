@@ -223,7 +223,8 @@ public class StatePlaying extends StateBase {
         request.setType("Monopoly");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
-        proxy.playMonopoly(request);
+        Model response = proxy.playMonopoly(request);
+        
     }
     
     @Override
