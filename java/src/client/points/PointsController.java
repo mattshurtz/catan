@@ -7,6 +7,7 @@ import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.exceptions.GetPlayerException;
+import shared.model.Player;
 
 
 /**
@@ -61,15 +62,35 @@ public class PointsController extends Controller implements IPointsController, O
                 {
                    setPoints(CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getVictoryPoints());
                 }
+
             }catch (GetPlayerException ex) {
                 Logger.getLogger(PointsController.class.getName()).log(Level.SEVERE, null, ex);
             }
 	}
+    
+    private void declareWinner(){
+        Player winner =null;
+        for(Player playa: CatanFacade.getModel().getPlayers()){
+            if(playa.getVictoryPoints()>=10){
+             winner = playa;   
+            }
+        }
+        if(winner !=null){
+            if(winner.getPlayerIndex()==CatanFacade.getMyPlayerIndex()){
+            getFinishedView().setWinner(winner.getName(), true);
+            }else{
+            getFinishedView().setWinner(winner.getName(), false);
+            }
+            getFinishedView().showModal();
+        }
+    }
 
     @Override
     public void update(Observable o, Object arg) {
         initFromModel();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        declareWinner();
+    
     }
 	
 }
