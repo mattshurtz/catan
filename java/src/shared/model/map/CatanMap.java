@@ -68,7 +68,7 @@ public class CatanMap {
         allBuildings.addAll(cities);
         
         //check for player vertex objects on port edges
-        ArrayList<VertexLocation> verticiesOnResourcePorts = getResourcePortVerticies();
+        ArrayList<VertexLocation> verticiesOnResourcePort = getResourcePortVerticies(resourceType);
         ArrayList<VertexLocation> verticiesOnGeneralPorts = getGeneralPortVerticies();
         
         ArrayList<VertexObject> resourcePortBuildings = new ArrayList<VertexObject>();
@@ -76,7 +76,7 @@ public class CatanMap {
         
         for(VertexObject building : allBuildings) {
             if(building.getOwner() == playerIndex) {
-                if(verticiesOnResourcePorts.contains(building.getLocation().getNormalizedLocation())) {
+                if(verticiesOnResourcePort.contains(building.getLocation().getNormalizedLocation())) {
                     resourcePortBuildings.add(building);
                 }
                 else if(verticiesOnGeneralPorts.contains(building.getLocation().getNormalizedLocation()))
@@ -97,7 +97,7 @@ public class CatanMap {
         }
     }
     
-    private ArrayList<VertexLocation> getResourcePortVerticies() {
+    private ArrayList<VertexLocation> getResourcePortVerticies(ResourceType resourceType) {
         ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
         
         for(Port port: ports) {
@@ -106,7 +106,7 @@ public class CatanMap {
             EdgeDirection portEdgeDirection = portEdge.getDir();
             HexLocation portLocation = portEdge.getHexLoc();
             
-            if(port.getRatio() == 2) {
+            if(port.getRatio() == 2 && port.getPortType().toString().equals(resourceType.toString())) {
                 switch(portEdgeDirection) {
                     case North:
                     {

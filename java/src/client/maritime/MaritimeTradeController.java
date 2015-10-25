@@ -1,7 +1,15 @@
 package client.maritime;
 
 import shared.definitions.*;
+import shared.exceptions.GetPlayerException;
+import shared.exceptions.ServerException;
+import shared.model.ResourceList;
+import shared.model.map.Port;
+
+import java.util.ArrayList;
+
 import client.base.*;
+import client.facade.CatanFacade;
 
 
 /**
@@ -10,6 +18,10 @@ import client.base.*;
 public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
 
 	private IMaritimeTradeOverlay tradeOverlay;
+	
+	private ResourceType give;
+	private ResourceType get;
+	private int ratio;
 	
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
@@ -43,10 +55,51 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void startTrade() {
 		
+		if(!CatanFacade.isMyTurn()){
+			getTradeOverlay().setStateMessage("Not your turn.");
+			getTradeOverlay().setTradeEnabled(false);
+			getTradeOverlay().hideGiveOptions();
+			getTradeOverlay().hideGetOptions();
+			return;
+		}
+		
+		getTradeOverlay().setStateMessage("Trade!");
+		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().hideGetOptions();
+		getTradeOverlay().hideGiveOptions();
+		
+		
+		enabledResources = new ArrayList<ResourceType>();
+		try {
+			checkResourcesAndPorts(ResourceType.BRICK);
+			checkResourcesAndPorts(ResourceType.ORE);
+			checkResourcesAndPorts(ResourceType.SHEEP);
+			checkResourcesAndPorts(ResourceType.WHEAT);
+			checkResourcesAndPorts(ResourceType.WOOD);
+		} catch (GetPlayerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
+		getTradeOverlay().showGiveOptions(enabledResources.toArray(new ResourceType[enabledResources.size()]));
+		
+		
+		
 		getTradeOverlay().showModal();
 	}
 
+	private ArrayList<ResourceType> enabledResources;
 	
+	
+	private boolean checkResourcesAndPorts(ResourceType resource) throws GetPlayerException {		
+		int playTotal = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getResource(resource);
+		int portTotal = CatanFacade.getModel().getMap().neededToOfferMaritimeTrade(CatanFacade.getMyPlayerIndex(), resource);
+		if( playTotal >= portTotal){
+			enabledResources.add(resource);
+			return true;
+		}
+		return false;
+	}
 	
 	
 	/**
@@ -57,7 +110,15 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void makeTrade() {
 
-		getTradeOverlay().closeModal();
+		try {
+			CatanFacade.getCurrentState().maritimeTrade(ratio, give, get);
+			getTradeOverlay().closeModal();
+		} catch (ServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	
@@ -78,8 +139,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void setGetResource(ResourceType resource) {
-		
-
+		if (CatanFacade.getModel().getBank().hasResource(resource)) {
+			this.getTradeOverlay().selectGetOption(resource, 1);
+			get = resource;
+			getTradeOverlay().setTradeEnabled(true);
+		}		
 	}
 
 	/**
@@ -88,7 +152,13 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void setGiveResource(ResourceType resource) {
-
+		give = resource;
+		int currentRatio = CatanFacade.getModel().getMap().neededToOfferMaritimeTrade(CatanFacade.getMyPlayerIndex(), resource);
+		ResourceType[] allResources = {ResourceType.WOOD, ResourceType.BRICK, ResourceType.SHEEP, 
+				ResourceType.WHEAT, ResourceType.ORE};
+		ratio = currentRatio;
+		getTradeOverlay().selectGiveOption(resource, currentRatio);
+		getTradeOverlay().showGetOptions(allResources);
 	}
 
 	
@@ -98,7 +168,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void unsetGetValue() {
-
+		getTradeOverlay().setTradeEnabled(false);
+		getTradeOverlay().hideGetOptions();
+		this.setGiveResource(give);
+		//getTradeOverlay().closeModal();
+		//startTrade();
 	}
 
 	
@@ -108,7 +182,8 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void unsetGiveValue() {
-
+		getTradeOverlay().closeModal();
+		startTrade();
 	}
 
 }
