@@ -196,6 +196,26 @@ public class StatePlaying extends StateBase {
         proxy.playSoldier(request); 
     }
     
+        @Override
+    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
+        return model.canRobPlayer(playerIndex, hexLoc);
+    }
+
+    @Override
+    public boolean canPlaceRobber(HexLocation hexLocation) {
+        return model.canPlaceRobber(hexLocation);
+    }
+    
+    @Override
+    public void robPlayer(int victimIndex, HexLocation hexLoc) throws ServerException{
+        int currentPlayerIndex = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        RobPlayerRequest request = new RobPlayerRequest(currentPlayerIndex,victimIndex, hexLoc);
+        request.setType("robPlayer");
+        request.setPlayerIndex(currentPlayerIndex);
+        
+        proxy.robPlayer(request);
+    }
+    
     @Override
     public void playMonopoly( ResourceType resource ) throws ServerException{
         

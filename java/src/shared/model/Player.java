@@ -206,7 +206,27 @@ public class Player {
     public void setOldDevCards(DevCardList oldDevCards) {
         this.oldDevCards = oldDevCards;
     }
+    
+    public int getTotalSoldiers(){
+       return this.oldDevCards.soldier+this.newDevCards.soldier;
+    }
+    
+    public int getTotalYearOfPlenty(){
+        return this.oldDevCards.yearOfPlenty+this.newDevCards.yearOfPlenty;
+    }
 
+    public int getTotalMonuments(){
+        return this.oldDevCards.monument+this.newDevCards.monument; 
+    }
+    
+    public int getTotalRoadBuilding(){
+        return this.oldDevCards.roadBuilding+this.newDevCards.roadBuilding;
+    }
+    
+    public int getTotalMonopoly(){
+        return this.oldDevCards.monopoly+this.newDevCards.monopoly;
+    }
+    
     public boolean isPlayedDevCard() {
         return playedDevCard;
     }

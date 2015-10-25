@@ -231,6 +231,9 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
+        System.out.println("this is the hexlocation of robber: "+hexLoc);
+        System.out.println("current state: "+CatanFacade.getCurrentState().toString());
+        
 		return CatanFacade.getCurrentState().canPlaceRobber(hexLoc);		
 	}
 
@@ -306,7 +309,11 @@ public class MapController extends Controller implements IMapController, Observe
 		getView().startDrop(PieceType.ROBBER, CatanFacade.getMyPlayerInfo().getColor(), false);
 	}
 	
-	public void playRoadBuildingCard() {	
+	public void playRoadBuildingCard() {
+        
+        getView().startDrop(PieceType.ROAD, CatanFacade.getMyPlayerInfo().getColor(), true);
+        getView().startDrop(PieceType.ROAD, CatanFacade.getMyPlayerInfo().getColor(), true);
+        
 		
 	}
 	

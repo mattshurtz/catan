@@ -6,6 +6,7 @@ import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
 import client.base.*;
 import client.facade.CatanFacade;
+import client.resources.ResourceBarElement;
 
 
 /**
@@ -71,15 +72,24 @@ public class DevCardController extends Controller implements IDevCardController 
 	public void startPlayCard() {
 		//SOLDIER, YEAR_OF_PLENTY, MONOPOLY, ROAD_BUILD, MONUMENT
         getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CatanFacade.getCurrentState().canPlaySoldier());
-        getPlayCardView().setCardAmount(DevCardType.SOLDIER, CatanFacade.getModel().getDeck().getSoldier());
         getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, CatanFacade.getCurrentState().canPlayMonopoly());
-        getPlayCardView().setCardAmount(DevCardType.MONOPOLY, CatanFacade.getModel().getDeck().getMonopoly());
         getPlayCardView().setCardEnabled(DevCardType.MONUMENT, CatanFacade.getCurrentState().canPlayMonument());
-        getPlayCardView().setCardAmount(DevCardType.MONUMENT, CatanFacade.getModel().getDeck().getMonument());
         getPlayCardView().setCardEnabled(DevCardType.ROAD_BUILD, CatanFacade.getCurrentState().canPlayRoadBuilding());
-        getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, CatanFacade.getModel().getDeck().getRoadBuilding());
         getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, CatanFacade.getCurrentState().canPlayYearOfPlenty());
-        getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, CatanFacade.getModel().getDeck().getYearOfPlenty());
+        
+                try {
+    System.out.println("Setting Resources...");
+            if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
+                getPlayCardView().setCardAmount(DevCardType.SOLDIER, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalSoldiers());
+                getPlayCardView().setCardAmount(DevCardType.MONOPOLY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalMonopoly());
+                getPlayCardView().setCardAmount(DevCardType.MONUMENT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalMonuments()); 
+                getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalRoadBuilding());
+                getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalYearOfPlenty());
+            }
+        } catch (GetPlayerException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
 		getPlayCardView().showModal();
 	}
@@ -119,7 +129,6 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void playSoldierCard() {
-		
 		soldierAction.execute();
 	}
 

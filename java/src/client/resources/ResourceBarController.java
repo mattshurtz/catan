@@ -139,7 +139,9 @@ public class ResourceBarController extends Controller implements IResourceBarCon
      */
     @Override
     public void playCard() {
+//        if(CatanFacade.getCurrentState().can)
         executeElementAction(ResourceBarElement.PLAY_CARD);
+        
     }
 
     private void executeElementAction(ResourceBarElement element) {
