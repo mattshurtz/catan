@@ -333,7 +333,9 @@ public class MapController extends Controller implements IMapController, Observe
 
     @Override
     public void update(Observable o, Object arg) {
-        initFromModel();
+        //Initialize map from the Model
+    	initFromModel();
+        
         //Show the placeRobber modal if turnTracker status is "ROBBING" and if this is the current player
         if (CatanFacade.getModel().getTurnTracker().getStatus() == TurnStatus.ROBBING) {
         	if (CatanFacade.getModel().getTurnTracker().getCurrentTurn() == CatanFacade.getMyPlayerIndex()) {

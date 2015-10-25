@@ -3,6 +3,7 @@ package client.discard;
 import shared.definitions.*;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
+import shared.model.Player;
 import shared.model.ResourceList;
 
 import java.util.Observable;
@@ -20,7 +21,7 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	private IWaitView waitView;
     private ResourceList discardedCards;
-    private int discardAmount = 0;
+    private int totalDiscardAmount;
 
 	
 	/**
@@ -37,9 +38,6 @@ public class DiscardController extends Controller implements IDiscardController,
 		CatanFacade.addObserver( this );
 		discardedCards = new ResourceList();
 		this.waitView = waitView;
-		
-		
-		
 	}
 
 	public IDiscardView getDiscardView() {
@@ -72,8 +70,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void increaseAmount(ResourceType resource) {
         discardedCards.addResource(resource, 1);
         updateAfterIncreaseOrDecrease(resource);
-        
-
 	}
 
 	/**
@@ -83,34 +79,50 @@ public class DiscardController extends Controller implements IDiscardController,
 	public void decreaseAmount(ResourceType resource) {
         discardedCards.subtractResource(resource, 1);
         updateAfterIncreaseOrDecrease(resource);
-
 	}
 	
+	/**
+	 * Updates the buttons and count of a specified resource on the view.
+	 * Also updates the total discard count (all resources) 
+	 * 
+	 * @param resource The resource to update
+	 */
 	private void updateAfterIncreaseOrDecrease(ResourceType resource) {
 		
+		//Get discard number and allowed total for this player
+		int numToDiscard = discardedCards.getResource(resource);
+		int allowedTotal = 0;
 		
-        getDiscardView().setResourceDiscardAmount(resource, discardedCards.getResource(resource));
-        boolean increase = false;
-        boolean decrease = false;
-        try {
-			if(discardedCards.getResource(resource) < CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getResource(resource)){
+		try {
+			//Decide if increase button should be enabled
+			boolean increase = false;
+			allowedTotal = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getResource(resource);
+			if (numToDiscard < allowedTotal) {
 				increase = true;
 			}
+			
+			//Decide if decrease button should be enabled
+			boolean decrease = false;
+			if (numToDiscard > 0) {
+				decrease = true;
+			}
+			
+			//Update the specified resources count, and the increase/decrease buttons
+			getDiscardView().setResourceDiscardAmount(resource, discardedCards.getResource(resource));
+			getDiscardView().setResourceAmountChangeEnabled(resource, increase, decrease);
+			
+			//Update the discard message on the button and enable/disable the button
+			getDiscardView().setStateMessage(discardedCards.getTotalResources() + "/" + totalDiscardAmount);
+			if (discardedCards.getTotalResources() == totalDiscardAmount) {
+				getDiscardView().setDiscardButtonEnabled(true);
+			} else {
+				getDiscardView().setDiscardButtonEnabled(false);
+			}
+			
 		} catch (GetPlayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-        if(discardedCards.getResource(resource) > 0){
-        	decrease = true;
-        }
-        getDiscardView().setResourceAmountChangeEnabled(resource, increase, decrease);
-        getDiscardView().setStateMessage(discardedCards.getTotalResources() + "/" + discardAmount);
-        
-        if(discardAmount == discardedCards.getTotalResources()) {
-        	getDiscardView().setDiscardButtonEnabled(true);
-        } else {
-        	getDiscardView().setDiscardButtonEnabled(false);
-        }
 	}
 
 	/**
@@ -133,7 +145,10 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void update(Observable o, Object arg) {
 		try {
-			discardAmount = (int) Math.ceil(CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getTotalResources() / 2.0);
+			//Get current player and do maths to find out how many cards they need to discard to get to 7
+			Player player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
+			int totalPlayerResources = player.getResources().getNumResources();
+			totalDiscardAmount = totalPlayerResources - 7;
 		} catch (GetPlayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
