@@ -180,6 +180,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             // If join succeeded
             OverlayView.closeAllModals();
             joinAction.execute();
+            //this triggered update allows modals to pop up on rejoining games that have been started.
+            CatanFacade.triggerUpdate();
         } else {
             System.out.println("Join failed.");
         }
