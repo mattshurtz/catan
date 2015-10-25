@@ -320,6 +320,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void robPlayer(RobPlayerInfo victim) {
             try {
                 CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex(), robLocation);
+                OverlayView.closeAllModals();
             } catch (ServerException ex) {
                 Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             }

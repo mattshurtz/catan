@@ -126,8 +126,6 @@ public class DiscardController extends Controller implements IDiscardController,
             e.printStackTrace();
         }
         
-        //getDiscardView().closeModal();
-
 		getDiscardView().closeModal();
 		
 	}
