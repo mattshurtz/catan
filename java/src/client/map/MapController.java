@@ -259,8 +259,13 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
-		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+        try {
+            CatanFacade.getCurrentState().buildCity(vertLoc);
+    		getView().placeCity(vertLoc, CatanFacade.getMyPlayerInfo().getColor());
+        } catch (ServerException ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            CatanFacade.triggerUpdate();
+        }
 	}
 
 	public void placeRobber(HexLocation hexLoc) {

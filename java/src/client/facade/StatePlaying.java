@@ -269,8 +269,8 @@ public class StatePlaying extends StateBase {
         BuildCityRequest request = new BuildCityRequest(location);
         request.setType("buildCity");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
-        
-        proxy.buildCity(request);
+        Model previousModel = model;
+        Model response = proxy.buildCity(request);
     }
     
     @Override

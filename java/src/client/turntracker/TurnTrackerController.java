@@ -81,21 +81,17 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
             initializedPlayers = true;
         }
 		
-		Player player;
-		try {
-			player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
 				
 			getView().setLocalPlayerColor(CatanFacade.getMyPlayerInfo().getColor());
+            
             for ( Player p : CatanFacade.getModel().getPlayers() ) {
                 boolean highlight = ( p.getPlayerIndex() == CatanFacade.getModel().getTurnTracker().getCurrentTurn() );
                 boolean largestArmy = CatanFacade.getModel().getTurnTracker().getLargestArmy() == p.getPlayerIndex();
                 boolean longestRoad = CatanFacade.getModel().getTurnTracker().getLongestRoad() == p.getPlayerIndex();
                 
-                getView().updatePlayer( p.getPlayerIndex(), player.getVictoryPoints(), highlight, largestArmy, longestRoad);
+                getView().updatePlayer( p.getPlayerIndex(), p.getVictoryPoints(), highlight, largestArmy, longestRoad);
             }
-		} catch (GetPlayerException e) {
-			e.printStackTrace();
-		}
+
 	}
 
     @Override
