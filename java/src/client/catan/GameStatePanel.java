@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 
 import client.base.IAction;
+import client.facade.CatanFacade;
 
 
 @SuppressWarnings("serial")
@@ -36,7 +37,20 @@ public class GameStatePanel extends JPanel
 	public void updateGameState(String stateMessage, boolean enable)
 	{
 		button.setText(stateMessage);
-		button.setEnabled(enable);
+		if(enable)
+                {
+                    button.setBackground(CatanFacade.getColorFromPlayerName(CatanFacade.getMyPlayerInfo().getName()).getJavaColor());
+                    button.setContentAreaFilled(false);
+                    button.setOpaque(true);
+                }
+                else
+                {
+                    button.setBackground(Color.WHITE);
+                    button.setContentAreaFilled(true);
+                    button.setOpaque(false);
+                }
+                button.setEnabled(enable);
+                
 	}
 	
 	public void setButtonAction(final IAction action)
