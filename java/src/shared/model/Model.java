@@ -599,6 +599,13 @@ public class Model {
             return false;
         }
     }
+    
+    public boolean canPlayDevCard(int playerIndex){
+        if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)){
+            return true;
+        }
+        return false;
+    }
 
     public boolean canPlayMonopoly(int playerIndex) {
         Player current = players.get(playerIndex);

@@ -153,20 +153,45 @@ public class ResourceBarController extends Controller implements IResourceBarCon
         }
     }
     
-    public void setButtonsNotMyTurn(){
+    public void enableButtons(){
         if(!CatanFacade.isMyTurn()){
             getView().setElementEnabled(ResourceBarElement.CITY, false);
             getView().setElementEnabled(ResourceBarElement.ROAD, false);
             getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
             getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
             getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false); 
+        }if(CatanFacade.isMyTurn()){
+            if(CatanFacade.getModel().canBuyRoad()){
+                getView().setElementEnabled(ResourceBarElement.ROAD, true);    
+            }else{
+                getView().setElementEnabled(ResourceBarElement.ROAD, false);    
+            }
+            if(CatanFacade.getModel().canBuyDevCard(CatanFacade.getMyPlayerIndex())){
+                getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
+            }else{
+                getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+            }
+            if(CatanFacade.getModel().canBuySettlement()){
+                getView().setElementEnabled(ResourceBarElement.SETTLEMENT, true);
+            }else{
+                getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+            }
+            if(CatanFacade.getModel().canBuyCity()){
+                getView().setElementEnabled(ResourceBarElement.CITY, true);
+            }else{
+                getView().setElementEnabled(ResourceBarElement.CITY, false);
+            }
+            if(CatanFacade.getModel().canPlayDevCard(CatanFacade.getMyPlayerIndex())){
+                getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
+            }else{
+                getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+            }            
         }
     }
 
     @Override
     public void update(Observable o, Object arg) {
-System.out.println("Updating Resource Bar...");
-        setButtonsNotMyTurn();
+        enableButtons();
         setResources();
         
         // Pop up the correct dialogs if it's setup
