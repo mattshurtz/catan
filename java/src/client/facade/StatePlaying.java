@@ -214,6 +214,12 @@ public class StatePlaying extends StateBase {
         request.setPlayerIndex(currentPlayerIndex);
         
         proxy.robPlayer(request);
+        
+        try {
+            playSoldier(victimIndex, hexLoc);
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(StatePlaying.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Override

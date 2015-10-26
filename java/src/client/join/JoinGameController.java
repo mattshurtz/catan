@@ -167,9 +167,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     
         @Override
     public void update(Observable o, Object arg) {
-        System.out.println("joinGameController update this is the catan facade isOver: "+CatanFacade.isOver());
         if(CatanFacade.isOver()){
-            System.out.println("joinGameController update catan facade is over = true: ");
             start();
         }
     }

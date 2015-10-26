@@ -78,7 +78,6 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 		public void actionPerformed(ActionEvent e) {
 
 			if (e.getSource() == okButton) {
-                System.out.println("okButton was pressed");
 				closeModal();
                 CatanFacade.finishGame();
 			}

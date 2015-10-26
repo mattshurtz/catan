@@ -284,7 +284,7 @@ public class CatanFacade {
         int newVersion = model.getVersion();
         int newNumPlayers = model.getPlayerInfos().length;
         
-        hackPlayer();
+//        hackPlayer();
         
         if ( oldVersion != newVersion || oldNumPlayers != newNumPlayers ) {
             // Replace old model with new one

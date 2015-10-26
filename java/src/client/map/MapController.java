@@ -321,7 +321,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playSoldierCard() {	
-		getView().startDrop(PieceType.ROBBER, getMyColor(), false);
+		getView().startDrop(PieceType.ROBBER, getMyColor(), true);
 	}
 	
 	public void playRoadBuildingCard() {
@@ -334,6 +334,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void robPlayer(RobPlayerInfo victim) {
         try {
+            // if state playing send play dev card request to server
             CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex(), robLocation);
             OverlayView.closeAllModals();
         } catch (ServerException ex) {
