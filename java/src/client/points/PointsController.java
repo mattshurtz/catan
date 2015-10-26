@@ -69,12 +69,10 @@ public class PointsController extends Controller implements IPointsController, O
 	}
     
     private void declareWinner(){
-        System.out.println("declare winner: "+CatanFacade.isOver());
         if(CatanFacade.getModel().getWinner()>-1 && CatanFacade.getModel().getWinner()<4 && CatanFacade.isOver()==false){
             if(CatanFacade.getModel().getWinner()==CatanFacade.getMyPlayerIndex()){
                 getFinishedView().setWinner(CatanFacade.getModel().getPlayers().get(CatanFacade.getModel().getWinner()).getName(), true);
             }else{
-                int winner = CatanFacade.getModel().getWinner();
                 getFinishedView().setWinner(CatanFacade.getModel().getPlayers().get(CatanFacade.getModel().getWinner()).getName(), false);
             }
             getFinishedView().showModal();

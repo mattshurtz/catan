@@ -78,7 +78,6 @@ public class DevCardController extends Controller implements IDevCardController 
         getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, CatanFacade.getCurrentState().canPlayYearOfPlenty());
         
                 try {
-    System.out.println("Setting Resources...");
             if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
                 getPlayCardView().setCardAmount(DevCardType.SOLDIER, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalSoldiers());
                 getPlayCardView().setCardAmount(DevCardType.MONOPOLY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalMonopoly());

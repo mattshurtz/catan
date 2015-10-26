@@ -24,6 +24,10 @@ import shared.model.Player;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
+    private int roadBuildingCardCounter = 0;
+    private boolean playingRoadBuilding = false;
+    private EdgeLocation firstEdgeLocation;
+    private EdgeLocation secondEdgeLocation;
 	
 	private boolean robbingModalUp = false;
 	//private boolean isRobbing
@@ -248,11 +252,22 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeRoad(EdgeLocation edgeLoc) {
         try {
             boolean free = CatanFacade.isSetup();
+            if(playingRoadBuilding){
+                free = true;
+                if(roadBuildingCardCounter==0){
+                    firstEdgeLocation = edgeLoc;
+                    roadBuildingCardCounter++;
+                }else if(roadBuildingCardCounter==1){
+                    secondEdgeLocation = edgeLoc;
+                    CatanFacade.getCurrentState().playRoadBuilding(firstEdgeLocation, secondEdgeLocation);
+                    roadBuildingCardCounter = 0;
+                }
+            }
             CatanFacade.getCurrentState().buildRoad(edgeLoc,free);
             getView().placeRoad(edgeLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            CatanFacade.triggerUpdate();
+//            CatanFacade.triggerUpdate();
         }
 	}
 
@@ -262,7 +277,7 @@ public class MapController extends Controller implements IMapController, Observe
     		getView().placeSettlement(vertLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            CatanFacade.triggerUpdate();
+//            CatanFacade.triggerUpdate();
         }
 	}
 
@@ -272,7 +287,7 @@ public class MapController extends Controller implements IMapController, Observe
     		getView().placeCity(vertLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            CatanFacade.triggerUpdate();
+//            CatanFacade.triggerUpdate();
         }
 	}
 
@@ -326,9 +341,9 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void playRoadBuildingCard() {
         
+        playingRoadBuilding = true;
         getView().startDrop(PieceType.ROAD, getMyColor(), true);
         getView().startDrop(PieceType.ROAD, getMyColor(), true);
-        
 		
 	}
 	

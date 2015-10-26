@@ -69,7 +69,7 @@ public class StatePlaying extends StateBase {
     
     @Override
     public boolean canPlayMonument() {
-        return model.canPlayMonopoly(CatanFacade.getMyPlayerIndex());
+        return model.canPlayMonument(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
@@ -175,7 +175,7 @@ public class StatePlaying extends StateBase {
         request.setType("Road_Building");
         request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
-        proxy.playRoadBuilding(request);
+        Model model = proxy.playRoadBuilding(request);
     }
     
     @Override

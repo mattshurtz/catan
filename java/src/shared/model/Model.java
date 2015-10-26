@@ -601,7 +601,7 @@ public class Model {
     }
     
     public boolean canPlayDevCard(int playerIndex){
-        if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)){
+        if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)||canPlayMonument(playerIndex)){
             return true;
         }
         return false;

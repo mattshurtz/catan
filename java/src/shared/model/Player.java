@@ -60,6 +60,11 @@ public class Player {
     public boolean canPlayDevCard(DevCardType cardType) {
         if(playedDevCard){
             return false;
+        }else if(cardType.equals(DevCardType.MONUMENT)){
+            if(oldDevCards.canPlayDevCard(cardType)||newDevCards.canPlayDevCard(cardType)){
+                return true;
+            }
+            return false;
         }
         else{
             //dont have a card of card Type in oldDevCards(playable)

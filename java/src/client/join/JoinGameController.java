@@ -167,9 +167,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
     
         @Override
     public void update(Observable o, Object arg) {
-        if(CatanFacade.isOver()){
-            start();
-        }
+//        if(CatanFacade.isOver()){
+//            start();
+//        }
     }
 
 	

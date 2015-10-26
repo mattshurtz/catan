@@ -284,7 +284,7 @@ public class CatanFacade {
         int newVersion = model.getVersion();
         int newNumPlayers = model.getPlayerInfos().length;
         
-//        hackPlayer();
+        hackPlayer();
         
         if ( oldVersion != newVersion || oldNumPlayers != newNumPlayers ) {
             // Replace old model with new one
@@ -309,10 +309,11 @@ public class CatanFacade {
     }
     
     public static void finishGame(){
-        paller.endGame();
-        gameIsOver = true;
-        triggerUpdate();
-        gameIsOver = false;            
+        
+//        paller.endGame();
+//        gameIsOver = true;
+//        triggerUpdate();
+//        gameIsOver = false;            
 
         
     }
@@ -328,7 +329,7 @@ public class CatanFacade {
     public static void hackPlayer(){
         try {
             model.getPlayer(0).setResources(new ResourceList(5,5,5,5,5));
-            model.getPlayer(0).setOldDevCards(new DevCardList(1,1,1,1,1));
+//            model.getPlayer(0).setOldDevCards(new DevCardList(1,1,1,1,1));
         } catch (GetPlayerException ex) {
             Logger.getLogger(CatanFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
