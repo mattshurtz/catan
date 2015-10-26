@@ -144,12 +144,13 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void update(Observable o, Object arg) {
+		System.out.println("Updating the discard controller");
 		if (CatanFacade.isDiscarding()) {
 			startDiscard();
 		} else {
 			//if the wait view or discard view are showing, hide them
-			getWaitView().closeModal();
-			getDiscardView().closeModal();
+			//getWaitView().closeModal();
+			//getDiscardView().closeModal();
 		}
 	}
 

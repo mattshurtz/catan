@@ -267,7 +267,7 @@ public class CatanFacade {
     }
 
     public static void updateGameModel() {
-
+    	
         int oldVersion = -1;
         int oldNumPlayers = 0;
         if ( model != null ) {
@@ -290,6 +290,8 @@ public class CatanFacade {
             // Replace old model with new one
             
             setModel(model);
+            //DEBUG - print current state
+            System.out.println(model.getTurnTracker().getStatus());
             observable.notifyObservers();
         }
     }
