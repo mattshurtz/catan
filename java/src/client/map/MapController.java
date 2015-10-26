@@ -24,7 +24,7 @@ import shared.model.Player;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
-	private boolean isRobbing;
+	private boolean isRobbing, robbingModalUp = false;
 	private HexLocation robLocation;
     
     private static HexLocation[] waterHexes = new HexLocation[] {
@@ -74,7 +74,6 @@ public class MapController extends Controller implements IMapController, Observe
 	 * all of this is hard coded info, you need to use these same 
 	 * functions and format to generate the map from your model
 	 */
-	
 	protected void initFromModel() {
 		//Get Model's map from CatanFacade
 		Model model  = CatanFacade.getModel();
@@ -269,7 +268,8 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		//Move the robber to the rob hex (do not update server model until robPlayer is called
+		robbingModalUp = false;
+        //Move the robber to the rob hex (do not update server model until robPlayer is called
 		robLocation = hexLoc;
 		isRobbing = true; //Robber position won't revert back when the poller updates the model 
 		getView().placeRobber(hexLoc);
@@ -338,10 +338,25 @@ public class MapController extends Controller implements IMapController, Observe
         
         //Show the placeRobber modal if turnTracker status is "ROBBING" and if this is the current player
         if (CatanFacade.getModel().getTurnTracker().getStatus() == TurnStatus.ROBBING) {
-        	if (CatanFacade.getModel().getTurnTracker().getCurrentTurn() == CatanFacade.getMyPlayerIndex()) {
-        		getView().startDrop(PieceType.ROBBER, getMyColor(), false);
+        	if ( !robbingModalUp && CatanFacade.getModel().getTurnTracker().getCurrentTurn() == CatanFacade.getMyPlayerIndex()) {
+        		// Sometimes update() gets called twice. This prevents it from calling startDrop() multiple times.
+                robbingModalUp = true;
+                delayedStartRobber();
+                
         	}
         }
+    }
+    
+    private void delayedStartRobber() {
+        new java.util.Timer().schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    getView().startDrop(PieceType.ROBBER, getMyColor(), false);
+                }
+            }, 
+            750
+        );
     }
     
     private CatanColor getMyColor() {
