@@ -9,13 +9,13 @@ import shared.model.map.*;
 import client.base.*;
 import client.data.*;
 import client.facade.CatanFacade;
-import client.facade.StatePlaying;
-import client.facade.StateSetup;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.exceptions.GetPlayerException;
 
 import shared.exceptions.ServerException;
+import shared.model.Player;
 
 
 /**
@@ -303,7 +303,18 @@ public class MapController extends Controller implements IMapController, Observe
         // Allow to cancel if it's in normal gameplay rather than setup
 		boolean isCancelAllowed = CatanFacade.isPlaying();
         
-		getView().startDrop(pieceType, CatanFacade.getMyPlayerInfo().getColor(), isCancelAllowed);
+        Model theModel = CatanFacade.getModel();
+        int mypidx = CatanFacade.getMyPlayerIndex();
+        Player thePlayer = null;
+        try {
+            thePlayer = theModel.getPlayer(mypidx);
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        CatanColor myColor = thePlayer.getColor();
+        
+		getView().startDrop(pieceType, myColor, isCancelAllowed);
 	}
 	
 	public void cancelMove() {
