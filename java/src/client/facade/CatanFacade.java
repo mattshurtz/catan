@@ -312,10 +312,10 @@ public class CatanFacade {
     
     public static void finishGame(){
         
-//        paller.endGame();
-//        gameIsOver = true;
-//        triggerUpdate();
-//        gameIsOver = false;            
+        paller.endGame();
+        gameIsOver = true;
+        triggerUpdate();
+        gameIsOver = false;            
 
         
     }

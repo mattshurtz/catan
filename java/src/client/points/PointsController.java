@@ -2,12 +2,24 @@ package client.points;
 
 import client.base.*;
 import client.facade.CatanFacade;
+import client.join.JoinGameController;
+import client.join.JoinGameView;
+import client.join.NewGameView;
+import client.join.PlayerWaitingController;
+import client.join.PlayerWaitingView;
+import client.join.SelectColorView;
+import client.login.LoginController;
+import client.login.LoginView;
+import client.main.Catan;
+import client.misc.MessageView;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.exceptions.GetPlayerException;
 import shared.model.Player;
+import sun.security.tools.keytool.Main;
 
 
 /**
@@ -77,6 +89,7 @@ public class PointsController extends Controller implements IPointsController, O
             }
             getFinishedView().showModal();
         }
+        
     }
 
     @Override
@@ -84,6 +97,13 @@ public class PointsController extends Controller implements IPointsController, O
         initFromModel();
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         declareWinner();
+        
+        if(CatanFacade.isOver()){
+        	//get rid of the current frame
+        	Catan.currentFrame.dispose();
+        	//restart game
+        	Catan.main(null);
+        }
     
     }
 	

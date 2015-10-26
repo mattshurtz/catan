@@ -1,5 +1,8 @@
 package client.main;
 
+import java.io.File;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 import client.catan.*;
@@ -21,6 +24,8 @@ public class Catan extends JFrame
 	
 	private CatanPanel catanPanel;
 	
+	public static Catan currentFrame;
+	
 	public Catan()
 	{
 		
@@ -34,6 +39,7 @@ public class Catan extends JFrame
 		
 		display();
 	}
+	
 	
 	private void display()
 	{
@@ -59,10 +65,26 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				IServerProxy proxy = new ServerProxy("localhost", 8081);
+				String host = "localhost";
+				int port = 8081;
+				
+				if (args.length == 2) {
+					host = args[0];
+					port = Integer.parseUnsignedInt(args[1]);
+				}
+				
+				
+				
+				IServerProxy proxy = new ServerProxy(host, port);
                 CatanFacade.setup( proxy, null );
                 
-                new Catan();
+                setup();
+                
+                
+			}
+
+			public void setup() {
+				currentFrame = new Catan();
 				
 				PlayerWaitingView playerWaitingView = new PlayerWaitingView();
 				final PlayerWaitingController playerWaitingController = new PlayerWaitingController(
@@ -106,8 +128,6 @@ public class Catan extends JFrame
 				loginView.setController(loginController);
 				
 				loginController.start();
-                
-                
 			}
 		});
 	}
