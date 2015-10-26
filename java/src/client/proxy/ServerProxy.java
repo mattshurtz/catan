@@ -127,11 +127,15 @@ public class ServerProxy implements IServerProxy {
             for (String cookie : cookies) {
                 conn.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
             }
+            conn.setUseCaches(false);
             conn.setDoInput( true );
 
             if ( postParams != null ) {
                 conn.setDoOutput( true );
                 outputPostObject( conn, postParams );
+            } else {
+                conn.setAllowUserInteraction(false);
+                conn.setRequestMethod("GET");
             }
 
             // Grab the cookie headers & save 'em
