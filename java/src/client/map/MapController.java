@@ -241,7 +241,7 @@ public class MapController extends Controller implements IMapController, Observe
         try {
             boolean free = CatanFacade.isSetup();
             CatanFacade.getCurrentState().buildRoad(edgeLoc,free);
-            getView().placeRoad(edgeLoc, CatanFacade.getMyPlayerInfo().getColor());
+            getView().placeRoad(edgeLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             CatanFacade.triggerUpdate();
@@ -251,7 +251,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeSettlement(VertexLocation vertLoc) {
         try {
             CatanFacade.getCurrentState().buildSettlement(vertLoc);
-    		getView().placeSettlement(vertLoc, CatanFacade.getMyPlayerInfo().getColor());
+    		getView().placeSettlement(vertLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             CatanFacade.triggerUpdate();
@@ -261,7 +261,7 @@ public class MapController extends Controller implements IMapController, Observe
 	public void placeCity(VertexLocation vertLoc) {
         try {
             CatanFacade.getCurrentState().buildCity(vertLoc);
-    		getView().placeCity(vertLoc, CatanFacade.getMyPlayerInfo().getColor());
+    		getView().placeCity(vertLoc, getMyColor());
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
             CatanFacade.triggerUpdate();
@@ -303,18 +303,7 @@ public class MapController extends Controller implements IMapController, Observe
         // Allow to cancel if it's in normal gameplay rather than setup
 		boolean isCancelAllowed = CatanFacade.isPlaying();
         
-        Model theModel = CatanFacade.getModel();
-        int mypidx = CatanFacade.getMyPlayerIndex();
-        Player thePlayer = null;
-        try {
-            thePlayer = theModel.getPlayer(mypidx);
-        } catch (GetPlayerException ex) {
-            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            return;
-        }
-        CatanColor myColor = thePlayer.getColor();
-        
-		getView().startDrop(pieceType, myColor, isCancelAllowed);
+		getView().startDrop(pieceType, getMyColor(), isCancelAllowed);
 	}
 	
 	public void cancelMove() {
@@ -322,24 +311,24 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playSoldierCard() {	
-		getView().startDrop(PieceType.ROBBER, CatanFacade.getMyPlayerInfo().getColor(), false);
+		getView().startDrop(PieceType.ROBBER, getMyColor(), false);
 	}
 	
 	public void playRoadBuildingCard() {
         
-        getView().startDrop(PieceType.ROAD, CatanFacade.getMyPlayerInfo().getColor(), true);
-        getView().startDrop(PieceType.ROAD, CatanFacade.getMyPlayerInfo().getColor(), true);
+        getView().startDrop(PieceType.ROAD, getMyColor(), true);
+        getView().startDrop(PieceType.ROAD, getMyColor(), true);
         
 		
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {
-            try {
-                CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex(), robLocation);
-                OverlayView.closeAllModals();
-            } catch (ServerException ex) {
-                Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            CatanFacade.getCurrentState().robPlayer(victim.getPlayerIndex(), robLocation);
+            OverlayView.closeAllModals();
+        } catch (ServerException ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+        }
 	}
 
     @Override
@@ -350,9 +339,24 @@ public class MapController extends Controller implements IMapController, Observe
         //Show the placeRobber modal if turnTracker status is "ROBBING" and if this is the current player
         if (CatanFacade.getModel().getTurnTracker().getStatus() == TurnStatus.ROBBING) {
         	if (CatanFacade.getModel().getTurnTracker().getCurrentTurn() == CatanFacade.getMyPlayerIndex()) {
-        		getView().startDrop(PieceType.ROBBER, CatanFacade.getMyPlayerInfo().getColor(), false);
+        		getView().startDrop(PieceType.ROBBER, getMyColor(), false);
         	}
         }
+    }
+    
+    private CatanColor getMyColor() {
+        Model theModel = CatanFacade.getModel();
+        int mypidx = CatanFacade.getMyPlayerIndex();
+        Player thePlayer = null;
+        try {
+            thePlayer = theModel.getPlayer(mypidx);
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+        CatanColor myColor = thePlayer.getColor();
+        
+        return myColor;
     }
 	
 }
