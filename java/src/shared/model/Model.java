@@ -178,7 +178,7 @@ public class Model {
      * i.e. if the given player has either a settlement or city at given hexLoc
      */
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
-        return catanMap.canRobPlayer(playerIndex, hexLoc);
+        return (playerIndex != CatanFacade.getMyPlayerIndex()) && catanMap.canRobPlayer(playerIndex, hexLoc);
     }
     
     public boolean canPlaceRobber(HexLocation hexLocation){

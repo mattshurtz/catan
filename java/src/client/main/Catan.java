@@ -10,6 +10,7 @@ import client.base.*;
 import client.facade.CatanFacade;
 import client.proxy.IServerProxy;
 import client.proxy.ServerProxy;
+import shared.definitions.CatanColor;
 
 /**
  * Main entry point for the Catan program
