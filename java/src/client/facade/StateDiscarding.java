@@ -30,7 +30,6 @@ public class StateDiscarding extends StateBase {
     public void discardCards( ResourceList discardedCards ) throws ServerException {
         DiscardCardsRequest request = new DiscardCardsRequest(CatanFacade.getMyPlayerIndex(), discardedCards);
         request.setType("discardCards");
-        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
         
         proxy.discardCards(request);
     }
