@@ -160,7 +160,11 @@ public class CatanFacade {
         int currPlayer = model.getTurnTracker().getCurrentTurn();
 
         if (currPlayer != myPlayerIndex || currStatus == null) {
-            currentState = notMyTurn;
+        	if (currStatus == TurnStatus.DISCARDING) {
+        		currentState = discarding;
+        	} else {
+        		currentState = notMyTurn;
+        	}
         } else {
             // It's our turn, so determine which facade to use
             switch (currStatus) {
@@ -290,8 +294,6 @@ public class CatanFacade {
             // Replace old model with new one
             
             setModel(model);
-            //DEBUG - print current state
-            System.out.println(model.getTurnTracker().getStatus());
             observable.notifyObservers();
         }
     }

@@ -127,31 +127,29 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	/**
 	 * send request to server with a map of resource types and how many of each are discarded
+	 * Reset discard view to 0
 	 */
 	@Override
 	public void discard() {
         try {
             CatanFacade.getCurrentState().discardCards(discardedCards);
+            resetDiscardView();
             getDiscardView().closeModal();
         } catch (ServerException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-		getDiscardView().closeModal();
-		
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("Updating the discard controller");
 		if (CatanFacade.isDiscarding()) {
 			startDiscard();
-		} else {
+		} //else {
 			//if the wait view or discard view are showing, hide them
 			//getWaitView().closeModal();
 			//getDiscardView().closeModal();
-		}
+		//}
 	}
 
 	public void startDiscard() {
@@ -168,11 +166,7 @@ public class DiscardController extends Controller implements IDiscardController,
 				
 				totalDiscardAmount = (int) Math.ceil(playerResources / 2.0);
 				
-				updateAfterIncreaseOrDecrease(ResourceType.BRICK);
-				updateAfterIncreaseOrDecrease(ResourceType.ORE);
-				updateAfterIncreaseOrDecrease(ResourceType.SHEEP);
-				updateAfterIncreaseOrDecrease(ResourceType.WHEAT);
-				updateAfterIncreaseOrDecrease(ResourceType.WOOD);
+				updateAllButtons();
 			
 				getDiscardView().showModal();
 			} else {
@@ -183,6 +177,34 @@ public class DiscardController extends Controller implements IDiscardController,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	private void resetDiscardView() {
+		discardedCards = new ResourceList();
+		
+		getDiscardView().setResourceMaxAmount(ResourceType.BRICK, 0);
+		getDiscardView().setResourceMaxAmount(ResourceType.ORE, 0);
+		getDiscardView().setResourceMaxAmount(ResourceType.SHEEP, 0);
+		getDiscardView().setResourceMaxAmount(ResourceType.WHEAT, 0);
+		getDiscardView().setResourceMaxAmount(ResourceType.WOOD, 0);
+		
+		getDiscardView().setDiscardButtonEnabled(false);
+		
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, false, false);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, false, false);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, false, false);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, false, false);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, false, false);
+		
+		totalDiscardAmount = 0;
+	}
+	
+	private void updateAllButtons() {
+		updateAfterIncreaseOrDecrease(ResourceType.BRICK);
+		updateAfterIncreaseOrDecrease(ResourceType.ORE);
+		updateAfterIncreaseOrDecrease(ResourceType.SHEEP);
+		updateAfterIncreaseOrDecrease(ResourceType.WHEAT);
+		updateAfterIncreaseOrDecrease(ResourceType.WOOD);
 	}
 
 }
