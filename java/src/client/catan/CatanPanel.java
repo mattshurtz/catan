@@ -86,6 +86,8 @@ public class CatanPanel extends JPanel
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
+				discardController.startDiscard();
+				/*
 				discardView.setResourceMaxAmount(ResourceType.WOOD, 1);
 				discardView.setResourceMaxAmount(ResourceType.BRICK, 0);
 				discardView.setResourceMaxAmount(ResourceType.SHEEP, 11);
@@ -110,6 +112,7 @@ public class CatanPanel extends JPanel
 					discardWaitView.showModal();
 					state = 2;
 				}
+				*/
 			}
 		});
 		this.add(testButton, BorderLayout.SOUTH);

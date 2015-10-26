@@ -789,7 +789,7 @@ public class Model {
 			Player player = getPlayer(index);
 			PlayerInfo playerInfo = deserializer.toPlayerInfo(player);
 			robInfo = new RobPlayerInfo(playerInfo);
-			robInfo.setNumCards(player.getResources().getNumResources());
+			robInfo.setNumCards(player.getResources().getTotalResources());
     	} catch (GetPlayerException e) {
 			//Something's wrong with the given player index
 			e.printStackTrace();

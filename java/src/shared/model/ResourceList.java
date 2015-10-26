@@ -33,16 +33,6 @@ public class ResourceList {
             this.wheat = wheat;
             this.ore = ore;
     }
-    
-    public int getNumResources() {
-    	int total = 0;
-    	total += getBrick();
-    	total += getWood();
-    	total += getSheep();
-    	total += getWheat();
-    	total += getOre();
-    	return total;
-    }
 
 	/**
      * @param  accept is the list of resource necessary to accept

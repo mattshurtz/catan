@@ -24,7 +24,10 @@ import shared.model.Player;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
-	private boolean isRobbing, robbingModalUp = false;
+	
+	private boolean robbingModalUp = false;
+	//private boolean isRobbing
+	
 	private HexLocation robLocation;
     
     private static HexLocation[] waterHexes = new HexLocation[] {
@@ -53,7 +56,7 @@ public class MapController extends Controller implements IMapController, Observe
         CatanFacade.addObserver( this );
 		
 		setRobView(robView);
-		isRobbing = false;
+		//isRobbing = false;
 		
 		initFromModel();
 	}
@@ -95,12 +98,18 @@ public class MapController extends Controller implements IMapController, Observe
 			//Add the number to this hex
 			getView().addNumber(hexLoc, hex.getNumber());
 			
+			/*
 			//Add the robber if this hexType is Desert
 			//Do not update the robber position if the robber modal is up
 			if (hexType == HexType.DESERT && !isRobbing) {
 				getView().placeRobber(hexLoc);
 			}
+			*/
 		}
+		
+		//Place the robber
+		HexLocation robLocation = CatanFacade.getModel().getMap().getRobber();
+		getView().placeRobber(robLocation);
         
         for ( HexLocation waterHex : waterHexes ) {
             getView().addHex( waterHex, HexType.WATER );
@@ -269,9 +278,10 @@ public class MapController extends Controller implements IMapController, Observe
 
 	public void placeRobber(HexLocation hexLoc) {
 		robbingModalUp = false;
-        //Move the robber to the rob hex (do not update server model until robPlayer is called
+       
+		//Move the robber to the rob hex
 		robLocation = hexLoc;
-		isRobbing = true; //Robber position won't revert back when the poller updates the model 
+		//isRobbing = true; //Robber position won't revert back when the poller updates the model 
 		getView().placeRobber(hexLoc);
 		
 		//Get all the players on the Hex where robber got moved to
@@ -344,12 +354,11 @@ public class MapController extends Controller implements IMapController, Observe
     	initFromModel();
         
         //Show the placeRobber modal if turnTracker status is "ROBBING" and if this is the current player
-        if (CatanFacade.getModel().getTurnTracker().getStatus() == TurnStatus.ROBBING) {
+        if (CatanFacade.isRobbing()) {
         	if ( !robbingModalUp && CatanFacade.getModel().getTurnTracker().getCurrentTurn() == CatanFacade.getMyPlayerIndex()) {
         		// Sometimes update() gets called twice. This prevents it from calling startDrop() multiple times.
                 robbingModalUp = true;
                 delayedStartRobber();
-                
         	}
         }
     }

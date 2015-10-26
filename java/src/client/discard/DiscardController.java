@@ -144,30 +144,44 @@ public class DiscardController extends Controller implements IDiscardController,
 
 	@Override
 	public void update(Observable o, Object arg) {
+		if (CatanFacade.isDiscarding()) {
+			startDiscard();
+		} else {
+			//if the wait view or discard view are showing, hide them
+			getWaitView().closeModal();
+			getDiscardView().closeModal();
+		}
+	}
+
+	public void startDiscard() {
 		try {
-			//Get current player and do maths to find out how many cards they need to discard to get to 7
+			//Get current player find out how many cards they need to discard (half of their hand, rounding up)
 			Player player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
-			int totalPlayerResources = player.getResources().getNumResources();
-			totalDiscardAmount = totalPlayerResources - 7;
+			int playerResources = player.getResources().getTotalResources();
+			if (playerResources > 7) {
+				getDiscardView().setResourceMaxAmount(ResourceType.BRICK, player.getResources().getBrick());
+				getDiscardView().setResourceMaxAmount(ResourceType.ORE, player.getResources().getOre());
+				getDiscardView().setResourceMaxAmount(ResourceType.SHEEP, player.getResources().getSheep());
+				getDiscardView().setResourceMaxAmount(ResourceType.WHEAT, player.getResources().getWheat());
+				getDiscardView().setResourceMaxAmount(ResourceType.WOOD, player.getResources().getWood());
+				
+				totalDiscardAmount = (int) Math.ceil(playerResources / 2.0);
+				
+				updateAfterIncreaseOrDecrease(ResourceType.BRICK);
+				updateAfterIncreaseOrDecrease(ResourceType.ORE);
+				updateAfterIncreaseOrDecrease(ResourceType.SHEEP);
+				updateAfterIncreaseOrDecrease(ResourceType.WHEAT);
+				updateAfterIncreaseOrDecrease(ResourceType.WOOD);
+			
+				getDiscardView().showModal();
+			} else {
+				getWaitView().setMessage("Waiting for other players to discard");
+				getWaitView().showModal();
+			}
 		} catch (GetPlayerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		try {
-			getDiscardView().setResourceMaxAmount(ResourceType.BRICK, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getBrick());
-			getDiscardView().setResourceMaxAmount(ResourceType.ORE, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getOre());
-			getDiscardView().setResourceMaxAmount(ResourceType.SHEEP, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getSheep());
-			getDiscardView().setResourceMaxAmount(ResourceType.WHEAT, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWheat());
-			getDiscardView().setResourceMaxAmount(ResourceType.WOOD, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getWood());
-			updateAfterIncreaseOrDecrease(ResourceType.BRICK);
-		} catch (GetPlayerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-		
 	}
 
 }
