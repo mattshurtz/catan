@@ -332,6 +332,13 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
     @Override
+    public void robNoPlayer() {
+        RobPlayerInfo noPlayer = new RobPlayerInfo();
+        noPlayer.setPlayerIndex(-1);
+        this.robPlayer( noPlayer );
+    }
+
+    @Override
     public void update(Observable o, Object arg) {
         //Initialize map from the Model
     	initFromModel();

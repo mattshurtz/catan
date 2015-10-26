@@ -135,4 +135,6 @@ public interface IMapController extends IController
 	 * @param hexLoc The new position of the robber
 	 */
 	void robPlayer(RobPlayerInfo victim);
+
+    public void robNoPlayer();
 }

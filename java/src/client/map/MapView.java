@@ -198,6 +198,12 @@ public class MapView extends PanelView implements IMapView
 			assert false;
 		}
 		
+		@Override
+		public void robNoPlayer()
+		{
+			assert false;
+		}
+		
 		private void closeModal()
 		{
 			overlay.cancelDrop();
