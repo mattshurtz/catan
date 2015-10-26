@@ -106,8 +106,19 @@ public class LoginController extends Controller implements ILoginController {
 	@Override
 	public void register() {
 		
-    	String username = getLoginView().getLoginUsername();
-        String pass = getLoginView().getLoginPassword();
+    	String username = getLoginView().getRegisterUsername();
+        String pass = getLoginView().getRegisterPassword();
+        
+        if(!pass.equals(getLoginView().getRegisterPasswordRepeat())) {
+        	MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Password did not match.");
+
+            error.showModal();
+        	
+        	return;
+        }
+        	
         boolean success = CatanFacade.getGameHubFacade().register( username, pass );
         
         if ( success ) {
