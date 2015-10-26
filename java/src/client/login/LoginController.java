@@ -99,7 +99,29 @@ public class LoginController extends Controller implements ILoginController {
         }
 	}
 
-	
+        public boolean validatePass(String input)
+        {
+            final int MIN_PASS_LENGTH = 5;
+
+            if (input.length() < MIN_PASS_LENGTH)
+            {
+                return false;
+            }
+            else
+            {
+                for (char c : input.toCharArray())
+                {
+                    if (!Character.isLetterOrDigit(c)
+                            && c != '_' && c != '-')
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
 	/**
 	 * pretty much the same as above but with different error message
 	 */
@@ -109,6 +131,29 @@ public class LoginController extends Controller implements ILoginController {
     	String username = getLoginView().getRegisterUsername();
         String pass = getLoginView().getRegisterPassword();
         
+        //more than 3 characters or less than 7 unsername
+        if (username.length() < 3 || username.length() > 7){
+        	MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Username should be greater than 2 characters and less than 8.");
+
+            error.showModal();
+        	
+        	return;
+        }
+        
+        //password less than 5
+        if (pass.length() < 5 || !validatePass(pass)) {
+        	MessageView error = new MessageView();
+            error.setTitle("Warning!");
+            error.setMessage("Password can only contains alphanumerics, underscores, and hyphens");
+
+            error.showModal();
+        	
+        	return;
+        }
+        
+        //check if password matches
         if(!pass.equals(getLoginView().getRegisterPasswordRepeat())) {
         	MessageView error = new MessageView();
             error.setTitle("Warning!");
