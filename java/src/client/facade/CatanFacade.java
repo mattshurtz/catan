@@ -31,6 +31,7 @@ public class CatanFacade {
     private static StateSetup setup;
     private static StatePlaying playing;
     private static StateNotMyTurn notMyTurn;
+    private static boolean gameIsOver = false;
 
     // Pointer to one of the concrete states above
     private static StateBase currentState;
@@ -283,7 +284,7 @@ public class CatanFacade {
         int newVersion = model.getVersion();
         int newNumPlayers = model.getPlayerInfos().length;
         
-//        hackPlayer();
+        hackPlayer();
         
         if ( oldVersion != newVersion || oldNumPlayers != newNumPlayers ) {
             // Replace old model with new one
@@ -303,6 +304,23 @@ public class CatanFacade {
      */
     public static void triggerUpdate() {
         observable.notifyObservers();
+    }
+    
+    public static void finishGame(){
+        paller.endGame();
+        gameIsOver = true;
+        triggerUpdate();
+        gameIsOver = false;            
+
+        
+    }
+    
+    public static boolean isOver(){
+        return gameIsOver;
+    }
+    
+    public static void setIsOver(){
+        gameIsOver = false;
     }
     
     public static void hackPlayer(){

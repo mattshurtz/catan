@@ -5,13 +5,15 @@ import client.base.*;
 import client.data.*;
 import client.facade.CatanFacade;
 import client.misc.*;
+import java.util.Observable;
+import java.util.Observer;
 import shared.communication.params.CreateGameRequest;
 
 
 /**
  * Implementation for the join game controller
  */
-public class JoinGameController extends Controller implements IJoinGameController {
+public class JoinGameController extends Controller implements IJoinGameController, Observer {
 
 	private INewGameView newGameView;
 	private ISelectColorView selectColorView;
@@ -22,7 +24,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 	/**
 	 * JoinGameController constructor
-	 * 
 	 * @param view Join game view
 	 * @param newGameView New game view
 	 * @param selectColorView Select color view
@@ -30,12 +31,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	public JoinGameController(IJoinGameView view, INewGameView newGameView, 
 								ISelectColorView selectColorView, IMessageView messageView) {
-
 		super(view);
-
 		setNewGameView(newGameView);
 		setSelectColorView(selectColorView);
 		setMessageView(messageView);
+        CatanFacade.addObserver(this);
 	}
 	
 	public IJoinGameView getJoinGameView() {
@@ -83,11 +83,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 	
 	public IMessageView getMessageView() {
-		
 		return messageView;
 	}
 	public void setMessageView(IMessageView messageView) {
-		
 		this.messageView = messageView;
 	}
 
@@ -100,7 +98,6 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void start() {
 		GameInfo[] games = CatanFacade.getGameHubFacade().listGames();
         getJoinGameView().setGames(games, CatanFacade.getMyPlayerInfo() );
-        
 		getJoinGameView().showModal();
 	}
 
@@ -167,6 +164,15 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	
 		getJoinGameView().closeModal();
 	}
+    
+        @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("joinGameController update this is the catan facade isOver: "+CatanFacade.isOver());
+        if(CatanFacade.isOver()){
+            System.out.println("joinGameController update catan facade is over = true: ");
+            start();
+        }
+    }
 
 	
 	/**
@@ -186,6 +192,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             System.out.println("Join failed.");
         }
 	}
+    
+    
 
 }
 

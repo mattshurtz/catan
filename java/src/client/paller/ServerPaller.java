@@ -40,6 +40,11 @@ public class ServerPaller extends Thread {
         timer.schedule( task, PALL_DELAY, PALL_DELAY );
     }
     
+    public void endGame(){
+        timer.cancel();
+        timer.purge();
+    }
+    
     public int getTimesPalled() {
         return timesPalled;
     }

@@ -7,6 +7,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import client.base.*;
+import client.facade.CatanFacade;
 import client.utils.*;
 
 
@@ -75,9 +76,11 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 	private ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			
+
 			if (e.getSource() == okButton) {
+                System.out.println("okButton was pressed");
 				closeModal();
+                CatanFacade.finishGame();
 			}
 		}	
 	};
