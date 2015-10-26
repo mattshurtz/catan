@@ -71,8 +71,10 @@ public class PointsController extends Controller implements IPointsController, O
     private void declareWinner(){
         Player winner =null;
         for(Player playa: CatanFacade.getModel().getPlayers()){
+            if(playa!=null){
             if(playa.getVictoryPoints()>=10){
              winner = playa;   
+            }
             }
         }
         if(winner !=null){
