@@ -152,7 +152,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		//}
 	}
 
-	public void startDiscard() {
+	private void startDiscard() {
 		try {
 			//Get current player find out how many cards they need to discard (half of their hand, rounding up)
 			Player player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
