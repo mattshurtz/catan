@@ -249,18 +249,33 @@ public class Model {
         return surroundingEdgeOfVertexHasRoad(location);
     }
     
-    public boolean isBuildingThroughOpponent(VertexLocation suspectVertex){
-        for(VertexObject vObj : catanMap.getCitiesAndSettlements()){
-            if(vObj.getLocation().getNormalizedLocation().equals(suspectVertex)){
-                if(vObj.getOwner() != CatanFacade.getMyPlayerIndex()){
-                    return true;
-                }
-                else{
-                    return false;
+    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies){
+        int numOpponentsBuiltThrough = 0;
+        for(VertexLocation loc: suspectVerticies)
+        {
+            for(VertexObject vObj : catanMap.getCitiesAndSettlements()){
+                if(vObj.getLocation().getNormalizedLocation().equals(loc)){
+                    if(vObj.getOwner() != CatanFacade.getMyPlayerIndex()){
+                        numOpponentsBuiltThrough++;
+                    }
+                    else{
+                        //found valid connected vertex with own building
+                        return false;
+                    }
                 }
             }
         }
-        return false;
+        
+        if(numOpponentsBuiltThrough == suspectVerticies.size())
+        {
+            //every suspect vertex is through an opponent
+            return true;
+        }
+        else
+        {
+            //connected vertex with no building
+            return false;
+        }
     }
 
 
@@ -280,6 +295,10 @@ public class Model {
             }
         }
 
+        //check if connected and determine connected verticies
+        boolean connected = false;
+        ArrayList<VertexLocation> connectedVerticies = new ArrayList<VertexLocation>();
+        
         for (Road road : catanMap.getRoads()) {
 
             // check around North edge 
@@ -287,7 +306,7 @@ public class Model {
 //                VertexLocation firstSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast);
 //                VertexLocation secondSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest);    
 
-//There exists a vertex an adjecent vertex object owned by the player
+                //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
 
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
@@ -300,7 +319,12 @@ public class Model {
 //                    else {
 //                        return true;
 //                    }
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
 
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
@@ -313,7 +337,12 @@ public class Model {
 //                    else {
 //                        return true;
 //                    }           
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
@@ -324,7 +353,12 @@ public class Model {
 //                    else {
 //                        return true;
 //                    }  
-                return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                     normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
@@ -335,7 +369,12 @@ public class Model {
 //                    else {
 //                        return true;
 //                    }
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
             }
             //Check arround the NorthWest edge
@@ -345,21 +384,41 @@ public class Model {
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         southwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         southwestNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
             }
             //Check arround the NorthEast edge
@@ -369,23 +428,52 @@ public class Model {
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         southeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthWest);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         southeastNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    return true;
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if(!connectedVerticies.contains(suspectVertex))
+                    {
+                        connectedVerticies.add(suspectVertex);
+                    }
                 }
             }
         }
-        return false;
+        
+        //check connected verticies for own or buildings
+        if(connected && !isBuiltThroughOpponent(connectedVerticies))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public boolean isValidFirstRoad(EdgeLocation normEdge) {
