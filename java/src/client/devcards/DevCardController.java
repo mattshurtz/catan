@@ -70,6 +70,8 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startPlayCard() {
+        System.out.println(" start play card ");
+   
 		//SOLDIER, YEAR_OF_PLENTY, MONOPOLY, ROAD_BUILD, MONUMENT
         getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CatanFacade.getCurrentState().canPlaySoldier());
         getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, CatanFacade.getCurrentState().canPlayMonopoly());
@@ -77,7 +79,7 @@ public class DevCardController extends Controller implements IDevCardController 
         getPlayCardView().setCardEnabled(DevCardType.ROAD_BUILD, CatanFacade.getCurrentState().canPlayRoadBuilding());
         getPlayCardView().setCardEnabled(DevCardType.YEAR_OF_PLENTY, CatanFacade.getCurrentState().canPlayYearOfPlenty());
         
-                try {
+        try {
             if (CatanFacade.getMyPlayerIndex() > -1 && CatanFacade.getMyPlayerIndex() < 4) {
                 getPlayCardView().setCardAmount(DevCardType.SOLDIER, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalSoldiers());
                 getPlayCardView().setCardAmount(DevCardType.MONOPOLY, CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getTotalMonopoly());

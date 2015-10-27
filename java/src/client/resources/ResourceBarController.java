@@ -179,11 +179,11 @@ public class ResourceBarController extends Controller implements IResourceBarCon
             }else{
                 getView().setElementEnabled(ResourceBarElement.CITY, false);
             }
-            if(CatanFacade.getModel().canPlayDevCard(CatanFacade.getMyPlayerIndex())){
+//            if(CatanFacade.getModel().canPlayDevCard(CatanFacade.getMyPlayerIndex())){
                 getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
-            }else{
-                getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
-            }            
+//            }else{
+//                getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+//            }            
         }
     }
 
