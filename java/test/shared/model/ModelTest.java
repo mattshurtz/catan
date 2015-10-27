@@ -487,31 +487,31 @@ public class ModelTest {
 		assertEquals(false, instance.canBuyRoad());
 	}
 
-	/**
-	 * VALID CANBUYROAD TESTS
-	 */
-
-	/**
-	 * 
-	 */
-	@Test
-	public void testCanBuyRoadValid() throws Exception {
-		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
-		// The current player in the testModel is the first player
-		assertEquals(currentPlayerIndex, 0);
-
-		// Set current player's bricks so that they can afford a road
-		Player player = instance.getPlayer(currentPlayerIndex);
-		player.getResources().addResource(ResourceType.BRICK, 1);
-
-		// check if the current player has sufficient resources to buy a road
-		assertEquals(player.getResources().getBrick(), 1);
-		assertEquals(player.getResources().getWood(), 1);
-
-		// this player has sufficient resources to buy a road so this should
-		// pass
-		assertEquals(true, instance.canBuyRoad());
-	}
+//	/**
+//	 * VALID CANBUYROAD TESTS
+//	 */
+//
+//	/**
+//	 * 
+//	 */
+//	@Test
+//	public void testCanBuyRoadValid() throws Exception {
+//		int currentPlayerIndex = instance.getTurnTracker().getCurrentTurn();
+//		// The current player in the testModel is the first player
+//		assertEquals(currentPlayerIndex, 0);
+//
+//		// Set current player's bricks so that they can afford a road
+//		Player player = instance.getPlayer(currentPlayerIndex);
+//		player.getResources().addResource(ResourceType.BRICK, 1);
+//
+//		// check if the current player has sufficient resources to buy a road
+//		assertEquals(player.getResources().getBrick(), 1);
+//		assertEquals(player.getResources().getWood(), 1);
+//
+//		// this player has sufficient resources to buy a road so this should
+//		// pass
+//		assertEquals(true, instance.canBuyRoad());
+//	}
 
 	/**
 	 * INVALID CANBUILDROAD TESTS
