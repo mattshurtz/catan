@@ -318,6 +318,7 @@ public class MapController extends Controller implements IMapController, Observe
 		robPlayerArray = playersToRob.toArray(robPlayerArray);
 		
 		//Set the RobPlayerInfo objects in the RobView modal
+
 		getRobView().setPlayers(robPlayerArray);
 		
 		//Bring up the RobView's modal
