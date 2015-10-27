@@ -284,8 +284,8 @@ public class Model {
 
             // check around North edge 
             if (normEdge.getDir() == EdgeDirection.North) {
-                VertexLocation firstSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast);
-                VertexLocation secondSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest);    
+//                VertexLocation firstSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast);
+//                VertexLocation secondSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest);    
 
 //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
@@ -294,43 +294,48 @@ public class Model {
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                     northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     
-                    if(isBuildingThroughOpponent(firstSuspectVertex)){
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
+//                    if(isBuildingThroughOpponent(firstSuspectVertex)){
+//                        return false;
+//                    }
+//                    else {
+//                        return true;
+//                    }
+                    return true;
                 }
 
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                     northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                 
-                    if( isBuildingThroughOpponent(secondSuspectVertex)){
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }                
+//                    if( isBuildingThroughOpponent(secondSuspectVertex)){
+//                        return false;
+//                    }
+//                    else {
+//                        return true;
+//                    }           
+                    return true;
                 }
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                        normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    if(isBuildingThroughOpponent(firstSuspectVertex) ){
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }                }
+                    normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+//                    if(isBuildingThroughOpponent(firstSuspectVertex) ){
+//                        return false;
+//                    }
+//                    else {
+//                        return true;
+//                    }  
+                return true;
+                }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                     normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     
-                    if(isBuildingThroughOpponent(secondSuspectVertex)){
-                        return false;
-                    }
-                    else {
-                        return true;
-                    }
+//                    if(isBuildingThroughOpponent(secondSuspectVertex)){
+//                        return false;
+//                    }
+//                    else {
+//                        return true;
+//                    }
+                    return true;
                 }
             }
             //Check arround the NorthWest edge
