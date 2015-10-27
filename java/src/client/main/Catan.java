@@ -26,6 +26,9 @@ public class Catan extends JFrame
 	
 	public static Catan currentFrame;
 	
+	public static String host = "localhost";
+	public static int port = 8081;
+	
 	public Catan()
 	{
 		
@@ -65,8 +68,7 @@ public class Catan extends JFrame
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run()
 			{
-				String host = "localhost";
-				int port = 8081;
+				
 				
 				if ( args.length > 0 )
 					port = Integer.parseUnsignedInt(args[0]);
