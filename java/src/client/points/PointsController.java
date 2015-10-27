@@ -91,7 +91,7 @@ public class PointsController extends Controller implements IPointsController, O
         	//get rid of the current frame
         	Catan.currentFrame.dispose();
         	//restart game
-        	Catan.main(null);
+        	Catan.main(new String[] { "8081", "localhost" } );
         }
     
     }
