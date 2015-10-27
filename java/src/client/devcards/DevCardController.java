@@ -7,6 +7,8 @@ import shared.exceptions.ServerException;
 import client.base.*;
 import client.facade.CatanFacade;
 import client.resources.ResourceBarElement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -71,7 +73,7 @@ public class DevCardController extends Controller implements IDevCardController 
 	@Override
 	public void startPlayCard() {
         System.out.println(" start play card ");
-   
+
 		//SOLDIER, YEAR_OF_PLENTY, MONOPOLY, ROAD_BUILD, MONUMENT
         getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CatanFacade.getCurrentState().canPlaySoldier());
         getPlayCardView().setCardEnabled(DevCardType.MONOPOLY, CatanFacade.getCurrentState().canPlayMonopoly());

@@ -58,7 +58,7 @@ public class Player {
      * @return true if player can play a development card
      */
     public boolean canPlayDevCard(DevCardType cardType) {
-        if(playedDevCard){
+        if(playedDevCard && !cardType.equals(DevCardType.MONUMENT)){
             
             return false;
         }else if(cardType.equals(DevCardType.MONUMENT)){
