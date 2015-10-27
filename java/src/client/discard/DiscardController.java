@@ -69,7 +69,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void increaseAmount(ResourceType resource) {
         discardedCards.addResource(resource, 1);
-        updateAfterIncreaseOrDecrease(resource);
+        updateAllButtons();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void decreaseAmount(ResourceType resource) {
         discardedCards.subtractResource(resource, 1);
-        updateAfterIncreaseOrDecrease(resource);
+        updateAllButtons();
 	}
 	
 	/**
@@ -97,7 +97,7 @@ public class DiscardController extends Controller implements IDiscardController,
 			//Decide if increase button should be enabled
 			boolean increase = false;
 			allowedTotal = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources().getResource(resource);
-			if (numToDiscard < allowedTotal) {
+			if (numToDiscard < allowedTotal && totalDiscardAmount > discardedCards.getTotalResources()) {
 				increase = true;
 			}
 			
