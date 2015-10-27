@@ -4,9 +4,12 @@
 	<!-- ********** -->	
     
 	<!-- Directory paths for the java server, javascript, and dest dir for the student copy -->
-    <property name="port.arg" value="8081"/>
+    <property name="port.arg" value="9876"/>
     <property name="web.arg" value="gameplay"/>
     <property name="options.arg" value="ug"/>
+    
+    <property name="port" value="8081"/>
+    <property name="host" value="localhost"/>
      
     <!-- Input folders -->
     <property name="java.dir" value="java"/>
@@ -144,8 +147,10 @@
 	
 	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
 		<java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
-			<sysproperty key="com.sun.management.jmxremote" value=""/>
-			<assertions>
+            <sysproperty key="com.sun.management.jmxremote" value=""/>
+			<arg value="${port}"/>
+			<arg value="${host}"/>
+            <assertions>
 				<enable/>
 			</assertions>
 		</java>

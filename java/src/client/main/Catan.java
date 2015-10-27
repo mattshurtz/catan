@@ -53,7 +53,7 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
-		try
+        try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
@@ -68,18 +68,15 @@ public class Catan extends JFrame
 				String host = "localhost";
 				int port = 8081;
 				
-				if (args.length == 2) {
-					host = args[0];
-					port = Integer.parseUnsignedInt(args[1]);
-				}
-				
-				
+				if ( args.length > 0 )
+					port = Integer.parseUnsignedInt(args[0]);
+                if ( args.length > 1 )
+                    host = args[1];
 				
 				IServerProxy proxy = new ServerProxy(host, port);
                 CatanFacade.setup( proxy, null );
                 
                 setup();
-                
                 
 			}
 
