@@ -148,7 +148,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startJoinGame(GameInfo game) {
         currentGame = game;
         
-        // disable colors used by other payers.
+        // enable all colors from previous join requests
+        for ( CatanColor c : CatanColor.values() ) {
+            getSelectColorView().setColorEnabled(c, true);
+        }
+        // disable colors used by other players in this game
         for(PlayerInfo player : currentGame.getPlayers())
         {
             if(!player.equals(CatanFacade.getMyPlayerInfo()))

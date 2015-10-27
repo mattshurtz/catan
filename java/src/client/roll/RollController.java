@@ -4,6 +4,7 @@ import client.base.*;
 import client.facade.CatanFacade;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Timer;
 import shared.exceptions.ServerException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,6 +17,8 @@ import java.util.logging.Logger;
 public class RollController extends Controller implements IRollController, Observer {
 
 	private IRollResultView resultView;
+    
+    private Timer rollTimer;
 
 	/**
 	 * RollController constructor
@@ -55,8 +58,8 @@ public class RollController extends Controller implements IRollController, Obser
 	 */
 	@Override
 	public void rollDice() {		
-//        getRollView().closeModal();
         try {
+            rollTimer.cancel();
             getResultView().setRollValue(CatanFacade.getCurrentState().rollNumber());
         } catch (ServerException ex) {
             Logger.getLogger(RollController.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,8 +70,22 @@ public class RollController extends Controller implements IRollController, Obser
 
     @Override
     public void update(Observable o, Object arg) {
-        if ( CatanFacade.isRolling() )
+        if ( CatanFacade.isRolling() ) {
             getRollView().showModal();
+            
+            // Set timer to roll automatically after 4 seconds of inactivity
+            rollTimer = new Timer();
+            rollTimer.schedule( 
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        getRollView().closeModal();
+                        rollDice();
+                    }
+                }, 
+                4000 // 4 seconds = 4000 millis
+            );
+        }
     }
 
 }
