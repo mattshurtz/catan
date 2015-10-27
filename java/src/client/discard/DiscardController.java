@@ -164,7 +164,7 @@ public class DiscardController extends Controller implements IDiscardController,
 				getDiscardView().setResourceMaxAmount(ResourceType.WHEAT, player.getResources().getWheat());
 				getDiscardView().setResourceMaxAmount(ResourceType.WOOD, player.getResources().getWood());
 				
-				totalDiscardAmount = (int) Math.ceil(playerResources / 2.0);
+				totalDiscardAmount = (int) Math.floor(playerResources / 2.0);
 				
 				updateAllButtons();
 			
