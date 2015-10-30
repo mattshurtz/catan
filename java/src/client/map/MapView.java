@@ -316,5 +316,12 @@ public class MapView extends PanelView implements IMapView
 			}
 		}
 	}
+    
+    public boolean isModalShowing() {
+        if ( overlay == null )
+            return false;
+        else 
+            return overlay.isModalShowing();
+    }
 	
 }

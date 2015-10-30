@@ -87,7 +87,8 @@ public class CatanFacade {
     }
     
     public static boolean isDiscarding() {
-        return ( ! isWaitingForPlayers() ) && ( currentState instanceof StateDiscarding );
+        // you can be discarding when it's not your turn
+        return ( ! isWaitingForPlayers() ) && (getModel().getTurnTracker().getStatus() == TurnStatus.DISCARDING);
     }
     
     public static boolean isNotMyTurn() {

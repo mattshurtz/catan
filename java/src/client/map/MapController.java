@@ -329,7 +329,8 @@ public class MapController extends Controller implements IMapController, Observe
         // Allow to cancel if it's in normal gameplay rather than setup
 		boolean isCancelAllowed = CatanFacade.isPlaying();
         
-		getView().startDrop(pieceType, getMyColor(), isCancelAllowed);
+        if ( ! getView().isModalShowing() )
+            getView().startDrop(pieceType, getMyColor(), isCancelAllowed);
 	}
 	
 	public void cancelMove() {
