@@ -147,7 +147,9 @@ public class DiscardController extends Controller implements IDiscardController,
 			startDiscard();
 		} else {
 			//if the wait view or discard view are showing, hide them
-			getWaitView().closeModal();
+			if(getWaitView().isModalShowing()){
+                getWaitView().closeModal();
+            }
 			//getDiscardView().closeModal();
 		}
 	}
