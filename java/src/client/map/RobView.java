@@ -71,7 +71,9 @@ public class RobView extends OverlayView implements IRobView {
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == defaultButton) {
-				closeModal();
+				if(isModalShowing()){
+	                closeModal();
+	            }
                 getController().robNoPlayer();
 			}
 			else{
@@ -79,7 +81,10 @@ public class RobView extends OverlayView implements IRobView {
 					if(e.getSource() == victimButtons.get(i)){
 						try {
 							getController().robPlayer(victims[i]);
-							closeModal();
+							if (isModalShowing())
+							{
+								closeModal();
+							}
 						} finally {
 							
 						}

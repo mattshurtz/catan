@@ -50,9 +50,13 @@ public class PointsController extends Controller implements IPointsController, O
 	 */
 	
 	public void setPoints(int amount)
-		{
-                        getPointsView().setPoints(amount);
+	{
+		int maxPoints = 10;
+		if (amount >= maxPoints) {
+			amount = maxPoints;
 		}
+		getPointsView().setPoints(amount);
+	}
 	
 	/**
 	 * getPointsView().setPoints( the amount of points for this player in the model);
