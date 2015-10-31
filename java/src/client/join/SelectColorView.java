@@ -173,7 +173,10 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 	private ActionListener actionListener = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
+			getController().startJoinGame(null);
+			if(!((JButton)e.getSource()).isEnabled()) {
+				return;
+			}
 			if (e.getSource() == joinButton) {
 				if (selButton != 0) {
 					getController().joinGame(getSelectedColor());

@@ -146,7 +146,13 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	@Override
 	public void startJoinGame(GameInfo game) {
-        currentGame = game;
+		
+		if (game==null) {
+			game = currentGame;
+		}
+        game = CatanFacade.getGameHubFacade().listGames()[game.getId()];
+		
+		currentGame = game;
         
         // enable all colors from previous join requests
         for ( CatanColor c : CatanColor.values() ) {
@@ -168,6 +174,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void cancelJoinGame() {
 	
 		getJoinGameView().closeModal();
+		this.getJoinGameView().showModal();
 	}
     
         @Override
@@ -183,6 +190,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	 */
 	@Override
 	public void joinGame(CatanColor color) {
+		getSelectColorView().closeModal();
+		startJoinGame(currentGame);
 		boolean success = CatanFacade.getGameHubFacade().join(currentGame, color.toString());
         if ( success ) {
             System.out.println("Join succeeded!");
