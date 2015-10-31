@@ -334,6 +334,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void cancelMove() {
+        if(getView().isModalShowing())
 		((MapView)getView()).cancelDrop();
 	}
 	

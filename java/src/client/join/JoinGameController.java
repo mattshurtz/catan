@@ -161,6 +161,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
             }
         }
         getSelectColorView().showModal();
+        
     }
     
 	@Override

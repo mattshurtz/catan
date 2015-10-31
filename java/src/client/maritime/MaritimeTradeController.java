@@ -26,7 +26,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public MaritimeTradeController(IMaritimeTradeView tradeView, IMaritimeTradeOverlay tradeOverlay) {
 		
 		super(tradeView);
-
 		setTradeOverlay(tradeOverlay);
 	}
 	
@@ -58,7 +57,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		if(!CatanFacade.isMyTurn()){
 			getTradeOverlay().setStateMessage("Not your turn.");
 			getTradeOverlay().setTradeEnabled(false);
-			getTradeOverlay().hideGiveOptions();
+			getTradeOverlay().showGiveOptions(new ResourceType[0]);
 			getTradeOverlay().hideGetOptions();
             getTradeOverlay().showModal();
 			return;
@@ -128,7 +127,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void cancelTrade() {
-
 		getTradeOverlay().closeModal();
 	}
 
