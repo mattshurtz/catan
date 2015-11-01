@@ -26,7 +26,7 @@ public class CatanFacade {
 
 	//set in the chat messages
 	private static boolean hackPlayer = false;
-	private static String hackOn = "bug fixed";
+	private static String hackOn = "bug fix";
 	
     public static boolean isHackPlayer() {
 		return hackPlayer;
