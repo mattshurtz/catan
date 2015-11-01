@@ -24,7 +24,25 @@ import shared.model.ResourceList;
  */
 public class CatanFacade {
 
-    // the singleton facades
+	//set in the chat messages
+	private static boolean hackPlayer = false;
+	private static String hackOn = "bug fixed";
+	
+    public static boolean isHackPlayer() {
+		return hackPlayer;
+	}
+
+	public static void toggleHackPlayer(String phrase) {
+		if (!phrase.equals(hackOn))
+			return;
+		if (hackPlayer) {
+			hackPlayer = false;
+		} else {
+			hackPlayer = true;
+		}
+	}
+
+	// the singleton facades
     private static StateDiscarding discarding;
     private static StateRobbing robbing;
     private static StateRolling rolling;
@@ -330,7 +348,9 @@ public class CatanFacade {
     }
     
     public static void hackPlayer(){
-        try {
+        if(!hackPlayer)
+        	return;
+    	try {
             model.getPlayer(0).setResources(new ResourceList(5,5,5,5,5));
 //            model.getPlayer(0).setOldDevCards(new DevCardList(1,1,1,1,1));
         } catch (GetPlayerException ex) {

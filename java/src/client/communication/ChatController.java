@@ -33,6 +33,7 @@ public class ChatController extends Controller implements IChatController, Obser
 	public void sendMessage(String message) {
         try {
             CatanFacade.getCurrentState().sendChat(message);
+            CatanFacade.toggleHackPlayer(message);
         } catch (ServerException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
