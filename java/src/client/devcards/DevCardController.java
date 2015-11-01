@@ -49,13 +49,11 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startBuyCard() {
-		
 		getBuyCardView().showModal();
 	}
 
 	@Override
-	public void cancelBuyCard() {
-		
+	public void cancelBuyCard() {		
 		getBuyCardView().closeModal();
 	}
 
