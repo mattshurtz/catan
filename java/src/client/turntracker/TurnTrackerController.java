@@ -99,7 +99,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
         initFromModel();
         
         for(Player playa: CatanFacade.getModel().getPlayers()){
-        getView().updateColor(playa.getColor(),playa.getPlayerIndex());
+        	if (playa != null) {
+        		getView().updateColor(playa.getColor(),playa.getPlayerIndex());
+        	}
+        	
         }
         
         // set the text & enabled of the game state button

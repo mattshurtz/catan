@@ -128,9 +128,11 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
     
     @Override
     public void updateColor(CatanColor color, int playerIndex){
-        playerPanel[playerIndex].setBackground(color.getJavaColor());
+        if(playerPanel[playerIndex].getComponentCount()>=1){
+    	playerPanel[playerIndex].setBackground(color.getJavaColor());
         playerPanel[playerIndex].getComponent(1).setBackground(color.getJavaColor());
         System.out.println(playerPanel[playerIndex].getComponent(1));
+        }
     }
 
 	@Override
