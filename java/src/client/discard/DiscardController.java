@@ -169,13 +169,11 @@ public class DiscardController extends Controller implements IDiscardController,
 				totalDiscardAmount = (int) Math.floor(playerResources / 2.0);
 				
 				updateAllButtons();
-				if(!getDiscardView().isModalShowing())
-					getDiscardView().showModal();
+			
+				getDiscardView().showModal();
 			} else {
-				if(!getWaitView().isModalShowing()) {
-					getWaitView().setMessage("Waiting for other players to discard");
-					getWaitView().showModal();
-				}
+				getWaitView().setMessage("Waiting for other players to discard");
+				getWaitView().showModal();
 			}
 		} catch (GetPlayerException e) {
 			// TODO Auto-generated catch block

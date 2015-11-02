@@ -93,7 +93,7 @@ public class MapView extends PanelView implements IMapView
 		overlay = new MapOverlay(map);
 		overlay.setController(overlayController);
 		overlay.startDrop(pieceType, pieceColor, isCancelAllowed);
-		if (!overlay.isModalShowing())
+		//if (!overlay.isModalShowing())
 			overlay.showModal();
 	}
 	

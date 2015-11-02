@@ -39,12 +39,12 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
         
-        if ( CatanFacade.isWaitingForPlayers() && !getView().isModalShowing() ) {
+        if ( CatanFacade.isWaitingForPlayers()) {
             getView().showModal(); // open new one
-            //modalIsUp = true;
-        } else if ( getView().isModalShowing() ) {
+            modalIsUp = true;
+        } else if ( modalIsUp ) {
             OverlayView.closeAllModals(); // Close all of them ... a new one opened up each time a new player joined
-            //modalIsUp = false;
+            modalIsUp = false;
         } // else do nothing
 	}
 
