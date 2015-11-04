@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import shared.communication.params.moves.BuildRoadRequest;
 
 import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.GameResponse;
@@ -57,6 +58,18 @@ public class Deserializer {
     	}
     	
         return gson.fromJson(json, CreateGameResponse.class);
+    }
+    
+    /**
+     * We added this for our phase 3 command class for building roads. 
+     * @param json
+     * @return 
+     */
+    public BuildRoadRequest toBuildRoadRequest(String json) {
+    	if(json == null) {
+    		return null;
+    	}
+        return gson.fromJson(json, BuildRoadRequest.class);
     }
     
     /**

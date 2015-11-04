@@ -7,8 +7,12 @@ package server.facade;
 
 /**
  *
- * @author karahartley
  */
 public class MockServerFacade implements IServerFacade {
+
+    @Override
+    public void doFunction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

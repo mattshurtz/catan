@@ -10,4 +10,6 @@ package server.facade;
  */
 public interface IServerFacade {
     
+    public void doFunction();
+    
 }

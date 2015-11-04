@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import shared.communication.params.moves.BuildRoadRequest;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
@@ -27,7 +28,6 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.CatanMap;
-import shared.model.map.Port;
 import shared.model.map.Road;
 import shared.model.map.Settlement;
 import shared.model.map.VertexObject;
@@ -201,7 +201,8 @@ public class Model {
      *
      * @param location where the player is playing the road
      */
-    public void buildRoad(EdgeLocation location) {
+    public void buildRoad(BuildRoadRequest buildRoadInfo) {
+      //  if(canBuildRoad())
 
     }
 

@@ -5,9 +5,17 @@
  */
 package server.commands;
 
+import shared.communication.params.moves.BuildRoadRequest;
+
 /**
  *
  */
-public class buildRoad {
+public class buildRoad extends Command {
+    
+    @Override
+    public void execute(String json) {
+        BuildRoadRequest request = this.getDeserializer().toBuildRoadRequest(json);
+        this.getModel().buildRoad(request.getRoadLocation());
+    }
     
 }
