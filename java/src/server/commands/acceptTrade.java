@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.HTTPhandlers;
+package server.commands;
 
 /**
  *
+ * @author Scott
  */
-public class Moves extends HTTPHandler {
+public class acceptTrade extends Command{
     
 }

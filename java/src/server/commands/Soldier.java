@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.HTTPhandlers;
+package server.commands;
 
 /**
  *
- * @author karahartley
+ * @author Scott
  */
-public class HTTPHandler {
+public class Soldier extends Command{
     
 }

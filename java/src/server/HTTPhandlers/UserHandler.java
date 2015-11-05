@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.facade;
+package server.HTTPhandlers;
+
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import java.io.IOException;
 
 /**
  *
+ * @author Scott
  */
-public class MockServerFacade implements IServerFacade {
+public class UserHandler implements HttpHandler{
 
     @Override
-    public void doFunction() {
+    public void handle(HttpExchange he) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
