@@ -10,5 +10,10 @@ package server.commands;
  * @author Scott
  */
 public class buildSettlement extends Command{
+
+    @Override
+    public void execute(String json) {
+        super.execute(json); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
