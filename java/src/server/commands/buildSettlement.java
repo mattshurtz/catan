@@ -7,10 +7,13 @@ package server.commands;
 
 /**
  *
- * @author Scott
  */
 public class buildSettlement extends Command{
 
+    /**
+     * Deserializes the request and Calls buildSettlement on the model. 
+     * @param json 
+     */
     @Override
     public void execute(String json) {
         super.execute(json); //To change body of generated methods, choose Tools | Templates.

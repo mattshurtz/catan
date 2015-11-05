@@ -11,6 +11,10 @@ package server.commands;
  */
 public class buyDevCard extends Command{
 
+    /**
+     * Deserializes the json then calls buyDevCard in the model. 
+     * @param json 
+     */
     @Override
     public void execute(String json) {
         super.execute(json); //To change body of generated methods, choose Tools | Templates.

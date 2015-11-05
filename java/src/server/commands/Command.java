@@ -21,7 +21,7 @@ public class Command {
     private Serializer serializer;
     
     /**
-     * Execute calls the function in the model to perform the given task in the 
+     * Calls the function in the model to perform the given task in the 
      * classes that extend the Command class. Here they call the corresponding method
      * in the model to first check if the requested command is valid, and then perform
      * the command is it is valid. 

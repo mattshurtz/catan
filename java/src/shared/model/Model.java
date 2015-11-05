@@ -169,7 +169,6 @@ public class Model {
         } else if (!players.get(playerIndex).hasRoad()) {
             return false;
         }
-
         return true;
     }
 
@@ -195,6 +194,7 @@ public class Model {
     }
 
     /**
+     * Calls canBuyRoad and canBuildRoad first
      * Removes a brick and wood from the player building the
      * road(player.resourceList.buyRoad();) and creates a road located at the
      * given EdgeLocation (CatanMap.buildRoad())
@@ -687,6 +687,7 @@ public class Model {
     }
 
     /**
+     * First calls canBuySettlement and canBuildSettlement then, if true
      * Removes a brick, wood, sheep, and wheat from the player building the
      * settlement(player.resourceList.buySettlement();) and creates a road
      * located at the given EdgeLocation (CatanMap.buildSettlment())
@@ -744,6 +745,16 @@ public class Model {
             return false;
         }
     }
+    /**
+     * calls canBuyDevCard, and Check if it is the players turn, then subtracts the resources from the player.
+     * 
+     * @param playerIndex 
+     */
+    public void buyDevCard(int playerIndex){
+        
+    }
+    
+    
     
     public boolean canPlayDevCard(int playerIndex){
         if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)||canPlayMonument(playerIndex)){
@@ -795,7 +806,7 @@ public class Model {
     }
 
     /**
-     *
+     *Checks if this player has the current turn, so they can finish turn. 
      * @return true if finish turn is a valid command
      */
     public boolean canFinishTurn() {
@@ -803,6 +814,13 @@ public class Model {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * Calls canFinishTurn and updates the turnTracker accordingly. 
+     */
+    public void finishTurn(){
+        
     }
 
     /**
@@ -815,8 +833,17 @@ public class Model {
         if (players.get(playerIndex).getResources().getTotalResources() > 7) {
             return true;
         }
-
         return false;
+    }
+    
+    /**
+     * Call canDiscardCards then, if they can subtract the cards from this players 
+     * resource list using subtract resource in ResourceList Class. 
+     * @param playerIndex
+     * @param listToDiscard 
+     */
+    public void discardCards(int playerIndex, ResourceList listToDiscard){
+        
     }
 
     /**
@@ -842,10 +869,17 @@ public class Model {
     public boolean canOfferResource(ResourceType type, int amount) {
         return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
     }
-
+    
     public boolean canOfferMaritimeTrade(ResourceType resourceType) {
         int neededToTrade = catanMap.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
         return canOfferResource(resourceType, neededToTrade);
+    }
+    
+    /**
+     * 
+     */
+    public void offerMaritimeTrade(){
+        
     }
 
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
