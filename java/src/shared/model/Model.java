@@ -865,6 +865,15 @@ public class Model {
     public void distributeResources(int rolledNumber) {
         //Don't implement in phase 1
     }
+    
+    /**
+     * Can offer trade checks if they player has sufficient resources to make the offer
+     * @param offer
+     * @return whether they can make the offer or not. 
+     */
+    public boolean canOfferTrade(ResourceList offer){
+        return false;
+    }
 
     public boolean canOfferResource(ResourceType type, int amount) {
         return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
@@ -875,12 +884,6 @@ public class Model {
         return canOfferResource(resourceType, neededToTrade);
     }
     
-    /**
-     * 
-     */
-    public void offerMaritimeTrade(){
-        
-    }
 
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
         return bank.hasResource(resourceType);
@@ -975,6 +978,14 @@ public class Model {
 		}
     	
     	return robInfo;
+    }
+    
+    /**
+     * Gets information from trade offer and changes the resources of the players
+     * accordingly. 
+     */
+    public void acceptTrade(){
+        
     }
 
     public void setPlayers(ArrayList<Player> players) {
