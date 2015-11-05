@@ -15,6 +15,11 @@ import java.io.IOException;
  */
 public class DefaultHandler implements HttpHandler {
 
+    /**
+     * The handle method calls the correct command through the CommandFacade
+     * @param he
+     * @throws IOException 
+     */
     @Override
     public void handle(HttpExchange he) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

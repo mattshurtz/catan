@@ -205,6 +205,20 @@ public class Model {
       //  if(canBuildRoad())
 
     }
+    /**
+     * Determines who should have the longest road and awards
+     * that player the longest road. 
+     */
+    public void longestRoad(){
+        
+    }
+    
+    /**
+     * Determines who has the largest army and awards that player largest army. 
+     */
+    public void largestArmy(){
+        
+    }
 
     /**
      * Checks if current player has enough resources for a settlement, and then

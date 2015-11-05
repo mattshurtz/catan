@@ -20,7 +20,13 @@ public class Command {
     private Deserializer deserializer;
     private Serializer serializer;
     
-    
+    /**
+     * Execute calls the function in the model to perform the given task in the 
+     * classes that extend the Command class. Here they call the corresponding method
+     * in the model to first check if the requested command is valid, and then perform
+     * the command is it is valid. 
+     * @param json 
+     */
     public void execute(String json){
         
     }
