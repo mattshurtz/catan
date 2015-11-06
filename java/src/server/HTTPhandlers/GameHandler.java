@@ -10,8 +10,8 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
- *
- * @author Scott
+ * HTTP Handler for the requests starting with /Game
+ * operations on a game active on the server. 
  */
 public class GameHandler implements HttpHandler {
 

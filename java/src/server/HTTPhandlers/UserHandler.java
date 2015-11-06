@@ -10,8 +10,8 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
- *
- * @author Scott
+ * HTTP Handler for the requests starting with /User
+ * operations on the users stored on the server. 
  */
 public class UserHandler implements HttpHandler{
 

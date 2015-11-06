@@ -10,7 +10,8 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
- *
+ * HTTP Handler for the requests starting with /Moves
+ * operations on the Model active on the server. 
  */
 public class MovesHandler implements HttpHandler {
 
