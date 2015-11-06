@@ -6,63 +6,97 @@
 package server.gameinfocontainer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-import shared.model.Model;
-
 /**
- * Stores the users for the games
- */
-/**
- * @author Shurt
- *
- */
-/**
- * @author Shurt
- *
+ * 
+ * @author Scott
  */
 public class UserInfoBank {
-	private ArrayList<User> users;
-
-	public UserInfoBank() {
-		
-	}
-	
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
-	}
-
-	public ArrayList<User> getUsers() {
-		return users;
-	}
-	
-	/**
-	 * Returns the User object
-	 * @param userId is the id of the user
-	 * @return
-	 */
-	public User getUser(int userId) {
-		return null;
-	}
-	
-	/**
-	 * Add a user to the array
-	 * @param username is the username given from client
-	 * @param password is the password given from client
-	 * @return
-	 */
-	public int addUser(String username, String password) {
-		return -1;
-	}
-	
-	
-	/**
-	 * Given a username and password, see if there is a user that meets these
-	 * @param username is given from the client
-	 * @param password is given from the client
-	 * @return -1 if not found, else return the player's id
-	 */
-	public int validateUser(String username, String password) {
-		return -1;
-	}
-	
+    
+    private static int IDcounter = 0;
+    private HashMap<String,String> passwords;
+    private HashMap<String,Integer> userIDs;
+    private HashMap<String,ArrayList<Integer>> gameIDs;
+    
+    /**
+     * Creates the UserInfoBank. Contains user information such as usernames,
+     * passwords, userIDs, currentGames.
+     */
+    public UserInfoBank(){
+        //Different Constructor for loading previously saved server state?
+        //update IDcounter if some users already stored. 
+    }
+    
+    /**
+     * @param username - user's desired username
+     * @param password - user's desired password
+     * @return true if successfully registered, else false
+     */
+    public boolean registerUser(String username, String password) {
+        
+        //if valid username and password
+            passwords.put(username, password);
+            userIDs.put(username, IDcounter++);
+            gameIDs.put(username, new ArrayList<Integer>());
+            //remember to set cookie
+            //remember to login player
+            
+            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * 
+     * @param username - user's username
+     * @param password - user's password
+     * @return true if successfully logged in, else false.
+     */
+    public boolean loginUser(String username, String password) {
+        //if valid username password combo in passwords map:
+            //set cookie
+            //login
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * 
+     * @param username - current user's username
+     * @return ArrayList of all game IDs the user with username has joined.
+     */
+    private ArrayList<Integer> getUserGames(String username) {
+        //if valid username
+            return gameIDs.get(username);
+    }
+    
+    /**
+     * 
+     * @param username - current user's username
+     * @return the servers userID for the registered user
+     */
+    private int getUserID(String username) {
+        //if valid username
+            return userIDs.get(username);
+    }
+    
+    /**
+     * 
+     * @param username - current user's username
+     * @return the registered password of the user with username
+     */
+    private String getPassword(String username) {
+        //if valid username
+            return passwords.get(username);
+    }
+    
+    /**
+     * 
+     * @param username - queried username
+     * @return true if the username is found in the UserInfoBank
+     */
+    private boolean isRegisteredUser(String username) {
+        if(passwords.containsKey(username)){
+            return true;
+        }
+        return false;
+    }
 }
