@@ -178,6 +178,16 @@ public class Model {
         return (playerIndex != CatanFacade.getMyPlayerIndex()) && catanMap.canRobPlayer(playerIndex, hexLoc);
     }
     
+    /**
+     * Removes resources from the victim's bank and adds them to the robber's bank.
+     * 
+     * @param robberIndex
+     * @param victimIndex
+     */
+    public void robPlayer(int robberIndex, int victimIndex) {
+    	
+    }
+    
     public boolean canPlaceRobber(HexLocation hexLocation){
             if(catanMap.getRobber().equals(hexLocation)){
                 return false;
@@ -764,11 +774,32 @@ public class Model {
 
         return current.canPlayDevCard(DevCardType.MONOPOLY);
     }
+    
+    /**
+     * Takes all resources from all players matching the declared resource, and gives them to 
+     * player of the given playerIndex.  Also removes the monopoly card from that player's hand.
+     * 
+     * @param playerIndex the player who played the monopoly card
+     * @param resource the type of resource the player will steal from everyone
+     */
+    public void playMonopoly(int playerIndex, ResourceType resource) {
+    	
+    }
 
     public boolean canPlaySoldier(int playerIndex) {
         Player current = players.get(playerIndex);
 
         return current.canPlayDevCard(DevCardType.SOLDIER);
+    }
+    
+    /**
+     * Removes the Soldier card from the given player's hand, 
+     * and increases the soldier count by one for that player.
+     * (Actual placing of the robber is handled on the client side by the MapController).
+     * @param playerIndex
+     */
+    public void playSoldier(int playerIndex) {
+    	
     }
 
     public boolean canPlayRoadBuilding(int playerIndex) {
@@ -776,17 +807,48 @@ public class Model {
 
         return current.canPlayDevCard(DevCardType.ROAD_BUILD);
     }
+    
+    /**
+     * Removes the Road Building card from the given player's hand
+     * (Actual placing of roads is handled on the client side by the MapController)
+     * @param playerIndex
+     */
+    public void playRoadBuilding(int playerIndex) {
+    	
+    }
 
     public boolean canPlayYearOfPlenty(int playerIndex) {
         Player current = players.get(playerIndex);
 
         return current.canPlayDevCard(DevCardType.YEAR_OF_PLENTY);
     }
+    
+    /**
+     * Adds two resources to the given player's bank, and removes the
+     * Year of Plenty card from that player's hand.  The types of resources
+     * given are specified by the second and third arguments.
+     * @param playerIndex
+     * @param firstResource
+     * @param secondResource
+     */
+    public void playYearOfPlenty(int playerIndex, 
+    		ResourceType firstResource, ResourceType secondResource) {
+    	
+    }
 
     public boolean canPlayMonument(int playerIndex) {
         Player current = players.get(playerIndex);
 
         return current.canPlayDevCard(DevCardType.MONUMENT);
+    }
+    
+    /**
+     * Adds two victory points to the player of given playerIndex and 
+     * removes the "monument" card from their hand
+     * @param playerIndex the player playing the monument card.
+     */
+    public void playMonument(int playerIndex) {
+    	
     }
 
     /**
@@ -799,6 +861,13 @@ public class Model {
         }
 
         return false;
+    }
+    
+    /**
+     * Rolls a number and changes the turn status from ROLLING to PLAYING
+     */
+    public void rollNumber() {
+    	
     }
 
     /**
@@ -843,8 +912,8 @@ public class Model {
     }
 
     /**
-     * Removes three ore and two wheat from this player's ResourceList Subtracts
-     * one city from players cities count Adds settlement to players settlement
+     * Removes three ore and two wheat from this player's ResourceList. Subtracts
+     * one city from players cities count. Adds settlement to players settlement
      * count (player.resourceList.buyCity();) Replace settlement located on the
      * given VertexLocation with a city(CatanMap.buildCity())
      *
@@ -869,6 +938,20 @@ public class Model {
      */
     public boolean canOfferTrade(ResourceList offer){
         return false;
+    }
+    
+    /**
+     * Initiates a trade between the trader and receiver, specified by the first two 
+     * arguments.  The proposed trade is specified by the third argument.  Negative resources
+     * are the resources the trader is hoping to receive, and positive resources are
+     * the resources the trader is willing to give.
+     * 
+     * @param traderIndex
+     * @param receiverIndex
+     * @param offer
+     */
+    public void offerTrade(int traderIndex, int receiverIndex, ResourceList offer) {
+    	
     }
 
     public boolean canOfferResource(ResourceType type, int amount) {
@@ -922,6 +1005,15 @@ public class Model {
      */
     public void setChat(MessageList chat) {
         this.chat = chat;
+    }
+    
+    /**
+     * Posts a chat message to the chat list.
+     * @param chat the MessageLine object containing the 
+     * message as well as the name of the player that sent it.
+     */
+    public void sendChat(MessageLine chat) {
+    	
     }
 
     public MessageList getLog() {
