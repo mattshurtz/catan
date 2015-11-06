@@ -12,7 +12,7 @@ import java.io.IOException;
 /**
  * HTTP Handler for managing the swagger page operations.
  */
-public class DefaultHandler implements HttpHandler {
+public class DefaultHandler extends catanHTTPHandler {
 
     /**
      * The handle method calls the correct command through the CommandFacade

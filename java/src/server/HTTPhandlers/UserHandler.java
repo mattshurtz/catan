@@ -13,7 +13,7 @@ import java.io.IOException;
  * HTTP Handler for the requests starting with /User
  * operations on the users stored on the server. 
  */
-public class UserHandler implements HttpHandler{
+public class UserHandler extends catanHTTPHandler{
 
     @Override
     public void handle(HttpExchange he) throws IOException {
