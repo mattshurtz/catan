@@ -916,7 +916,10 @@ public class Model {
     public MessageList getChat() {
         return chat;
     }
-
+    /**
+     * This get's called by the sendChat Command and adds a message to the chat
+     * @param chat 
+     */
     public void setChat(MessageList chat) {
         this.chat = chat;
     }
