@@ -240,6 +240,10 @@ public class Model {
         return surroundingEdgeOfVertexHasRoad(location);
     }
 
+    /**
+     * Checks if you can by a city
+     * @return true if a city can be bought
+     */
     public boolean canBuyCity() {
         //checks if the player has enough resources.
         if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()) {
@@ -252,6 +256,11 @@ public class Model {
         return true;
     }
 
+    /**
+     * Check it a dev card can be bought
+     * @param playerIndex the id of the player
+     * @return true if can buy
+     */
     public boolean canBuyDevCard(int playerIndex) {
         Player current = players.get(playerIndex);
         if (turnTracker.getCurrentTurn() == playerIndex) {
@@ -322,11 +331,23 @@ public class Model {
         return false;
     }
     
+    /**
+     * Checks if a maritime trade can be offered
+     * 
+     * @param resourceType the type to trade
+     * @return true if trade can happen
+     */
     public boolean canOfferMaritimeTrade(ResourceType resourceType) {
         int neededToTrade = catanMap.neededToOfferMaritimeTrade(getTurnTracker().getCurrentTurn(), resourceType);
         return canOfferResource(resourceType, neededToTrade);
     }
 
+    /**
+     * Can the resource be offered
+     * @param type the resource type
+     * @param amount how many of the aboce resource
+     * @return true if can trade
+     */
     public boolean canOfferResource(ResourceType type, int amount) {
         return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
     }
@@ -340,6 +361,11 @@ public class Model {
         return false;
     }
 
+    /**
+     * Check if a robber can be placed at a location
+     * @param hexLocation the location of robber
+     * @return true if the robber can be placed at the location
+     */
     public boolean canPlaceRobber(HexLocation hexLocation){
             if(catanMap.getRobber().equals(hexLocation)){
                 return false;
@@ -353,6 +379,11 @@ public class Model {
             return true;
     }
 
+    /**
+     * 
+     * @param playerIndex
+     * @return
+     */
     public boolean canPlayDevCard(int playerIndex){
         if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)||canPlayMonument(playerIndex)){
             return true;
