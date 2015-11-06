@@ -10,8 +10,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 
 /**
- * HTTP Handler for the requests operations on the collection of games
- * active on the server. 
+ * HTTP Handler for managing the swagger page operations.
  */
 public class DefaultHandler implements HttpHandler {
 

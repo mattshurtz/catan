@@ -31,6 +31,7 @@ public class Command {
         
     }
 
+
     public Model getModel() {
         return model;
     }
