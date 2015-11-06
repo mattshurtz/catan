@@ -5,9 +5,11 @@
  */
 package server.facade;
 
-/**
- *
- */
+    /**
+     * Create an appropriate Command object, by converting the string using the class.forName function,
+     * for the request, and call execute on it.
+     * This command function will perform the logic for the operation. 
+     */
 public class ResponderFacade implements IServerFacade {
 
     /**
