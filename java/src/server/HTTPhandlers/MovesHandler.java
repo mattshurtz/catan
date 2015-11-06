@@ -13,7 +13,7 @@ import java.io.IOException;
  * HTTP Handler for the requests starting with /Moves
  * operations on the Model active on the server. 
  */
-public class MovesHandler implements HttpHandler {
+public class MovesHandler extends catanHTTPHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {

@@ -13,7 +13,7 @@ import java.io.IOException;
  * HTTP Handler for the requests operations on the collection of games
  * active on the server. 
  */
-public class DefaultHandler implements HttpHandler {
+public class DefaultHandler extends catanHTTPHandler {
 
     /**
      * The handle method calls the correct command through the CommandFacade

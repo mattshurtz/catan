@@ -13,7 +13,7 @@ import java.io.IOException;
  * HTTP Handler for the requests starting with /Games
  * operations on the collection of games active on the server. 
  */
-public class GamesHandler implements HttpHandler{
+public class GamesHandler extends catanHTTPHandler {
 
     @Override
     public void handle(HttpExchange he) throws IOException {
