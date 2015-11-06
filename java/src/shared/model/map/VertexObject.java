@@ -71,7 +71,7 @@ public abstract class VertexObject{
 	}
 	
 	/**
-	 * @pre CatanFacade.getModel() is not null, and has a valid list of Players
+	 * pre-condition: CatanFacade.getModel() is not null, and has a valid list of Players
 	 * @return Color of this City/Settlement
 	 */
 	public CatanColor getColor() {

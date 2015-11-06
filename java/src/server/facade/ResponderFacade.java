@@ -11,7 +11,8 @@ package server.facade;
 public class ResponderFacade implements IServerFacade {
 
     /**
-     * create an appropriate Command object for the request, and call execute on it.
+     * Create an appropriate Command object, by converting the string using the class.forName function,
+     * for the request, and call execute on it.
      * This command function will perform the logic for the operation. 
      */
     @Override

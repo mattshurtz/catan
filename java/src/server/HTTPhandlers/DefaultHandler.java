@@ -11,7 +11,6 @@ import java.io.IOException;
 
 /**
  *
- * @author Scott
  */
 public class DefaultHandler implements HttpHandler {
 

@@ -132,7 +132,6 @@ public interface IMapController extends IController
 	 * Updates the robber's position on the model on the server, and steals a card from 
 	 * the victim and gives it to the player whose turn it is
 	 * @param victim RobPlayerInfo object that contains information about the player to be robbed
-	 * @param hexLoc The new position of the robber
 	 */
 	void robPlayer(RobPlayerInfo victim);
 

@@ -145,8 +145,6 @@ public class Model {
      * playerIndex identifies the player who would like to build the road
      * @return true if no exception is thrown InsufficientSupplies if the player
      * did not have enough resources or pieces
-     * @throws InvalidLocation if this is an invalid location for this player to
-     * play a road
      */
     public boolean canBuildRoad(EdgeLocation location) {
         if (isValidRoadLocation(location)) {
@@ -199,7 +197,7 @@ public class Model {
      * road(player.resourceList.buyRoad();) and creates a road located at the
      * given EdgeLocation (CatanMap.buildRoad())
      *
-     * @param location where the player is playing the road
+     * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
       //  if(canBuildRoad())
@@ -717,8 +715,6 @@ public class Model {
      * specified.
      *
      * @param location where the player would like to build the city
-     * @param playerIndex identifies the player who would like to build this
-     * city
      * @return true if the location specified already has a settlement owned by
      * this player, false if not
      */

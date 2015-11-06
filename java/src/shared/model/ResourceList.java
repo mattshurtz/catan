@@ -50,10 +50,12 @@ public class ResourceList {
         return false;
     }
 
-    /**
-     * @param offer is the resources to be offered in trade.
-     * @return true if the player has the resources to be offered;
-     */
+/**
+ * Checks if the player has the resources they are trying to offer. 
+ * @param resourceType
+ * @param amount
+ * @return 
+ */
     public boolean canOfferResource(ResourceType resourceType, int amount) {
         
         switch(resourceType){
