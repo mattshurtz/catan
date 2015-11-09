@@ -147,16 +147,6 @@ public class Model {
         return true;
     }
     
-//    private void tradeResource(ResourceList recResources, ResourceList sendResources,
-//    		int numResources, ResourceType resource) {
-//    	if (numResources > 0) {
-//    		sendResources.addResource(resource, numResources);
-//    		
-//    	} else if (numResources < 0) {
-//    		
-//    	}
-//    }
-    
     public boolean doAcceptMaritimeTrade(ResourceType resource) {
     	if (canAcceptMaritimeTrade(resource))
     		return false;
