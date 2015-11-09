@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.moves;
+
+import server.commands.Command;
 
 /**
  *
  * @author Scott
  */
-public class login extends Command{
+public class buildCity extends Command{
 
     @Override
     public String execute(String json, String gameID) {
-        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
-        return "LOGIN";
+        return super.execute(json, gameID);
     }
     
 }

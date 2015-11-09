@@ -46,7 +46,7 @@ public class UserHandler extends catanHTTPHandler{
     	IOUtils.closeQuietly(exchange.getRequestBody());    	
     	
     	//Call the facade
-    	String result = facade.doFunction(url.getPath().replace("/User/", ""), content, null);
+    	String result = facade.doFunction("user." + url.getPath().replace("/User/", ""), content, null);
     	
     	if(result != null){
     		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);

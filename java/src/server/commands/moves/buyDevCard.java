@@ -3,14 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.moves;
+
+import server.commands.Command;
 
 /**
  *
  * @author Scott
  */
-public class robPlayer extends Command{
+public class buyDevCard extends Command{
 
+    /**
+     * Deserializes the json then calls buyDevCard in the model. 
+     * @param json 
+     */
     @Override
     public String execute(String json, String gameID) {
         return super.execute(json, gameID);

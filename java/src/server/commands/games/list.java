@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.games;
+
+import server.commands.Command;
 
 /**
  *
  * @author Scott
  */
-public class Monopoly extends Command{
+public class list extends Command{
 
     @Override
     public String execute(String json, String gameID) {

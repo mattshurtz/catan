@@ -3,16 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.moves;
+
+import server.commands.Command;
+import shared.communication.params.moves.BuildRoadRequest;
 
 /**
  *
  */
-public class buildSettlement extends Command{
-
+public class buildRoad extends Command {
+    
     /**
-     * Deserializes the request and Calls buildSettlement on the model. 
-     * @param json 
+     * This needs to send a model response to the client?
+     * @param json This is the Json request received from the client to build a road
      */
     @Override
     public String execute(String json, String gameID) {

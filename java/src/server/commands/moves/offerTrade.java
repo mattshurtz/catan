@@ -3,18 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.moves;
 
-import shared.communication.params.moves.BuildRoadRequest;
+import server.commands.Command;
 
 /**
  *
  */
-public class buildRoad extends Command {
-    
+public class offerTrade extends Command{
+
     /**
-     * This needs to send a model response to the client?
-     * @param json This is the Json request received from the client to build a road
+     * Calls can Offer Trade in the model then offers the trade by changing the setTradeOffer
+     * in the model. 
+     * @param json 
      */
     @Override
     public String execute(String json, String gameID) {

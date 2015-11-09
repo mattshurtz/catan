@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.commands;
+package server.commands.moves;
+
+import server.commands.Command;
 
 /**
  *
  * @author Scott
  */
-public class register extends Command{
+public class Year_of_Plenty extends Command{
 
     @Override
     public String execute(String json, String gameID) {
