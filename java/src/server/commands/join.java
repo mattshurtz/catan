@@ -12,8 +12,8 @@ package server.commands;
 public class join extends Command{
 
     @Override
-    public void execute(String json, String gameID) {
-        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
+    public String execute(String json, String gameID) {
+        return super.execute(json, gameID);
     }
     
 }

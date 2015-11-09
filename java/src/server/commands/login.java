@@ -12,8 +12,9 @@ package server.commands;
 public class login extends Command{
 
     @Override
-    public void execute(String json, String gameID) {
+    public String execute(String json, String gameID) {
         super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
+        return "LOGIN";
     }
     
 }
