@@ -7,7 +7,17 @@ package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
+import sun.net.www.protocol.http.HttpURLConnection;
+
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.io.PrintWriter;
+import java.net.URI;
+import java.nio.charset.Charset;
 
 /**
  * HTTP Handler for the requests starting with /User
@@ -16,8 +26,22 @@ import java.io.IOException;
 public class UserHandler extends catanHTTPHandler{
 
     @Override
-    public void handle(HttpExchange he) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void handle(HttpExchange exchange) throws IOException {
+    	InputStream input = exchange.getRequestBody();
+    	URI url = exchange.getRequestURI();
+    	System.out.println(url.getPath().replace("/User/", ""));
+
+    	//Call the facade
+    	String result = "<HTML><BODY><H1>Hello "+url.getPath().replace("/User/", "")+"!</H1></BODY></HTML>";    	
+    	
+    	if(result != null){
+    		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+    		exchange.getResponseBody().write(result.getBytes());
+    		exchange.getResponseBody().close();
+    	} else {
+    		
+    	}
+		
     }
     
 }
