@@ -114,8 +114,44 @@ public class Model {
      * Gets information from trade offer and changes the resources of the
      * players accordingly.
      */
-    public void acceptTrade() {
 
+    public boolean doAcceptTrade(TradeOffer offer, int playerIndex){
+    	ResourceList tradeOffer = offer.getOffer();
+    	
+        if (canAcceptTrade(tradeOffer, playerIndex))
+        	return false;
+        
+        ResourceList recResources = players.get(offer.getReceiver()).getResources();
+        ResourceList sendResources = players.get(offer.getSender()).getResources();
+        
+        int resource = tradeOffer.getBrick();
+        sendResources.addResource(ResourceType.BRICK, resource);
+        recResources.addResource(ResourceType.BRICK, resource * -1);
+        
+        resource = tradeOffer.getWood();
+        sendResources.addResource(ResourceType.WOOD, resource);
+        recResources.addResource(ResourceType.WOOD, resource * -1);
+        
+        resource = tradeOffer.getSheep();
+        sendResources.addResource(ResourceType.SHEEP, resource);
+        recResources.addResource(ResourceType.SHEEP, resource * -1);
+        
+        resource = tradeOffer.getOre();
+        sendResources.addResource(ResourceType.ORE, resource);
+        recResources.addResource(ResourceType.ORE, resource * -1);
+        
+        resource = tradeOffer.getWheat();
+        sendResources.addResource(ResourceType.WHEAT, resource);
+        recResources.addResource(ResourceType.WHEAT, resource * -1);
+        
+        return true;
+    }
+    
+    public boolean doAcceptMaritimeTrade(ResourceType resource) {
+    	if (canAcceptMaritimeTrade(resource))
+    		return false;
+    	
+    	return true;
     }
 
     /**
@@ -170,8 +206,9 @@ public class Model {
         return bank.hasResource(resourceType);
     }
 
-    public boolean canAcceptTrade(ResourceList tradeOffer) {
-        return players.get(CatanFacade.getMyPlayerIndex()).getResources().canAcceptTrade(tradeOffer);
+    
+    public boolean canAcceptTrade(ResourceList tradeOffer, int playerIndex) {
+        return players.get(playerIndex).getResources().canAcceptTrade(tradeOffer);
     }
 
     /**

@@ -942,12 +942,12 @@ public class ModelTest {
            tradeOffer.setWood(1);
            // This tests whether the player can accept the trade resouce
            // in the case that he can
-           assertEquals(instance.canAcceptTrade(tradeOffer),true);
+           assertEquals(instance.canAcceptTrade(tradeOffer, 0),true);
            
            tradeOffer.setBrick(4);
            // This tests whether the player can accept the trade resouce
            // in the case that he can not because he has insufficient brick
-           assertEquals(instance.canAcceptTrade(tradeOffer),false);
+           assertEquals(instance.canAcceptTrade(tradeOffer, 0),false);
         }
         /**
          * This tests whether or canPlayDevCard works. IF a player owns the devcard

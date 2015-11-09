@@ -12,5 +12,23 @@ public class catanHTTPHandler implements HttpHandler{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * send infomation to facade for processing
+	 * @param command the move being called
+	 * @param content the body of the request
+	 * @param GameID the gameID found in cookie (if any)
+	 */
+	public void sendToFacade(String command, String content, String GameID) {
+		
+	}
+	
+	/**
+	 * extract the information from cookie to process use
+	 * @return the gameid string.
+	 */
+	public String prepareCookieToClient() {
+		return null;
+	}
 
 }
