@@ -5,7 +5,12 @@
  */
 package server.facade;
 
-    /**
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import server.commands.*;
+
+/**
      * Create an appropriate Command object, by converting the string using the class.forName function,
      * for the request, and call execute on it.
      * This command function will perform the logic for the operation. 
@@ -18,8 +23,32 @@ public class ResponderFacade implements IServerFacade {
      * This command function will perform the logic for the operation. 
      */
     @Override
-    public void doFunction() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String doFunction(String command, String content, String gameId) {
+    	Class<?> c;
+    	Method method;
+		try {
+			c = Class.forName("server.commands." + command);
+			method = c.getDeclaredMethod ("execute", new Class[] {String.class, String.class});
+			Object value = method.invoke (c, content, gameId);
+			return (String) value;
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return null;
+    	
     }
     
 }

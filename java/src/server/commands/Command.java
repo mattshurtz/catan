@@ -27,7 +27,7 @@ public class Command {
      * the command is it is valid. 
      * @param json 
      */
-    public void execute(String json){
+    public void execute(String json, String gameID){
         
     }
 

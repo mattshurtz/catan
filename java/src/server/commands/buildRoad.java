@@ -17,9 +17,8 @@ public class buildRoad extends Command {
      * @param json This is the Json request received from the client to build a road
      */
     @Override
-    public void execute(String json) {
-        BuildRoadRequest request = this.getDeserializer().toBuildRoadRequest(json);
-        this.getModel().buildRoad(request);
+    public void execute(String json, String gameID) {
+        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

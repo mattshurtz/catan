@@ -12,8 +12,8 @@ package server.commands;
 public class Soldier extends Command{
 
     @Override
-    public void execute(String json) {
-        super.execute(json); //To change body of generated methods, choose Tools | Templates.
+    public void execute(String json, String gameID) {
+        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

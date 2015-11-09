@@ -16,8 +16,8 @@ public class buyDevCard extends Command{
      * @param json 
      */
     @Override
-    public void execute(String json) {
-        super.execute(json); //To change body of generated methods, choose Tools | Templates.
+    public void execute(String json, String gameID) {
+        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

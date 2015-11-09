@@ -5,8 +5,17 @@ import java.io.IOException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import server.facade.IServerFacade;
+import server.facade.ResponderFacade;
+
 public class catanHTTPHandler implements HttpHandler{
 
+	IServerFacade facade;
+	
+	public catanHTTPHandler() {
+		facade = new ResponderFacade();
+	}
+	
 	@Override
 	public void handle(HttpExchange arg0) throws IOException {
 		// TODO Auto-generated method stub

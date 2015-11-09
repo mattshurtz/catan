@@ -15,7 +15,11 @@ import java.io.IOException;
  */
 public class GamesHandler extends catanHTTPHandler {
 
-    @Override
+	public GamesHandler() {
+		super();
+	}
+	
+	@Override
     public void handle(HttpExchange he) throws IOException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

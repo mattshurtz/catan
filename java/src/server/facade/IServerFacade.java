@@ -12,6 +12,6 @@ package server.facade;
      */
 public interface IServerFacade {
     
-    public void doFunction();
+    public String doFunction(String command, String content, String gameId);
     
 }

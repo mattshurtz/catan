@@ -15,7 +15,7 @@ public class MockResponderFacade implements IServerFacade {
      * This command function will perform the logic for the operation. 
      */
     @Override
-    public void doFunction() {
+    public String doFunction(String command, String content, String gameId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
