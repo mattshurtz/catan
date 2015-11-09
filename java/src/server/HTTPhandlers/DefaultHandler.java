@@ -8,6 +8,7 @@ package server.HTTPhandlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 /**
  * HTTP Handler for managing the swagger page operations.
@@ -20,8 +21,11 @@ public class DefaultHandler extends catanHTTPHandler {
      * @throws IOException 
      */
     @Override
-    public void handle(HttpExchange he) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void handle(HttpExchange exchange) throws IOException {
+       
+        System.out.println(exchange.getRequestURI().toString());
+        
+        exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
     }
     
 }

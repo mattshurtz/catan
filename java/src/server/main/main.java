@@ -6,11 +6,11 @@
 package server.main;
 
 import com.sun.net.httpserver.HttpContext;
+import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import com.sun.net.ssl.internal.www.protocol.https.Handler;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
+import java.io.File;
 
 import server.HTTPhandlers.DefaultHandler;
 import server.HTTPhandlers.GameHandler;
@@ -19,8 +19,13 @@ import server.HTTPhandlers.MovesHandler;
 import server.HTTPhandlers.UserHandler;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
+import server.HTTPhandlers.SwaggerHandlers;
+
+
 
 /**
  *Initializes web server. Maybe this will read games from a file later (phase 4)
@@ -32,7 +37,12 @@ public class main{
     public main(){
         
     }
+    private HttpServer server;
     
+
+    
+        
+        
     /**
      * Specifies port to listen to and starts the server. 
      * @param args port number
@@ -55,7 +65,6 @@ public class main{
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	//private static final String DATA_LOCATION = "/data/";
 
-	private HttpServer server;
 	
 
 	/**
@@ -86,12 +95,13 @@ public class main{
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 
-		server.createContext("/Game", new GameHandler());
-		server.createContext("/Games", new GamesHandler());
-		server.createContext("/Moves", new MovesHandler());
-		server.createContext("/User", new UserHandler());
+		server.createContext("/Game/", new GameHandler());
+		server.createContext("/Games/", new GamesHandler());
+		server.createContext("/Moves/", new MovesHandler());
+		server.createContext("/User/", new UserHandler());
 		server.createContext("/", new DefaultHandler());
-		
+		server.createContext("/docs/api/data", new SwaggerHandlers.JSONAppender(""));
+                server.createContext("/docs/api/view", new SwaggerHandlers.BasicFile(""));
 	//start server
 		server.start();
 	}
