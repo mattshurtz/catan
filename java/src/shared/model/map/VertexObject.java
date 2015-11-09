@@ -29,7 +29,6 @@ public abstract class VertexObject{
         super();
         this.owner = owner;
         this.location = location;
-        this.hexes = hexes;
     }
 
     @Override

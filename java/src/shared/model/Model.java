@@ -20,7 +20,6 @@ import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.InvalidLocation;
 import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -28,6 +27,8 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.model.map.CatanMap;
+import shared.model.map.City;
+import shared.model.map.Hex;
 import shared.model.map.Road;
 import shared.model.map.Settlement;
 import shared.model.map.VertexObject;
@@ -92,12 +93,10 @@ public class Model {
 
     private TradeOffer tradeOffer;
     private TurnTracker turnTracker;
-    
-    private int version;        
+
+    private int version;
     private int winner;
-    
-    
-    
+
     public Model() {
         bank = new ResourceList();
         chat = new MessageList();
@@ -112,18 +111,18 @@ public class Model {
     }
 
     /**
-     * Gets information from trade offer and changes the resources of the players
-     * accordingly. 
+     * Gets information from trade offer and changes the resources of the
+     * players accordingly.
      */
-    public void acceptTrade(){
-        
+    public void acceptTrade() {
+
     }
 
     /**
-     * Removes three ore and two wheat from this player's ResourceList. Subtracts
-     * one city from players cities count. Adds settlement to players settlement
-     * count (player.resourceList.buyCity();) Replace settlement located on the
-     * given VertexLocation with a city(CatanMap.buildCity())
+     * Removes three ore and two wheat from this player's ResourceList.
+     * Subtracts one city from players cities count. Adds settlement to players
+     * settlement count (player.resourceList.buyCity();) Replace settlement
+     * located on the given VertexLocation with a city(CatanMap.buildCity())
      *
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
@@ -133,21 +132,20 @@ public class Model {
     }
 
     /**
-     * Calls canBuyRoad and canBuildRoad first
-     * Removes a brick and wood from the player building the
-     * road(player.resourceList.buyRoad();) and creates a road located at the
-     * given EdgeLocation (CatanMap.buildRoad())
+     * Calls canBuyRoad and canBuildRoad first Removes a brick and wood from the
+     * player building the road(player.resourceList.buyRoad();) and creates a
+     * road located at the given EdgeLocation (CatanMap.buildRoad())
      *
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-      //  if(canBuildRoad())
+        //  if(canBuildRoad())
 
     }
 
     /**
-     * First calls canBuySettlement and canBuildSettlement then, if true
-     * Removes a brick, wood, sheep, and wheat from the player building the
+     * First calls canBuySettlement and canBuildSettlement then, if true Removes
+     * a brick, wood, sheep, and wheat from the player building the
      * settlement(player.resourceList.buySettlement();) and creates a road
      * located at the given EdgeLocation (CatanMap.buildSettlment())
      *
@@ -159,18 +157,19 @@ public class Model {
     }
 
     /**
-     * calls canBuyDevCard, and Check if it is the players turn, then subtracts the resources from the player.
-     * 
-     * @param playerIndex 
+     * calls canBuyDevCard, and Check if it is the players turn, then subtracts
+     * the resources from the player.
+     *
+     * @param playerIndex
      */
-    public void buyDevCard(int playerIndex){
-        
+    public void buyDevCard(int playerIndex) {
+
     }
-    
+
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
         return bank.hasResource(resourceType);
     }
-    
+
     public boolean canAcceptTrade(ResourceList tradeOffer) {
         return players.get(CatanFacade.getMyPlayerIndex()).getResources().canAcceptTrade(tradeOffer);
     }
@@ -198,6 +197,7 @@ public class Model {
 
         return false;
     }
+
     /**
      * Checks if a player has a road, the resources to build this road, if it is
      * in a valid location on the catanMap, and if the player has a road left to
@@ -215,7 +215,7 @@ public class Model {
             return false;
         }
     }
-    
+
     /**
      * Checks if a settlement can be built by the current player at the given
      * VertexLocation
@@ -227,9 +227,9 @@ public class Model {
         //If it's the first round, then no need to check for roads
         // also need check for if a settlement already exists at this location
         if (turnTracker.getStatus() == TurnStatus.FIRST_ROUND || turnTracker.getStatus() == TurnStatus.SECOND_ROUND) {
-            if(isValidVertex(location.getNormalizedLocation())){
+            if (isValidVertex(location.getNormalizedLocation())) {
                 return true;
-            }else{
+            } else {
                 return false;
             }
         }
@@ -242,6 +242,7 @@ public class Model {
 
     /**
      * Checks if you can by a city
+     *
      * @return true if a city can be bought
      */
     public boolean canBuyCity() {
@@ -258,6 +259,7 @@ public class Model {
 
     /**
      * Check it a dev card can be bought
+     *
      * @param playerIndex the id of the player
      * @return true if can buy
      */
@@ -269,7 +271,7 @@ public class Model {
             return false;
         }
     }
-    
+
     /**
      * Checks whether the player has supplies to build a road. (Resources and
      * road pieces)
@@ -285,7 +287,6 @@ public class Model {
         }
         return true;
     }
-
 
     /**
      * Checks if current player has enough resources for a settlement, and then
@@ -321,7 +322,8 @@ public class Model {
     }
 
     /**
-     *Checks if this player has the current turn, so they can finish turn. 
+     * Checks if this player has the current turn, so they can finish turn.
+     *
      * @return true if finish turn is a valid command
      */
     public boolean canFinishTurn() {
@@ -330,10 +332,10 @@ public class Model {
         }
         return false;
     }
-    
+
     /**
      * Checks if a maritime trade can be offered
-     * 
+     *
      * @param resourceType the type to trade
      * @return true if trade can happen
      */
@@ -344,6 +346,7 @@ public class Model {
 
     /**
      * Can the resource be offered
+     *
      * @param type the resource type
      * @param amount how many of the aboce resource
      * @return true if can trade
@@ -353,39 +356,42 @@ public class Model {
     }
 
     /**
-     * Can offer trade checks if they player has sufficient resources to make the offer
+     * Can offer trade checks if they player has sufficient resources to make
+     * the offer
+     *
      * @param offer
-     * @return whether they can make the offer or not. 
+     * @return whether they can make the offer or not.
      */
-    public boolean canOfferTrade(ResourceList offer){
+    public boolean canOfferTrade(ResourceList offer) {
         return false;
     }
 
     /**
      * Check if a robber can be placed at a location
+     *
      * @param hexLocation the location of robber
      * @return true if the robber can be placed at the location
      */
-    public boolean canPlaceRobber(HexLocation hexLocation){
-            if(catanMap.getRobber().equals(hexLocation)){
-                return false;
-            }
-            if(Math.abs(hexLocation.getX()) >= 3 || Math.abs(hexLocation.getY()) >= 3){
-                return false;
-            } else if (Math.abs(hexLocation.getX() + hexLocation.getY()) == 3) {
-            	//water hex
-            	return false;
-            }
-            return true;
+    public boolean canPlaceRobber(HexLocation hexLocation) {
+        if (catanMap.getRobber().equals(hexLocation)) {
+            return false;
+        }
+        if (Math.abs(hexLocation.getX()) >= 3 || Math.abs(hexLocation.getY()) >= 3) {
+            return false;
+        } else if (Math.abs(hexLocation.getX() + hexLocation.getY()) == 3) {
+            //water hex
+            return false;
+        }
+        return true;
     }
 
     /**
-     * 
+     *
      * @param playerIndex
      * @return
      */
-    public boolean canPlayDevCard(int playerIndex){
-        if(canPlayMonopoly(playerIndex)||canPlaySoldier(playerIndex)||canPlayRoadBuilding(playerIndex)||canPlayYearOfPlenty(playerIndex)||canPlayMonument(playerIndex)){
+    public boolean canPlayDevCard(int playerIndex) {
+        if (canPlayMonopoly(playerIndex) || canPlaySoldier(playerIndex) || canPlayRoadBuilding(playerIndex) || canPlayYearOfPlenty(playerIndex) || canPlayMonument(playerIndex)) {
             return true;
         }
         return false;
@@ -402,14 +408,13 @@ public class Model {
 
         return current.canPlayDevCard(DevCardType.MONUMENT);
     }
+
     public boolean canPlayRoadBuilding(int playerIndex) {
         Player current = players.get(playerIndex);
 
         return current.canPlayDevCard(DevCardType.ROAD_BUILD);
     }
-    
-    
-    
+
     public boolean canPlaySoldier(int playerIndex) {
         Player current = players.get(playerIndex);
 
@@ -421,10 +426,10 @@ public class Model {
 
         return current.canPlayDevCard(DevCardType.YEAR_OF_PLENTY);
     }
-    
+
     /**
-     * Checks if the player can be robbed at a given location
-     * i.e. if the given player has either a settlement or city at given hexLoc
+     * Checks if the player can be robbed at a given location i.e. if the given
+     * player has either a settlement or city at given hexLoc
      */
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
         return (playerIndex != CatanFacade.getMyPlayerIndex()) && catanMap.canRobPlayer(playerIndex, hexLoc);
@@ -441,24 +446,18 @@ public class Model {
 
         return false;
     }
-    
-    /**
-     * Call canDiscardCards then, if they can subtract the cards from this players 
-     * resource list using subtract resource in ResourceList Class. 
-     * @param playerIndex
-     * @param listToDiscard 
-     */
-    public void discardCards(int playerIndex, ResourceList listToDiscard){
-        
-    }
 
     /**
-     * @param rolledNumber - int not equal to 7
+     * Call canDiscardCards then, if they can subtract the cards from this
+     * players resource list using subtract resource in ResourceList Class.
+     *
+     * @param playerIndex
+     * @param listToDiscard
      */
-    public void distributeResources(int rolledNumber) {
-        //Don't implement in phase 1
+    public void discardCards(int playerIndex, ResourceList listToDiscard) {
+
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -502,12 +501,12 @@ public class Model {
     }
 
     /**
-     * Calls canFinishTurn and updates the turnTracker accordingly. 
+     * Calls canFinishTurn and updates the turnTracker accordingly.
      */
-    public void finishTurn(){
-        
+    public void finishTurn() {
+
     }
-    
+
     public ResourceList getBank() {
         return bank;
     }
@@ -515,7 +514,7 @@ public class Model {
     public MessageList getChat() {
         return chat;
     }
-    
+
     public DevCardList getDeck() {
         return deck;
     }
@@ -523,7 +522,7 @@ public class Model {
     public MessageList getLog() {
         return log;
     }
-    
+
     public CatanMap getMap() {
         return catanMap;
     }
@@ -544,7 +543,7 @@ public class Model {
         }
         return players.get(playerIndex);
     }
-    
+
     public PlayerInfo[] getPlayerInfos() {
         List<PlayerInfo> ret = new ArrayList<>();
         List<Player> playas = getPlayers();
@@ -560,28 +559,29 @@ public class Model {
     public ArrayList<Player> getPlayers() {
         return players;
     }
-    
+
     /**
      * Gets a RobPlayerInfo object given a player's index
+     *
      * @param index Index of the player
      * @return RobPlayerInfo object representing the player at the given index
      */
     public RobPlayerInfo getRobPlayerInfo(int index) {
-    	RobPlayerInfo robInfo = new RobPlayerInfo();
-    	
-    	// Get playerInfo and make RobPlayerInfo object
-    	try {
-    		Deserializer deserializer = new Deserializer();
-			Player player = getPlayer(index);
-			PlayerInfo playerInfo = deserializer.toPlayerInfo(player);
-			robInfo = new RobPlayerInfo(playerInfo);
-			robInfo.setNumCards(player.getResources().getTotalResources());
-    	} catch (GetPlayerException e) {
-			//Something's wrong with the given player index
-			e.printStackTrace();
-		}
-    	
-    	return robInfo;
+        RobPlayerInfo robInfo = new RobPlayerInfo();
+
+        // Get playerInfo and make RobPlayerInfo object
+        try {
+            Deserializer deserializer = new Deserializer();
+            Player player = getPlayer(index);
+            PlayerInfo playerInfo = deserializer.toPlayerInfo(player);
+            robInfo = new RobPlayerInfo(playerInfo);
+            robInfo.setNumCards(player.getResources().getTotalResources());
+        } catch (GetPlayerException e) {
+            //Something's wrong with the given player index
+            e.printStackTrace();
+        }
+
+        return robInfo;
     }
 
     public TradeOffer getTradeOffer() {
@@ -591,11 +591,11 @@ public class Model {
     public TurnTracker getTurnTracker() {
         return turnTracker;
     }
-    
+
     public int getVersion() {
         return version;
     }
-    
+
     public int getWinner() {
         return winner;
     }
@@ -606,36 +606,30 @@ public class Model {
         hash = 83 * hash + this.version;
         return hash;
     }
-    
-    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies){
+
+    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies) {
         int numOpponentsBuiltThrough = 0;
-        for(VertexLocation loc: suspectVerticies)
-        {
-            for(VertexObject vObj : catanMap.getCitiesAndSettlements()){
-                if(vObj.getLocation().getNormalizedLocation().equals(loc)){
-                    if(vObj.getOwner() != CatanFacade.getMyPlayerIndex()){
+        for (VertexLocation loc : suspectVerticies) {
+            for (VertexObject vObj : catanMap.getCitiesAndSettlements()) {
+                if (vObj.getLocation().getNormalizedLocation().equals(loc)) {
+                    if (vObj.getOwner() != CatanFacade.getMyPlayerIndex()) {
                         numOpponentsBuiltThrough++;
-                    }
-                    else{
+                    } else {
                         //found valid connected vertex with own building
                         return false;
                     }
                 }
             }
         }
-        
-        if(numOpponentsBuiltThrough == suspectVerticies.size())
-        {
+
+        if (numOpponentsBuiltThrough == suspectVerticies.size()) {
             //every suspect vertex is through an opponent
             return true;
-        }
-        else
-        {
+        } else {
             //connected vertex with no building
             return false;
         }
     }
-    
 
     public boolean isValidFirstRoad(EdgeLocation normEdge) {
         ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
@@ -646,7 +640,7 @@ public class Model {
                 if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -656,10 +650,10 @@ public class Model {
             HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
             for (VertexObject vertexObject : allVObjects) {
 
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -669,10 +663,10 @@ public class Model {
             HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
             for (VertexObject vertexObject : allVObjects) {
 
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)&& !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -699,7 +693,7 @@ public class Model {
         return true;
     }
 
-    public boolean isValidPortVertex(VertexLocation location){
+    public boolean isValidPortVertex(VertexLocation location) {
         // Create a HashSet of invalid port eddge locations and check them
         // at the beginning of the can build edge function
         HexLocation hexLocation = location.getHexLoc();
@@ -725,10 +719,10 @@ public class Model {
         if (turnTracker.getStatus().equals(TurnStatus.FIRST_ROUND) || turnTracker.getStatus().equals(TurnStatus.SECOND_ROUND)) {
             return isValidFirstRoad(normEdge);
         }
-        
+
         for (Road road : catanMap.getRoads()) {
             // check if road already exists on this edge
-                if (road.getLocation().getNormalizedLocation().equals(normEdge)) {
+            if (road.getLocation().getNormalizedLocation().equals(normEdge)) {
                 return false;
             }
         }
@@ -736,7 +730,7 @@ public class Model {
         //check if connected and determine connected verticies
         boolean connected = false;
         ArrayList<VertexLocation> connectedVerticies = new ArrayList<VertexLocation>();
-        
+
         for (Road road : catanMap.getRoads()) {
 
             // check around North edge 
@@ -746,11 +740,10 @@ public class Model {
 
                 //There exists a vertex an adjecent vertex object owned by the player
                 //then this is a valid location. This is important for the setup phase
-
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                    northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    
+                        northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
 //                    if(isBuildingThroughOpponent(firstSuspectVertex)){
 //                        return false;
 //                    }
@@ -759,16 +752,15 @@ public class Model {
 //                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
 
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                    northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                
+                        northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
 //                    if( isBuildingThroughOpponent(secondSuspectVertex)){
 //                        return false;
 //                    }
@@ -777,14 +769,13 @@ public class Model {
 //                    }           
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                    normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+                        normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 //                    if(isBuildingThroughOpponent(firstSuspectVertex) ){
 //                        return false;
 //                    }
@@ -793,14 +784,13 @@ public class Model {
 //                    }  
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
-                    normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-                    
+                        normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
+
 //                    if(isBuildingThroughOpponent(secondSuspectVertex)){
 //                        return false;
 //                    }
@@ -809,8 +799,7 @@ public class Model {
 //                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -824,8 +813,7 @@ public class Model {
                         northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -835,8 +823,7 @@ public class Model {
 
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -844,8 +831,7 @@ public class Model {
                         southwestNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -853,8 +839,7 @@ public class Model {
                         normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -868,8 +853,7 @@ public class Model {
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -877,8 +861,7 @@ public class Model {
                         southeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthWest);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -886,8 +869,7 @@ public class Model {
                         southeastNeighbor, EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
@@ -895,21 +877,17 @@ public class Model {
                         normEdge.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
-                    if(!connectedVerticies.contains(suspectVertex))
-                    {
+                    if (!connectedVerticies.contains(suspectVertex)) {
                         connectedVerticies.add(suspectVertex);
                     }
                 }
             }
         }
-        
+
         //check connected verticies for own or buildings
-        if(connected && !isBuiltThroughOpponent(connectedVerticies))
-        {
+        if (connected && !isBuiltThroughOpponent(connectedVerticies)) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -925,7 +903,7 @@ public class Model {
             if (normVObjectLocation.equals(normVertLocation)) {
                 return false;
             }
-        //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
+            //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
             // checks the surrounding vertices around the northeast vertex for vertex objects	
             if (normVertLocation.getDir() == VertexDirection.NorthEast) {
                 HexLocation northEastNeighbor = normVertLocation.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
@@ -972,90 +950,96 @@ public class Model {
 
         }
 
-        if(!isValidPortVertex(normVertLocation)){
-               return false; 
+        if (!isValidPortVertex(normVertLocation)) {
+            return false;
         }
         return true;
     }
 
     /**
-     * Determines who has the largest army and awards that player largest army. 
+     * Determines who has the largest army and awards that player largest army.
      */
-    public void largestArmy(){
-        
+    public void largestArmy() {
+
     }
 
     /**
-     * Determines who should have the longest road and awards
-     * that player the longest road. 
+     * Determines who should have the longest road and awards that player the
+     * longest road.
      */
-    public void longestRoad(){
-        
+    public void longestRoad() {
+
     }
 
     /**
-     * Initiates a trade between the trader and receiver, specified by the first two 
-     * arguments.  The proposed trade is specified by the third argument.  Negative resources
-     * are the resources the trader is hoping to receive, and positive resources are
-     * the resources the trader is willing to give.
-     * 
+     * Initiates a trade between the trader and receiver, specified by the first
+     * two arguments. The proposed trade is specified by the third argument.
+     * Negative resources are the resources the trader is hoping to receive, and
+     * positive resources are the resources the trader is willing to give.
+     *
      * @param traderIndex
      * @param receiverIndex
      * @param offer
      */
     public void offerTrade(int traderIndex, int receiverIndex, ResourceList offer) {
-    	
+
     }
 
     /**
-     * Takes all resources from all players matching the declared resource, and gives them to 
-     * player of the given playerIndex.  Also removes the monopoly card from that player's hand.
-     * 
+     * Takes all resources from all players matching the declared resource, and
+     * gives them to player of the given playerIndex. Also removes the monopoly
+     * card from that player's hand.
+     *
      * @param playerIndex the player who played the monopoly card
      * @param resource the type of resource the player will steal from everyone
      */
     public void playMonopoly(int playerIndex, ResourceType resource) {
-    	
+
     }
+
     /**
-     * Adds two victory points to the player of given playerIndex and 
-     * removes the "monument" card from their hand
+     * Adds two victory points to the player of given playerIndex and removes
+     * the "monument" card from their hand
+     *
      * @param playerIndex the player playing the monument card.
      */
     public void playMonument(int playerIndex) {
-    	
+
     }
-    
+
     /**
-     * Removes the Road Building card from the given player's hand
-     * (Actual placing of roads is handled on the client side by the MapController)
+     * Removes the Road Building card from the given player's hand (Actual
+     * placing of roads is handled on the client side by the MapController)
+     *
      * @param playerIndex
      */
     public void playRoadBuilding(int playerIndex) {
-    	
+
     }
 
     /**
-     * Removes the Soldier card from the given player's hand, 
-     * and increases the soldier count by one for that player.
-     * (Actual placing of the robber is handled on the client side by the MapController).
+     * Removes the Soldier card from the given player's hand, and increases the
+     * soldier count by one for that player. (Actual placing of the robber is
+     * handled on the client side by the MapController).
+     *
      * @param playerIndex
      */
     public void playSoldier(int playerIndex) {
-    	
+
     }
 
     /**
-     * Adds two resources to the given player's bank, and removes the
-     * Year of Plenty card from that player's hand.  The types of resources
-     * given are specified by the second and third arguments.
+     * Adds two resources to the given player's bank, and removes the Year of
+     * Plenty card from that player's hand. The types of resources given are
+     * specified by the second and third arguments.
+     *
      * @param playerIndex
      * @param firstResource
      * @param secondResource
      */
-    public void playYearOfPlenty(int playerIndex, 
-    		ResourceType firstResource, ResourceType secondResource) {
-    	
+    public void playYearOfPlenty(int playerIndex,
+            ResourceType firstResource, ResourceType secondResource) {
+
     }
 
     /**
@@ -1067,38 +1051,69 @@ public class Model {
     }
 
     /**
-     * Removes resources from the victim's bank and adds them to the robber's bank.
-     * 
+     * Removes resources from the victim's bank and adds them to the robber's
+     * bank.
+     *
      * @param robberIndex
      * @param victimIndex
      */
     public void robPlayer(int robberIndex, int victimIndex) {
-    	
+
     }
 
     /**
-     * Rolls a number and changes the turn status from ROLLING to PLAYING
+     * Rolls a number and changes the turn status from ROLLING to PLAYING Add
+     * resources accordingly.
      */
-    public void rollNumber() {
-    	
+    public boolean rollNumber(int rolledNumber) {
+
+        if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber()) {
+            distributeResources(rolledNumber);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param rolledNumber - int not equal to 7
+     */
+    public void distributeResources(int rolledNumber) {
+        for (Hex hex : catanMap.getHexes()) {
+            if (hex.getNumber() == rolledNumber) {
+                for (Player player : players) {
+                    for (VertexObject building : catanMap.getCitiesAndSettlements()) {
+                        ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
+                        if (validOwnerLocations.contains(building.getLocation().getNormalizedLocation()) && building.getOwner() == player.getPlayerIndex()) {
+                            if (building instanceof City) {
+                                player.getResources().addResource(hex.getResourceType(), 2);
+                            } else {
+                                player.getResources().addResource(hex.getResourceType(), 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Posts a chat message to the chat list.
-     * @param chat the MessageLine object containing the 
-     * message as well as the name of the player that sent it.
+     *
+     * @param chat the MessageLine object containing the message as well as the
+     * name of the player that sent it.
      */
-    public void sendChat(MessageLine chat) {
-    	
+    public void doSendChat(MessageLine chat) {
+        this.chat.addLine(chat);
     }
-    
+
     public void setBank(ResourceList bank) {
         this.bank = bank;
     }
-    
+
     /**
      * This get's called by the sendChat Command and adds a message to the chat
-     * @param chat 
+     *
+     * @param chat
      */
     public void setChat(MessageList chat) {
         this.chat = chat;
@@ -1137,12 +1152,11 @@ public class Model {
     }
 
     public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location) {
-                
 
         VertexLocation normLocation = location.getNormalizedLocation();
         int currentPlayer = turnTracker.getCurrentTurn();
         for (Road road : catanMap.getRoads()) {
-        //Assume that vObject.getLocation is returning the Normalized location
+            //Assume that vObject.getLocation is returning the Normalized location
             //If the hexDirection is northEast, check the current HexLocation's NorthWest and East vertices for settlements, and the north neighbor's east vertex
             // checks the surrounding vertices around the northeast vertex for vertex objects	
             if (normLocation.getDir() == VertexDirection.NorthEast) {
@@ -1151,7 +1165,7 @@ public class Model {
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer) {
                     return true;
                 }
-                    //check southeast of current hex
+                //check southeast of current hex
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normLocation.getHexLoc(), EdgeDirection.North)) && road.getOwner() == currentPlayer) {

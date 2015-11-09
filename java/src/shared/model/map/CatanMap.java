@@ -225,7 +225,7 @@ public class CatanMap {
     
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
         //get rob-able locations
-        ArrayList<VertexLocation> validRobbingLocations = getValidNormalizedRobbingLocations(hexLoc);
+        ArrayList<VertexLocation> validRobbingLocations = getValidNormalizedVertexObjectLocations(hexLoc);
         
         //create list of all vertex objects
         ArrayList<VertexObject> allBuildings = new ArrayList<VertexObject>(settlements);
@@ -240,7 +240,7 @@ public class CatanMap {
         return false;
     }
             
-    private ArrayList<VertexLocation> getValidNormalizedRobbingLocations(HexLocation hexLoc) {
+    public ArrayList<VertexLocation> getValidNormalizedVertexObjectLocations(HexLocation hexLoc) {
         ArrayList<VertexLocation> list = new ArrayList<VertexLocation>();
         
         list.add(new VertexLocation(hexLoc, VertexDirection.NorthEast));

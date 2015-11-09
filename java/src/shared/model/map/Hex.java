@@ -61,6 +61,10 @@ public class Hex {
         this.location = location;
     }
     
+    public ResourceType getResourceType(){
+        return resource;
+    }
+    
     //Looks at the resource type and location of this hex to determine it's HexType
     public HexType getHexType()
     {
