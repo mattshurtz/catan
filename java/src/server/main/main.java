@@ -101,7 +101,7 @@ public class main{
 		server.createContext("/user/", new UserHandler());
 		server.createContext("/", new DefaultHandler());
 		server.createContext("/docs/api/data", new SwaggerHandlers.JSONAppender(""));
-                server.createContext("/docs/api/view", new SwaggerHandlers.BasicFile(""));
+        server.createContext("/docs/api/view", new SwaggerHandlers.BasicFile(""));
 	//start server
 		server.start();
 	}
