@@ -95,10 +95,10 @@ public class main{
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 
-		server.createContext("/Game/", new GameHandler());
-		server.createContext("/Games/", new GamesHandler());
-		server.createContext("/Moves/", new MovesHandler());
-		server.createContext("/User/", new UserHandler());
+		server.createContext("/game/", new GameHandler());
+		server.createContext("/games/", new GamesHandler());
+		server.createContext("/moves/", new MovesHandler());
+		server.createContext("/user/", new UserHandler());
 		server.createContext("/", new DefaultHandler());
 		server.createContext("/docs/api/data", new SwaggerHandlers.JSONAppender(""));
                 server.createContext("/docs/api/view", new SwaggerHandlers.BasicFile(""));

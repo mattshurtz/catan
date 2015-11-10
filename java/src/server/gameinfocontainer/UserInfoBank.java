@@ -8,6 +8,8 @@ package server.gameinfocontainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import shared.model.User;
+
 /**
  * 
  * @author Scott
@@ -15,9 +17,7 @@ import java.util.HashMap;
 public class UserInfoBank {
     
     private static int IDcounter = 0;
-    private HashMap<String,String> passwords;
-    private HashMap<String,Integer> userIDs;
-    private HashMap<String,ArrayList<Integer>> gameIDs;
+    private ArrayList<shared.model.User> users;
     
     /**
      * Creates the UserInfoBank. Contains user information such as usernames,
@@ -26,23 +26,22 @@ public class UserInfoBank {
     public UserInfoBank(){
         //Different Constructor for loading previously saved server state?
         //update IDcounter if some users already stored. 
+    	users = new ArrayList<shared.model.User>();
     }
     
     /**
      * @param username - user's desired username
      * @param password - user's desired password
-     * @return true if successfully registered, else false
+     * @return userid, else -1 if did not add
      */
-    public boolean registerUser(String username, String password) {
-        
-        //if valid username and password
-            passwords.put(username, password);
-            userIDs.put(username, IDcounter++);
-            gameIDs.put(username, new ArrayList<Integer>());
-            //remember to set cookie
-            //remember to login player
-            
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int addUser(String username, String password) {
+    	if(this.getUserID(username)!=-1) {
+    		return -1;
+    	}
+    	if(users.add(new User(username, password))) {
+    		return users.size()-1;
+    	}
+    	return -1;
     }
     
     /**
@@ -51,22 +50,22 @@ public class UserInfoBank {
      * @param password - user's password
      * @return true if successfully logged in, else false.
      */
-    public boolean loginUser(String username, String password) {
-        //if valid username password combo in passwords map:
-            //set cookie
-            //login
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean login(String username, String password) {
+    	if(users.contains(new User(username, password))) {
+    		return true;
+    	}
+    	return false;
     }
     
-    /**
-     * 
-     * @param username - current user's username
-     * @return ArrayList of all game IDs the user with username has joined.
-     */
-    private ArrayList<Integer> getUserGames(String username) {
-        //if valid username
-            return gameIDs.get(username);
-    }
+//    /**
+//     * 
+//     * @param username - current user's username
+//     * @return ArrayList of all game IDs the user with username has joined.
+//     */
+//    private ArrayList<Integer> getUserGames(String username) {
+//        //if valid username
+//            return gameIDs.get(username);
+//    }
     
     /**
      * 
@@ -75,28 +74,33 @@ public class UserInfoBank {
      */
     private int getUserID(String username) {
         //if valid username
-            return userIDs.get(username);
+    	for (int i=0; i < users.size();i++){
+    		if (users.get(i).getUsername().equals(username)) {
+    			return i;
+    		}
+    	}
+        return -1;
     }
     
-    /**
-     * 
-     * @param username - current user's username
-     * @return the registered password of the user with username
-     */
-    private String getPassword(String username) {
-        //if valid username
-            return passwords.get(username);
-    }
+//    /**
+//     * 
+//     * @param username - current user's username
+//     * @return the registered password of the user with username
+//     */
+//    private String getPassword(String username) {
+//        //if valid username
+//            return passwords.get(username);
+//    }
     
-    /**
-     * 
-     * @param username - queried username
-     * @return true if the username is found in the UserInfoBank
-     */
-    private boolean isRegisteredUser(String username) {
-        if(passwords.containsKey(username)){
-            return true;
-        }
-        return false;
-    }
+//    /**
+//     * 
+//     * @param username - queried username
+//     * @return true if the username is found in the UserInfoBank
+//     */
+//    private boolean isRegisteredUser(String username) {
+//        if(passwords.containsKey(username)){
+//            return true;
+//        }
+//        return false;
+//    }
 }

@@ -30,8 +30,15 @@ public class ResponderFacade implements IServerFacade {
 			c = Class.forName("server.commands." + command);
 			method = c.getDeclaredMethod ("execute", new Class[] {String.class, String.class});
 			Object instance = c.newInstance();
+			
+			System.out.println("ResponderFacade - Calling command " + command + "...");
+			
 			Object value = method.invoke (instance, content, gameId);
+			
+			System.out.println("ResponderFacade - Recieved string: " + (String) value);
+			
 			return (String) value;
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -46,7 +53,8 @@ public class ResponderFacade implements IServerFacade {
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			e.getTargetException().printStackTrace();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

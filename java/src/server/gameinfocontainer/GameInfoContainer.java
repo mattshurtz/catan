@@ -10,6 +10,16 @@ package server.gameinfocontainer;
  * @author Scott
  */
 public class GameInfoContainer {
+	
+	private static GameInfoContainer instance;
+	
+	public static GameInfoContainer getInstance() {
+		if (instance == null) {
+			instance = new GameInfoContainer();
+		}
+		return instance;
+	}
+	
     private ModelBank models;
     private UserInfoBank users;
     
@@ -17,7 +27,13 @@ public class GameInfoContainer {
      * Constructs the GameInfoContainer Object
      */
     GameInfoContainer() {
-        
+        models = new ModelBank();
+        users = new UserInfoBank();
+    }
+    
+    GameInfoContainer(ModelBank games, UserInfoBank users) {
+        models = games;
+        users = users;
     }
     
     /**
@@ -31,8 +47,8 @@ public class GameInfoContainer {
     /**
     *Checks password if it is valid adds user to 
      */
-    public boolean login(){
-        return false;
+    public boolean login(String username, String password){
+        return users.login(username, password);
     }
     
     /**

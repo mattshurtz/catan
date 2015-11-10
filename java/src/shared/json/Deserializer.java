@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+
+import shared.communication.params.Credentials;
 import shared.communication.params.moves.BuildRoadRequest;
 
 import shared.communication.responses.CreateGameResponse;
@@ -34,9 +36,26 @@ public class Deserializer {
     /**
      * @param json this will be the Json representation of the model returned
      * from the server.
+     * @return 
      * @return a new Model class representation of the current model on the
      * server.
      */
+    public Object toClass(Class classType, String json) {
+    	if(json==null || classType==null) {
+    		return null;
+    	}
+    	
+    	return gson.fromJson(json, classType);
+    }
+    
+    public Credentials toCredentials(String json) {
+    	if( json == null ) {
+    		return null;
+    	}
+    	
+        return gson.fromJson(json, Credentials.class);
+    }
+    
     public Model toJavaModel(String json) {
     	if( json == null ) {
     		return null;

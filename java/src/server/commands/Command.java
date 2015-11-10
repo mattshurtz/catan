@@ -13,8 +13,6 @@ import shared.model.Model;
  *
  */
 public class Command {
-
-
     
     private Model model;
     private Deserializer deserializer;
@@ -40,8 +38,11 @@ public class Command {
         this.model = model;
     }
     
-        public Deserializer getDeserializer() {
-        return deserializer;
+    public Deserializer getDeserializer() {
+        if(deserializer==null) {
+        	deserializer = new Deserializer();
+        }    	
+    	return deserializer;
     }
 
     public void setDeserializer(Deserializer deserializer) {
