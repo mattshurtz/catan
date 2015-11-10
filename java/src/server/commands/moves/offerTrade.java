@@ -6,6 +6,7 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
 
 /**
  *
@@ -18,7 +19,7 @@ public class offerTrade extends Command{
      * @param json 
      */
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         return super.execute(json, gameID);
     }
     

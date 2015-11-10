@@ -6,6 +6,8 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
+import shared.exceptions.HTTPBadRequest;
 
 /**
  *
@@ -16,9 +18,10 @@ public class acceptTrade extends Command{
     /**
      * Calls can acceptTrade in the model. 
      * @param json 
+     * @throws HTTPBadRequest 
      */
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         return super.execute(json, gameID);
     }
     

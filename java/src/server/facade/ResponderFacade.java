@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import server.commands.*;
+import shared.exceptions.HTTPBadRequest;
 
 /**
      * Create an appropriate Command object, by converting the string using the class.forName function,
@@ -21,9 +22,10 @@ public class ResponderFacade implements IServerFacade {
      * Create an appropriate Command object, by converting the string using the class.forName function,
      * for the request, and call execute on it.
      * This command function will perform the logic for the operation. 
+     * @throws Throwable 
      */
     @Override
-    public String doFunction(String command, String content, String gameId) {
+    public String doFunction(String command, String content, String gameId) throws HTTPBadRequest {
     	Class<?> c;
     	Method method;
 		try {
@@ -54,6 +56,9 @@ public class ResponderFacade implements IServerFacade {
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
+			if (e.getTargetException().getClass() == HTTPBadRequest.class) {
+				throw (HTTPBadRequest) e.getTargetException();
+			}
 			e.getTargetException().printStackTrace();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block

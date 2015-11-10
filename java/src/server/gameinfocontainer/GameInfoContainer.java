@@ -47,7 +47,7 @@ public class GameInfoContainer {
     /**
     *Checks password if it is valid adds user to 
      */
-    public boolean login(String username, String password){
+    public int login(String username, String password){
         return users.login(username, password);
     }
     
@@ -67,9 +67,11 @@ public class GameInfoContainer {
     
     /**
      * adds new registered player to the userInfoBank
+     * @param string2 
+     * @param string 
      */
-    public void register(){
-        
+    public int register(String username, String password){
+        return users.addUser(username, password);
     }
     
     /**

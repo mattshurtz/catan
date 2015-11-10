@@ -34,14 +34,8 @@ import server.HTTPhandlers.SwaggerHandlers;
 public class main{
     
 	
-    public main(){
-        
-    }
-    private HttpServer server;
-    
-
-    
-        
+    private static final int DEFAULT_SERVER_PORT_NUMBER = 8081;
+    private static final int MAX_WAITING_CONNECTIONS = 10;   
         
     /**
      * Specifies port to listen to and starts the server. 
@@ -61,11 +55,7 @@ public class main{
 			new main().run(DEFAULT_SERVER_PORT_NUMBER);
 		}
 	}
-	private static final int DEFAULT_SERVER_PORT_NUMBER = 8081;
-	private static final int MAX_WAITING_CONNECTIONS = 10;
-	//private static final String DATA_LOCATION = "/data/";
-
-	
+	private HttpServer server;
 
 	/**
 	 * The run for the HTTP server
@@ -88,9 +78,6 @@ public class main{
 			e.printStackTrace();
 			return;
 		}
-		
-//	//initializes HTTP handlers
-//		Handler handlers = new Handlers();
 
 	//specify handlers
 		server.setExecutor(null); // use the default executor

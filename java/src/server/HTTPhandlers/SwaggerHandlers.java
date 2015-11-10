@@ -13,10 +13,10 @@ import server.utils.FileUtils;
 public class SwaggerHandlers {
 	public abstract static class BaseFile implements HttpHandler {
 		private static Logger LOGGER = Logger.getLogger(BaseFile.class.getName());
+		protected String rootPath;
 		public BaseFile(String rootPath) {
 			this.rootPath = rootPath;
 		}
-		protected String rootPath;
 		protected String getRequestPath(HttpExchange exchange) {
 			return exchange.getRequestURI().getPath().substring(1);
 		}

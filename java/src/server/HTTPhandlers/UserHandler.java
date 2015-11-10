@@ -6,22 +6,17 @@
 package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
-//import sun.misc.IOUtils;
+import shared.exceptions.HTTPBadRequest;
 import sun.net.www.protocol.http.HttpURLConnection;
-
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+
 
 /**
  * HTTP Handler for the requests starting with /User
@@ -35,31 +30,47 @@ public class UserHandler extends catanHTTPHandler{
 	
 	@Override
     public void handle(HttpExchange exchange) throws IOException {
-    	InputStream input = exchange.getRequestBody();
-    	URI url = exchange.getRequestURI();
-    	System.out.println(url.getPath().replace("/User/", ""));
-
     	
-    	//Convert content across to String
-    	//String result = "<HTML><BODY><H1>Hello "+url.getPath().replace("/User/", "")+"!</H1></BODY></HTML>";  
-    	String content = IOUtils.toString(exchange.getRequestBody(), "UTF-8");
-    	IOUtils.closeQuietly(exchange.getRequestBody());    	
+    	System.out.println("CLIENT CALLED :" + exchange.getRequestURI().getPath());
     	
-    	//Call the facade
-    	String result = facade.doFunction("user." + url.getPath().replace("/user/", ""), content, null);
     	
-    	System.out.println(result);
-    	
-    	if(result != null){
-    		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-    		exchange.getResponseBody().write(result.getBytes());
-    		exchange.getResponseBody().close();
-    	} else {
-    		exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
-    		//exchange.getResponseBody().write(result.getBytes());
-    		exchange.getResponseBody().close();
-    	}
-		
+    	//check if post
+    	try {
+    		
+    		//check if this is a post, else throw error
+			this.checkIsPost(exchange);
+			
+			//prep command
+			URI url = exchange.getRequestURI();
+			String newCommand = "user." + url.getPath().replace("/user/", "");
+			
+			//Convert content (POST) across to String
+			String content = this.getContent(exchange);   
+			
+			//Call the facade
+			String result = this.sendToFacade(newCommand, content, null);
+			
+			if(result != null) {
+				//login good
+				//create cookie
+				this.addCookie(exchange, result);
+			} else {
+				//login failed
+				throw new HTTPBadRequest("Login failed - bad password or username");
+			}
+			
+		} catch (HTTPBadRequest e) {
+			setBadRequest(exchange,e.getMessage());
+			System.out.println(e.getMessage());
+		} finally {
+			exchange.getResponseBody().close();
+		}				
     }
+
+
+
+	
+
+	
     
 }

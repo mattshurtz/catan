@@ -6,6 +6,7 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
 
 /**
  *
@@ -14,7 +15,7 @@ import server.commands.Command;
 public class finishTurn extends Command{
 
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         return super.execute(json, gameID);
     }
     

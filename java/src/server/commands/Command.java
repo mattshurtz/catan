@@ -5,6 +5,7 @@
  */
 package server.commands;
 
+import shared.exceptions.HTTPBadRequest;
 import shared.json.Deserializer;
 import shared.json.Serializer;
 import shared.model.Model;
@@ -24,8 +25,9 @@ public class Command {
      * in the model to first check if the requested command is valid, and then perform
      * the command is it is valid. 
      * @param json 
+     * @throws HTTPBadRequest 
      */
-    public String execute(String json, String gameID){
+    public String execute(String json, String gameID) throws HTTPBadRequest {
 		return null;        
     }
 

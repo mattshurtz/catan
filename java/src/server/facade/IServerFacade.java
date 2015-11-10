@@ -5,13 +5,15 @@
  */
 package server.facade;
 
-    /**
+import shared.exceptions.HTTPBadRequest;
+
+/**
      * Handler delegates all operations that aren't related to HTTP requests to the
      * ServerFacade, then the server facade performs these operations on the model
      * through the command classes. 
      */
 public interface IServerFacade {
     
-    public String doFunction(String command, String content, String gameId);
+    public String doFunction(String command, String content, String gameId) throws HTTPBadRequest;
     
 }

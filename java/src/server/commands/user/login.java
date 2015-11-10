@@ -6,6 +6,8 @@
 package server.commands.user;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
+import shared.exceptions.*;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.Credentials;
 
@@ -16,7 +18,7 @@ import shared.communication.params.Credentials;
 public class login extends Command{
 
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
         
         Credentials creds = (Credentials) this.getDeserializer().toClass(Credentials.class,json);
@@ -25,12 +27,13 @@ public class login extends Command{
         
         GameInfoContainer container = GameInfoContainer.getInstance();
         
-        boolean result = container.login(creds.getUsername(), creds.getPassword());
+        int result = container.login(creds.getUsername(), creds.getPassword());
         
-        if(result) {
-        	return "LOGIN";
+        if(result > -1) {
+        	String cookie = "catan.user=%7B%22name%22%3A%22" + creds.getUsername() + "%22%2C%22password%22%3A%22" + creds.getPassword() + "%22%2C%22playerID%22%3A" + result + "%7D;Path=/;";
+        	return cookie;
         } else {
-        	return "FAILED LOGIN";
+        	throw new HTTPBadRequest("Login failed - bad password or username");
         }
     }
     

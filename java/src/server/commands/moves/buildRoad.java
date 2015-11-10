@@ -6,6 +6,7 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
 import shared.communication.params.moves.BuildRoadRequest;
 
 /**
@@ -18,7 +19,7 @@ public class buildRoad extends Command {
      * @param json This is the Json request received from the client to build a road
      */
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         return super.execute(json, gameID);
     }
     

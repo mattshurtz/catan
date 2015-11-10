@@ -50,11 +50,13 @@ public class UserInfoBank {
      * @param password - user's password
      * @return true if successfully logged in, else false.
      */
-    public boolean login(String username, String password) {
-    	if(users.contains(new User(username, password))) {
-    		return true;
+    public int login(String username, String password) {
+    	for (int i=0; i < users.size();i++){
+    		if (users.get(i).getUsername().equals(username) && users.get(i).getPassword().equals(password)) {
+    			return i;
+    		}
     	}
-    	return false;
+    	return -1;
     }
     
 //    /**

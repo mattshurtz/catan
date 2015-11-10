@@ -6,6 +6,8 @@
 package server.commands.games;
 
 import server.commands.Command;
+import shared.exceptions.HTTPBadRequest;
+import shared.exceptions.HTTPBadRequest;
 
 /**
  *
@@ -14,7 +16,7 @@ import server.commands.Command;
 public class create extends Command{
 
     @Override
-    public String execute(String json, String gameID) {
+    public String execute(String json, String gameID) throws HTTPBadRequest {
         return super.execute(json, gameID);
     }
     
