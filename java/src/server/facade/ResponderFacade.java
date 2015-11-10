@@ -43,7 +43,8 @@ public class ResponderFacade implements IServerFacade {
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
+			throw new HTTPBadRequest("Command not found");
 		} catch (NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -53,13 +54,15 @@ public class ResponderFacade implements IServerFacade {
 		} catch (IllegalArgumentException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			//throw new HTTPBadRequest("Bad arguments");
 		} catch (InvocationTargetException e) {
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 			if (e.getTargetException().getClass() == HTTPBadRequest.class) {
 				throw (HTTPBadRequest) e.getTargetException();
-			}
-			e.getTargetException().printStackTrace();
+			} else {
+				e.getTargetException().printStackTrace();
+			}			
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

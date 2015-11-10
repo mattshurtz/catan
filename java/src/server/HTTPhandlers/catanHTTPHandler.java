@@ -29,15 +29,27 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	public boolean checkIsPost(HttpExchange exchange) throws HTTPBadRequest {
-		if (exchange.getRequestMethod().toLowerCase().equals("post"))
+		if (isPost(exchange))
 			return true;
 		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
 	}
 	
+	public boolean isPost(HttpExchange exchange) {
+		if (exchange.getRequestMethod().toLowerCase().equals("post"))
+			return true;
+		return false;
+	}
+	
 	public boolean checkisGet(HttpExchange exchange) throws HTTPBadRequest {
-		if (exchange.getRequestMethod().toLowerCase().equals("get"))
+		if (isGet(exchange))
 			return true;
 		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
+	}
+	
+	public boolean isGet(HttpExchange exchange) {
+		if (exchange.getRequestMethod().toLowerCase().equals("get"))
+			return true;
+		return false;
 	}
 	
 	public String getContent(HttpExchange exchange) throws IOException {

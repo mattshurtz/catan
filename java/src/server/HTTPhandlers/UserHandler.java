@@ -33,8 +33,6 @@ public class UserHandler extends catanHTTPHandler{
     	
     	System.out.println("CLIENT CALLED :" + exchange.getRequestURI().getPath());
     	
-    	
-    	//check if post
     	try {
     		
     		//check if this is a post, else throw error
@@ -56,7 +54,7 @@ public class UserHandler extends catanHTTPHandler{
 				this.addCookie(exchange, result);
 			} else {
 				//login failed
-				throw new HTTPBadRequest("Login failed - bad password or username");
+				throw new HTTPBadRequest("Login/Registration failed - bad password or username");
 			}
 			
 		} catch (HTTPBadRequest e) {
