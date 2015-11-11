@@ -5,8 +5,9 @@
  */
 package shared.model;
 
+import java.util.ArrayList;
+import java.util.Random;
 import shared.definitions.ResourceType;
-import shared.locations.VertexLocation;
 
 /**
  */
@@ -351,5 +352,27 @@ public class ResourceList {
 			default:
 				return -1;
 		}
-	} 
+	}
+    
+    public ResourceType robResource(){
+        ArrayList<ResourceType> robbableResources = new ArrayList<ResourceType>();
+        addToRobbableResouces(ResourceType.BRICK, robbableResources);
+        addToRobbableResouces(ResourceType.WHEAT, robbableResources);
+        addToRobbableResouces(ResourceType.ORE, robbableResources);
+        addToRobbableResouces(ResourceType.WOOD, robbableResources);
+        addToRobbableResouces(ResourceType.SHEEP, robbableResources);
+        
+        Random rand = new Random();
+        int randomNum = rand.nextInt((100 - 0) + 1);
+        
+        ResourceType robbed = robbableResources.get(randomNum%robbableResources.size());
+        this.subtractResource(robbed, 1);
+        return robbed;
+    }
+    
+    public void addToRobbableResouces(ResourceType resource, ArrayList<ResourceType> robbableResources){
+        for(int i = 0; i<getResource(resource); i++){
+            robbableResources.add(resource);
+        }
+    }
 }

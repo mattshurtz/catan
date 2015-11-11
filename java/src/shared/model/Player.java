@@ -8,6 +8,7 @@ package shared.model;
 import java.util.Objects;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 
 /**
@@ -118,29 +119,27 @@ public class Player {
      * decrements city count by one and increments settlement count by one
      */
     public void buildCity(){
+        cities--;
+        settlements++;
+        resources.buyCity();
     }
+    
     /**
      * decrease road count by one
      */
     public void buildRoad(){
-        
+        roads--;
+        resources.buyRoad();
     }
     
     /**
      * decrease settlement count by one
      */
     public void buildSettlment(){
-        
+        settlements--;
+        resources.buySettlement();
     }
     
-    /**
-     * @param rolledNumber - int not equal to 7
-     * @param robber -location of robber - prevents resource distribution
-     */
-    public void distributeResources(int rolledNumber, HexLocation robber) {
-    	
-    }
-
     public void incrementSoldiers() {
         soldiers++;
     }

@@ -99,6 +99,14 @@ public class DevCardList {
 			throw new InsufficientSupplies("Player does not have a Road Building card to play");
 		}		
 	}
+    
+    public void removeMonument() throws InsufficientSupplies{
+        if (monument > 0) {
+			this.monument--;
+		} else {
+			throw new InsufficientSupplies("Player does not have a Monument card to play");
+		} 
+    }
 
 	public int getSoldier() {
 		return soldier;

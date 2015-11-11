@@ -9,17 +9,23 @@ import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.facade.CatanFacade;
 import com.google.gson.annotations.SerializedName;
+import static java.lang.Integer.max;
+import static java.lang.Integer.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.InsufficientSupplies;
 import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -150,8 +156,8 @@ public class Model {
     public boolean doAcceptMaritimeTrade(ResourceType resource) {
     	if (canAcceptMaritimeTrade(resource))
     		return false;
-    	
-    	return true;
+
+        return true;
     }
 
     /**
@@ -164,7 +170,8 @@ public class Model {
      * @param playerIndex used to identify the player building this settlement
      */
     public void buildCity(VertexLocation location, int playerIndex) {
-        //Don't implement for phase one
+        players.get(playerIndex).buildCity();
+        
     }
 
     /**
@@ -175,8 +182,8 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-        //  if(canBuildRoad())
-
+        players.get(buildRoadInfo.getPlayerIndex()).buildRoad();
+        
     }
 
     /**
@@ -1031,17 +1038,33 @@ public class Model {
      * @param resource the type of resource the player will steal from everyone
      */
     public void playMonopoly(int playerIndex, ResourceType resource) {
-
+        try {
+            for(Player player: players){
+                if(!player.equals(players.get(playerIndex))){
+                    int amountOfResource = player.getResources().getResource(resource);
+                    players.get(playerIndex).resources.addResource(resource, amountOfResource);
+                    player.getResources().subtractResource(resource, amountOfResource);
+                }
+            }
+            players.get(playerIndex).oldDevCards.removeMonopoly();
+        } catch (InsufficientSupplies ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
-     * Adds two victory points to the player of given playerIndex and removes
+     * Adds one victory points to the player of given playerIndex and removes
      * the "monument" card from their hand
      *
      * @param playerIndex the player playing the monument card.
      */
     public void playMonument(int playerIndex) {
-
+        try {
+            players.get(playerIndex).incrementVictoryPoints();
+            players.get(playerIndex).oldDevCards.removeMonument();
+        } catch (InsufficientSupplies ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1051,7 +1074,11 @@ public class Model {
      * @param playerIndex
      */
     public void playRoadBuilding(int playerIndex) {
-
+        try {
+            players.get(playerIndex).oldDevCards.removeRoadBuilding();
+        } catch (InsufficientSupplies ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1062,7 +1089,12 @@ public class Model {
      * @param playerIndex
      */
     public void playSoldier(int playerIndex) {
-
+        try {
+            players.get(playerIndex).oldDevCards.removeSoldier();
+            players.get(playerIndex).incrementSoldiers();
+        } catch (InsufficientSupplies ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1076,15 +1108,13 @@ public class Model {
      */
     public void playYearOfPlenty(int playerIndex,
             ResourceType firstResource, ResourceType secondResource) {
-
-    }
-
-    /**
-     * Iterates through all of the settlements and cities in the catanMap and
-     * gives each player the resources they deserve for the given role.
-     */
-    public void receiveNewResources() {
-        //Do not implement for Phase 1
+        try {
+            players.get(playerIndex).oldDevCards.removeYearOfPlenty();
+            players.get(playerIndex).resources.addResource(firstResource, 1);
+            players.get(playerIndex).resources.addResource(secondResource, 1);
+        } catch (InsufficientSupplies ex) {
+            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -1095,7 +1125,8 @@ public class Model {
      * @param victimIndex
      */
     public void robPlayer(int robberIndex, int victimIndex) {
-
+        ResourceType robbed = players.get(victimIndex).resources.robResource();
+        players.get(robberIndex).resources.addResource(robbed, 1);
     }
 
     /**
