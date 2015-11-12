@@ -6,6 +6,8 @@
 package server.commands.games;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.JoinGameRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.exceptions.HTTPBadRequest;
 
@@ -17,7 +19,18 @@ public class join extends Command{
 
     @Override
     public String execute(String json, String gameID) throws HTTPBadRequest {
-        return super.execute(json, gameID);
+    	
+    	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
+    	
+    	int playerId = 0;
+    	
+    	if (GameInfoContainer.getInstance().joinGame(playerId, request.getColor(), request.getGameID())) {
+    		return "catan.game=" + gameID + "%7D;Path=/;";
+    	} else {
+    		throw new HTTPBadRequest("Could not add player to game");
+    	}
+    	
+    	
     }
     
 }

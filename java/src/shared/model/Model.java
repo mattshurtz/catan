@@ -116,7 +116,11 @@ public class Model {
 
     }
 
-    /**
+    public Model(String name, boolean randomNumbers, boolean randomPorts, boolean randomTiles) {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
      * Gets information from trade offer and changes the resources of the
      * players accordingly.
      */

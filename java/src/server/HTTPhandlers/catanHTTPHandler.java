@@ -12,6 +12,7 @@ import com.sun.net.httpserver.HttpHandler;
 
 import server.facade.IServerFacade;
 import server.facade.ResponderFacade;
+import server.gameinfocontainer.GameInfoContainer;
 import shared.exceptions.HTTPBadRequest;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -107,6 +108,20 @@ public class catanHTTPHandler implements HttpHandler{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
+	}
+	
+	protected boolean validateUser(HttpExchange exchange) {
+		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+		for (String cookie : cookies) {
+		    if (!cookie.startsWith("catan.user")) {
+		    	String username = "";
+		    	String password = "";
+		    	if (GameInfoContainer.getInstance().login(username, password) > -1) {
+		    		return true;
+		    	};
+		    }
+		}
+		return false;
 	}
 
 }

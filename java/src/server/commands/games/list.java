@@ -5,7 +5,11 @@
  */
 package server.commands.games;
 
+import java.util.List;
+
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.responses.GameResponse;
 import shared.exceptions.HTTPBadRequest;
 import shared.exceptions.HTTPBadRequest;
 
@@ -17,7 +21,11 @@ public class list extends Command{
 
     @Override
     public String execute(String json, String gameID) throws HTTPBadRequest {
-        return super.execute(json, gameID);
+        super.execute(json, gameID);
+        
+        List<GameResponse> list = GameInfoContainer.getInstance().getListOfGames();
+        
+        return this.getSerializer().toJson(list);
     }
     
 }

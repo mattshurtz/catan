@@ -40,6 +40,9 @@ public class GamesHandler extends catanHTTPHandler {
     		
 			String content = null;
 			String gameId = null;
+			
+			//NEED TO VALIDATE catain.user COOKIE
+			
 			//if it is the list (GET)
 			if(this.isGet(exchange) && newCommand.equals("games.list")) {
 				
