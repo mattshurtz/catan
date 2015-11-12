@@ -11,6 +11,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import server.facade.IServerFacade;
+import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.exceptions.HTTPBadRequest;
@@ -20,8 +21,12 @@ public class catanHTTPHandler implements HttpHandler{
 
 	IServerFacade facade;
 	
+	public catanHTTPHandler(IServerFacade facade) {
+		this.facade = facade;
+	}
+	
 	public catanHTTPHandler() {
-		facade = new ResponderFacade();
+		this.facade = new MockResponderFacade();
 	}
 	
 	@Override
