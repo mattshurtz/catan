@@ -17,6 +17,8 @@ import server.HTTPhandlers.GameHandler;
 import server.HTTPhandlers.GamesHandler;
 import server.HTTPhandlers.MovesHandler;
 import server.HTTPhandlers.UserHandler;
+import server.facade.IServerFacade;
+import server.facade.ResponderFacade;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -79,6 +81,8 @@ public class main{
 			return;
 		}
 
+		
+		IServerFacade facade = new ResponderFacade();
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 

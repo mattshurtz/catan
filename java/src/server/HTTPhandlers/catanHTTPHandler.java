@@ -30,7 +30,7 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	public catanHTTPHandler() {
-		this.facade = new MockResponderFacade();
+		this.facade = new ResponderFacade();
 	}
 	
 	@Override
@@ -130,7 +130,7 @@ public class catanHTTPHandler implements HttpHandler{
 		    	Pattern p = Pattern.compile("(?<=password%22%3A%22)(.*)(?=%22%2C%22playerID)");
 		    	Matcher pm = u.matcher(cookie);
 		    	
-		    	Pattern i = Pattern.compile("(?<=playerID%22%3A)(.*)(?=%7D;)");
+		    	Pattern i = Pattern.compile("(?<=playerID%22%3A)(.[^%]*)(?=%7D)");
 		    	Matcher im = i.matcher(cookie);
 		    	
 		    	if(!um.find() || !pm.find() || !im.find()) {
@@ -157,7 +157,7 @@ public class catanHTTPHandler implements HttpHandler{
 	protected String getGameId (HttpExchange exchange) throws HTTPBadRequest {
 		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
 		for (String cookie : cookies) {		    	
-		    	Pattern i = Pattern.compile("(?<=catan.game=)(.*)(?=%7D)");
+		    	Pattern i = Pattern.compile("(?<=catan.game=)(\\d*)(?=%7D)");
 		    	Matcher im = i.matcher(cookie);
 		    	
 		    	if(!im.find()) {
