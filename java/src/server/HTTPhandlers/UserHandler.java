@@ -8,14 +8,8 @@ package server.HTTPhandlers;
 import com.sun.net.httpserver.HttpExchange;
 
 import shared.exceptions.HTTPBadRequest;
-import sun.net.www.protocol.http.HttpURLConnection;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.io.IOUtils;
 
 
 /**
