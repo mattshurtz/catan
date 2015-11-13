@@ -24,7 +24,7 @@ public class buildSettlement extends Command{
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
             if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
             BuildSettlementRequest buildSettlementRequest = (BuildSettlementRequest)this.getDeserializer().toClass(BuildSettlementRequest.class, json);
-            Model currentModel =GameInfoContainer.getInstance().getModels().getGame(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
             currentModel.buildSettlement(buildSettlementRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

@@ -97,16 +97,25 @@ public class GameInfoContainer {
     public ModelBank getModels() {
     	return models;
     }
+    
+    public Model getGameModel(int gameID)
+    {
+        return models.getGame(gameID);
+    }
   
     /**
      * 
      * @return UserInfoBank of registered user information.
      */
-    UserInfoBank getRegisteredUserInfo() {
+    public UserInfoBank getRegisteredUserInfo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-	public List<GameResponse> getListOfGames() {
-		return getModels().toGameResponseList();
-	}
+    /**
+     * 
+     * @return List of GameResponses containing game information
+     */
+    public List<GameResponse> getListOfGames() {
+            return models.toGameResponseList();
+    }
 }
