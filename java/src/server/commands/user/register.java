@@ -29,7 +29,7 @@ public class register extends Command{
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {
-        	String cookie = "catan.user=%7B%22name%22%3A%22" + creds.getUsername() + "%22%2C%22password%22%3A%22" + creds.getPassword() + "%22%2C%22playerID%22%3A" + result + "%7D;Path=/;";
+        	String cookie = this.buildUserCookie(creds, result);
         	return cookie;
         } else {
         	throw new HTTPBadRequest("Could not add user");
