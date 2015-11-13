@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
@@ -14,7 +16,9 @@ import server.facade.IServerFacade;
 import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.Credentials;
 import shared.exceptions.HTTPBadRequest;
+import shared.model.Player;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 public class catanHTTPHandler implements HttpHandler{
@@ -116,18 +120,53 @@ public class catanHTTPHandler implements HttpHandler{
 		}		
 	}
 	
-	protected boolean validateUser(HttpExchange exchange) {
+	protected String getPlayerId (HttpExchange exchange) throws HTTPBadRequest {
 		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
 		for (String cookie : cookies) {
-		    if (!cookie.startsWith("catan.user")) {
-		    	String username = "";
-		    	String password = "";
-		    	if (GameInfoContainer.getInstance().login(username, password) > -1) {
-		    		return true;
-		    	};
-		    }
+		    //if (cookie.startsWith("catan.user")) {
+		    	Pattern u = Pattern.compile("(?<=name%22%3A%22)(.*)(?=%22%2C%22password)");
+		    	Matcher um = u.matcher(cookie);
+		    	
+		    	Pattern p = Pattern.compile("(?<=password%22%3A%22)(.*)(?=%22%2C%22playerID)");
+		    	Matcher pm = u.matcher(cookie);
+		    	
+		    	Pattern i = Pattern.compile("(?<=playerID%22%3A)(.*)(?=%7D;)");
+		    	Matcher im = i.matcher(cookie);
+		    	
+		    	if(!um.find() || !pm.find() || !im.find()) {
+		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
+		    	}
+		    	
+		    	String username = um.group(1).toString();
+		    	String password = pm.group(1).toString();
+		    	String playerId = im.group(1).toString();
+		    	
+		    	//validate user
+//		    	int player = GameInfoContainer.getInstance().login(username, password);
+//		    	if (player != Integer.parseInt(playerId)) {
+//		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
+//		    	};
+		    	
+		    	return playerId;
+		    	
+		    //}
 		}
-		return false;
+		return null;
+	}
+	
+	protected String getGameId (HttpExchange exchange) throws HTTPBadRequest {
+		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+		for (String cookie : cookies) {		    	
+		    	Pattern i = Pattern.compile("(?<=catan.game=)(.*)(?=%7D)");
+		    	Matcher im = i.matcher(cookie);
+		    	
+		    	if(!im.find()) {
+		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
+		    	}
+		    				    	
+		    	return im.group(1).toString();
+		}
+		return null;
 	}
 
 }
