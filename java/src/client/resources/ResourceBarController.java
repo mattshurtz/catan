@@ -159,7 +159,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
             getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
             getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false); 
         }if(CatanFacade.isMyTurn()){
-            if(CatanFacade.getModel().canBuyRoad()){
+            if(CatanFacade.getModel().canBuyRoad(CatanFacade.getMyPlayerIndex())){
                 getView().setElementEnabled(ResourceBarElement.ROAD, true);    
             }else{
                 getView().setElementEnabled(ResourceBarElement.ROAD, false);    

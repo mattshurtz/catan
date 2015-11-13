@@ -94,7 +94,7 @@ public class GameInfoContainer {
      * 
      * @return ModelBank of game models currently being handled by the server.
      */
-    ModelBank getModels() {
+    public ModelBank getModels() {
     	return models;
     }
   

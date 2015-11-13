@@ -39,7 +39,7 @@ public class StatePlaying extends StateBase {
 
     @Override
     public boolean canRollNumber() {
-        return model.canRollNumber();
+        return model.canRollNumber(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
@@ -119,12 +119,14 @@ public class StatePlaying extends StateBase {
     
     @Override
     public boolean canBuyRoad() {
-    	return model.canBuyRoad();
+        int playerIndex = CatanFacade.getMyPlayerIndex();
+    	return model.canBuyRoad(playerIndex);
     }
     
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) {
-    	return model.canBuyRoad() && model.canBuildRoad(roadLocation);
+        int playerIndex = CatanFacade.getMyPlayerIndex();
+    	return model.canBuyRoad(playerIndex) && model.canBuildRoad(roadLocation);
     }
     
    public StatePlaying(IServerProxy proxy, Model model) {
@@ -198,7 +200,7 @@ public class StatePlaying extends StateBase {
     
         @Override
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
-        return model.canRobPlayer(playerIndex, hexLoc);
+        return model.canRobPlayer(playerIndex, hexLoc, CatanFacade.getMyPlayerIndex());
     }
 
     @Override

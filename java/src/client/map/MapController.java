@@ -306,7 +306,7 @@ public class MapController extends Controller implements IMapController, Observe
 		assert(numPlayers == 4); //Assuming there are 4 players in the game
 		for (int i = 0; i < numPlayers; i++) {
 			//If the player is rob-able at this hex
-			if (CatanFacade.getModel().canRobPlayer(i, hexLoc)) {
+			if (CatanFacade.getModel().canRobPlayer(i, hexLoc, CatanFacade.getMyPlayerIndex())) {
 				//Add them to the arraylist of players to rob
 				RobPlayerInfo playerToRob = CatanFacade.getModel().getRobPlayerInfo(i);
 				playersToRob.add(playerToRob);

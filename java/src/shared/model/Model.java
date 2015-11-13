@@ -9,17 +9,15 @@ import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import client.facade.CatanFacade;
 import com.google.gson.annotations.SerializedName;
-import static java.lang.Integer.max;
-import static java.lang.Integer.min;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
@@ -185,9 +183,13 @@ public class Model {
      *
      * @param buildRoadInfo where the player is playing the road
      */
-    public void buildRoad(BuildRoadRequest buildRoadInfo) {
-        players.get(buildRoadInfo.getPlayerIndex()).buildRoad();
-        
+    public boolean buildRoad(BuildRoadRequest buildRoadInfo) {
+        if(canBuildRoad(buildRoadInfo.getRoadLocation())&&canBuyRoad(buildRoadInfo.getPlayerIndex())
+                &&isPlayersTurn(buildRoadInfo.getPlayerIndex())){
+            players.get(buildRoadInfo.getPlayerIndex()).buildRoad();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -196,11 +198,16 @@ public class Model {
      * settlement(player.resourceList.buySettlement();) and creates a road
      * located at the given EdgeLocation (CatanMap.buildSettlment())
      *
-     * @param location where the player is playing the road
+     * @param location where the player is playing the settlement
      * @param playerIndex is used to identify the player playing the road
      */
-    public void buildSettlement(EdgeLocation location, int playerIndex) {
-        //NOTE: to be implemented
+    public boolean buildSettlement(BuildSettlementRequest buildSettlementRequest) {
+            if(canBuildSettlement(buildSettlementRequest.getVertexLocation())&&canBuySettlement()
+                &&isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
+            players.get(buildSettlementRequest.getPlayerIndex()).buildRoad();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -326,8 +333,7 @@ public class Model {
      *
      * @return true if player has enough supplies, false if not
      */
-    public boolean canBuyRoad() {
-        int playerIndex = CatanFacade.getMyPlayerIndex();
+    public boolean canBuyRoad(int playerIndex) {
         if (!players.get(playerIndex).getResources().canBuyRoad()) {
             return false;
         } else if (!players.get(playerIndex).hasRoad()) {
@@ -479,14 +485,14 @@ public class Model {
      * Checks if the player can be robbed at a given location i.e. if the given
      * player has either a settlement or city at given hexLoc
      */
-    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
+    public boolean canRobPlayer(int playerIndex, HexLocation hexLoc, int myPlayerIndex) {
         return (playerIndex != CatanFacade.getMyPlayerIndex()) && catanMap.canRobPlayer(playerIndex, hexLoc);
     }
 
     /**
      * returns true if its the players turn and turn status is ROLLING
      */
-    public boolean canRollNumber() {
+    public boolean canRollNumber(int myPlayerIndex) {
         if (CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
                 && getTurnTracker().getStatus() == TurnStatus.ROLLING) {
             return true;
@@ -1137,9 +1143,9 @@ public class Model {
      * Rolls a number and changes the turn status from ROLLING to PLAYING Add
      * resources accordingly.
      */
-    public boolean rollNumber(int rolledNumber) {
+    public boolean rollNumber(int rolledNumber, int myPlayerIndex) {
 
-        if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber()) {
+        if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber(myPlayerIndex)) {
             distributeResources(rolledNumber);
             return true;
         }
@@ -1221,6 +1227,13 @@ public class Model {
 
     public void setWinner(int winner) {
         this.winner = winner;
+    }
+    
+    public boolean isPlayersTurn(int playerIndex){
+        if(playerIndex ==turnTracker.getCurrentTurn()){
+            return true;
+        }
+        return false;
     }
 
     public boolean surroundingEdgeOfVertexHasRoad(VertexLocation location) {

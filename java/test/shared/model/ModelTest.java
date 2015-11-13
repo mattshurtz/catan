@@ -882,24 +882,24 @@ public class ModelTest {
 
 		HexLocation robberLocation = new HexLocation(1, -1);
 
-		boolean brookeFalse = model.canRobPlayer(1, robberLocation);
+		boolean brookeFalse = model.canRobPlayer(1, robberLocation, null);
 		assertFalse(brookeFalse);
 
-		boolean peteTrue = model.canRobPlayer(2, robberLocation);
+		boolean peteTrue = model.canRobPlayer(2, robberLocation, null);
 		assertTrue(peteTrue);
 
-		boolean markTrue = model.canRobPlayer(3, robberLocation);
+		boolean markTrue = model.canRobPlayer(3, robberLocation, null);
 		assertTrue(markTrue);
 
 		robberLocation = new HexLocation(-1, 1);
 
-		brookeFalse = model.canRobPlayer(1, robberLocation);
+		brookeFalse = model.canRobPlayer(1, robberLocation, null);
 		assertFalse(brookeFalse);
 
-		peteTrue = model.canRobPlayer(2, robberLocation);
+		peteTrue = model.canRobPlayer(2, robberLocation, null);
 		assertTrue(peteTrue);
 
-		markTrue = model.canRobPlayer(3, robberLocation);
+		markTrue = model.canRobPlayer(3, robberLocation, null);
 		assertTrue(markTrue);
 	}
 
@@ -1013,17 +1013,17 @@ public class ModelTest {
             // This should be false because 0 is the current player as shown
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(1);
-            assertFalse(instance.canRollNumber());
+            assertFalse(instance.canRollNumber(null));
             //Now we set the CatanFacade player to the player whose turn it is
             // this test will pass because the currentplayer is player 0
             CatanFacade.setMyPlayerIndex(0);
             assertEquals(CatanFacade.getMyPlayerIndex(),0);
-            assertTrue(instance.canRollNumber());
+            assertTrue(instance.canRollNumber(null));
             
             //Test that it fails if the status is not rolling
             instance.getTurnTracker().setStatus(TurnStatus.ROBBING);
             assertEquals(instance.getTurnTracker().getStatus(),TurnStatus.ROBBING);
-            assertFalse(instance.canRollNumber());
+            assertFalse(instance.canRollNumber(null));
             
         }
         

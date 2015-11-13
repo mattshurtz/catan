@@ -22,7 +22,7 @@ public class StateRobbing extends StateBase {
 
     @Override
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
-        return model.canRobPlayer(playerIndex, hexLoc);
+        return model.canRobPlayer(playerIndex, hexLoc, CatanFacade.getMyPlayerIndex());
     }
 
     @Override

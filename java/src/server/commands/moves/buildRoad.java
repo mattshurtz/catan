@@ -6,8 +6,10 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
 import shared.exceptions.HTTPBadRequest;
 import shared.communication.params.moves.BuildRoadRequest;
+import shared.model.Model;
 
 /**
  *
@@ -20,7 +22,17 @@ public class buildRoad extends Command {
      */
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        return super.execute(json, gameID, user);
+//        return super.execute(json, gameID, user);
+        
+        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+            BuildRoadRequest roadRequest = (BuildRoadRequest)this.getDeserializer().toClass(BuildRoadRequest.class, json);
+            Model currentModel =GameInfoContainer.getInstance().getModels().getGame(Integer.getInteger(gameID));
+            currentModel.buildRoad(roadRequest);
+            return this.getSerializer().toJson(currentModel);
+        }else{
+            return null;
+        }
+        
     }
     
 }

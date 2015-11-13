@@ -5,6 +5,9 @@
  */
 package server.commands;
 
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.responses.GameResponse;
+import shared.communication.responses.PlayerResponse;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Deserializer;
 import shared.json.Serializer;
@@ -29,6 +32,16 @@ public class Command {
      */
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
 		return null;        
+    }
+    
+    public boolean isUserInGame(int gameID, int userID){
+        GameResponse game = GameInfoContainer.getInstance().getListOfGames().get(gameID);
+        for(PlayerResponse player: game.getPlayers()){
+            if(player.getId()== userID){
+                return true;
+            }
+        }
+        return false;
     }
 
 
