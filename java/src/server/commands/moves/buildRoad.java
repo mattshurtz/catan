@@ -26,7 +26,7 @@ public class buildRoad extends Command {
         
         if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
             BuildRoadRequest roadRequest = (BuildRoadRequest)this.getDeserializer().toClass(BuildRoadRequest.class, json);
-            Model currentModel =GameInfoContainer.getInstance().getModels().getGame(Integer.getInteger(gameID));
+            Model currentModel =GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
             currentModel.buildRoad(roadRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

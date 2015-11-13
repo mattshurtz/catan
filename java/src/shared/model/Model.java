@@ -201,8 +201,8 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public boolean buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-            if(canBuildSettlement(buildSettlementRequest.getVertexLocation())&&canBuySettlement()
-                &&isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
+            if(canBuildSettlement(buildSettlementRequest.getVertexLocation()) && canBuySettlement()
+                && isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
             players.get(buildSettlementRequest.getPlayerIndex()).buildRoad();
             return true;
         }
