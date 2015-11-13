@@ -7,7 +7,6 @@ package shared.model;
 
 import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
-import client.facade.CatanFacade;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -483,14 +482,14 @@ public class Model {
      * player has either a settlement or city at given hexLoc
      */
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc, int myPlayerIndex) {
-        return (playerIndex != CatanFacade.getMyPlayerIndex()) && catanMap.canRobPlayer(playerIndex, hexLoc);
+        return (playerIndex != myPlayerIndex) && catanMap.canRobPlayer(playerIndex, hexLoc);
     }
 
     /**
      * returns true if its the players turn and turn status is ROLLING
      */
     public boolean canRollNumber(int myPlayerIndex) {
-        if (CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()
+        if (myPlayerIndex == getTurnTracker().getCurrentTurn()
                 && getTurnTracker().getStatus() == TurnStatus.ROLLING) {
             return true;
         }
