@@ -92,7 +92,7 @@ public class MapController extends Controller implements IMapController, Observe
             return;
 		
         //Add all the hexes
-		ArrayList<Hex> hexList = map.getHexes();
+		List<Hex> hexList = map.getHexes();
 		for (Hex hex : hexList) {
 			//Set the hex type
 			HexType hexType = hex.getHexType();
@@ -120,7 +120,7 @@ public class MapController extends Controller implements IMapController, Observe
         }
 			
 		//If the Model has settlements or cities, add those
-		ArrayList<VertexObject> vObjects = map.getCitiesAndSettlements();
+		List<VertexObject> vObjects = map.getCitiesAndSettlements();
 		for (VertexObject vObj : vObjects) {
 				CatanColor color = vObj.getColor();
 				VertexLocation vertLoc = vObj.getLocation();
@@ -132,7 +132,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		
 		//If the Model has roads, add those
-		ArrayList<Road> roads = map.getRoads();
+		List<Road> roads = map.getRoads();
 		for (Road road : roads) {
 			EdgeLocation edgeLoc = road.getLocation();
 			CatanColor color = road.getColor();
@@ -140,7 +140,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		
 		//Initialize the ports
-		ArrayList<Port> ports = map.getPorts();
+		List<Port> ports = map.getPorts();
 		for (Port port : ports) {
 			EdgeLocation edgeLoc = port.getEdgeLocation();
 			PortType type = port.getPortType();

@@ -18,6 +18,7 @@ import java.util.List;
  * @author Scott
  */
 public class ModelBank {
+    
     private ArrayList<Model> games;
     
     /**
