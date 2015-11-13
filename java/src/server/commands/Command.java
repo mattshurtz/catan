@@ -18,7 +18,6 @@ import shared.model.Model;
  */
 public class Command {
     
-    private Model model;
     private Deserializer deserializer;
     private Serializer serializer;
     
@@ -34,6 +33,12 @@ public class Command {
 		return null;        
     }
     
+    public Command()
+    {
+        deserializer = new Deserializer();
+        serializer = new Serializer();
+    }
+    
     public boolean isUserInGame(int gameID, int userID){
         GameResponse game = GameInfoContainer.getInstance().getListOfGames().get(gameID);
         for(PlayerResponse player: game.getPlayers()){
@@ -42,15 +47,6 @@ public class Command {
             }
         }
         return false;
-    }
-
-
-    public Model getModel() {
-        return model;
-    }
-
-    public void setModel(Model model) {
-        this.model = model;
     }
     
     public Deserializer getDeserializer() {
@@ -65,6 +61,9 @@ public class Command {
     }
 
     public Serializer getSerializer() {
+        if(serializer == null) {
+            
+        }
         return serializer;
     }
 

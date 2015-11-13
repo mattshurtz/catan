@@ -33,8 +33,8 @@ import shared.model.ResourceList;
 public class StatePlaying extends StateBase {
 
     @Override
-    public boolean canFinishTurn() {
-        return model.canFinishTurn();
+    public boolean canFinishTurn(int playerIndex) {
+        return model.canFinishTurn(CatanFacade.getMyPlayerIndex());
     }
 
     @Override
@@ -126,7 +126,7 @@ public class StatePlaying extends StateBase {
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) {
         int playerIndex = CatanFacade.getMyPlayerIndex();
-    	return model.canBuyRoad(playerIndex) && model.canBuildRoad(roadLocation);
+    	return model.canBuyRoad(playerIndex) && model.canBuildRoad(roadLocation, playerIndex);
     }
     
    public StatePlaying(IServerProxy proxy, Model model) {

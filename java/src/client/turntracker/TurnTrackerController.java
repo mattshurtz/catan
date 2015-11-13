@@ -54,7 +54,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	 */
 	@Override
 	public void endTurn() {
-		if (CatanFacade.getCurrentState().canFinishTurn()) {
+		if (CatanFacade.getCurrentState().canFinishTurn(CatanFacade.getMyPlayerIndex())) {
 			try {
 				CatanFacade.getCurrentState().finishTurn();
 			} catch (ServerException e) {

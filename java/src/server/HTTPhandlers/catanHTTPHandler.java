@@ -78,6 +78,7 @@ public class catanHTTPHandler implements HttpHandler{
 	protected void addCookie(HttpExchange exchange, String cookie) throws IOException {
 		List<String> cookies = new ArrayList<String>();
 		cookies.add(cookie);
+                                
 		exchange.getResponseHeaders().put("Set-cookie", cookies);
 		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 	}

@@ -73,7 +73,7 @@ public class StateSetup extends StateBase {
      */
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) {
-    	return model.canBuildRoad(roadLocation);
+    	return model.canBuildRoad(roadLocation, CatanFacade.getMyPlayerIndex());
     }
     
     /** 

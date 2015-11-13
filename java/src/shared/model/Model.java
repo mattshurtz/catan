@@ -184,7 +184,7 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public boolean buildRoad(BuildRoadRequest buildRoadInfo) {
-        if(canBuildRoad(buildRoadInfo.getRoadLocation())&&canBuyRoad(buildRoadInfo.getPlayerIndex())
+        if(canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex())&&canBuyRoad(buildRoadInfo.getPlayerIndex())
                 &&isPlayersTurn(buildRoadInfo.getPlayerIndex())){
             players.get(buildRoadInfo.getPlayerIndex()).buildRoad();
             return true;
@@ -263,8 +263,8 @@ public class Model {
      * @return true if no exception is thrown InsufficientSupplies if the player
      * did not have enough resources or pieces
      */
-    public boolean canBuildRoad(EdgeLocation location) {
-        if (isValidRoadLocation(location)) {
+    public boolean canBuildRoad(EdgeLocation location, int myPlayerIndex) {
+        if (isValidRoadLocation(location, myPlayerIndex)) {
             return true;
         } else {
             return false;
@@ -380,11 +380,8 @@ public class Model {
      *
      * @return true if finish turn is a valid command
      */
-    public boolean canFinishTurn() {
-        if (CatanFacade.getMyPlayerIndex() == getTurnTracker().getCurrentTurn()) {
-            return true;
-        }
-        return false;
+    public boolean canFinishTurn(int playerIndex) {
+        return isPlayersTurn(playerIndex);
     }
 
     /**
@@ -661,12 +658,12 @@ public class Model {
         return hash;
     }
 
-    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies) {
+    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies, int myPlayerIndex) {
         int numOpponentsBuiltThrough = 0;
         for (VertexLocation loc : suspectVerticies) {
             for (VertexObject vObj : catanMap.getCitiesAndSettlements()) {
                 if (vObj.getLocation().getNormalizedLocation().equals(loc)) {
-                    if (vObj.getOwner() != CatanFacade.getMyPlayerIndex()) {
+                    if (vObj.getOwner() != myPlayerIndex) {
                         numOpponentsBuiltThrough++;
                     } else {
                         //found valid connected vertex with own building
@@ -765,7 +762,7 @@ public class Model {
         return true;
     }
 
-    public boolean isValidRoadLocation(EdgeLocation location) {
+    public boolean isValidRoadLocation(EdgeLocation location, int myPlayerIndex) {
         EdgeLocation normEdge = location.getNormalizedLocation();
         HexLocation normHexLocation = normEdge.getHexLoc();
         int currentPlayer = turnTracker.getCurrentTurn();
@@ -939,7 +936,7 @@ public class Model {
         }
 
         //check connected verticies for own or buildings
-        if (connected && !isBuiltThroughOpponent(connectedVerticies)) {
+        if (connected && !isBuiltThroughOpponent(connectedVerticies, myPlayerIndex)) {
             return true;
         } else {
             return false;

@@ -524,9 +524,9 @@ public class ModelTest {
 	public void testCanBuildRoadAtFilledEdge() throws Exception {
 
 		// this is an edge location that already has a road so it should fail.
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast), null));
 		// this is an edge location that already has a road so it should fail.
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North), null));
 		// Any other cases are covered in the other tests
 	}
 
@@ -538,11 +538,11 @@ public class ModelTest {
 	public void testCanBuildRoadIsolated() throws Exception {
 
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast), null));
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North), null));
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest), null));
 
 	}
 
@@ -556,17 +556,17 @@ public class ModelTest {
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 6 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, -2), EdgeDirection.North)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, -2), EdgeDirection.North), null));
 
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 9 on sheep
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast), null));
 
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 2 on Wheat
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest)));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest), null));
 
 	}
 
@@ -578,7 +578,7 @@ public class ModelTest {
 
 		// this edge is an invalid ocean edge
 		EdgeLocation oceanEdge = new EdgeLocation(new HexLocation(0, -3), EdgeDirection.NorthWest);
-		assertFalse(instance.canBuildRoad(oceanEdge));
+		assertFalse(instance.canBuildRoad(oceanEdge, null));
 	}
 
 	/**
@@ -591,13 +591,13 @@ public class ModelTest {
 	@Test
 	public void testCanBuildRoadNearRoad() throws Exception {
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest), null));
 
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast), null));
 
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North), null));
 
 	}
 
@@ -614,11 +614,11 @@ public class ModelTest {
 		instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
 		// Building a North Edge road near the yellow player 0 settlement at
 		// hexLocation 0, 1
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North), null));
 		// Test Building a NorthEast Edge road
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest), null));
 		// Test building a NorthWest Edge road
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast)));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast), null));
 
 	}
 

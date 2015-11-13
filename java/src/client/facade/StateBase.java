@@ -1,5 +1,6 @@
 package client.facade;
 
+import client.facade.CatanFacade;
 import client.proxy.IServerProxy;
 import shared.communication.params.moves.SendChatRequest;
 import shared.definitions.ResourceType;
@@ -133,7 +134,7 @@ public class StateBase {
         return false;
     }
 
-    public boolean canFinishTurn() {
+    public boolean canFinishTurn(int playerIndex) {
         return false;
     }
     
