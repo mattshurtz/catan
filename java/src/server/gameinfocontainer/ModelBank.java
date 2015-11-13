@@ -11,7 +11,9 @@ import shared.model.Model;
 import shared.model.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -19,38 +21,34 @@ import java.util.List;
  */
 public class ModelBank {
     
-    private ArrayList<Model> games;
+    private Map<Integer, Model> games;
+    private int nextGameId = 0;
     
     /**
      * Constructor for ModelBank that holds all the games in the server
      */
     public ModelBank() {
-    	games = new ArrayList<Model>();
+    	games = new HashMap<>();
     }
     
     /**
-     * Sets the games. Mainly used to replace all games if needed.
-     * @param games is an ArrayList of Model
-     */
-    public void setGames(ArrayList<Model> games) {
-    	
-    }
-    
-    /**
-     * Add a game to the games array 
+     * Add a game to the games list 
      * @param game is a share.model.Model
      * @return the game's id
      */
     public int addGame(Model game) {
-    	return -1;
+        this.games.put( nextGameId, game );
+        int ret = nextGameId;
+        nextGameId++;
+        return ret;
     }
     
     /**
-     * Removes a game from the games array
+     * Removes a game from the games list
      * @param gameId is the id of the game to be removed
      */
     public void removeGame(int gameId) {
-    	
+    	this.games.remove( gameId );
     }
     
     /**
@@ -59,13 +57,13 @@ public class ModelBank {
      * @return the game Model
      */
     public Model getGame(int gameId) {
-    	return null;
+    	return this.games.get( gameId );
     }
 
 	public List<GameResponse> toGameResponseList() {
 		List<GameResponse> g = new ArrayList<GameResponse>();
 		
-		for(int i=0;i<games.size();i++) {
+		for( Integer i : games.keySet() ) {
 			Model current = games.get(i);
 			ArrayList<PlayerResponse> p = new ArrayList<PlayerResponse>();
 			for(int j=0;j<current.getPlayers().size();j++) {
@@ -74,7 +72,6 @@ public class ModelBank {
 					player = current.getPlayer(j);
 					p.add(new PlayerResponse(player.getColor().toString(),player.getName(),player.getPlayerID()));
 				} catch (GetPlayerException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}				
 			}

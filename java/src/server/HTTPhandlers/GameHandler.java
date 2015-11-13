@@ -31,7 +31,7 @@ public class GameHandler extends catanHTTPHandler {
     		
 			String content = null;
 			String gameId = this.getGameId(exchange);
-			String user = this.getPlayerId(exchange);
+			String user = ""+this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
 			this.checkisGet(exchange);
@@ -41,7 +41,7 @@ public class GameHandler extends catanHTTPHandler {
 			
 			if(result != null) {
 					//send in body as json
-					this.setJSONResponse(exchange, result);				
+					this.sendResponseBody(exchange, result);				
 			} else {
 				//login failed
 				throw new HTTPBadRequest("Failed to get list of games");

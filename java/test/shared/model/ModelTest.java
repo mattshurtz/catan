@@ -1043,8 +1043,6 @@ public class ModelTest {
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(0);
             assertTrue(instance.canFinishTurn( CatanFacade.getMyPlayerIndex() ));
-            
-            
         }
 
 

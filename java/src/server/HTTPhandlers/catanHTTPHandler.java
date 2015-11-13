@@ -11,19 +11,19 @@ import org.apache.commons.io.IOUtils;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import java.net.HttpURLConnection;
+import server.data.PlayerInfoCookie;
 
 import server.facade.IServerFacade;
-import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
-import server.gameinfocontainer.GameInfoContainer;
-import shared.communication.params.Credentials;
 import shared.exceptions.HTTPBadRequest;
-import shared.model.Player;
-import sun.net.www.protocol.http.HttpURLConnection;
+import shared.json.Deserializer;
 
 public class catanHTTPHandler implements HttpHandler{
 
 	IServerFacade facade;
+    
+    private Deserializer deserializer = new Deserializer();
 	
 	public catanHTTPHandler(IServerFacade facade) {
 		this.facade = facade;
@@ -84,7 +84,6 @@ public class catanHTTPHandler implements HttpHandler{
 		cookies.add(cookie);
                                 
 		exchange.getResponseHeaders().put("Set-cookie", cookies);
-		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 	}
 	
 	protected void setBadRequest(HttpExchange exchange, String responseMessage) throws IOException {
@@ -102,12 +101,14 @@ public class catanHTTPHandler implements HttpHandler{
 		writer.flush();
 		writer.close();
 	}
-	
-	protected void setJSONResponse(HttpExchange exchange, String result) {
+    
+    protected void setJsonHeader( HttpExchange exchange ) {
+        exchange.getResponseHeaders().set("Content-Type","application/json");
+    }
+    
+	protected void sendResponseBody(HttpExchange exchange, String result) {
 		// TODO Auto-generated method stub
 		try {
-			exchange.getResponseHeaders().set("Content-Type","application/json");
-			
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 			OutputStreamWriter writer = new OutputStreamWriter(
 					exchange.getResponseBody());
@@ -119,39 +120,39 @@ public class catanHTTPHandler implements HttpHandler{
 			e.printStackTrace();
 		}		
 	}
+    
+    protected void sendSuccess( HttpExchange exchange ) {
+        sendResponseBody( exchange, "Success" );
+    }
+    
+    protected void sendFailure( HttpExchange exchange ) {
+        sendResponseBody( exchange, "Failure" );
+    }
+    
+    protected String getPlayerName ( HttpExchange exchange ) throws HTTPBadRequest {
+        List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+        System.out.println( cookies );
+        String userCookieStr = cookies.get( 0 );
+        String decoded = deserializer.decodeURIComponent( userCookieStr );
+        // Strip off the "catan.user=" at the beginning
+        if ( decoded.startsWith("catan.user=") ) {
+            decoded = decoded.substring(11);
+        }
+        PlayerInfoCookie pic = deserializer.toPlayerInfoCookie( decoded );
+        return pic.getName();
+    }
 	
-	protected String getPlayerId (HttpExchange exchange) throws HTTPBadRequest {
+	protected int getPlayerId (HttpExchange exchange) throws HTTPBadRequest {
 		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-		for (String cookie : cookies) {
-		    //if (cookie.startsWith("catan.user")) {
-		    	Pattern u = Pattern.compile("(?<=name%22%3A%22)(.*)(?=%22%2C%22password)");
-		    	Matcher um = u.matcher(cookie);
-		    	
-		    	Pattern p = Pattern.compile("(?<=password%22%3A%22)(.*)(?=%22%2C%22playerID)");
-		    	Matcher pm = u.matcher(cookie);
-		    	
-		    	Pattern i = Pattern.compile("(?<=playerID%22%3A)(.[^%]*)(?=%7D)");
-		    	Matcher im = i.matcher(cookie);
-		    	
-		    	if(!um.find() || !pm.find() || !im.find()) {
-		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
-		    	}
-		    	
-		    	String username = um.group(1).toString();
-		    	String password = pm.group(1).toString();
-		    	String playerId = im.group(1).toString();
-		    	
-		    	//validate user
-//		    	int player = GameInfoContainer.getInstance().login(username, password);
-//		    	if (player != Integer.parseInt(playerId)) {
-//		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
-//		    	};
-		    	
-		    	return playerId;
-		    	
-		    //}
-		}
-		return null;
+        System.out.println( cookies );
+        String userCookieStr = cookies.get( 0 );
+        String decoded = deserializer.decodeURIComponent( userCookieStr );
+        // Strip off the "catan.user=" at the beginning
+        if ( decoded.startsWith("catan.user=") ) {
+            decoded = decoded.substring(11);
+        }
+        PlayerInfoCookie pic = deserializer.toPlayerInfoCookie( decoded );
+        return pic.getId();
 	}
 	
 	protected String getGameId (HttpExchange exchange) throws HTTPBadRequest {
@@ -168,5 +169,10 @@ public class catanHTTPHandler implements HttpHandler{
 		}
 		return null;
 	}
+    
+//    public Object parseCookieStr( String cookieStr ) {
+//        
+//        
+//    }
 
 }

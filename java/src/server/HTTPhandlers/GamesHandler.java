@@ -6,14 +6,10 @@
 package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-
-import shared.exceptions.HTTPBadRequest;
-import sun.net.www.protocol.http.HttpURLConnection;
 
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.URI;
+import shared.exceptions.HTTPBadRequest;
 
 /**
  * HTTP Handler for the requests starting with /Games
@@ -31,16 +27,18 @@ public class GamesHandler extends catanHTTPHandler {
     public void handle(HttpExchange exchange) throws IOException {
 		
 		System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
-		
-		try {
-			
+        try {
+            System.out.println("why");
+            System.out.println("Player Id: " + this.getPlayerId( exchange ) );
+            System.out.println("Player name: " + this.getPlayerName( exchange ) );
+			System.out.println("why2");
 			//prep command
 			URI url = exchange.getRequestURI();
 			String newCommand = "games." + url.getPath().replace("/games/", "");
     		
 			String content = null;
 			String gameId = this.getGameId(exchange);
-			String user = this.getPlayerId(exchange);
+			int user = this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
 			if(this.isGet(exchange) && newCommand.equals("games.list")) {
@@ -57,12 +55,12 @@ public class GamesHandler extends catanHTTPHandler {
 			}
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, gameId, user);
+			String result = this.sendToFacade(newCommand, content, gameId, ""+user);
 			
 			if(result != null) {
 				if (newCommand.equals("games.list")) {
 					//send in body as json
-					this.setJSONResponse(exchange, result);
+					this.sendResponseBody(exchange, result);
 				} else {
 					//create cookie
 					this.addCookie(exchange, result);
@@ -74,7 +72,9 @@ public class GamesHandler extends catanHTTPHandler {
 			
 		} catch (HTTPBadRequest e) {
 			setBadRequest(exchange,e.getMessage());
-			System.out.println(e.getMessage());
+			System.err.println("HTTPBadRequest: " + e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
 		} finally {
 			exchange.getResponseBody().close();
 		}			

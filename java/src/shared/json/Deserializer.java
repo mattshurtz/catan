@@ -7,8 +7,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
+import server.data.PlayerInfoCookie;
 
 import shared.communication.params.Credentials;
 import shared.communication.params.moves.BuildRoadRequest;
@@ -54,6 +57,14 @@ public class Deserializer {
     	}
     	
         return gson.fromJson(json, Credentials.class);
+    }
+    
+    public PlayerInfoCookie toPlayerInfoCookie(String json) {
+    	if( json == null ) {
+    		return null;
+    	}
+    	
+        return gson.fromJson(json, PlayerInfoCookie.class);
     }
     
     public Model toJavaModel(String json) {
@@ -149,5 +160,27 @@ public class Deserializer {
         pi.setName( p.getName() );
         pi.setPlayerIndex(p.getPlayerIndex());
         return pi;
+    }
+
+    public String decodeURIComponent(String s) {
+        if (s == null)
+        {
+            return null;
+        }
+
+        String result = null;
+
+        try
+        {
+            result = URLDecoder.decode(s, "UTF-8");
+        }
+
+        // This exception should never occur.
+        catch (UnsupportedEncodingException e)
+        {
+            result = s;  
+        }
+
+        return result;
     }
 }

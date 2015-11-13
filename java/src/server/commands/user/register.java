@@ -6,15 +6,19 @@
 package server.commands.user;
 
 import server.commands.Command;
+import server.data.PlayerInfoCookie;
 import shared.exceptions.HTTPBadRequest;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.Credentials;
+import shared.json.Serializer;
 
 /**
  *
  * @author Scott
  */
 public class register extends Command{
+    
+    Serializer serializer = new Serializer();
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
@@ -29,7 +33,17 @@ public class register extends Command{
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {
-        	String cookie = "catan.user=%7B%22name%22%3A%22" + creds.getUsername() + "%22%2C%22password%22%3A%22" + creds.getPassword() + "%22%2C%22playerID%22%3A" + result + "%7D;Path=/;";
+            
+            PlayerInfoCookie pinf = new PlayerInfoCookie();
+            
+            pinf.setName(creds.getUsername());
+            pinf.setPassword( creds.getPassword());
+            pinf.setId(result);
+            
+            String ret = serializer.toJson( pinf );
+            ret = serializer.encodeURIComponent( ret );
+            
+        	String cookie = "catan.user=" + ret;
         	return cookie;
         } else {
         	throw new HTTPBadRequest("Could not add user");
