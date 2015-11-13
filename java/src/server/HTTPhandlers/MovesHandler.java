@@ -20,7 +20,10 @@ public class MovesHandler extends catanHTTPHandler {
 	}
     
 	@Override
-    public void handle(HttpExchange he) throws IOException {
+    public void handle(HttpExchange exchange) throws IOException {
+        
+        //check for post method
+            this.checkIsPost(exchange);
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
