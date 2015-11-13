@@ -18,8 +18,8 @@ import shared.communication.params.Credentials;
 public class login extends Command{
 
     @Override
-    public String execute(String json, String gameID) throws HTTPBadRequest {
-        super.execute(json, gameID); //To change body of generated methods, choose Tools | Templates.
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+        super.execute(json, gameID, user); //To change body of generated methods, choose Tools | Templates.
         
         Credentials creds = (Credentials) this.getDeserializer().toClass(Credentials.class,json);
         //Credentials creds = this.getDeserializer().toCredentials(json);

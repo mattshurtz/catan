@@ -5,6 +5,12 @@
  */
 package server.gameinfocontainer;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import shared.communication.responses.GameResponse;
+import shared.model.Model;
+
 /**
  *
  * @author Scott
@@ -39,9 +45,16 @@ public class GameInfoContainer {
     /**
      * Called by the create.java command class and adds a game to the 
      * GameInfoContainer
+     * @param randomTiles 
+     * @param randomPorts 
+     * @param randomNumbers 
+     * @param name 
+     * @return 
      */
-    public void createGame(){
-        
+    public int createGame(String name, boolean randomNumbers, boolean randomPorts, boolean randomTiles){
+        this.getModels().addGame(new Model(name, randomNumbers, randomPorts, randomTiles));
+        //return the id of the game just added
+        return -1;
     }
     
     /**
@@ -53,8 +66,11 @@ public class GameInfoContainer {
     
     /**
      * Adds player to the list of games stored in the correct model
+     * @param i 
+     * @param string 
+     * @param playerId 
      */
-    public boolean joinGame(){
+    public boolean joinGame(int playerId, String color, int gameId){
         return false;
     }
     
@@ -79,7 +95,7 @@ public class GameInfoContainer {
      * @return ModelBank of game models currently being handled by the server.
      */
     ModelBank getModels() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	return models;
     }
   
     /**
@@ -89,4 +105,8 @@ public class GameInfoContainer {
     UserInfoBank getRegisteredUserInfo() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	public List<GameResponse> getListOfGames() {
+		return getModels().toGameResponseList();
+	}
 }

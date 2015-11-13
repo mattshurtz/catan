@@ -11,7 +11,9 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 import server.facade.IServerFacade;
+import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
+import server.gameinfocontainer.GameInfoContainer;
 import shared.exceptions.HTTPBadRequest;
 import sun.net.www.protocol.http.HttpURLConnection;
 
@@ -19,8 +21,12 @@ public class catanHTTPHandler implements HttpHandler{
 
 	IServerFacade facade;
 	
+	public catanHTTPHandler(IServerFacade facade) {
+		this.facade = facade;
+	}
+	
 	public catanHTTPHandler() {
-		facade = new ResponderFacade();
+		this.facade = new MockResponderFacade();
 	}
 	
 	@Override
@@ -28,31 +34,31 @@ public class catanHTTPHandler implements HttpHandler{
 		// TODO Auto-generated method stub		
 	}
 	
-	public boolean checkIsPost(HttpExchange exchange) throws HTTPBadRequest {
+	protected boolean checkIsPost(HttpExchange exchange) throws HTTPBadRequest {
 		if (isPost(exchange))
 			return true;
 		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
 	}
 	
-	public boolean isPost(HttpExchange exchange) {
+	protected boolean isPost(HttpExchange exchange) {
 		if (exchange.getRequestMethod().toLowerCase().equals("post"))
 			return true;
 		return false;
 	}
 	
-	public boolean checkisGet(HttpExchange exchange) throws HTTPBadRequest {
+	protected boolean checkisGet(HttpExchange exchange) throws HTTPBadRequest {
 		if (isGet(exchange))
 			return true;
 		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
 	}
 	
-	public boolean isGet(HttpExchange exchange) {
+	protected boolean isGet(HttpExchange exchange) {
 		if (exchange.getRequestMethod().toLowerCase().equals("get"))
 			return true;
 		return false;
 	}
 	
-	public String getContent(HttpExchange exchange) throws IOException {
+	protected String getContent(HttpExchange exchange) throws IOException {
 		String content = IOUtils.toString(exchange.getRequestBody(), "UTF-8");
 		IOUtils.closeQuietly(exchange.getRequestBody());
 		return content;
@@ -65,18 +71,18 @@ public class catanHTTPHandler implements HttpHandler{
 	 * @param GameID the gameID found in cookie (if any)
 	 * @throws Throwable 
 	 */
-	public String sendToFacade(String command, String content, String gameId) throws HTTPBadRequest {
-		return facade.doFunction(command, content, gameId);
+	protected String sendToFacade(String command, String content, String gameId, String user) throws HTTPBadRequest {
+		return facade.doFunction(command, content, gameId, user);
 	}
 	
-	public void addCookie(HttpExchange exchange, String cookie) throws IOException {
+	protected void addCookie(HttpExchange exchange, String cookie) throws IOException {
 		List<String> cookies = new ArrayList<String>();
 		cookies.add(cookie);
 		exchange.getResponseHeaders().put("Set-cookie", cookies);
 		exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 	}
 	
-	public void setBadRequest(HttpExchange exchange, String responseMessage) throws IOException {
+	protected void setBadRequest(HttpExchange exchange, String responseMessage) throws IOException {
 		//set "Content-Type: text/plain" header
 		List<String> contentTypes = new ArrayList<String>();
 		String textPlain = "text/plain";
@@ -90,6 +96,37 @@ public class catanHTTPHandler implements HttpHandler{
 		writer.write(responseMessage);
 		writer.flush();
 		writer.close();
+	}
+	
+	protected void setJSONResponse(HttpExchange exchange, String result) {
+		// TODO Auto-generated method stub
+		try {
+			exchange.getResponseHeaders().set("Content-Type","application/json");
+			
+			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			OutputStreamWriter writer = new OutputStreamWriter(
+					exchange.getResponseBody());
+			writer.write(result);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
+	
+	protected boolean validateUser(HttpExchange exchange) {
+		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+		for (String cookie : cookies) {
+		    if (!cookie.startsWith("catan.user")) {
+		    	String username = "";
+		    	String password = "";
+		    	if (GameInfoContainer.getInstance().login(username, password) > -1) {
+		    		return true;
+		    	};
+		    }
+		}
+		return false;
 	}
 
 }

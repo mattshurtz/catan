@@ -4,8 +4,14 @@
  * and open the template in the editor.
  */
 package server.gameinfocontainer;
+import shared.communication.responses.GameResponse;
+import shared.communication.responses.PlayerResponse;
+import shared.exceptions.GetPlayerException;
 import shared.model.Model;
+import shared.model.Player;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -18,7 +24,7 @@ public class ModelBank {
      * Constructor for ModelBank that holds all the games in the server
      */
     public ModelBank() {
-    	
+    	games = new ArrayList<Model>();
     }
     
     /**
@@ -54,4 +60,26 @@ public class ModelBank {
     public Model getGame(int gameId) {
     	return null;
     }
+
+	public List<GameResponse> toGameResponseList() {
+		List<GameResponse> g = new ArrayList<GameResponse>();
+		
+		for(int i=0;i<games.size();i++) {
+			Model current = games.get(i);
+			ArrayList<PlayerResponse> p = new ArrayList<PlayerResponse>();
+			for(int j=0;j<current.getPlayers().size();j++) {
+				Player player;
+				try {
+					player = current.getPlayer(j);
+					p.add(new PlayerResponse(player.getColor().toString(),player.getName(),player.getPlayerID()));
+				} catch (GetPlayerException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+			g.add(new GameResponse("TITLE",i,p));
+		}
+		
+		return g;
+	}
 }

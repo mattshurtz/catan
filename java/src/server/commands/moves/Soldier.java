@@ -15,8 +15,8 @@ import shared.exceptions.HTTPBadRequest;
 public class Soldier extends Command{
 
     @Override
-    public String execute(String json, String gameID) throws HTTPBadRequest {
-        return super.execute(json, gameID);
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+        return super.execute(json, gameID, user);
     }
     
 }

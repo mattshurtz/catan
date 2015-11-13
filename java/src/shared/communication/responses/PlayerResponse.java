@@ -14,6 +14,17 @@ public class PlayerResponse {
     private String color;
     private String name;
     private int id;
+    
+    public PlayerResponse(String color, String name, int id) {
+		super();
+		this.color = color;
+		this.name = name;
+		this.id = id;
+	}
+
+	public PlayerResponse(){
+    	
+    }
 
     public String getColor() {
         return color;

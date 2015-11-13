@@ -25,7 +25,7 @@ public class UserHandler extends catanHTTPHandler{
 	@Override
     public void handle(HttpExchange exchange) throws IOException {
     	
-    	System.out.println("CLIENT CALLED :" + exchange.getRequestURI().getPath());
+    	System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
     	
     	try {
     		
@@ -40,7 +40,7 @@ public class UserHandler extends catanHTTPHandler{
 			String content = this.getContent(exchange);   
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, null);
+			String result = this.sendToFacade(newCommand, content, null, null);
 			
 			if(result != null) {
 				//login good

@@ -16,8 +16,19 @@ public class GameResponse {
     private String title;
     private int id;
     List<PlayerResponse> players;
+    
+    public GameResponse() {
+    	
+    }
 
-    public String getTitle() {
+    public GameResponse(String title, int id, List<PlayerResponse> players) {
+		super();
+		this.title = title;
+		this.id = id;
+		this.players = players;
+	}
+
+	public String getTitle() {
         return title;
     }
 
