@@ -45,6 +45,13 @@ public class TurnTracker {
     public void setCurrentTurn(int currentTurn) {
         this.currentTurn = currentTurn;
     }
+    
+    public void finishTurn(){
+        currentTurn ++;
+        if(currentTurn == 4){
+            currentTurn =0;
+        }
+    }
 
     public TurnStatus getStatus() {
             return status;

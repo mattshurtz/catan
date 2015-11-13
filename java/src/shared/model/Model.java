@@ -17,6 +17,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.BuildSettlementRequest;
+import shared.communication.params.moves.DiscardCardsRequest;
+import shared.communication.params.moves.MaritimeTradeRequest;
+import shared.communication.params.moves.MoveRequest;
+import shared.communication.params.moves.OfferTradeRequest;
+import shared.communication.params.moves.RobPlayerRequest;
+import shared.communication.params.moves.RollNumberRequest;
+import shared.communication.params.moves.SendChatRequest;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
@@ -154,11 +161,14 @@ public class Model {
         return true;
     }
     
-    public boolean doAcceptMaritimeTrade(ResourceType resource) {
-    	if (canAcceptMaritimeTrade(resource))
-    		return false;
+    public boolean acceptMaritimeTrade(MaritimeTradeRequest tradeRequest) {
+    //Fix this	
+//        if (canAcceptMaritimeTrade(tradeRequest.getOutputResource(),1)&&
+//                isPlayersTurn(tradeRequest.getPlayerIndex())&&canOfferMaritimeTrade(tradeRequest.getInputResource())){
+//    		return true;
+//        }
 
-        return true;
+        return false;
     }
 
     /**
@@ -220,7 +230,9 @@ public class Model {
     }
 
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
-        return bank.hasResource(resourceType);
+        //return bank.canOfferResource(resourceType);
+       // need to fix this. 
+        return false;
     }
 
     
@@ -412,7 +424,14 @@ public class Model {
      * @param offer
      * @return whether they can make the offer or not.
      */
-    public boolean canOfferTrade(ResourceList offer) {
+    public boolean canOfferTrade(OfferTradeRequest tradeOfferRequest) {
+        ResourceList offer = tradeOfferRequest.getOffer();
+        ResourceList sendersResources = players.get(tradeOfferRequest.getPlayerIndex()).getResources();
+        
+        if(sendersResources.hasResources(offer)){
+            return true;
+        }
+        
         return false;
     }
 
@@ -504,8 +523,14 @@ public class Model {
      * @param playerIndex
      * @param listToDiscard
      */
-    public void discardCards(int playerIndex, ResourceList listToDiscard) {
-
+    public void discardCards(DiscardCardsRequest discardRequest) {
+        Player player = players.get(discardRequest.getPlayerIndex());
+        if(isPlayersTurn(discardRequest.getPlayerIndex())&&
+                canDiscardCards(discardRequest.getPlayerIndex())&&
+                player.getResources().hasResources(discardRequest.getDiscardedCards())){
+            player.getResources().discardResources(discardRequest.getDiscardedCards());
+        }
+            
     }
 
     @Override
@@ -553,8 +578,10 @@ public class Model {
     /**
      * Calls canFinishTurn and updates the turnTracker accordingly.
      */
-    public void finishTurn() {
-
+    public void finishTurn(MoveRequest finishTurnRequest) {
+        if(canFinishTurn(finishTurnRequest.getPlayerIndex())){
+            turnTracker.finishTurn();
+        }
     }
 
     public ResourceList getBank() {
@@ -1031,8 +1058,15 @@ public class Model {
      * @param receiverIndex
      * @param offer
      */
-    public void offerTrade(int traderIndex, int receiverIndex, ResourceList offer) {
-
+    public boolean offerTrade(OfferTradeRequest tradeOfferRequest) {
+        int sender = tradeOfferRequest.getPlayerIndex();
+        if(isPlayersTurn(sender)&&canOfferTrade(tradeOfferRequest)){
+            tradeOffer.setOffer(tradeOfferRequest.getOffer());
+            tradeOffer.setReceiver(tradeOfferRequest.getReceiver());
+            tradeOffer.setSender(sender);
+        return true;
+        }
+        return false;
     }
 
     /**
@@ -1130,7 +1164,9 @@ public class Model {
      * @param robberIndex
      * @param victimIndex
      */
-    public void robPlayer(int robberIndex, int victimIndex) {
+    public void robPlayer(RobPlayerRequest robPlayerRequest) {
+        int robberIndex = robPlayerRequest.getPlayerIndex();
+        int victimIndex = robPlayerRequest.getVictimIndex();
         ResourceType robbed = players.get(victimIndex).resources.robResource();
         players.get(robberIndex).resources.addResource(robbed, 1);
     }
@@ -1139,8 +1175,9 @@ public class Model {
      * Rolls a number and changes the turn status from ROLLING to PLAYING Add
      * resources accordingly.
      */
-    public boolean rollNumber(int rolledNumber, int myPlayerIndex) {
-
+    public boolean rollNumber(RollNumberRequest rollNumberRequest) {
+        int rolledNumber = rollNumberRequest.getNumber();
+        int myPlayerIndex = rollNumberRequest.getPlayerIndex();
         if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber(myPlayerIndex)) {
             distributeResources(rolledNumber);
             return true;
@@ -1176,8 +1213,9 @@ public class Model {
      * @param chat the MessageLine object containing the message as well as the
      * name of the player that sent it.
      */
-    public void doSendChat(MessageLine chat) {
-        this.chat.addLine(chat);
+    public void sendChat(SendChatRequest chat) {
+        MessageLine message =new MessageLine(players.get(chat.getPlayerIndex()).getName(),chat.getContent());
+        this.chat.addLine(message);
     }
 
     public void setBank(ResourceList bank) {

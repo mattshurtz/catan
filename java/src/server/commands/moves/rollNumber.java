@@ -6,7 +6,10 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.moves.RollNumberRequest;
 import shared.exceptions.HTTPBadRequest;
+import shared.model.Model;
 
 /**
  *
@@ -16,7 +19,14 @@ public class rollNumber extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        return super.execute(json, gameID, user);
+        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+            RollNumberRequest rollNumberRequest = (RollNumberRequest)this.getDeserializer().toClass(RollNumberRequest.class, json);
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            currentModel.rollNumber(rollNumberRequest);
+            return this.getSerializer().toJson(currentModel);
+        }else{
+            return null;
+        }
     }
     
 }
