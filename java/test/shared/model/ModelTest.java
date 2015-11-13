@@ -464,7 +464,7 @@ public class ModelTest {
 	@Test
 	public void testCanBuyRoadInsufficientBrick() throws Exception {
 		// Current player doesn't have supplies, should return false
-		assertEquals(false, instance.canBuyRoad());
+		assertEquals(false, instance.canBuyRoad( CatanFacade.getMyPlayerIndex() ));
 	}
 
 	/**
@@ -484,7 +484,7 @@ public class ModelTest {
 		assertEquals(0, player.getRoads());
 
 		// Try to buy a road with zero roads - should return false
-		assertEquals(false, instance.canBuyRoad());
+		assertEquals(false, instance.canBuyRoad( CatanFacade.getMyPlayerIndex() ));
 	}
 
 //	/**
@@ -524,9 +524,9 @@ public class ModelTest {
 	public void testCanBuildRoadAtFilledEdge() throws Exception {
 
 		// this is an edge location that already has a road so it should fail.
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
 		// this is an edge location that already has a road so it should fail.
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 		// Any other cases are covered in the other tests
 	}
 
@@ -538,11 +538,11 @@ public class ModelTest {
 	public void testCanBuildRoadIsolated() throws Exception {
 
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, -1), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 		// this is an edge location that has no adjacent pieces 3 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, -1), EdgeDirection.NorthWest),  CatanFacade.getMyPlayerIndex() ));
 
 	}
 
@@ -556,17 +556,17 @@ public class ModelTest {
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 6 on Wood
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, -2), EdgeDirection.North), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, -2), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 9 on sheep
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-1, 1), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
 
 		// this is a nothern edge location that has adjacent pieces but none of
 		// them
 		// belong to the current player. 2 on Wheat
-		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest), null));
+		assertEquals(false, instance.canBuildRoad(new EdgeLocation(new HexLocation(-2, 1), EdgeDirection.NorthWest),  CatanFacade.getMyPlayerIndex() ));
 
 	}
 
@@ -578,7 +578,7 @@ public class ModelTest {
 
 		// this edge is an invalid ocean edge
 		EdgeLocation oceanEdge = new EdgeLocation(new HexLocation(0, -3), EdgeDirection.NorthWest);
-		assertFalse(instance.canBuildRoad(oceanEdge, null));
+		assertFalse(instance.canBuildRoad(oceanEdge,  CatanFacade.getMyPlayerIndex() ));
 	}
 
 	/**
@@ -591,13 +591,13 @@ public class ModelTest {
 	@Test
 	public void testCanBuildRoadNearRoad() throws Exception {
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest),  CatanFacade.getMyPlayerIndex() ));
 
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
 
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 
 	}
 
@@ -614,11 +614,11 @@ public class ModelTest {
 		instance.getTurnTracker().setStatus(TurnStatus.FIRST_ROUND);
 		// Building a North Edge road near the yellow player 0 settlement at
 		// hexLocation 0, 1
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 		// Test Building a NorthEast Edge road
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthWest),  CatanFacade.getMyPlayerIndex() ));
 		// Test building a NorthWest Edge road
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast), null));
+		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
 
 	}
 
@@ -882,24 +882,24 @@ public class ModelTest {
 
 		HexLocation robberLocation = new HexLocation(1, -1);
 
-		boolean brookeFalse = model.canRobPlayer(1, robberLocation, null);
+		boolean brookeFalse = model.canRobPlayer(1, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertFalse(brookeFalse);
 
-		boolean peteTrue = model.canRobPlayer(2, robberLocation, null);
+		boolean peteTrue = model.canRobPlayer(2, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertTrue(peteTrue);
 
-		boolean markTrue = model.canRobPlayer(3, robberLocation, null);
+		boolean markTrue = model.canRobPlayer(3, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertTrue(markTrue);
 
 		robberLocation = new HexLocation(-1, 1);
 
-		brookeFalse = model.canRobPlayer(1, robberLocation, null);
+		brookeFalse = model.canRobPlayer(1, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertFalse(brookeFalse);
 
-		peteTrue = model.canRobPlayer(2, robberLocation, null);
+		peteTrue = model.canRobPlayer(2, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertTrue(peteTrue);
 
-		markTrue = model.canRobPlayer(3, robberLocation, null);
+		markTrue = model.canRobPlayer(3, robberLocation,  CatanFacade.getMyPlayerIndex() );
 		assertTrue(markTrue);
 	}
 
@@ -1013,17 +1013,17 @@ public class ModelTest {
             // This should be false because 0 is the current player as shown
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(1);
-            assertFalse(instance.canRollNumber(null));
+            assertFalse(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
             //Now we set the CatanFacade player to the player whose turn it is
             // this test will pass because the currentplayer is player 0
             CatanFacade.setMyPlayerIndex(0);
             assertEquals(CatanFacade.getMyPlayerIndex(),0);
-            assertTrue(instance.canRollNumber(null));
+            assertTrue(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
             
             //Test that it fails if the status is not rolling
             instance.getTurnTracker().setStatus(TurnStatus.ROBBING);
             assertEquals(instance.getTurnTracker().getStatus(),TurnStatus.ROBBING);
-            assertFalse(instance.canRollNumber(null));
+            assertFalse(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
             
         }
         
@@ -1037,12 +1037,12 @@ public class ModelTest {
             // This should be false because 0 is the current player as shown
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(1);
-            assertFalse(instance.canFinishTurn());
+            assertFalse(instance.canFinishTurn( CatanFacade.getMyPlayerIndex() ));
             //This tests whether a player whos turn it IS can finish turn
             // This should be false because 0 is the current player as shown
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(0);
-            assertTrue(instance.canFinishTurn());
+            assertTrue(instance.canFinishTurn( CatanFacade.getMyPlayerIndex() ));
             
             
         }

@@ -33,20 +33,18 @@ public class MovesHandler extends catanHTTPHandler {
                 //prep command
                 URI url = exchange.getRequestURI();
                 String newCommand = "moves." + url.getPath().replace("/moves/", "");
-                
+                                
                 //Convert content (POST) across to String
                 String content = this.getContent(exchange);
+                String user = this.getPlayerId(exchange);
+                String gameId = this.getGameId(exchange);
                 
                 //Call the facade
-                //NOTE(SCOTT): GET COOKIE INFO
-                String result = this.sendToFacade(newCommand, content, null, null);
+                String result = this.sendToFacade(newCommand, content, gameId, user);
                 
                 if(result != null) {
-                    //action performed
-                    //create cookie
-                    this.addCookie(exchange, result);
+                	this.setJSONResponse(exchange, result);	
                 } else {
-                    //login failed
                     throw new HTTPBadRequest("Invalid Arguments");
                 }
                 

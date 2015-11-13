@@ -101,6 +101,10 @@ public class Hex {
     public int getNumber() {
     	return number;
     }
+
+    void setNumber(int theNum) {
+        this.number = theNum;
+    }
     
     
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package server.gameinfocontainer;
 
 import java.util.ArrayList;
@@ -52,9 +47,9 @@ public class GameInfoContainer {
      * @return 
      */
     public int createGame(String name, boolean randomNumbers, boolean randomPorts, boolean randomTiles){
-        this.getModels().addGame(new Model(name, randomNumbers, randomPorts, randomTiles));
+        int gameid = this.getModels().addGame(new Model(name, randomNumbers, randomPorts, randomTiles));
         //return the id of the game just added
-        return -1;
+        return gameid;
     }
     
     /**

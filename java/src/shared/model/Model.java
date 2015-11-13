@@ -106,6 +106,8 @@ public class Model {
 
     private int version;
     private int winner;
+    
+    private String name;
 
     public Model() {
         bank = new ResourceList();
@@ -117,11 +119,12 @@ public class Model {
         turnTracker = new TurnTracker();
         version = 0;
         winner = -1;
-
     }
 
     public Model(String name, boolean randomNumbers, boolean randomPorts, boolean randomTiles) {
-		// TODO Auto-generated constructor stub
+		this();
+        this.name = name;
+        this.catanMap = new CatanMap( randomNumbers, randomPorts, randomTiles );
 	}
 
 	/**
@@ -251,7 +254,7 @@ public class Model {
      */
     public boolean canBuildCity(VertexLocation location) {
         //get all the settlements on the catanMap
-        ArrayList<Settlement> settlements = catanMap.getSettlements();
+        List<Settlement> settlements = catanMap.getSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
         //Iterate through settlements to make sure the player owns a settlement at the target location
         for (Settlement settlement : settlements) {
@@ -709,7 +712,7 @@ public class Model {
     }
 
     public boolean isValidFirstRoad(EdgeLocation normEdge) {
-        ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
+        List<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
         int currentPlayer = turnTracker.getCurrentTurn();
         if (normEdge.getDir() == EdgeDirection.North) {
             for (VertexObject vertexObject : allVObjects) {
@@ -971,7 +974,7 @@ public class Model {
 
     public boolean isValidVertex(VertexLocation location) {
         VertexLocation normVertLocation = location.getNormalizedLocation();
-        ArrayList<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
+        List<VertexObject> allVObjects = catanMap.getCitiesAndSettlements();
 
         for (VertexObject vObject : allVObjects) {
             //Assume that vObject.getLocation is returning the Normalized location

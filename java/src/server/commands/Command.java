@@ -6,6 +6,7 @@
 package server.commands;
 
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.Credentials;
 import shared.communication.responses.GameResponse;
 import shared.communication.responses.PlayerResponse;
 import shared.exceptions.HTTPBadRequest;
@@ -70,5 +71,13 @@ public class Command {
     public void setSerializer(Serializer serializer) {
         this.serializer = serializer;
     }
+    
+    public String buildUserCookie(Credentials creds, int result) {
+    	return "catan.user=%7B%22name%22%3A%22" + creds.getUsername() + "%22%2C%22password%22%3A%22" + creds.getPassword() + "%22%2C%22playerID%22%3A" + result + "%7D;Path=/;";
+    }
+    public String buildGameCookie(int gameID) {
+    	return "catan.game=" + gameID + "%7D;Path=/;";
+    }
+    
     
 }
