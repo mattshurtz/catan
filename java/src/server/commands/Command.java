@@ -27,7 +27,7 @@ public class Command {
      * @param json 
      * @throws HTTPBadRequest 
      */
-    public String execute(String json, String gameID) throws HTTPBadRequest {
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
 		return null;        
     }
 

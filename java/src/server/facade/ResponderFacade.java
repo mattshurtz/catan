@@ -25,17 +25,17 @@ public class ResponderFacade implements IServerFacade {
      * @throws Throwable 
      */
     @Override
-    public String doFunction(String command, String content, String gameId) throws HTTPBadRequest {
+    public String doFunction(String command, String content, String gameId, String user) throws HTTPBadRequest {
     	Class<?> c;
     	Method method;
 		try {
 			c = Class.forName("server.commands." + command);
-			method = c.getDeclaredMethod ("execute", new Class[] {String.class, String.class});
+			method = c.getDeclaredMethod ("execute", new Class[] {String.class, String.class, String.class});
 			Object instance = c.newInstance();
 			
 			System.out.println("ResponderFacade - Calling command " + command + "...");
 			
-			Object value = method.invoke (instance, content, gameId);
+			Object value = method.invoke (instance, content, gameId, user);
 			
 			System.out.println("ResponderFacade - Recieved string: " + (String) value);
 			

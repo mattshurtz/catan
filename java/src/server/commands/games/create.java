@@ -18,8 +18,8 @@ import shared.exceptions.HTTPBadRequest;
 public class create extends Command{
 
     @Override
-    public String execute(String json, String gameID) throws HTTPBadRequest {
-        super.execute(json, gameID);
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+        super.execute(json, gameID, user);
         
         CreateGameRequest request = (CreateGameRequest) this.getDeserializer().toClass(CreateGameRequest.class, json);
     

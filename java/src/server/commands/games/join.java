@@ -18,7 +18,7 @@ import shared.exceptions.HTTPBadRequest;
 public class join extends Command{
 
     @Override
-    public String execute(String json, String gameID) throws HTTPBadRequest {
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
     	
     	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
     	

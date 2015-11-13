@@ -20,8 +20,8 @@ import shared.exceptions.HTTPBadRequest;
 public class list extends Command{
 
     @Override
-    public String execute(String json, String gameID) throws HTTPBadRequest {
-        super.execute(json, gameID);
+    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+        super.execute(json, gameID, user);
         
         List<GameResponse> list = GameInfoContainer.getInstance().getListOfGames();
         

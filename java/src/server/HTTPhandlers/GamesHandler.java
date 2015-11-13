@@ -40,6 +40,7 @@ public class GamesHandler extends catanHTTPHandler {
     		
 			String content = null;
 			String gameId = null;
+			String user = null;
 			
 			//NEED TO VALIDATE catain.user COOKIE
 			
@@ -58,7 +59,7 @@ public class GamesHandler extends catanHTTPHandler {
 			}
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, gameId);
+			String result = this.sendToFacade(newCommand, content, gameId, user);
 			
 			if(result != null) {
 				if (newCommand.equals("games.list")) {
