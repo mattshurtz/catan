@@ -47,6 +47,10 @@ public class SwaggerHandlers {
 			super(rootPath);
 		}
 		public void handle(HttpExchange exchange) throws IOException {
+//			String filepath = this.rootPath;
+//			if (filepath.equals("")){
+//				filepath += this.getRequestPath(exchange);
+//			}
 			String filepath = this.rootPath + this.getRequestPath(exchange);
 			this.sendFile(exchange, filepath);
 		}
