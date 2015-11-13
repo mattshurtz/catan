@@ -15,15 +15,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shared.communication.params.moves.BuildRoadRequest;
-import shared.communication.params.moves.BuildSettlementRequest;
-import shared.communication.params.moves.DiscardCardsRequest;
-import shared.communication.params.moves.MaritimeTradeRequest;
-import shared.communication.params.moves.MoveRequest;
-import shared.communication.params.moves.OfferTradeRequest;
-import shared.communication.params.moves.RobPlayerRequest;
-import shared.communication.params.moves.RollNumberRequest;
-import shared.communication.params.moves.SendChatRequest;
+import shared.communication.params.moves.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
@@ -195,13 +187,17 @@ public class Model {
      *
      * @param buildRoadInfo where the player is playing the road
      */
-    public boolean buildRoad(BuildRoadRequest buildRoadInfo) {
-        if(canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex())&&canBuyRoad(buildRoadInfo.getPlayerIndex())
-                &&isPlayersTurn(buildRoadInfo.getPlayerIndex())){
-            players.get(buildRoadInfo.getPlayerIndex()).buildRoad();
-            return true;
+    public void buildRoad(BuildRoadRequest buildRoadInfo) {
+        if(canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())){
+            if(canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree())
+            {
+                players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
+            }
+            else if(buildRoadInfo.isFree())
+            {
+                players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
+            }        
         }
-        return false;
     }
 
     /**
@@ -213,13 +209,19 @@ public class Model {
      * @param location where the player is playing the settlement
      * @param playerIndex is used to identify the player playing the road
      */
-    public boolean buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-            if(canBuildSettlement(buildSettlementRequest.getVertexLocation()) && canBuySettlement()
-                && isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
-            players.get(buildSettlementRequest.getPlayerIndex()).buildRoad();
-            return true;
+    public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
+            if(canBuildSettlement(buildSettlementRequest.getVertexLocation()) && isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
+            {
+                if(!buildSettlementRequest.isFree() && canBuildSettlement(buildSettlementRequest.getVertexLocation()))
+                {
+                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
+                }
+                else if(buildSettlementRequest.isFree())
+                {
+                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
+                }                        
+            }
         }
-        return false;
     }
 
     /**
@@ -717,10 +719,16 @@ public class Model {
         if (normEdge.getDir() == EdgeDirection.North) {
             for (VertexObject vertexObject : allVObjects) {
 
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -730,10 +738,16 @@ public class Model {
             HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
             for (VertexObject vertexObject : allVObjects) {
 
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -743,10 +757,16 @@ public class Model {
             HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
             for (VertexObject vertexObject : allVObjects) {
 
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
-                if (vertexObject.getLocation().getNormalizedLocation().equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                if (vertexObject.getLocation().getNormalizedLocation()
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) 
+                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
+                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -1080,16 +1100,21 @@ public class Model {
      * @param playerIndex the player who played the monopoly card
      * @param resource the type of resource the player will steal from everyone
      */
-    public void playMonopoly(int playerIndex, ResourceType resource) {
+    public void playMonopoly(PlayMonopolyRequest request) {
         try {
-            for(Player player: players){
-                if(!player.equals(players.get(playerIndex))){
-                    int amountOfResource = player.getResources().getResource(resource);
-                    players.get(playerIndex).resources.addResource(resource, amountOfResource);
-                    player.getResources().subtractResource(resource, amountOfResource);
+            int playerIndex = request.getPlayerIndex();
+            ResourceType resource = request.getResource();
+            if(canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex))
+            {
+                for(Player player: players){
+                    if(!player.equals(players.get(playerIndex))){
+                        int amountOfResource = player.getResources().getResource(resource);
+                        players.get(playerIndex).resources.addResource(resource, amountOfResource);
+                        player.getResources().subtractResource(resource, amountOfResource);
+                    }
                 }
+                players.get(playerIndex).oldDevCards.removeMonopoly();
             }
-            players.get(playerIndex).oldDevCards.removeMonopoly();
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1101,10 +1126,14 @@ public class Model {
      *
      * @param playerIndex the player playing the monument card.
      */
-    public void playMonument(int playerIndex) {
+    public void playMonument(MoveRequest request) {
+        int playerIndex = request.getPlayerIndex();
+        
         try {
-            players.get(playerIndex).incrementVictoryPoints();
-            players.get(playerIndex).oldDevCards.removeMonument();
+            if(isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
+                players.get(playerIndex).incrementVictoryPoints();
+                players.get(playerIndex).oldDevCards.removeMonument();
+            }
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -1116,9 +1145,20 @@ public class Model {
      *
      * @param playerIndex
      */
-    public void playRoadBuilding(int playerIndex) {
+    public void playRoadBuilding(PlayRoadBuildingRequest request) {
+        int playerIndex = request.getPlayerIndex();
+        
         try {
-            players.get(playerIndex).oldDevCards.removeRoadBuilding();
+            if(isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex))
+            {
+                BuildRoadRequest req1 = new BuildRoadRequest(request.getSpot1(), true);
+                BuildRoadRequest req2 = new BuildRoadRequest(request.getSpot2(), true);
+                
+                buildRoad(req1);
+                buildRoad(req2);
+                
+                players.get(playerIndex).oldDevCards.removeRoadBuilding();
+            }
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
         }

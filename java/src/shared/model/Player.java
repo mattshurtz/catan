@@ -128,17 +128,23 @@ public class Player {
     /**
      * decrease road count by one
      */
-    public void buildRoad(){
+    public void buildRoad(boolean isFree){
         roads--;
-        resources.buyRoad();
+        if(!isFree)
+        {
+            resources.buyRoad();
+        }
     }
     
     /**
      * decrease settlement count by one
      */
-    public void buildSettlment(){
+    public void buildSettlement(boolean isFree){
         settlements--;
-        resources.buySettlement();
+        if(!isFree)
+        {
+            resources.buySettlement();
+        }
     }
     
     public void incrementSoldiers() {
