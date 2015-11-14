@@ -98,7 +98,7 @@ public class Model {
 
     private int version;
     private int winner;
-    
+
     private String name;
 
     public Model() {
@@ -114,54 +114,40 @@ public class Model {
     }
 
     public Model(String name, boolean randomNumbers, boolean randomPorts, boolean randomTiles) {
-		this();
+        this();
         this.name = name;
-        this.catanMap = new CatanMap( randomNumbers, randomPorts, randomTiles );
-	}
+        this.catanMap = new CatanMap(randomNumbers, randomPorts, randomTiles);
+    }
 
-	/**
+    /**
      * Gets information from trade offer and changes the resources of the
      * players accordingly.
      */
-
-    public boolean doAcceptTrade(TradeOffer offer, int playerIndex){
-    	ResourceList tradeOffer = offer.getOffer();
-    	
-        if (canAcceptTrade(tradeOffer, playerIndex))
-        	return false;
+    public boolean acceptTrade(AcceptTradeRequest request) {
         
-        ResourceList recResources = players.get(offer.getReceiver()).getResources();
-        ResourceList sendResources = players.get(offer.getSender()).getResources();
+        ResourceList recipientResources = players.get(tradeOffer.getReceiver()).getResources();
+        ResourceList offererResources = players.get(tradeOffer.getSender()).getResources();
         
-        int resource = tradeOffer.getBrick();
-        sendResources.addResource(ResourceType.BRICK, resource);
-        recResources.addResource(ResourceType.BRICK, resource * -1);
-        
-        resource = tradeOffer.getWood();
-        sendResources.addResource(ResourceType.WOOD, resource);
-        recResources.addResource(ResourceType.WOOD, resource * -1);
-        
-        resource = tradeOffer.getSheep();
-        sendResources.addResource(ResourceType.SHEEP, resource);
-        recResources.addResource(ResourceType.SHEEP, resource * -1);
-        
-        resource = tradeOffer.getOre();
-        sendResources.addResource(ResourceType.ORE, resource);
-        recResources.addResource(ResourceType.ORE, resource * -1);
-        
-        resource = tradeOffer.getWheat();
-        sendResources.addResource(ResourceType.WHEAT, resource);
-        recResources.addResource(ResourceType.WHEAT, resource * -1);
-        
-        return true;
+        if(recipientResources.hasResources(tradeOffer.getReceiveResources())&&
+        offererResources.hasResources(tradeOffer.getSendResources())){
+           
+           recipientResources.addResources(tradeOffer.getSendResources());
+           recipientResources.discardResources(tradeOffer.getReceiveResources());
+           
+           offererResources.addResources(tradeOffer.getReceiveResources());
+           offererResources.discardResources(tradeOffer.getSendResources());
+            
+            return true;
+        }
+        return false;
     }
-    
+
     public boolean acceptMaritimeTrade(MaritimeTradeRequest tradeRequest) {
-    //Fix this	
-//        if (canAcceptMaritimeTrade(tradeRequest.getOutputResource(),1)&&
-//                isPlayersTurn(tradeRequest.getPlayerIndex())&&canOfferMaritimeTrade(tradeRequest.getInputResource())){
-//    		return true;
-//        }
+        //Fix this	
+        if (bank.hasResource(tradeRequest.getOutputResource())
+                && isPlayersTurn(tradeRequest.getPlayerIndex()) && canOfferMaritimeTrade(tradeRequest.getInputResource())) {
+            return true;
+        }
 
         return false;
     }
@@ -175,9 +161,12 @@ public class Model {
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
-    public void buildCity(VertexLocation location, int playerIndex) {
-        players.get(playerIndex).buildCity();
-        
+    public void buildCity(BuildCityRequest buildCityRequest) {
+        VertexLocation location = buildCityRequest.getVertexLocation();
+        int playerIndex = buildCityRequest.getPlayerIndex();
+        if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
+            players.get(playerIndex).buildCity();
+        }
     }
 
     /**
@@ -188,15 +177,12 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-        if(canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())){
-            if(canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree())
-            {
+        if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
+            if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
+                players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
+            } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
-            else if(buildRoadInfo.isFree())
-            {
-                players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
-            }        
         }
     }
 
@@ -210,16 +196,13 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-            if(canBuildSettlement(buildSettlementRequest.getVertexLocation()) && isPlayersTurn(buildSettlementRequest.getPlayerIndex())){
+        if (canBuildSettlement(buildSettlementRequest.getVertexLocation()) && isPlayersTurn(buildSettlementRequest.getPlayerIndex())) {
             {
-                if(!buildSettlementRequest.isFree() && canBuildSettlement(buildSettlementRequest.getVertexLocation()))
-                {
+                if (!buildSettlementRequest.isFree() && canBuildSettlement(buildSettlementRequest.getVertexLocation())) {
+                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
+                } else if (buildSettlementRequest.isFree()) {
                     players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
                 }
-                else if(buildSettlementRequest.isFree())
-                {
-                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
-                }                        
             }
         }
     }
@@ -230,19 +213,19 @@ public class Model {
      *
      * @param playerIndex
      */
-    public void buyDevCard(int playerIndex) {
-
+    public void buyDevCard(MoveRequest moveRequest) {
+        int playerIndex = moveRequest.getPlayerIndex();
+        if (canBuyDevCard(playerIndex)) {
+            players.get(playerIndex).getResources().buyDevCard();
+        }
     }
 
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
-        //return bank.canOfferResource(resourceType);
-       // need to fix this. 
-        return false;
+        return bank.hasResource(resourceType);
     }
 
-    
-    public boolean canAcceptTrade(ResourceList tradeOffer, int playerIndex) {
-        return players.get(playerIndex).getResources().canAcceptTrade(tradeOffer);
+    public boolean canAcceptTrade(int playerIndex) {
+        return players.get(playerIndex).getResources().canAcceptTrade(tradeOffer.getOffer());
     }
 
     /**
@@ -265,7 +248,6 @@ public class Model {
                 return true;
             }
         }
-
         return false;
     }
 
@@ -419,7 +401,7 @@ public class Model {
      * @return true if can trade
      */
     public boolean canOfferResource(ResourceType type, int amount) {
-        return players.get(turnTracker.getCurrentTurn()).getResources().canOfferResource(type, amount);
+        return players.get(turnTracker.getCurrentTurn()).getResources().hasAmountOfResource(type, amount);
     }
 
     /**
@@ -432,11 +414,11 @@ public class Model {
     public boolean canOfferTrade(OfferTradeRequest tradeOfferRequest) {
         ResourceList offer = tradeOfferRequest.getOffer();
         ResourceList sendersResources = players.get(tradeOfferRequest.getPlayerIndex()).getResources();
-        
-        if(sendersResources.hasResources(offer)){
+
+        if (sendersResources.hasResources(offer)) {
             return true;
         }
-        
+
         return false;
     }
 
@@ -530,12 +512,12 @@ public class Model {
      */
     public void discardCards(DiscardCardsRequest discardRequest) {
         Player player = players.get(discardRequest.getPlayerIndex());
-        if(isPlayersTurn(discardRequest.getPlayerIndex())&&
-                canDiscardCards(discardRequest.getPlayerIndex())&&
-                player.getResources().hasResources(discardRequest.getDiscardedCards())){
+        if (isPlayersTurn(discardRequest.getPlayerIndex())
+                && canDiscardCards(discardRequest.getPlayerIndex())
+                && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
             player.getResources().discardResources(discardRequest.getDiscardedCards());
         }
-            
+
     }
 
     @Override
@@ -584,7 +566,7 @@ public class Model {
      * Calls canFinishTurn and updates the turnTracker accordingly.
      */
     public void finishTurn(MoveRequest finishTurnRequest) {
-        if(canFinishTurn(finishTurnRequest.getPlayerIndex())){
+        if (canFinishTurn(finishTurnRequest.getPlayerIndex())) {
             turnTracker.finishTurn();
         }
     }
@@ -720,15 +702,15 @@ public class Model {
             for (VertexObject vertexObject : allVObjects) {
 
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -739,15 +721,15 @@ public class Model {
             for (VertexObject vertexObject : allVObjects) {
 
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(southwestNeighbor, VertexDirection.NorthEast))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -758,15 +740,15 @@ public class Model {
             for (VertexObject vertexObject : allVObjects) {
 
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(southeastNeighbor, VertexDirection.NorthWest))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
                 if (vertexObject.getLocation().getNormalizedLocation()
-                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast)) 
-                            && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge) 
-                            && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
+                        .equals(new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast))
+                        && vertexObject.getOwner() == currentPlayer && isValidPortEdge(normEdge)
+                        && !surroundingEdgeOfVertexHasRoad(vertexObject.getLocation().getNormalizedLocation())) {
                     return true;
                 }
             }
@@ -1083,11 +1065,11 @@ public class Model {
      */
     public boolean offerTrade(OfferTradeRequest tradeOfferRequest) {
         int sender = tradeOfferRequest.getPlayerIndex();
-        if(isPlayersTurn(sender)&&canOfferTrade(tradeOfferRequest)){
+        if (isPlayersTurn(sender) && canOfferTrade(tradeOfferRequest)) {
             tradeOffer.setOffer(tradeOfferRequest.getOffer());
             tradeOffer.setReceiver(tradeOfferRequest.getReceiver());
             tradeOffer.setSender(sender);
-        return true;
+            return true;
         }
         return false;
     }
@@ -1104,10 +1086,9 @@ public class Model {
         try {
             int playerIndex = request.getPlayerIndex();
             ResourceType resource = request.getResource();
-            if(canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex))
-            {
-                for(Player player: players){
-                    if(!player.equals(players.get(playerIndex))){
+            if (canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex)) {
+                for (Player player : players) {
+                    if (!player.equals(players.get(playerIndex))) {
                         int amountOfResource = player.getResources().getResource(resource);
                         players.get(playerIndex).resources.addResource(resource, amountOfResource);
                         player.getResources().subtractResource(resource, amountOfResource);
@@ -1128,9 +1109,9 @@ public class Model {
      */
     public void playMonument(MoveRequest request) {
         int playerIndex = request.getPlayerIndex();
-        
+
         try {
-            if(isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
+            if (isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
                 players.get(playerIndex).incrementVictoryPoints();
                 players.get(playerIndex).oldDevCards.removeMonument();
             }
@@ -1147,16 +1128,15 @@ public class Model {
      */
     public void playRoadBuilding(PlayRoadBuildingRequest request) {
         int playerIndex = request.getPlayerIndex();
-        
+
         try {
-            if(isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex))
-            {
+            if (isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex)) {
                 BuildRoadRequest req1 = new BuildRoadRequest(request.getSpot1(), true);
                 BuildRoadRequest req2 = new BuildRoadRequest(request.getSpot2(), true);
-                
+
                 buildRoad(req1);
                 buildRoad(req2);
-                
+
                 players.get(playerIndex).oldDevCards.removeRoadBuilding();
             }
         } catch (InsufficientSupplies ex) {
@@ -1171,12 +1151,15 @@ public class Model {
      *
      * @param playerIndex
      */
-    public void playSoldier(int playerIndex) {
-        try {
-            players.get(playerIndex).oldDevCards.removeSoldier();
-            players.get(playerIndex).incrementSoldiers();
-        } catch (InsufficientSupplies ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+    public void playSoldier(MoveRequest moveRequest) {
+        int playerIndex = moveRequest.getPlayerIndex();
+        if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {
+            try {
+                players.get(playerIndex).oldDevCards.removeSoldier();
+                players.get(playerIndex).incrementSoldiers();
+            } catch (InsufficientSupplies ex) {
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1189,14 +1172,18 @@ public class Model {
      * @param firstResource
      * @param secondResource
      */
-    public void playYearOfPlenty(int playerIndex,
-            ResourceType firstResource, ResourceType secondResource) {
-        try {
-            players.get(playerIndex).oldDevCards.removeYearOfPlenty();
-            players.get(playerIndex).resources.addResource(firstResource, 1);
-            players.get(playerIndex).resources.addResource(secondResource, 1);
-        } catch (InsufficientSupplies ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+    public void playYearOfPlenty(PlayYearOfPlentyRequest request) {
+        int playerIndex = request.getPlayerIndex();
+        ResourceType firstResource = request.getResource1();
+        ResourceType secondResource = request.getResource2();
+        if (isPlayersTurn(playerIndex)&&canPlayYearOfPlenty(playerIndex)) {
+            try {
+                players.get(playerIndex).oldDevCards.removeYearOfPlenty();
+                players.get(playerIndex).resources.addResource(firstResource, 1);
+                players.get(playerIndex).resources.addResource(secondResource, 1);
+            } catch (InsufficientSupplies ex) {
+                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
@@ -1233,7 +1220,7 @@ public class Model {
      */
     public void distributeResources(int rolledNumber) {
         for (Hex hex : catanMap.getHexes()) {
-            if (hex.getNumber() == rolledNumber) {
+            if (hex.getNumber() == rolledNumber&& !hex.getLocation().equals(catanMap.getRobber())) {
                 for (Player player : players) {
                     for (VertexObject building : catanMap.getCitiesAndSettlements()) {
                         ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
@@ -1257,7 +1244,7 @@ public class Model {
      * name of the player that sent it.
      */
     public void sendChat(SendChatRequest chat) {
-        MessageLine message =new MessageLine(players.get(chat.getPlayerIndex()).getName(),chat.getContent());
+        MessageLine message = new MessageLine(players.get(chat.getPlayerIndex()).getName(), chat.getContent());
         this.chat.addLine(message);
     }
 
@@ -1305,9 +1292,9 @@ public class Model {
     public void setWinner(int winner) {
         this.winner = winner;
     }
-    
-    public boolean isPlayersTurn(int playerIndex){
-        if(playerIndex ==turnTracker.getCurrentTurn()){
+
+    public boolean isPlayersTurn(int playerIndex) {
+        if (playerIndex == turnTracker.getCurrentTurn()) {
             return true;
         }
         return false;

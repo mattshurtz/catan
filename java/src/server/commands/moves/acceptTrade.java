@@ -6,8 +6,11 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.moves.AcceptTradeRequest;
+import shared.communication.params.moves.OfferTradeRequest;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.HTTPBadRequest;
+import shared.model.Model;
 
 /**
  *
@@ -22,7 +25,14 @@ public class acceptTrade extends Command{
      */
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        return super.execute(json, gameID, user);
+        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+            AcceptTradeRequest acceptTradeRequest = (AcceptTradeRequest)this.getDeserializer().toClass(AcceptTradeRequest.class, json);
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            currentModel.acceptTrade(acceptTradeRequest);
+            return this.getSerializer().toJson(currentModel);
+        }else{
+            return null;
+        }
     }
     
 }

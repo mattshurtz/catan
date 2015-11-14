@@ -6,6 +6,7 @@
 package shared.model;
 
 import java.util.Objects;
+import shared.definitions.ResourceType;
 
 /**
 *sender (integer): The index of the person offering the trade,
@@ -23,6 +24,52 @@ public class TradeOffer {
             this.setReceiver(receiver);
             this.setOffer(offer);
     }
+    
+   public ResourceList getSendResources(){
+       ResourceList sendResources = new ResourceList();
+       if(offer.getBrick()>0){
+           sendResources.addResource(ResourceType.BRICK, offer.getBrick());
+       }
+       if(offer.getWheat()>0){
+           sendResources.addResource(ResourceType.WHEAT, offer.getWheat());
+           
+       }
+       if(offer.getOre()>0){
+           sendResources.addResource(ResourceType.ORE, offer.getOre());
+       }
+       if(offer.getWood()>0){
+           sendResources.addResource(ResourceType.WOOD, offer.getWood());
+           
+       }
+       if(offer.getSheep()>0){
+           sendResources.addResource(ResourceType.SHEEP, offer.getSheep());  
+       }  
+       return sendResources;
+   } 
+   
+   public ResourceList getReceiveResources(){
+       ResourceList receiveResources = new ResourceList();
+       if(offer.getBrick()<0){
+           receiveResources.addResource(ResourceType.BRICK, Math.abs(offer.getBrick()));
+       }
+       if(offer.getWheat()<0){
+           receiveResources.addResource(ResourceType.WHEAT, Math.abs(offer.getWheat()));
+           
+       }
+       if(offer.getOre()<0){
+           receiveResources.addResource(ResourceType.ORE, Math.abs(offer.getOre()));
+       }
+       if(offer.getWood()<0){
+           receiveResources.addResource(ResourceType.WOOD, Math.abs(offer.getWood()));
+           
+       }
+       if(offer.getSheep()<0){
+           receiveResources.addResource(ResourceType.SHEEP, Math.abs(offer.getSheep()));  
+       }  
+       return receiveResources;
+   }
+   
+    
 
     public int getSender() {
             return sender;

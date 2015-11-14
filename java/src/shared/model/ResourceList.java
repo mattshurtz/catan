@@ -41,23 +41,37 @@ public class ResourceList {
      * @return true if player has enough resources to accept the trade
      */
     public boolean canAcceptTrade(ResourceList accept) {
-      
-         
-        if(brick>=accept.brick && sheep>=accept.sheep && ore >= accept.ore 
-                && wood>=accept.wood && wheat>=accept.wheat){
+        ResourceList request = new ResourceList();
+        if(accept.brick<0){
+            request.addResource(ResourceType.BRICK, Math.abs(accept.brick));
+        }
+        if(accept.sheep<0){
+            request.addResource(ResourceType.SHEEP, Math.abs(accept.sheep));
+        }
+        if(accept.ore<0){
+            request.addResource(ResourceType.ORE, Math.abs(accept.ore));
+        }             
+        if(accept.wood<0){
+            request.addResource(ResourceType.WOOD, Math.abs(accept.wood));
+        }        
+        if(accept.wheat<0){
+            request.addResource(ResourceType.WHEAT, Math.abs(accept.wheat));
+        } 
+        
+        if(this.hasResources(request)){
             return true;
         }
 
         return false;
     }
-
+    
 /**
  * Checks if the player has the resources they are trying to offer. 
  * @param resourceType
  * @param amount
  * @return 
  */
-    public boolean canOfferResource(ResourceType resourceType, int amount) {
+    public boolean hasAmountOfResource(ResourceType resourceType, int amount) {
         
         switch(resourceType){
             case BRICK:
@@ -109,6 +123,12 @@ public class ResourceList {
         brick--;
         wood--;
     }
+    
+    public void buyDevCard(){
+        wheat--;
+        ore--;
+        sheep--;
+    }
 
     /**
      * @return true if player has enough resources to buy a Settlement
@@ -121,11 +141,11 @@ public class ResourceList {
     }
     
     public boolean hasResources(ResourceList offer){
-        if(this.canOfferResource(ResourceType.WHEAT, offer.getWheat())&&
-                this.canOfferResource(ResourceType.BRICK, offer.getBrick())&&
-                this.canOfferResource(ResourceType.ORE, offer.getOre())&&
-                this.canOfferResource(ResourceType.WOOD, offer.getWood())&&
-                this.canOfferResource(ResourceType.SHEEP, offer.getSheep())){
+        if(this.hasAmountOfResource(ResourceType.WHEAT, offer.getWheat())&&
+                this.hasAmountOfResource(ResourceType.BRICK, offer.getBrick())&&
+                this.hasAmountOfResource(ResourceType.ORE, offer.getOre())&&
+                this.hasAmountOfResource(ResourceType.WOOD, offer.getWood())&&
+                this.hasAmountOfResource(ResourceType.SHEEP, offer.getSheep())){
             return true;
         }
         return false;
@@ -225,6 +245,14 @@ public class ResourceList {
         subtractResource(ResourceType.ORE,discard.ore);
         subtractResource(ResourceType.WOOD,discard.wood);
         subtractResource(ResourceType.SHEEP,discard.sheep);
+    }
+    
+    public void addResources(ResourceList discard){
+        addResource(ResourceType.BRICK,discard.brick);
+        addResource(ResourceType.WHEAT,discard.wheat);
+        addResource(ResourceType.ORE,discard.ore);
+        addResource(ResourceType.WOOD,discard.wood);
+        addResource(ResourceType.SHEEP,discard.sheep);
     }
     
     public boolean canMarritimeTrade(){

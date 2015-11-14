@@ -26,7 +26,7 @@ public class buyDevCard extends Command{
         if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
             MoveRequest moveRequest = (MoveRequest)this.getDeserializer().toClass(MoveRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
-//            currentModel.buyDevCard(moveRequest);
+            currentModel.buyDevCard(moveRequest);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

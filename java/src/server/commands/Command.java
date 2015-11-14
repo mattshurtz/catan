@@ -5,6 +5,7 @@
  */
 package server.commands;
 
+import server.data.PlayerInfoCookie;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.Credentials;
 import shared.communication.responses.GameResponse;
@@ -12,7 +13,6 @@ import shared.communication.responses.PlayerResponse;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Deserializer;
 import shared.json.Serializer;
-import shared.model.Model;
 
 /**
  *
