@@ -33,18 +33,7 @@ public class register extends Command{
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {
-            
-            PlayerInfoCookie pinf = new PlayerInfoCookie();
-            
-            pinf.setName(creds.getUsername());
-            pinf.setPassword( creds.getPassword());
-            pinf.setId(result);
-            
-            String ret = serializer.toJson( pinf );
-            ret = serializer.encodeURIComponent( ret );
-            
-        	String cookie = "catan.user=" + ret;
-        	return cookie;
+        	return buildUserCookie( creds, result );
         } else {
         	throw new HTTPBadRequest("Could not add user");
         }

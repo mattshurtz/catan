@@ -54,44 +54,6 @@
                     }]
                 }
             ]
-        },
-        {
-            "path": "/games/save",
-            "operations": [
-                {
-                    "httpMethod": "POST",
-                    "summary": "Saves the current state of the specified game to a file.",
-					"notes": "This method is for testing and debugging purposes.  When a bug is found, you can use the /games/save method to save the state of the game to a file, and attach the file to a bug report.  A developer can later restore the state of the game when the bug occurred by loading the previously saved file using the /games/load method. Game files are saved to and loaded from the server's saves/ directory.",
-                    "responseClass": "void",
-                    "nickname": "save",
-                    "consumes":"application/json",
-                    "parameters": [{
-                        "description": "The id of the game to save and the save file name (no extensions please).",
-                        "paramType": "body",
-                        "required": true,
-                        "dataType": "SaveGameRequest"
-                    }]
-                }
-            ]
-        },
-        {
-            "path": "/games/load",
-            "operations": [
-                {
-                    "httpMethod": "POST",
-                    "summary": "Loads a previously saved game file to restore the state of a game.",
-					"notes": "This method is for testing and debugging purposes.  When a bug is found, you can use the /games/save method to save the state of the game to a file, and attach the file to a bug report.  A developer can later restore the state of the game when the bug occurred by loading the previously saved file using the /games/load method. Game files are saved to and loaded from the server's saves/ directory.",
-                    "responseClass": "void",
-                    "nickname": "load",
-                    "consumes":"application/json",
-                    "parameters": [{
-                        "description": "The game file to load.",
-                        "paramType": "body",
-                        "required": true,
-                        "dataType": "LoadGameRequest"
-                    }]
-                }
-            ]
         }
     ],
     "models": {

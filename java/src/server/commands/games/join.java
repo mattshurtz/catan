@@ -25,7 +25,7 @@ public class join extends Command{
     	int playerId = 0;
     	
     	if (GameInfoContainer.getInstance().joinGame(playerId, request.getColor(), request.getGameID())) {
-    		return "catan.game=" + gameID + "%7D;Path=/;";
+    		return this.buildGameCookie(request.getGameID());
     	} else {
     		throw new HTTPBadRequest("Could not add player to game");
     	}

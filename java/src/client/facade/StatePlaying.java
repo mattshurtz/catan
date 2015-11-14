@@ -15,8 +15,6 @@ import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.InsufficientSupplies;
-import shared.exceptions.InvalidLocation;
 import shared.exceptions.ServerException;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;

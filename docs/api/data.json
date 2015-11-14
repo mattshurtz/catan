@@ -17,10 +17,6 @@
     {
       "path": "/moves",
       "description": "Actions you can take mid game. (requires cookie)"
-    },
-    {
-      "path": "/util",
-      "description": "Change how the server runs"
     }
   ]
 }

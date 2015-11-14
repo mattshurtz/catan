@@ -6,7 +6,10 @@
 package server.commands.moves;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.moves.RobPlayerRequest;
 import shared.exceptions.HTTPBadRequest;
+import shared.model.Model;
 
 /**
  *
@@ -16,7 +19,14 @@ public class robPlayer extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        return super.execute(json, gameID, user);
+        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+            RobPlayerRequest robPlayerRequest = (RobPlayerRequest)this.getDeserializer().toClass(RobPlayerRequest.class, json);
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            currentModel.robPlayer(robPlayerRequest);
+            return this.getSerializer().toJson(currentModel);
+        }else{
+            return null;
+        }
     }
     
 }

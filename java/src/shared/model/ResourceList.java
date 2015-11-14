@@ -119,6 +119,17 @@ public class ResourceList {
         }
         return false;
     }
+    
+    public boolean hasResources(ResourceList offer){
+        if(this.canOfferResource(ResourceType.WHEAT, offer.getWheat())&&
+                this.canOfferResource(ResourceType.BRICK, offer.getBrick())&&
+                this.canOfferResource(ResourceType.ORE, offer.getOre())&&
+                this.canOfferResource(ResourceType.WOOD, offer.getWood())&&
+                this.canOfferResource(ResourceType.SHEEP, offer.getSheep())){
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @return true if player has the resources to buy a development card
@@ -206,6 +217,14 @@ public class ResourceList {
                 wood-=amount;
                 break;
              } 
+    }
+    
+    public void discardResources(ResourceList discard){
+        subtractResource(ResourceType.BRICK,discard.brick);
+        subtractResource(ResourceType.WHEAT,discard.wheat);
+        subtractResource(ResourceType.ORE,discard.ore);
+        subtractResource(ResourceType.WOOD,discard.wood);
+        subtractResource(ResourceType.SHEEP,discard.sheep);
     }
     
     public boolean canMarritimeTrade(){
