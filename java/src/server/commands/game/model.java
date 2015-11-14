@@ -6,8 +6,9 @@
 package server.commands.game;
 
 import server.commands.Command;
+import server.gameinfocontainer.GameInfoContainer;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.HTTPBadRequest;
+import shared.model.Model;
 
 /**
  *
@@ -17,7 +18,8 @@ public class model extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        return super.execute(json, gameID, user);
+        Model mod = GameInfoContainer.getInstance().getGameModel( Integer.parseInt( gameID ) );
+        return getSerializer().toJson(mod);
     }
     
 }

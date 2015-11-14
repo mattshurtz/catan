@@ -137,6 +137,8 @@ public class ServerProxy implements IServerProxy {
                 conn.setAllowUserInteraction(false);
                 conn.setRequestMethod("GET");
             }
+            
+            System.out.println( conn.getHeaderFields() );
 
             // Grab the cookie headers & save 'em
             for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {

@@ -6,7 +6,7 @@
 package server.gameinfocontainer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 import shared.model.User;
 
@@ -16,8 +16,7 @@ import shared.model.User;
  */
 public class UserInfoBank {
     
-    private static int IDcounter = 0;
-    private ArrayList<shared.model.User> users;
+    private List<shared.model.User> users;
     
     /**
      * Creates the UserInfoBank. Contains user information such as usernames,
@@ -59,16 +58,6 @@ public class UserInfoBank {
     	return -1;
     }
     
-//    /**
-//     * 
-//     * @param username - current user's username
-//     * @return ArrayList of all game IDs the user with username has joined.
-//     */
-//    private ArrayList<Integer> getUserGames(String username) {
-//        //if valid username
-//            return gameIDs.get(username);
-//    }
-    
     /**
      * 
      * @param username - current user's username
@@ -84,25 +73,7 @@ public class UserInfoBank {
         return -1;
     }
     
-//    /**
-//     * 
-//     * @param username - current user's username
-//     * @return the registered password of the user with username
-//     */
-//    private String getPassword(String username) {
-//        //if valid username
-//            return passwords.get(username);
-//    }
-    
-//    /**
-//     * 
-//     * @param username - queried username
-//     * @return true if the username is found in the UserInfoBank
-//     */
-//    private boolean isRegisteredUser(String username) {
-//        if(passwords.containsKey(username)){
-//            return true;
-//        }
-//        return false;
-//    }
+    public String getPlayerName( int id ) {
+        return users.get(id).getUsername();
+    }
 }

@@ -39,9 +39,9 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	protected boolean checkIsPost(HttpExchange exchange) throws HTTPBadRequest {
-		if (isPost(exchange))
+//		if (isPost(exchange))
 			return true;
-		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
+//		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
 	}
 	
 	protected boolean isPost(HttpExchange exchange) {
@@ -51,9 +51,9 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	protected boolean checkisGet(HttpExchange exchange) throws HTTPBadRequest {
-		if (isGet(exchange))
+//		if (isGet(exchange))
 			return true;
-		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
+//		throw new HTTPBadRequest("Error: \"" + exchange.getRequestMethod() + "\" is no supported!");
 	}
 	
 	protected boolean isGet(HttpExchange exchange) {
@@ -130,49 +130,41 @@ public class catanHTTPHandler implements HttpHandler{
     }
     
     protected String getPlayerName ( HttpExchange exchange ) throws HTTPBadRequest {
-        List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-        System.out.println( cookies );
-        String userCookieStr = cookies.get( 0 );
-        String decoded = deserializer.decodeURIComponent( userCookieStr );
-        // Strip off the "catan.user=" at the beginning
-        if ( decoded.startsWith("catan.user=") ) {
-            decoded = decoded.substring(11);
-        }
-        PlayerInfoCookie pic = deserializer.toPlayerInfoCookie( decoded );
+        PlayerInfoCookie pic = this.getPlayerInfoCookie(exchange);
         return pic.getName();
     }
 	
 	protected int getPlayerId (HttpExchange exchange) throws HTTPBadRequest {
-		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-        System.out.println( cookies );
-        String userCookieStr = cookies.get( 0 );
-        String decoded = deserializer.decodeURIComponent( userCookieStr );
-        // Strip off the "catan.user=" at the beginning
-        if ( decoded.startsWith("catan.user=") ) {
-            decoded = decoded.substring(11);
-        }
-        PlayerInfoCookie pic = deserializer.toPlayerInfoCookie( decoded );
+		PlayerInfoCookie pic = this.getPlayerInfoCookie(exchange);
         return pic.getId();
 	}
 	
 	protected String getGameId (HttpExchange exchange) throws HTTPBadRequest {
-		List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-		for (String cookie : cookies) {		    	
-		    	Pattern i = Pattern.compile("(?<=catan.game=)(\\d*)(?=%7D)");
-		    	Matcher im = i.matcher(cookie);
-		    	
-		    	if(!im.find()) {
-		    		throw new HTTPBadRequest("Bad Cookie... you better get some milk to wash that down!");
-		    	}
-		    				    	
-		    	return im.group(1).toString();
-		}
-		return null;
+		String cookie = this.getCookie( exchange, "catan.game" );
+        int gameId = Integer.parseInt( cookie );
+        return ""+gameId;
 	}
     
-//    public Object parseCookieStr( String cookieStr ) {
-//        
-//        
-//    }
+    private PlayerInfoCookie getPlayerInfoCookie( HttpExchange exchange ) {
+        String cookie = this.getCookie( exchange, "catan.user" );
+        PlayerInfoCookie pic = deserializer.toPlayerInfoCookie( cookie );
+        return pic;
+    }
+    
+    private String getCookie( HttpExchange exchange, String cookieName ) {
+        List<String> cookies = exchange.getRequestHeaders().get("Cookie");
+        for ( String cookieStr : cookies ) {
+            String[] chocoChips = cookieStr.split(";");
+            for ( String crumb : chocoChips ) {
+                String milk = cookieName + "=";
+                if ( crumb.startsWith( milk ) ) {
+                    String stripped = crumb.substring( milk.length() );
+                    String decoded = deserializer.decodeURIComponent(stripped);
+                    return decoded;
+                }
+            }
+        }
+        return null;
+    }
 
 }

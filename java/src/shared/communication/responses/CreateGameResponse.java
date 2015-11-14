@@ -1,5 +1,6 @@
 package shared.communication.responses;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,6 +18,21 @@ public class CreateGameResponse {
     private String title;
     private int id;
     private List<EmptyPlayerResponse> players;
+    
+    public static final int NUM_PLAYERS = 4;
+    
+    public CreateGameResponse() {
+        players = new ArrayList<>();
+        for ( int i = 0; i < NUM_PLAYERS; i++ ) {
+            players.add( new EmptyPlayerResponse() );
+        }
+    }
+    
+    public CreateGameResponse( String title, int id ) {
+        this();
+        this.title = title;
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -60,16 +76,10 @@ public class CreateGameResponse {
         if (!Objects.equals(this.title, other.title)) {
             return false;
         }
-        // Commented out for jUnit testing -- no way to know the id # in advance
-//        if (this.id != other.id) {
-//            return false;
-//        }
         if (!Objects.equals(this.players, other.players)) {
             return false;
         }
         return true;
     }
-    
-    
     
 }

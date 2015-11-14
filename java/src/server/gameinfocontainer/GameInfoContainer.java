@@ -1,10 +1,10 @@
 package server.gameinfocontainer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import shared.communication.responses.GameResponse;
 import shared.model.Model;
+import shared.model.Player;
 
 /**
  *
@@ -66,7 +66,17 @@ public class GameInfoContainer {
      * @param playerId 
      */
     public boolean joinGame(int playerId, String color, int gameId){
-        return false;
+        Model gameModel = models.getGame(gameId);
+        List<Player> players = gameModel.getPlayers();
+        
+        if ( players.size() == 4 ) {
+            return false;
+        }
+        
+        // else, add them
+        String playerName = users.getPlayerName(playerId);
+        gameModel.addPlayer( color, playerId, playerName );
+        return true;
     }
     
     /**
@@ -111,6 +121,6 @@ public class GameInfoContainer {
      * @return List of GameResponses containing game information
      */
     public List<GameResponse> getListOfGames() {
-            return models.toGameResponseList();
+        return models.toGameResponseList();
     }
 }

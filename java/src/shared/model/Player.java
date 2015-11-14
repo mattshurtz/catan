@@ -32,27 +32,31 @@ import shared.locations.HexLocation;
  */
 public class Player {
 
-    int cities;
-    CatanColor color;
-    boolean discarded;
-    int monuments;
-    String name;
-    DevCardList newDevCards;
-    DevCardList oldDevCards;
-    int playerIndex;
-    boolean playedDevCard;
-    int playerID; //userID
-    ResourceList resources;
-    int roads;
-    int settlements;
-    int soldiers;
-    int victoryPoints;
-
-    /**
-     *
-     */
+    int cities = 4;
+    CatanColor color = null;
+    boolean discarded = false;
+    int monuments = 0;
+    String name = "";
+    DevCardList newDevCards = new DevCardList();
+    DevCardList oldDevCards = new DevCardList();
+    int playerIndex = 0;
+    boolean playedDevCard = false;
+    int playerID = -1; //userID
+    ResourceList resources = new ResourceList();
+    int roads = 5;
+    int settlements = 5;
+    int soldiers = 0;
+    int victoryPoints = 0;
+    
     public Player() {
+        
+    }
 
+    public Player( CatanColor color, String name, int playerIndex, int playerId ) {
+        this.color = color;
+        this.name = name;
+        this.playerIndex = playerIndex;
+        this.playerID = playerId;
     }
 
     /**

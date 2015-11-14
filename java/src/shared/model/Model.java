@@ -16,6 +16,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import shared.communication.params.moves.*;
+import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
@@ -119,7 +120,15 @@ public class Model {
         this.catanMap = new CatanMap(randomNumbers, randomPorts, randomTiles);
     }
 
-    /**
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+	/**
      * Gets information from trade offer and changes the resources of the
      * players accordingly.
      */
@@ -1348,6 +1357,12 @@ public class Model {
             }
         }
         return false;
+    }
+
+    public void addPlayer(String color, int playerId, String playerName) {
+        int newPlayerIndex = players.size();
+        Player p = new Player(CatanColor.fromString(color), playerName, newPlayerIndex, playerId);
+        this.players.add( p );
     }
 
 }

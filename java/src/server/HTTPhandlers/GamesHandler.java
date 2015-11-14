@@ -28,16 +28,13 @@ public class GamesHandler extends catanHTTPHandler {
 		
 		System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
         try {
-            System.out.println("why");
             System.out.println("Player Id: " + this.getPlayerId( exchange ) );
             System.out.println("Player name: " + this.getPlayerName( exchange ) );
-			System.out.println("why2");
 			//prep command
 			URI url = exchange.getRequestURI();
 			String newCommand = "games." + url.getPath().replace("/games/", "");
     		
 			String content = null;
-			String gameId = this.getGameId(exchange);
 			int user = this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
@@ -55,15 +52,16 @@ public class GamesHandler extends catanHTTPHandler {
 			}
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, gameId, ""+user);
+			String result = this.sendToFacade(newCommand, content, null, ""+user);
 			
-			if(result != null) {
-				if (newCommand.equals("games.list")) {
-					//send in body as json
-					this.sendResponseBody(exchange, result);
-				} else {
+			if (result != null) {
+				if ( newCommand.equals("games.join") ) {
 					//create cookie
 					this.addCookie(exchange, result);
+                    this.sendSuccess(exchange);
+				} else {
+					//send in body as json
+					this.sendResponseBody(exchange, result);
 				}				
 			} else {
 				//login failed
@@ -73,16 +71,13 @@ public class GamesHandler extends catanHTTPHandler {
 		} catch (HTTPBadRequest e) {
 			setBadRequest(exchange,e.getMessage());
 			System.err.println("HTTPBadRequest: " + e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
 		} finally {
-			exchange.getResponseBody().close();
-		}			
-		
+            exchange.getResponseBody().close();
+        }
 		
 	}
-	
-	
-
     
 }

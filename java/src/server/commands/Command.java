@@ -85,9 +85,9 @@ public class Command {
         String cookie = "catan.user=" + ret;
         return cookie;
     }
-    public String buildGameCookie(int gameID) {
-    	return "catan.game=" + gameID + "%7D;Path=/;";
-    }
     
+    public String buildGameCookie(int gameID) {
+    	return "catan.game=" + gameID;
+    }
     
 }

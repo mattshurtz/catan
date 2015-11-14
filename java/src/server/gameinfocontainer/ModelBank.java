@@ -75,7 +75,7 @@ public class ModelBank {
 					e.printStackTrace();
 				}				
 			}
-			g.add(new GameResponse("TITLE",i,p));
+			g.add(new GameResponse(current.getName(),i,p));
 		}
 		
 		return g;
