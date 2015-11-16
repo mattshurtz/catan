@@ -9,7 +9,6 @@ import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.JoinGameRequest;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.HTTPBadRequest;
 
 /**
  *
@@ -22,9 +21,7 @@ public class join extends Command{
     	
     	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
     	
-    	int playerId = 0;
-    	
-    	if (GameInfoContainer.getInstance().joinGame(playerId, request.getColor(), request.getGameID())) {
+    	if (GameInfoContainer.getInstance().joinGame(Integer.parseInt(user), request.getColor(), request.getGameID())) {
     		return this.buildGameCookie(request.getGameID());
     	} else {
     		throw new HTTPBadRequest("Could not add player to game");

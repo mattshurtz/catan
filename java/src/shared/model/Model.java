@@ -607,7 +607,6 @@ public class Model {
      * is invalid
      */
     public Player getPlayer(int playerIndex) throws GetPlayerException {
-
         if (players == null || players.size() == 0) {
             throw new GetPlayerException("There are currently no players in this model's player list");
         }

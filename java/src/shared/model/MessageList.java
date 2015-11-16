@@ -20,6 +20,7 @@ public class MessageList {
     }
 
     public MessageList() {
+        lines = new ArrayList<MessageLine>();
             // TODO Auto-generated constructor stub
     }
 

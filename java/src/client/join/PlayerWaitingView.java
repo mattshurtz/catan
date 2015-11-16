@@ -151,7 +151,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 
 	@Override
 	public void setAIChoices(String[] value) {	
-		
+        if(value !=null){
 		java.util.List<String> choiceList = new ArrayList<String>();
 		for (String v : value) {
 			choiceList.add(v);
@@ -162,6 +162,7 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		if (value.length > 0) {
 			aiChoices.setValue(value[0]);
 		}
+        }
 	}
 
 	@Override
