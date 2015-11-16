@@ -30,7 +30,9 @@ public class GameHandler extends catanHTTPHandler {
 			String newCommand = "game." + url.getPath().replace("/game/", "");
     		
 			String content = null;
-			String gameId = this.getGameId(exchange);
+            String gameId = "";
+			if ( !newCommand.equals("game.listAI") )
+                gameId = this.getGameId(exchange);
 			String user = ""+this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
@@ -38,10 +40,12 @@ public class GameHandler extends catanHTTPHandler {
 			
 			//Call the facade
 			String result = this.sendToFacade(newCommand, content, gameId, user);
-			
+			System.out.println(result);
+            
 			if(result != null) {
-					//send in body as json
-					this.sendResponseBody(exchange, result);				
+                //send in body as json
+                this.setJsonHeader(exchange);
+                this.sendResponseBody(exchange, result);				
 			} else {
 				//login failed
 				throw new HTTPBadRequest("Failed to get list of games");
@@ -50,7 +54,9 @@ public class GameHandler extends catanHTTPHandler {
 		} catch (HTTPBadRequest e) {
 			setBadRequest(exchange,e.getMessage());
 			System.out.println(e.getMessage());
-		} finally {
+		} catch ( Throwable t ) {
+            t.printStackTrace();
+        } finally {
 			exchange.getResponseBody().close();
 		}	
     }

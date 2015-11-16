@@ -82,12 +82,12 @@ public class Command {
         String ret = serializer.toJson( pinf );
         ret = serializer.encodeURIComponent( ret );
         
-        String cookie = "catan.user=" + ret;
+        String cookie = "catan.user=" + ret + ";Path=/;";
         return cookie;
     }
     
     public String buildGameCookie(int gameID) {
-    	return "catan.game=" + gameID;
+    	return "catan.game=" + gameID + ";Path=/;";
     }
     
 }

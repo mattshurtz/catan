@@ -23,6 +23,16 @@
           ]
         }
       ]
+    },{
+      "path": "\/game\/listAI",
+      "operations": [
+        {
+          "httpMethod": "GET",
+	      "summary": "Returns a list of supported AI player types (currently, LARGEST_ARMY is the only supported type)",
+          "responseClass": "",
+          "nickname": "listAI"
+        }
+      ]
     }
   ],
   "models": {
