@@ -25,7 +25,8 @@ public class MovesHandler extends catanHTTPHandler {
     
 	@Override
     public void handle(HttpExchange exchange) throws IOException {
-        
+        System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
+
             try {
                 //check for post method
                 this.checkIsPost(exchange);
@@ -47,10 +48,7 @@ public class MovesHandler extends catanHTTPHandler {
                 } else {
                     throw new HTTPBadRequest("Invalid Arguments");
                 }
-                
-                
-                
-                
+ 
             } catch (HTTPBadRequest e) {
                 setBadRequest(exchange,e.getMessage());
 		System.out.println(e.getMessage());            

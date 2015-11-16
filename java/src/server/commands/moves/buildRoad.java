@@ -24,9 +24,9 @@ public class buildRoad extends Command {
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
 //        return super.execute(json, gameID, user);
         
-        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             BuildRoadRequest roadRequest = (BuildRoadRequest)this.getDeserializer().toClass(BuildRoadRequest.class, json);
-            Model currentModel =GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel =GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.buildRoad(roadRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

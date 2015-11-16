@@ -25,9 +25,9 @@ public class acceptTrade extends Command{
      */
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             AcceptTradeRequest acceptTradeRequest = (AcceptTradeRequest)this.getDeserializer().toClass(AcceptTradeRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.acceptTrade(acceptTradeRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

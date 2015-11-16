@@ -19,9 +19,9 @@ public class buildCity extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             BuildCityRequest buildCityRequest = (BuildCityRequest)this.getDeserializer().toClass(BuildCityRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.buildCity(buildCityRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

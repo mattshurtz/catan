@@ -19,11 +19,11 @@ public class Road_Building extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.getInteger(gameID), Integer.getInteger(user))) {
+        if(isUserInGame(Integer.parseInt(gameID), Integer.parseInt(user))) {
             PlayRoadBuildingRequest request = (PlayRoadBuildingRequest) this.getDeserializer()
                                                     .toClass(PlayRoadBuildingRequest.class, json);
            
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.playRoadBuilding(request);
             return this.getSerializer().toJson(currentModel);    
         }

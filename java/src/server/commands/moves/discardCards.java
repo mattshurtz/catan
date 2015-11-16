@@ -19,9 +19,9 @@ public class discardCards extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             DiscardCardsRequest discardCardsRequest = (DiscardCardsRequest)this.getDeserializer().toClass(DiscardCardsRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.discardCards(discardCardsRequest);
             return this.getSerializer().toJson(currentModel);
         }else{

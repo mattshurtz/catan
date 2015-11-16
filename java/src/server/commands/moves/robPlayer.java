@@ -19,9 +19,9 @@ public class robPlayer extends Command{
 
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             RobPlayerRequest robPlayerRequest = (RobPlayerRequest)this.getDeserializer().toClass(RobPlayerRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
             currentModel.robPlayer(robPlayerRequest);
             return this.getSerializer().toJson(currentModel);
         }else{
