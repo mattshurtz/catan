@@ -1,17 +1,17 @@
 package server.HTTPhandlers;
 
+import com.sun.net.httpserver.Headers;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import java.net.HttpURLConnection;
+import java.util.Map.Entry;
 import server.data.PlayerInfoCookie;
 
 import server.facade.IServerFacade;
@@ -106,10 +106,15 @@ public class catanHTTPHandler implements HttpHandler{
         exchange.getResponseHeaders().set("Content-Type","application/json");
     }
     
+    protected void setTextHeader( HttpExchange exchange ) {
+        exchange.getResponseHeaders().set("Content-Type","text/plain");
+    }
+    
 	protected void sendResponseBody(HttpExchange exchange, String result) {
 		// TODO Auto-generated method stub
 		try {
-			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
+			System.out.println("headers: " + printHeaders( exchange.getResponseHeaders() ) );
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 			OutputStreamWriter writer = new OutputStreamWriter(
 					exchange.getResponseBody());
 			writer.write(result);
@@ -121,11 +126,21 @@ public class catanHTTPHandler implements HttpHandler{
 		}		
 	}
     
+    static String printHeaders( Headers h ) {
+        StringBuilder str = new StringBuilder();
+        for ( Entry<String, List<String> > e : h.entrySet() ) {
+            str.append( e.getKey() ).append(": ").append( e.getValue() ).append("\n");
+        }
+        return str.toString();
+    }
+    
     protected void sendSuccess( HttpExchange exchange ) {
+        setTextHeader(exchange);
         sendResponseBody( exchange, "Success" );
     }
     
     protected void sendFailure( HttpExchange exchange ) {
+        setTextHeader(exchange);
         sendResponseBody( exchange, "Failure" );
     }
     
