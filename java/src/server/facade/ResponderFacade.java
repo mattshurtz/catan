@@ -33,11 +33,16 @@ public class ResponderFacade implements IServerFacade {
 			method = c.getDeclaredMethod ("execute", new Class[] {String.class, String.class, String.class});
 			Object instance = c.newInstance();
 			
-			System.out.println("ResponderFacade - Calling command " + command + "...");
-			
+			if(!command.equals("game.model")) {
+				System.out.println("ResponderFacade - Calling command " + command + "...");
+			}
+						
 			Object value = method.invoke (instance, content, gameId, user);
 			
-			System.out.println("ResponderFacade - Recieved string: " + (String) value);
+			if(!command.equals("game.model")) {
+				System.out.println("ResponderFacade - Recieved string: " + (String) value);
+			}
+			
 			
 			return (String) value;
 			

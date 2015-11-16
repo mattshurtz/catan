@@ -21,7 +21,7 @@ public class GameHandler extends catanHTTPHandler {
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
-		System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
+		//System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
 		
 		try {
 			
@@ -40,7 +40,7 @@ public class GameHandler extends catanHTTPHandler {
 			
 			//Call the facade
 			String result = this.sendToFacade(newCommand, content, gameId, user);
-			System.out.println(result);
+			//System.out.println(result);
             
 			if(result != null) {
                 //send in body as json
