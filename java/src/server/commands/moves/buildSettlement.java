@@ -22,7 +22,7 @@ public class buildSettlement extends Command{
      */
     @Override
     public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-            if(isUserInGame(Integer.getInteger(gameID),Integer.getInteger(user))){
+            if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
             BuildSettlementRequest buildSettlementRequest = (BuildSettlementRequest)this.getDeserializer().toClass(BuildSettlementRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.getInteger(gameID));
             currentModel.buildSettlement(buildSettlementRequest);
