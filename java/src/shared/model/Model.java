@@ -177,6 +177,8 @@ public class Model {
         int playerIndex = buildCityRequest.getPlayerIndex();
         if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
             players.get(playerIndex).buildCity();
+            catanMap.getCities().add(new City(playerIndex,location,null));
+            version++;
         }
     }
 
@@ -194,6 +196,8 @@ public class Model {
             } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
+            catanMap.getRoads().add(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
+            version++;
         }
     }
 
@@ -583,6 +587,7 @@ public class Model {
     public void finishTurn(MoveRequest finishTurnRequest) {
         if (canFinishTurn(finishTurnRequest.getPlayerIndex())) {
             turnTracker.finishTurn();
+            version++;
         }
     }
 

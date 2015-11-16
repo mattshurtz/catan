@@ -4,9 +4,6 @@ import client.facade.CatanFacade;
 import java.util.TimerTask;
 
 import client.proxy.IServerProxy;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import shared.exceptions.ServerException;
 import shared.model.Model;
 
 

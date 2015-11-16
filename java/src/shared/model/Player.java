@@ -43,7 +43,7 @@ public class Player {
     boolean playedDevCard = false;
     int playerID = -1; //userID
     ResourceList resources = new ResourceList();
-    int roads = 5;
+    int roads = 15;
     int settlements = 5;
     int soldiers = 0;
     int victoryPoints = 0;
