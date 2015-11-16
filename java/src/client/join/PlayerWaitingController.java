@@ -34,7 +34,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void start() {
         String[] AIs = CatanFacade.getGameHubFacade().listAI();
-        getView().setAIChoices(AIs);
+        if ( AIs != null && AIs.length != 0 )
+            getView().setAIChoices(AIs);
         
         PlayerInfo[] playas = CatanFacade.getCurrentGamePlayers();
         getView().setPlayers(playas);
