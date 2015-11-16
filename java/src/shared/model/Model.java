@@ -209,11 +209,15 @@ public class Model {
     public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
         if (canBuildSettlement(buildSettlementRequest.getVertexLocation()) && isPlayersTurn(buildSettlementRequest.getPlayerIndex())) {
             {
-                if (!buildSettlementRequest.isFree() && canBuildSettlement(buildSettlementRequest.getVertexLocation())) {
+                if ( buildSettlementRequest.isFree() || canBuildSettlement(buildSettlementRequest.getVertexLocation() )) {
+                    
                     players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
-                } else if (buildSettlementRequest.isFree()) {
-                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
+                    catanMap.getSettlements().add( new Settlement( buildSettlementRequest.getPlayerIndex(), 
+                            buildSettlementRequest.getVertexLocation().getNormalizedLocation(), 
+                            null ));
+                    
                 }
+                version++;
             }
         }
     }
