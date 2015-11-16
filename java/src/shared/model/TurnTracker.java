@@ -47,9 +47,28 @@ public class TurnTracker {
     }
     
     public void finishTurn(){
-        currentTurn ++;
-        if(currentTurn == 4){
-            currentTurn =0;
+        // normal case
+        if ( status == TurnStatus.PLAYING ) {
+            currentTurn ++;
+            if(currentTurn == 4){
+                currentTurn = 0;
+            }
+            status = TurnStatus.ROLLING;
+        } 
+        
+        // setup stuff
+        else if ( status == TurnStatus.FIRST_ROUND ) {
+            currentTurn ++;
+            if(currentTurn == 4){
+                currentTurn = 3;
+                status = TurnStatus.SECOND_ROUND;
+            }
+        } else if ( status == TurnStatus.SECOND_ROUND ) {
+            currentTurn--;
+            if(currentTurn == -1){
+                currentTurn = 0;
+                status = TurnStatus.ROLLING;
+            }
         }
     }
 

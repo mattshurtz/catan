@@ -118,6 +118,8 @@ public class Model {
         this();
         this.name = name;
         this.catanMap = new CatanMap(randomNumbers, randomPorts, randomTiles);
+        this.turnTracker.setCurrentTurn(0);
+        this.turnTracker.setStatus(TurnStatus.FIRST_ROUND);
     }
 
     public String getName() {
@@ -1218,6 +1220,7 @@ public class Model {
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
         if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber(myPlayerIndex)) {
             distributeResources(rolledNumber);
+            
             return true;
         }
         return false;
