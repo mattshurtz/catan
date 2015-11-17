@@ -1227,7 +1227,7 @@ public class Model {
     public boolean rollNumber(RollNumberRequest rollNumberRequest) {
         int rolledNumber = rollNumberRequest.getNumber();
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
-        if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber(myPlayerIndex)) {
+        if (rolledNumber > 1 && rolledNumber < 13 && canRollNumber(myPlayerIndex)) {
             distributeResources(rolledNumber);
             turnTracker.setStatus(TurnStatus.PLAYING);
             version++;
