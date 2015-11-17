@@ -232,6 +232,8 @@ public class CatanMap {
         initTiles( randomTiles );
         initNumbers( randomNumbers );
         initPorts( randomPorts );
+        
+        
     }
     
     private void initTiles( boolean randomTiles ) {
@@ -249,6 +251,11 @@ public class CatanMap {
             // Sets the resource type as NULL for desert, which is fine, it's handled
             // inside Hex.getHexType()
             this.hexes.add( new Hex(hexLoc, addType.getResourceType(), 0));
+            
+            if(addType == HexType.DESERT)
+            {
+                this.robber = hexLoc;
+            }
         }
     }
     

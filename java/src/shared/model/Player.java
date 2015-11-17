@@ -149,6 +149,7 @@ public class Player {
         {
             resources.buySettlement();
         }
+        incrementVictoryPoints();
     }
     
     public void incrementSoldiers() {

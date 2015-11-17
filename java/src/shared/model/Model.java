@@ -120,6 +120,8 @@ public class Model {
         this.catanMap = new CatanMap(randomNumbers, randomPorts, randomTiles);
         this.turnTracker.setCurrentTurn(0);
         this.turnTracker.setStatus(TurnStatus.FIRST_ROUND);
+        this.turnTracker.setLargestArmy(-1);
+        this.turnTracker.setLongestRoad(-1);
     }
 
     public String getName() {
@@ -242,25 +244,29 @@ public class Model {
         HexLocation hexLocation = location.getHexLoc();
         HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
         HexLocation northEastNeighbor = new HexLocation(hexLocation.getX()+1,hexLocation.getY()-1);
-        for(Hex hex:catanMap.getHexes()){
-            if(hex.getLocation().equals(northNeighbor)||hex.getLocation().equals(northEastNeighbor)||
-                    hex.getLocation().equals(hexLocation)){
-               players.get(playerIndex).getResources().addResource(hex.getResourceType(), 1); 
-            }
-        }
+        
+        addHexResources(hexLocation, northNeighbor, northEastNeighbor, playerIndex);
     }
     
     public void addSurroundingResourcesWestVertex(VertexLocation location, int playerIndex){
         HexLocation hexLocation = location.getHexLoc();
         HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
         HexLocation northWestNeighbor = new HexLocation(hexLocation.getX()-1,hexLocation.getY());
+       
+        addHexResources(hexLocation, northNeighbor, northWestNeighbor, playerIndex);
+    }
+    
+    private void addHexResources(HexLocation hex1, HexLocation hex2, HexLocation hex3, int playerIndex) {
         for(Hex hex:catanMap.getHexes()){
-            if(hex.getLocation().equals(northNeighbor)||hex.getLocation().equals(northWestNeighbor)||
-                    hex.getLocation().equals(hexLocation)){
-               players.get(playerIndex).getResources().addResource(hex.getResourceType(), 1); 
+            if(hex.getLocation().equals(hex1)||hex.getLocation().equals(hex2)||
+                    hex.getLocation().equals(hex3)){
+               if(hex.getResourceType() != null && !hex.equals(catanMap.getRobber())) {
+                players.get(playerIndex).getResources().addResource(hex.getResourceType(), 1);    
+               }
             }
         } 
     }
+            
 
     /**
      * calls canBuyDevCard, and Check if it is the players turn, then subtracts
