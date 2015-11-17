@@ -402,6 +402,14 @@ public class ResourceList {
 		}
 	}
     
+    public void initializeBank(){
+        this.brick = 19;
+        this.ore = 19;
+        this.sheep = 19;
+        this.wheat = 19;
+        this.wood = 19;
+    }
+    
     public ResourceType robResource(){
         ArrayList<ResourceType> robbableResources = new ArrayList<ResourceType>();
         addToRobbableResouces(ResourceType.BRICK, robbableResources);

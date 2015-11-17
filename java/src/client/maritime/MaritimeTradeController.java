@@ -109,7 +109,6 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 * */
 	@Override
 	public void makeTrade() {
-
 		try {
 			CatanFacade.getCurrentState().maritimeTrade(ratio, give, get);
 			getTradeOverlay().closeModal();
@@ -138,6 +137,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void setGetResource(ResourceType resource) {
+
 		if (CatanFacade.getModel().getBank().hasResource(resource)) {
 			this.getTradeOverlay().selectGetOption(resource, 1);
 			get = resource;
@@ -167,6 +167,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	 */
 	@Override
 	public void unsetGetValue() {
+
 		getTradeOverlay().setTradeEnabled(false);
 		getTradeOverlay().hideGetOptions();
 		this.setGiveResource(give);

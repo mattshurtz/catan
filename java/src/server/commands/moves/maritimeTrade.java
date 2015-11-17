@@ -19,6 +19,7 @@ public class maritimeTrade extends Command{
 
     @Override
     public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+
         if(isUserInGame(gameID, user)){
             MaritimeTradeRequest maritimeTradeRequest = (MaritimeTradeRequest)this.getDeserializer().toClass(MaritimeTradeRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);

@@ -104,6 +104,7 @@ public class Model {
 
     public Model() {
         bank = new ResourceList();
+        bank.initializeBank();
         chat = new MessageList();
         log = new MessageList();
         catanMap = new CatanMap();
@@ -156,10 +157,17 @@ public class Model {
     }
 
     public boolean acceptMaritimeTrade(MaritimeTradeRequest tradeRequest) {
-        //Fix this	
+        int playerIndex = tradeRequest.getPlayerIndex();
+        ResourceType receive = tradeRequest.getOutputResource();
+        ResourceType give = tradeRequest.getInputResource();
+        int amount = tradeRequest.getRatio();
         if (bank.hasResource(tradeRequest.getOutputResource())
-                && isPlayersTurn(tradeRequest.getPlayerIndex()) && canOfferMaritimeTrade(tradeRequest.getInputResource())) {
-            return true;
+                && isPlayersTurn(playerIndex) && canOfferMaritimeTrade(tradeRequest.getInputResource())) {
+            players.get(playerIndex).getResources().addResource(receive, 1);
+            players.get(playerIndex).getResources().subtractResource(give, amount);
+            bank.addResource(give, amount);
+            bank.subtractResource(receive, 1);
+            version++;
         }
 
         return false;
