@@ -1229,7 +1229,8 @@ public class Model {
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
         if (rolledNumber < 1 && rolledNumber > 13 && canRollNumber(myPlayerIndex)) {
             distributeResources(rolledNumber);
-            
+            turnTracker.setStatus(TurnStatus.PLAYING);
+            version++;
             return true;
         }
         return false;
@@ -1238,7 +1239,7 @@ public class Model {
     /**
      * @param rolledNumber - int not equal to 7
      */
-    public void distributeResources(int rolledNumber) {
+    public void distributeResources(int rolledNumber){
         for (Hex hex : catanMap.getHexes()) {
             if (hex.getNumber() == rolledNumber&& !hex.getLocation().equals(catanMap.getRobber())) {
                 for (Player player : players) {
