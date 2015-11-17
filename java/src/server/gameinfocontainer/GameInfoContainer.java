@@ -3,6 +3,8 @@ package server.gameinfocontainer;
 import java.util.List;
 
 import shared.communication.responses.GameResponse;
+import shared.definitions.CatanColor;
+import shared.exceptions.GetPlayerException;
 import shared.model.Model;
 import shared.model.Player;
 
@@ -37,6 +39,7 @@ public class GameInfoContainer {
         users = users;
     }
     
+    
     /**
      * Called by the create.java command class and adds a game to the 
      * GameInfoContainer
@@ -69,13 +72,19 @@ public class GameInfoContainer {
         Model gameModel = models.getGame(gameId);
         List<Player> players = gameModel.getPlayers();
         
-        if ( players.size() == 4 ) {
-            return false;
-        }
+        //check if player already exists
+        try {
+        	//if does update color
+			Player currentPlayer = gameModel.getPlayer(playerId);
+			currentPlayer.setColor(CatanColor.fromString(color));
+		} catch (GetPlayerException e) {
+			//else lets check if we can add player
+			if(gameModel.getPlayers().size() >= 4)
+				return false;
+			String playerName = users.getPlayerName(playerId);
+	        gameModel.addPlayer( color, playerId, playerName );
+		}
         
-        // else, add them
-        String playerName = users.getPlayerName(playerId);
-        gameModel.addPlayer( color, playerId, playerName );
         return true;
     }
     

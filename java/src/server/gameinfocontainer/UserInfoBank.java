@@ -26,6 +26,15 @@ public class UserInfoBank {
         //Different Constructor for loading previously saved server state?
         //update IDcounter if some users already stored. 
     	users = new ArrayList<shared.model.User>();
+    	addDefaultUsers();
+    }
+    
+    public void addDefaultUsers() {
+    	addUser("Matt","matt");
+    	addUser("Scott","scott");
+    	addUser("Jan","jan");
+    	addUser("Garrett","garrett");
+    	addUser("Alex", "alex");
     }
     
     /**

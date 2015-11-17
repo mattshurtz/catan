@@ -6,6 +6,7 @@
 package server.gameinfocontainer;
 import shared.communication.responses.GameResponse;
 import shared.communication.responses.PlayerResponse;
+import shared.definitions.CatanColor;
 import shared.exceptions.GetPlayerException;
 import shared.model.Model;
 import shared.model.Player;
@@ -24,11 +25,25 @@ public class ModelBank {
     private Map<Integer, Model> games;
     private int nextGameId = 0;
     
+    
+    
     /**
      * Constructor for ModelBank that holds all the games in the server
      */
     public ModelBank() {
     	games = new HashMap<>();
+    	addDefaultModel();
+    }
+    
+    public int addDefaultModel() {
+    	Model defaultModel = new Model("Default", false, false, false);
+    	
+    	defaultModel.addPlayer(CatanColor.BLUE.toString(), 0, "Matt");
+    	defaultModel.addPlayer(CatanColor.GREEN.toString(), 1, "Scott");
+    	defaultModel.addPlayer(CatanColor.ORANGE.toString(), 2, "Jan");
+    	defaultModel.addPlayer(CatanColor.RED.toString(), 3, "Garrett");    	
+    	
+    	return addGame(defaultModel);
     }
     
     /**
