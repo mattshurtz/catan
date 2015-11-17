@@ -226,6 +226,7 @@ public class Model {
         //if someone had it before
         if(oldLongestIndex != -1)
         {
+            //if it changed
             if(newLongestIndex != oldLongestIndex)
             {
                 players.get(oldLongestIndex).decrementVictoryPoints();
@@ -233,8 +234,10 @@ public class Model {
             }
         }
         
+        //if someone earned it
         if(newLongestIndex != -1)
         {
+            //if it changed
             if(newLongestIndex != oldLongestIndex)
             {
                 players.get(newLongestIndex).incrementVictoryPoints();
@@ -245,6 +248,10 @@ public class Model {
         this.turnTracker.setLongestRoad(determineLongestRoad());
     }
     
+    /**
+     * Determines who should have the longest road and awards that player the
+     * longest road.
+     */
     public int determineLongestRoad()
     {
         //currently implemented as most roads
@@ -270,6 +277,7 @@ public class Model {
         //check if tie exists
         for (int i = 0; i < players.size(); i++)
         {
+            //not self
             if(i != index)
             {
                 Player p = players.get(i);
@@ -1181,21 +1189,6 @@ public class Model {
     }
 
     /**
-     * Determines who has the largest army and awards that player largest army.
-     */
-    public void largestArmy() {
-
-    }
-
-    /**
-     * Determines who should have the longest road and awards that player the
-     * longest road.
-     */
-    public void longestRoad() {
-
-    }
-
-    /**
      * Initiates a trade between the trader and receiver, specified by the first
      * two arguments. The proposed trade is specified by the third argument.
      * Negative resources are the resources the trader is hoping to receive, and
@@ -1299,12 +1292,88 @@ public class Model {
             try {
                 players.get(playerIndex).oldDevCards.removeSoldier();
                 players.get(playerIndex).incrementSoldiers();
+                
+                updateLargestArmy();
+                
             } catch (InsufficientSupplies ex) {
                 Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    private void updateLargestArmy()
+    {
+        int oldLargestIndex = turnTracker.getLargestArmy();
+        int newLargestIndex = determineLargestArmy();
+        
+        //if someone had it before
+        if(oldLargestIndex != -1)
+        {
+            //if it changed
+            if(newLargestIndex != oldLargestIndex)
+            {
+                players.get(oldLargestIndex).decrementVictoryPoints();
+                players.get(oldLargestIndex).decrementVictoryPoints();
+            }
+        }
+        
+        //if someone earned it
+        if(newLargestIndex != -1)
+        {
+            //if it changed
+            if(newLargestIndex != oldLargestIndex)
+            {
+                players.get(newLargestIndex).incrementVictoryPoints();
+                players.get(newLargestIndex).incrementVictoryPoints();
+            }
+        }
+        
+        this.turnTracker.setLongestRoad(determineLongestRoad());
+    }
+    
+    /**
+     * Determines who has the largest army and awards that player largest army.
+     */
+    private int determineLargestArmy() {
+        
+        //2 is the most possible roads without awarding largestArmy
+        int index = turnTracker.getLargestArmy();
+        int largestArmy = (index == -1) ? 2 : players.get(index).getSoldiers();
+        
+        //find largest. will find one even if tied
+        for (int i = 0; i < players.size(); i++)
+        {
+            if(i != index)
+            {
+                Player p = players.get(i);
+
+                if(p.getSoldiers() > largestArmy)
+                {
+                    largestArmy = p.getSoldiers();
+                    index = p.getPlayerIndex();
+                }
+            }
+        }
+        
+        //check if tie exists
+        for (int i = 0; i < players.size(); i++)
+        {
+            //not self
+            if(i != index)
+            {
+                Player p = players.get(i);
+
+                if(p.getSoldiers() == largestArmy)
+                {
+                    largestArmy = p.getSoldiers();
+                    index = -1;
+                }
+            }
+        }
+        
+        return index;
+    }
+    
     /**
      * Adds two resources to the given player's bank, and removes the Year of
      * Plenty card from that player's hand. The types of resources given are
