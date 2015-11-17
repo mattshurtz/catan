@@ -40,7 +40,7 @@ public class UserHandler extends catanHTTPHandler{
 			String content = this.getContent(exchange);   
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, null, null);
+			String result = this.sendToFacade(newCommand, content, 0, 0);
 			
 			if(result != null) {
 				//login good

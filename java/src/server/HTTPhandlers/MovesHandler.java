@@ -37,11 +37,11 @@ public class MovesHandler extends catanHTTPHandler {
                                 
                 //Convert content (POST) across to String
                 String content = this.getContent(exchange);
-                String user = ""+this.getPlayerId(exchange);
-                String gameId = this.getGameId(exchange);
+                int playerId = this.getPlayerId(exchange);
+                int gameId = this.getGameId(exchange);
                 
                 //Call the facade
-                String result = this.sendToFacade(newCommand, content, gameId, user);
+                String result = this.sendToFacade(newCommand, content, gameId, playerId);
                 
                 if(result != null) {
                 	this.sendResponseBody(exchange, result);	

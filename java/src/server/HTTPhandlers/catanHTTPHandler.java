@@ -75,8 +75,8 @@ public class catanHTTPHandler implements HttpHandler{
 	 * @param GameID the gameID found in cookie (if any)
 	 * @throws Throwable 
 	 */
-	protected String sendToFacade(String command, String content, String gameId, String user) throws HTTPBadRequest {
-		return facade.doFunction(command, content, gameId, user);
+	protected String sendToFacade(String command, String content, int gameId, int playerId) throws HTTPBadRequest {
+		return facade.doFunction(command, content, gameId, playerId);
 	}
 	
 	protected void addCookie(HttpExchange exchange, String cookie) throws IOException {
@@ -154,10 +154,10 @@ public class catanHTTPHandler implements HttpHandler{
         return pic.getId();
 	}
 	
-	protected String getGameId (HttpExchange exchange) throws HTTPBadRequest {
+	protected int getGameId (HttpExchange exchange) throws HTTPBadRequest {
 		String cookie = this.getCookie( exchange, "catan.game" );
         int gameId = Integer.parseInt( cookie );
-        return ""+gameId;
+        return gameId;
 	}
     
     private PlayerInfoCookie getPlayerInfoCookie( HttpExchange exchange ) {

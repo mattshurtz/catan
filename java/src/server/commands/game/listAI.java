@@ -12,7 +12,7 @@ import shared.model.Model;
 public class listAI extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
         return "[]";
     }
     

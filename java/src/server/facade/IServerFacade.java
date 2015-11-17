@@ -14,6 +14,6 @@ import shared.exceptions.HTTPBadRequest;
      */
 public interface IServerFacade {
     
-    public String doFunction(String command, String content, String gameId, String user) throws HTTPBadRequest;
+    public String doFunction(String command, String content, int gameId, int user) throws HTTPBadRequest;
     
 }

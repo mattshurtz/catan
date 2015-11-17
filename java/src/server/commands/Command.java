@@ -13,11 +13,12 @@ import shared.communication.responses.PlayerResponse;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Deserializer;
 import shared.json.Serializer;
+import shared.model.Model;
 
 /**
  *
  */
-public class Command {
+public abstract class Command {
     
     private Deserializer deserializer;
     private Serializer serializer;
@@ -30,9 +31,7 @@ public class Command {
      * @param json 
      * @throws HTTPBadRequest 
      */
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-		return null;        
-    }
+    public abstract String execute(String json, int gameID, int playerId) throws HTTPBadRequest;
     
     public Command()
     {
@@ -88,6 +87,15 @@ public class Command {
     
     public String buildGameCookie(int gameID) {
     	return "catan.game=" + gameID + ";Path=/;";
+    }
+    
+    protected void addHistoryMessage( int gameId, String msg, int playerId ) {
+        Model currentModel = GameInfoContainer.getInstance().getGameModel(gameId);
+        
+        // Add the user's name on the front of msg
+        String playerName = GameInfoContainer.getInstance().getGameModel(gameId).getPlayerNameById( playerId );
+        
+        currentModel.addHistoryMessage( playerId, playerName + " " + msg );
     }
     
 }

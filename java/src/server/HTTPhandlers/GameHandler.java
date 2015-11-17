@@ -30,16 +30,16 @@ public class GameHandler extends catanHTTPHandler {
 			String newCommand = "game." + url.getPath().replace("/game/", "");
     		
 			String content = null;
-            String gameId = "";
+            int gameId = -1;
 			if ( !newCommand.equals("game.listAI") )
                 gameId = this.getGameId(exchange);
-			String user = ""+this.getPlayerId(exchange);
+			int playerId = this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
 			this.checkisGet(exchange);
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, gameId, user);
+			String result = this.sendToFacade(newCommand, content, gameId, playerId);
 			//System.out.println(result);
             
 			if(result != null) {

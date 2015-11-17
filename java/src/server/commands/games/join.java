@@ -17,11 +17,11 @@ import shared.exceptions.HTTPBadRequest;
 public class join extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
     	
     	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
     	
-    	if (GameInfoContainer.getInstance().joinGame(Integer.parseInt(user), request.getColor(), request.getGameID())) {
+    	if (GameInfoContainer.getInstance().joinGame(user, request.getColor(), request.getGameID())) {
     		return this.buildGameCookie(request.getGameID());
     	} else {
     		throw new HTTPBadRequest("Could not add player to game");

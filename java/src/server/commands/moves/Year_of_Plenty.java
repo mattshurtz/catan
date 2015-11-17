@@ -19,11 +19,14 @@ import shared.model.Model;
 public class Year_of_Plenty extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.parseInt(gameID), Integer.parseInt(user))){
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        if(isUserInGame(gameID, user)){
             PlayYearOfPlentyRequest request = (PlayYearOfPlentyRequest)this.getDeserializer().toClass(PlayYearOfPlentyRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.playYearOfPlenty(request);
+            
+            this.addHistoryMessage(gameID, "played Year of Plenty", user);
+            
             return this.getSerializer().toJson(currentModel); 
         }
         else {

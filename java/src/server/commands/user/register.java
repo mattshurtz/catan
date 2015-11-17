@@ -21,15 +21,10 @@ public class register extends Command{
     Serializer serializer = new Serializer();
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-    	super.execute(json, gameID, user); //To change body of generated methods, choose Tools | Templates.
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
         
         Credentials creds = (Credentials) this.getDeserializer().toClass(Credentials.class,json);
-        //Credentials creds = this.getDeserializer().toCredentials(json);
-        
-        
         GameInfoContainer container = GameInfoContainer.getInstance();
-        
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {

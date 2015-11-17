@@ -18,14 +18,29 @@ import shared.model.Model;
 public class rollNumber extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        if(isUserInGame(gameID, user)){
             RollNumberRequest rollNumberRequest = (RollNumberRequest)this.getDeserializer().toClass(RollNumberRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.rollNumber(rollNumberRequest);
+            
+            int theNum = rollNumberRequest.getNumber();
+            this.addHistoryMessage(gameID, "rolled " + getArticle( theNum ) + " " + theNum, user);
+            
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
+        }
+    }
+    
+    private static String getArticle( int number ) {
+        switch ( number ) {
+            case 8:
+            case 11:
+                return "an";
+            
+            default:
+                return "a";
         }
     }
     

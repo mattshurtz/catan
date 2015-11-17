@@ -18,11 +18,14 @@ import shared.model.Model;
 public class buildCity extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        if(isUserInGame(gameID,user)){
             BuildCityRequest buildCityRequest = (BuildCityRequest)this.getDeserializer().toClass(BuildCityRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.buildCity(buildCityRequest);
+            
+            this.addHistoryMessage(gameID, "built a city", user);
+            
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

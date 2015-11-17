@@ -35,7 +35,7 @@ public class GamesHandler extends catanHTTPHandler {
 			String newCommand = "games." + url.getPath().replace("/games/", "");
     		
 			String content = null;
-			int user = this.getPlayerId(exchange);
+			int playerId = this.getPlayerId(exchange);
 			
 			//if it is the list (GET)
 			if(this.isGet(exchange) && newCommand.equals("games.list")) {
@@ -52,7 +52,7 @@ public class GamesHandler extends catanHTTPHandler {
 			}
 			
 			//Call the facade
-			String result = this.sendToFacade(newCommand, content, null, ""+user);
+			String result = this.sendToFacade(newCommand, content, 0, playerId);
 			
 			if (result != null) {
 				if ( newCommand.equals("games.join") ) {

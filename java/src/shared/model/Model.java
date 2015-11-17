@@ -1377,4 +1377,18 @@ public class Model {
         this.players.add( p );
     }
 
+    public void addHistoryMessage(int playerId, String msg) {
+        String playerName = this.getPlayerNameById(playerId);
+        this.log.addLine( new MessageLine(playerName, msg) );
+    }
+
+    public String getPlayerNameById(int playerId) {
+        for ( Player p : players ) {
+            if ( p.getPlayerID() == playerId ) {
+                return p.getName();
+            }
+        }
+        return null;
+    }
+
 }

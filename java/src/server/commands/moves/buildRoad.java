@@ -21,13 +21,14 @@ public class buildRoad extends Command {
      * @param json This is the Json request received from the client to build a road
      */
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-//        return super.execute(json, gameID, user);
-        
-        if(isUserInGame(Integer.parseInt(gameID),Integer.parseInt(user))){
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        if(isUserInGame(gameID,user)){
             BuildRoadRequest roadRequest = (BuildRoadRequest)this.getDeserializer().toClass(BuildRoadRequest.class, json);
-            Model currentModel =GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
+            Model currentModel =GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.buildRoad(roadRequest);
+            
+            this.addHistoryMessage(gameID, "built a road", user);
+            
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

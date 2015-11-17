@@ -17,8 +17,8 @@ import shared.model.Model;
 public class model extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        Model mod = GameInfoContainer.getInstance().getGameModel( Integer.parseInt( gameID ) );
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        Model mod = GameInfoContainer.getInstance().getGameModel( gameID );
         return getSerializer().toJson(mod);
     }
     

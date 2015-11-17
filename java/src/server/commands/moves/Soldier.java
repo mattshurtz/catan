@@ -18,11 +18,14 @@ import shared.model.Model;
 public class Soldier extends Command{
 
     @Override
-    public String execute(String json, String gameID, String user) throws HTTPBadRequest {
-        if(isUserInGame(Integer.parseInt(gameID), Integer.parseInt(user))){
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+        if(isUserInGame(gameID, user)){
             MoveRequest request = (MoveRequest)this.getDeserializer().toClass(MoveRequest.class, json);
-            Model currentModel = GameInfoContainer.getInstance().getGameModel(Integer.parseInt(gameID));
+            Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.playSoldier(request);
+            
+            this.addHistoryMessage(gameID, "has got soul but (s)he played a Soldier", user);
+            
             return this.getSerializer().toJson(currentModel); 
         }
         else {
