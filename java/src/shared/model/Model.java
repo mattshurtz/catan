@@ -211,19 +211,55 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-        if (canBuildSettlement(buildSettlementRequest.getVertexLocation()) && isPlayersTurn(buildSettlementRequest.getPlayerIndex())) {
+        int playerIndex = buildSettlementRequest.getPlayerIndex();
+        VertexLocation location = buildSettlementRequest.getVertexLocation().getNormalizedLocation();
+        if (canBuildSettlement(location) && isPlayersTurn(playerIndex)) {
             {
-                if ( buildSettlementRequest.isFree() || canBuildSettlement(buildSettlementRequest.getVertexLocation() )) {
+                if ( buildSettlementRequest.isFree() || canBuildSettlement(location)) {
+                    if(players.get(playerIndex).settlements==4){
+                        addSurroundingResources(location, playerIndex);
+                    }
                     
-                    players.get(buildSettlementRequest.getPlayerIndex()).buildSettlement(buildSettlementRequest.isFree());
-                    catanMap.getSettlements().add( new Settlement( buildSettlementRequest.getPlayerIndex(), 
-                            buildSettlementRequest.getVertexLocation().getNormalizedLocation(), 
+                    players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
+                    catanMap.getSettlements().add( new Settlement( playerIndex, 
+                            location, 
                             null ));
-                    
                 }
                 version++;
             }
         }
+    }
+    
+    public void addSurroundingResources(VertexLocation location, int playerIndex){
+        if(location.getNormalizedLocation().getDir().equals(VertexDirection.East)){
+            getSurroundingResourcesEastVertex(location, playerIndex);
+        }else{
+            getSurroundingResourcesWestVertex(location, playerIndex);
+        }
+    }
+    
+    public void getSurroundingResourcesEastVertex(VertexLocation location, int playerIndex){
+        HexLocation hexLocation = location.getHexLoc();
+        HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
+        HexLocation northEastNeighbor = new HexLocation(hexLocation.getX()+1,hexLocation.getY()-1);
+        for(Hex hex:catanMap.getHexes()){
+            if(hex.getLocation().equals(northNeighbor)||hex.getLocation().equals(northEastNeighbor)||
+                    hex.getLocation().equals(hexLocation)){
+               players.get(playerIndex).getResources().addResource(hex.getResourceType(), 1); 
+            }
+        }
+    }
+    
+    public void getSurroundingResourcesWestVertex(VertexLocation location, int playerIndex){
+        HexLocation hexLocation = location.getHexLoc();
+        HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
+        HexLocation northWestNeighbor = new HexLocation(hexLocation.getX()-1,hexLocation.getY());
+        for(Hex hex:catanMap.getHexes()){
+            if(hex.getLocation().equals(northNeighbor)||hex.getLocation().equals(northWestNeighbor)||
+                    hex.getLocation().equals(hexLocation)){
+               players.get(playerIndex).getResources().addResource(hex.getResourceType(), 1); 
+            }
+        } 
     }
 
     /**

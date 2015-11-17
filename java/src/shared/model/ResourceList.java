@@ -195,6 +195,7 @@ public class ResourceList {
      * @param resourceType this is the type of resource to be incremented.
      */
     public void addResource(ResourceType resourceType, int numberToAdd) {
+        
         switch(resourceType){
             case BRICK:
                 brick+= numberToAdd;
