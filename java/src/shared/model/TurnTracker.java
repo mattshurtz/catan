@@ -26,8 +26,8 @@ public class TurnTracker {
     	currentTurn = 0;
     	//Default to rolling
     	status = TurnStatus.ROLLING;
-    	longestRoad = 0;
-    	largestArmy = 0;
+    	longestRoad = -1;
+    	largestArmy = -1;
     }
 
     //Constructor

@@ -48,6 +48,10 @@ public class Player {
     int soldiers = 0;
     int victoryPoints = 0;
     
+    static final int MAX_ROADS = 15;
+    static final int MAX_SETTLEMENTS = 5;
+    static final int MAX_CITIES = 4;
+    
     public Player() {
         
     }
@@ -127,6 +131,8 @@ public class Player {
         cities--;
         settlements++;
         resources.buyCity();
+        
+        incrementVictoryPoints();
     }
     
     /**
@@ -162,6 +168,10 @@ public class Player {
     
     public void incrementVictoryPoints() {
         victoryPoints++;
+    }
+    
+    public void decrementVictoryPoints() {
+        victoryPoints--;
     }
     
     public int getPlayerIndex() {

@@ -177,9 +177,13 @@ public class Model {
     public void buildCity(BuildCityRequest buildCityRequest) {
         VertexLocation location = buildCityRequest.getVertexLocation();
         int playerIndex = buildCityRequest.getPlayerIndex();
+        //remove settlement to settlement list
+        
+        
+        //add city to city list
         if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
             players.get(playerIndex).buildCity();
-            catanMap.getCities().add(new City(playerIndex,location,null));
+            catanMap.addCity(new City(playerIndex,location,null));
             version++;
         }
     }
@@ -198,11 +202,81 @@ public class Model {
             } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
-            catanMap.getRoads().add(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
+            catanMap.addRoad(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
+            
+            updateLongestRoad();
+            
             version++;
         }
     }
 
+    private void updateLongestRoad()
+    {
+        int oldLongestIndex = turnTracker.getLongestRoad();
+        int newLongestIndex = determineLongestRoad();
+        
+        //if someone had it before
+        if(oldLongestIndex != -1)
+        {
+            if(newLongestIndex != oldLongestIndex)
+            {
+                players.get(oldLongestIndex).decrementVictoryPoints();
+                players.get(oldLongestIndex).decrementVictoryPoints();
+            }
+        }
+        
+        if(newLongestIndex != -1)
+        {
+            if(newLongestIndex != oldLongestIndex)
+            {
+                players.get(newLongestIndex).incrementVictoryPoints();
+                players.get(newLongestIndex).incrementVictoryPoints();
+            }
+        }
+        
+        this.turnTracker.setLongestRoad(determineLongestRoad());
+    }
+    
+    public int determineLongestRoad()
+    {
+        //currently implemented as most roads
+            //4 is the most possible roads without awarding longestroad
+        int index = turnTracker.getLongestRoad();
+        int longestRoad = (index == -1) ? 4 : Player.MAX_ROADS - players.get(index).getRoads();
+        
+        //find longest. will find one even if tied
+        for (int i = 0; i < players.size(); i++)
+        {
+            if(i != index)
+            {
+                Player p = players.get(i);
+
+                if(Player.MAX_ROADS - p.getRoads() > longestRoad)
+                {
+                    longestRoad = Player.MAX_ROADS - p.getRoads();
+                    index = p.getPlayerIndex();
+                }
+            }
+        }
+        
+        //check if tie exists
+        for (int i = 0; i < players.size(); i++)
+        {
+            if(i != index)
+            {
+                Player p = players.get(i);
+
+                if(Player.MAX_ROADS - p.getRoads() == longestRoad)
+                {
+                    longestRoad = Player.MAX_ROADS - p.getRoads();
+                    index = -1;
+                }
+            }
+        }
+        
+        return index;
+    }
+    
     /**
      * First calls canBuySettlement and canBuildSettlement then, if true Removes
      * a brick, wood, sheep, and wheat from the player building the
@@ -223,12 +297,11 @@ public class Model {
                     }
                     
                     players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
-                    catanMap.getSettlements().add( new Settlement( playerIndex, 
-                            location, 
-                            null ));
+                    catanMap.addSettlement( new Settlement( playerIndex, location, null ));
                 }
                 version++;
             }
+            
         }
     }
     

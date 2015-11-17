@@ -500,6 +500,7 @@ public class CatanMap {
      */
     public void placeSettlmentAtLoc(Settlement settlement, VertexLocation location){
         
+        
     }
     
     public boolean canRobPlayer(int playerIndex, HexLocation hexLoc) {
@@ -655,6 +656,18 @@ public class CatanMap {
             return false;
         }
         return true;
+    }
+
+    public void addCity(City city) {
+        cities.add(city);
+    }
+
+    public void addRoad(Road road) {
+        roads.add(road);
+    }
+
+    public void addSettlement(Settlement settlement) {
+        settlements.add(settlement);
     }
     
     
