@@ -231,14 +231,14 @@ public class Model {
     }
     
     public void addSurroundingResources(VertexLocation location, int playerIndex){
-        if(location.getNormalizedLocation().getDir().equals(VertexDirection.East)){
-            getSurroundingResourcesEastVertex(location, playerIndex);
+        if(location.getNormalizedLocation().getDir().equals(VertexDirection.NorthEast)){
+            addSurroundingResourcesEastVertex(location, playerIndex);
         }else{
-            getSurroundingResourcesWestVertex(location, playerIndex);
+            addSurroundingResourcesWestVertex(location, playerIndex);
         }
     }
     
-    public void getSurroundingResourcesEastVertex(VertexLocation location, int playerIndex){
+    public void addSurroundingResourcesEastVertex(VertexLocation location, int playerIndex){
         HexLocation hexLocation = location.getHexLoc();
         HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
         HexLocation northEastNeighbor = new HexLocation(hexLocation.getX()+1,hexLocation.getY()-1);
@@ -250,7 +250,7 @@ public class Model {
         }
     }
     
-    public void getSurroundingResourcesWestVertex(VertexLocation location, int playerIndex){
+    public void addSurroundingResourcesWestVertex(VertexLocation location, int playerIndex){
         HexLocation hexLocation = location.getHexLoc();
         HexLocation northNeighbor = new HexLocation(hexLocation.getX(),hexLocation.getY()-1);
         HexLocation northWestNeighbor = new HexLocation(hexLocation.getX()-1,hexLocation.getY());
