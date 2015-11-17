@@ -1390,6 +1390,7 @@ public class Model {
     public void sendChat(SendChatRequest chat) {
         MessageLine message = new MessageLine(players.get(chat.getPlayerIndex()).getName(), chat.getContent());
         this.chat.addLine(message);
+        version++;
     }
 
     public void setBank(ResourceList bank) {
