@@ -4,10 +4,18 @@
  * and open the template in the editor.
  */
 package server.gameinfocontainer;
+import shared.communication.params.moves.BuildRoadRequest;
+import shared.communication.params.moves.BuildSettlementRequest;
 import shared.communication.responses.GameResponse;
 import shared.communication.responses.PlayerResponse;
 import shared.definitions.CatanColor;
+import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.Player;
 
@@ -36,14 +44,110 @@ public class ModelBank {
     }
     
     public int addDefaultModel() {
-    	Model defaultModel = new Model("Default", false, false, false);
-    	
-    	defaultModel.addPlayer(CatanColor.BLUE.toString(), 0, "Matt");
+    	Model defaultModel = new Model("Default Setup", false, false, false);
+      	defaultModel.addPlayer(CatanColor.BLUE.toString(), 0, "Matt");
     	defaultModel.addPlayer(CatanColor.GREEN.toString(), 1, "Scott");
     	defaultModel.addPlayer(CatanColor.ORANGE.toString(), 2, "Jan");
-    	defaultModel.addPlayer(CatanColor.RED.toString(), 3, "Garrett");    	
+    	defaultModel.addPlayer(CatanColor.RED.toString(), 3, "Garrett");
+    	addGame(defaultModel);
     	
-    	return addGame(defaultModel);
+    	Model readyModel = new Model("Default Post Setup", false, false, false);
+    	readyModel.addPlayer(CatanColor.BLUE.toString(), 0, "Matt");
+    	readyModel.addPlayer(CatanColor.GREEN.toString(), 1, "Scott");
+    	readyModel.addPlayer(CatanColor.ORANGE.toString(), 2, "Jan");
+    	readyModel.addPlayer(CatanColor.RED.toString(), 3, "Garrett");
+    	
+    	
+    	//PLAYER 1
+    	
+    	BuildSettlementRequest s1 = new BuildSettlementRequest(new VertexLocation(new HexLocation(-2,0), VertexDirection.West), true);
+    	s1.setPlayerIndex(0);
+    	readyModel.buildSettlement(s1);
+    	
+    	BuildSettlementRequest s2 = new BuildSettlementRequest(new VertexLocation(new HexLocation(0,2), VertexDirection.West), true);
+    	s2.setPlayerIndex(0);
+    	readyModel.buildSettlement(s2);
+    	
+    	BuildRoadRequest r1 = new BuildRoadRequest(new EdgeLocation(new HexLocation(-2,0), EdgeDirection.SouthWest), true);
+    	r1.setPlayerIndex(0);
+    	readyModel.buildRoad(r1);
+
+    	BuildRoadRequest r2 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,2), EdgeDirection.SouthWest), true);
+    	r2.setPlayerIndex(0);
+    	readyModel.buildRoad(r2);
+    	
+    	
+    	//PLAYER 2
+    	readyModel.getTurnTracker().setCurrentTurn(1);
+    	
+    	BuildSettlementRequest s3 = new BuildSettlementRequest(new VertexLocation(new HexLocation(0,-1), VertexDirection.West), true);
+    	s3.setPlayerIndex(1);
+    	readyModel.buildSettlement(s3);
+    	
+    	BuildSettlementRequest s4 = new BuildSettlementRequest(new VertexLocation(new HexLocation(0,1), VertexDirection.West), true);
+    	s4.setPlayerIndex(1);
+    	readyModel.buildSettlement(s4);
+    	
+    	BuildRoadRequest r3 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,-1), EdgeDirection.SouthWest), true);
+    	r3.setPlayerIndex(1);
+    	readyModel.buildRoad(r3);
+
+    	BuildRoadRequest r4 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,1), EdgeDirection.SouthWest), true);
+    	r4.setPlayerIndex(1);
+    	readyModel.buildRoad(r4);
+    	
+    	
+    	//PLAYER 3
+    	readyModel.getTurnTracker().setCurrentTurn(2);
+    	
+    	BuildSettlementRequest s5 = new BuildSettlementRequest(new VertexLocation(new HexLocation(2,-2), VertexDirection.West), true);
+    	s5.setPlayerIndex(2);
+    	readyModel.buildSettlement(s5);
+    	
+    	BuildSettlementRequest s6 = new BuildSettlementRequest(new VertexLocation(new HexLocation(-2,2), VertexDirection.West), true);
+    	s6.setPlayerIndex(2);
+    	readyModel.buildSettlement(s6);
+    	
+    	BuildRoadRequest r5 = new BuildRoadRequest(new EdgeLocation(new HexLocation(2,-2), EdgeDirection.SouthWest), true);
+    	r5.setPlayerIndex(2);
+    	readyModel.buildRoad(r5);
+
+    	BuildRoadRequest r6 = new BuildRoadRequest(new EdgeLocation(new HexLocation(-2,2), EdgeDirection.SouthWest), true);
+    	r6.setPlayerIndex(2);
+    	readyModel.buildRoad(r6);
+    	
+    	
+    	//PLAYER 4
+    	readyModel.getTurnTracker().setCurrentTurn(3);
+    	
+    	BuildSettlementRequest s7 = new BuildSettlementRequest(new VertexLocation(new HexLocation(0,0), VertexDirection.West), true);
+    	s7.setPlayerIndex(3);
+    	readyModel.buildSettlement(s7);
+    	
+    	BuildSettlementRequest s8 = new BuildSettlementRequest(new VertexLocation(new HexLocation(1,-1), VertexDirection.West), true);
+    	s8.setPlayerIndex(3);
+    	readyModel.buildSettlement(s8);
+    	
+    	BuildRoadRequest r7 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,0), EdgeDirection.SouthWest), true);
+    	r7.setPlayerIndex(3);
+    	readyModel.buildRoad(r7);
+
+    	BuildRoadRequest r8 = new BuildRoadRequest(new EdgeLocation(new HexLocation(1,-1), EdgeDirection.SouthWest), true);
+    	r8.setPlayerIndex(3);
+    	readyModel.buildRoad(r8);
+    	
+    	//Give out some cards
+    	for (int i=2;i<13;i++) {
+    		if (i==7)
+    			continue;
+    		readyModel.distributeResources(i);
+    	}
+    	
+    	//SETUP GAME
+    	readyModel.getTurnTracker().setCurrentTurn(0);
+    	readyModel.getTurnTracker().setStatus(TurnStatus.ROLLING);
+    	
+    	return addGame(readyModel);
     }
     
     /**
