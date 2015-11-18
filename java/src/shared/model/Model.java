@@ -1406,11 +1406,17 @@ public class Model {
      * @param victimIndex
      */
     public void robPlayer(RobPlayerRequest robPlayerRequest) {
+    	
         int robberIndex = robPlayerRequest.getPlayerIndex();
         int victimIndex = robPlayerRequest.getVictimIndex();
+        //do they have resources
+        if(victimIndex != -1 && players.get(victimIndex).getResources().getTotalResources() > 0) {
+        	ResourceType robbed = players.get(victimIndex).getResources().robResource();
+        	players.get(robberIndex).getResources().addResource(robbed, 1);
+        }
+        
         this.getMap().setRobber(robPlayerRequest.getLocation());
-        ResourceType robbed = players.get(victimIndex).getResources().robResource();
-        players.get(robberIndex).getResources().addResource(robbed, 1);
+        
         turnTracker.setStatus(TurnStatus.PLAYING);
         
         version++;
