@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.util.Random;
 import shared.definitions.DevCardType;
 import shared.exceptions.InsufficientSupplies;
 
@@ -13,6 +14,13 @@ import shared.exceptions.InsufficientSupplies;
  * 
  */
 public class DevCardList {
+    
+    static final int MAX_YEAROFPLENTY = 2;
+    static final int MAX_MONOPOLY = 2;
+    static final int MAX_ROADBUILDING = 2;
+    static final int MAX_SOLDIER = 14;
+    static final int MAX_MONUMENT = 5;
+    
 	// 2 monopoly, 2 yearOfPlenty, 2 roadBuilding, 14 soldier, 5 monument     
     int yearOfPlenty;
     int monopoly;
@@ -40,7 +48,14 @@ public class DevCardList {
 		this.monument = monument;
 	}
 
-
+        public void initializeDeck()
+        {
+            this.yearOfPlenty = MAX_YEAROFPLENTY;
+            this.monopoly = MAX_MONOPOLY;
+            this.soldier = MAX_SOLDIER;
+            this.roadBuilding = MAX_ROADBUILDING;
+            this.monument = MAX_MONUMENT;            
+        }
 
 	public int getMonopoly() {
 		return monopoly;
@@ -57,12 +72,8 @@ public class DevCardList {
 	 * If there is at least one monopoly card, removes it from list.
 	 * @throws InsufficientSupplies if there are no monopoly cards.
 	 */
-	public void removeMonopoly() throws InsufficientSupplies {
-		if (monopoly > 0) {
-			this.monopoly--;
-		} else {
-			throw new InsufficientSupplies("Player does not have a Monopoly card to play");
-		}		
+	public void removeMonopoly() {
+            this.monopoly--;
 	}
 
 	public int getMonument() {
@@ -92,25 +103,17 @@ public class DevCardList {
 	 * If there is at least one road building card, removes it from list.
 	 * @throws InsufficientSupplies if there are no road building cards.
 	 */
-	public void removeRoadBuilding() throws InsufficientSupplies {
-		if (roadBuilding > 0) {
-			this.roadBuilding--;
-		} else {
-			throw new InsufficientSupplies("Player does not have a Road Building card to play");
-		}		
+	public void removeRoadBuilding() {
+            this.roadBuilding--;
 	}
     
-    public void removeMonument() throws InsufficientSupplies{
-        if (monument > 0) {
-			this.monument--;
-		} else {
-			throw new InsufficientSupplies("Player does not have a Monument card to play");
-		} 
-    }
+        public void removeMonument() {
+            this.monument--;
+        }
 
-	public int getSoldier() {
-		return soldier;
-	}
+        public int getSoldier() {
+                return soldier;
+        }
 
 	/**
 	 * Add one soldier card to list
@@ -123,12 +126,8 @@ public class DevCardList {
 	 * If there is at least one soldier card, removes it from list.
 	 * @throws InsufficientSupplies if there are no soldier cards.
 	 */
-	public void removeSoldier() throws InsufficientSupplies {
-		if (soldier > 0) {
-			this.soldier--;
-		} else {
-			throw new InsufficientSupplies("Player does not have a Road Building card to play");
-		}		
+	public void removeSoldier() {
+            this.soldier--;
 	}
 
 	public int getYearOfPlenty() {
@@ -146,12 +145,8 @@ public class DevCardList {
 	 * If there is at least one year of plenty card, removes it from list.
 	 * @throws InsufficientSupplies if there are no year of plenty cards.
 	 */
-	public void removeYearOfPlenty() throws InsufficientSupplies {
-		if (yearOfPlenty > 0) {
-			this.yearOfPlenty--;
-		} else {
-			throw new InsufficientSupplies("Player does not have a Year of Plenty card to play");
-		}		
+	public void removeYearOfPlenty() {
+            this.yearOfPlenty--;
 	}
 	
         /**
@@ -291,4 +286,70 @@ public class DevCardList {
         return true;
     }
     
+    public int totalCards() {
+        return monopoly + monument + roadBuilding + soldier + yearOfPlenty;
+    }
+    
+    DevCardType pickDevCard() {
+        Random rand = new Random();
+        int pick = rand.nextInt(totalCards());
+        
+        return determinePick(pick);
+    }
+    
+    private DevCardType determinePick(int pickNum) {
+        DevCardType choice = null;
+        
+        if(pickNum < monopoly)
+        {
+            choice = DevCardType.MONOPOLY;
+            removeMonopoly();
+        }
+        else if(pickNum < monopoly + monument)
+        {
+            choice = DevCardType.MONUMENT;
+            removeMonument();
+        }
+        else if(pickNum < monopoly + monument + roadBuilding)
+        {
+            choice = DevCardType.ROAD_BUILD;
+            removeRoadBuilding();
+        }
+        else if(pickNum < monopoly + monument + roadBuilding + soldier)
+        {
+            choice = DevCardType.SOLDIER;
+            removeSoldier();
+        }
+        else if(pickNum < monopoly + monument + roadBuilding + soldier + yearOfPlenty)
+        {
+            choice = DevCardType.YEAR_OF_PLENTY;
+            removeYearOfPlenty();
+        }
+        
+        return choice;
+    }
+
+    void addDevCard(DevCardType purchased) {
+        switch(purchased)
+        {
+            case MONOPOLY: {
+                AddMonopoly();
+            }
+            case MONUMENT: {
+                AddMonument();
+            }
+            case SOLDIER: {
+                AddSoldier();
+            }
+            case ROAD_BUILD: {
+                AddRoadBuilding();
+            }
+            case YEAR_OF_PLENTY: {
+                AddYearOfPlenty();
+            }
+            default: {
+               System.out.println("INVALID DEV CARD TYPE.");
+            }
+        }
+    }
 }

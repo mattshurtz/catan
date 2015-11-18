@@ -13,6 +13,8 @@ import shared.definitions.ResourceType;
  */
 public class ResourceList {
 
+    static final int MAX_RESOURCE = 19;
+    
     private int brick;
     private int ore;
     private int sheep;
@@ -20,12 +22,12 @@ public class ResourceList {
     private int wood;
 
     public ResourceList() {
-            this.brick = 0;
-            this.wood = 0;
-            this.sheep = 0;
-            this.wheat = 0;
-            this.ore = 0;
-	}
+        this.brick = 0;
+        this.wood = 0;
+        this.sheep = 0;
+        this.wheat = 0;
+        this.ore = 0;
+    }
 
     public ResourceList(int brick, int wood, int sheep, int wheat, int ore) {
             this.brick = brick;
@@ -403,11 +405,11 @@ public class ResourceList {
 	}
     
     public void initializeBank(){
-        this.brick = 19;
-        this.ore = 19;
-        this.sheep = 19;
-        this.wheat = 19;
-        this.wood = 19;
+        this.brick = MAX_RESOURCE;
+        this.ore = MAX_RESOURCE;
+        this.sheep = MAX_RESOURCE;
+        this.wheat = MAX_RESOURCE;
+        this.wood = MAX_RESOURCE;
     }
     
     public ResourceType robResource(){
@@ -430,5 +432,28 @@ public class ResourceList {
         for(int i = 0; i<getResource(resource); i++){
             robbableResources.add(resource);
         }
+    }
+
+    public void payForCity() {
+        ore += 3;
+        wheat += 2;
+    }
+
+    public void payForRoad() {
+        brick++;
+        wood++;
+    }
+
+    public void payForSettlement() {
+        brick++;
+        wood++;
+        sheep++;
+        wheat++;        
+    }
+    
+    public void payForDevCard() {
+        wheat++;
+        ore++;
+        sheep++;              
     }
 }

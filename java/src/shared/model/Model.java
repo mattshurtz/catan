@@ -94,7 +94,7 @@ public class Model {
     private CatanMap catanMap;
     private ArrayList<Player> players;
 
-    private TradeOffer tradeOffer;
+    private TradeOffer tradeOffer = null;
     private TurnTracker turnTracker;
 
     private int version;
@@ -106,6 +106,8 @@ public class Model {
         bank = new ResourceList();
         bank.initializeBank();
         chat = new MessageList();
+        deck = new DevCardList();
+        deck.initializeDeck();
         log = new MessageList();
         catanMap = new CatanMap();
         players = new ArrayList<Player>();
@@ -150,8 +152,9 @@ public class Model {
            
            offererResources.addResources(tradeOffer.getReceiveResources());
            offererResources.discardResources(tradeOffer.getSendResources());
-            
-            return true;
+           version++;
+           tradeOffer = null;
+           return true;
         }
         return false;
     }
@@ -190,6 +193,8 @@ public class Model {
         if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
             players.get(playerIndex).buildCity();
             catanMap.addCity(new City(playerIndex,location));
+            bank.payForCity();
+            checkWinner();
             version++;
         }
     }
@@ -202,13 +207,16 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-        version++;
-        if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
+
+        if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())
+                && canBuyRoad(buildRoadInfo.getPlayerIndex())) {
+
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
+            bank.payForRoad();
             catanMap.addRoad(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
             
             updateLongestRoad();
@@ -245,6 +253,7 @@ public class Model {
         }
         
         this.turnTracker.setLongestRoad(determineLongestRoad());
+        checkWinner();
     }
     
     /**
@@ -314,7 +323,9 @@ public class Model {
                     
                     players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
                     catanMap.addSettlement( new Settlement( playerIndex, location ));
+                    bank.payForSettlement();
                 }
+                checkWinner();
                 version++;
             }
             
@@ -367,7 +378,14 @@ public class Model {
         version++;
         int playerIndex = moveRequest.getPlayerIndex();
         if (canBuyDevCard(playerIndex)) {
-            players.get(playerIndex).getResources().buyDevCard();
+            players.get(playerIndex).buyDevCard();
+            bank.payForDevCard();
+            
+            //get DevCard
+            DevCardType purchased = deck.pickDevCard();
+            
+            players.get(playerIndex).giveDevCard(purchased);
+            
         }
     }
 
@@ -567,6 +585,7 @@ public class Model {
         ResourceList sendersResources = players.get(tradeOfferRequest.getPlayerIndex()).getResources();
 
         if (sendersResources.hasResources(offer)) {
+            
             return true;
         }
 
@@ -732,6 +751,7 @@ public class Model {
     public void finishTurn(MoveRequest finishTurnRequest) {
         if (canFinishTurn(finishTurnRequest.getPlayerIndex())) {
             turnTracker.finishTurn();
+            players.get(finishTurnRequest.getPlayerIndex()).finishTurn();
             version++;
         }
     }
@@ -981,21 +1001,11 @@ public class Model {
 
             // check around North edge 
             if (normEdge.getDir() == EdgeDirection.North) {
-//                VertexLocation firstSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast);
-//                VertexLocation secondSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest);    
 
-                //There exists a vertex an adjecent vertex object owned by the player
-                //then this is a valid location. This is important for the setup phase
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
-//                    if(isBuildingThroughOpponent(firstSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1006,13 +1016,7 @@ public class Model {
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-
-//                    if( isBuildingThroughOpponent(secondSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }           
+         
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1022,12 +1026,7 @@ public class Model {
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-//                    if(isBuildingThroughOpponent(firstSuspectVertex) ){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }  
+  
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1037,12 +1036,6 @@ public class Model {
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
-//                    if(isBuildingThroughOpponent(secondSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1215,9 +1208,7 @@ public class Model {
     public boolean offerTrade(OfferTradeRequest tradeOfferRequest) {
         int sender = tradeOfferRequest.getPlayerIndex();
         if (isPlayersTurn(sender) && canOfferTrade(tradeOfferRequest)) {
-            tradeOffer.setOffer(tradeOfferRequest.getOffer());
-            tradeOffer.setReceiver(tradeOfferRequest.getReceiver());
-            tradeOffer.setSender(sender);
+            tradeOffer = new TradeOffer(sender,tradeOfferRequest.getReceiver(),tradeOfferRequest.getOffer());
             version++;
             return true;
         }
@@ -1232,24 +1223,20 @@ public class Model {
      * @param playerIndex the player who played the monopoly card
      * @param resource the type of resource the player will steal from everyone
      */
-    public void playMonopoly(PlayMonopolyRequest request) {
-        try {
-            version++;
-            int playerIndex = request.getPlayerIndex();
-            ResourceType resource = request.getResource();
-            if (canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex)) {
-                for (Player player : players) {
-                    if (!player.equals(players.get(playerIndex))) {
-                        int amountOfResource = player.getResources().getResource(resource);
-                        players.get(playerIndex).resources.addResource(resource, amountOfResource);
-                        player.getResources().subtractResource(resource, amountOfResource);
-                    }
+    public void playMonopoly(PlayMonopolyRequest request) {        
+        int playerIndex = request.getPlayerIndex();
+        ResourceType resource = request.getResource();
+        if (canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex)) {
+            for (Player player : players) {
+                if (!player.equals(players.get(playerIndex))) {
+                    int amountOfResource = player.getResources().getResource(resource);
+                    players.get(playerIndex).resources.addResource(resource, amountOfResource);
+                    player.getResources().subtractResource(resource, amountOfResource);
                 }
-                players.get(playerIndex).oldDevCards.removeMonopoly();
             }
-        } catch (InsufficientSupplies ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+            players.get(playerIndex).getOldDevCards().removeMonopoly();
         }
+        version++;
     }
 
     /**
@@ -1259,17 +1246,12 @@ public class Model {
      * @param playerIndex the player playing the monument card.
      */
     public void playMonument(MoveRequest request) {
-        version++;
         int playerIndex = request.getPlayerIndex();
-
-        try {
-            if (isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
-                players.get(playerIndex).incrementVictoryPoints();
-                players.get(playerIndex).oldDevCards.removeMonument();
-            }
-        } catch (InsufficientSupplies ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
+        if (isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
+            players.get(playerIndex).playMonument();
+            checkWinner();
         }
+        version++;
     }
 
     /**
@@ -1282,19 +1264,15 @@ public class Model {
         version++;
         int playerIndex = request.getPlayerIndex();
 
-        try {
-            if (isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex)) {
-                BuildRoadRequest req1 = new BuildRoadRequest(request.getSpot1(), true);
-                BuildRoadRequest req2 = new BuildRoadRequest(request.getSpot2(), true);
+        if (isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex)) {
+            BuildRoadRequest req1 = new BuildRoadRequest(request.getSpot1(), true);
+            BuildRoadRequest req2 = new BuildRoadRequest(request.getSpot2(), true);
 
-                buildRoad(req1);
-                buildRoad(req2);
+            buildRoad(req1);
+            buildRoad(req2);
 
-                players.get(playerIndex).oldDevCards.removeRoadBuilding();
-            }
-        } catch (InsufficientSupplies ex) {
-            Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            players.get(playerIndex).getOldDevCards().removeRoadBuilding();
+        } 
     }
 
     /**
@@ -1307,19 +1285,13 @@ public class Model {
     public void playSoldier(MoveRequest moveRequest) {
         version++;
         int playerIndex = moveRequest.getPlayerIndex();
-        if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {
-            try {
-                players.get(playerIndex).oldDevCards.removeSoldier();
-                players.get(playerIndex).incrementSoldiers();
-                
-                updateLargestArmy();
-                
-            } catch (InsufficientSupplies ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {      
+            players.get(playerIndex).getOldDevCards().removeSoldier();
+            players.get(playerIndex).incrementSoldiers();
+
+            updateLargestArmy();
         }
     }
-
     private void updateLargestArmy()
     {
         int oldLargestIndex = turnTracker.getLargestArmy();
@@ -1348,6 +1320,7 @@ public class Model {
         }
         
         this.turnTracker.setLongestRoad(determineLongestRoad());
+        checkWinner();
     }
     
     /**
@@ -1403,19 +1376,15 @@ public class Model {
      * @param secondResource
      */
     public void playYearOfPlenty(PlayYearOfPlentyRequest request) {
-        version++;
         int playerIndex = request.getPlayerIndex();
         ResourceType firstResource = request.getResource1();
         ResourceType secondResource = request.getResource2();
         if (isPlayersTurn(playerIndex)&&canPlayYearOfPlenty(playerIndex)) {
-            try {
-                players.get(playerIndex).oldDevCards.removeYearOfPlenty();
-                players.get(playerIndex).resources.addResource(firstResource, 1);
-                players.get(playerIndex).resources.addResource(secondResource, 1);
-            } catch (InsufficientSupplies ex) {
-                Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            players.get(playerIndex).getOldDevCards().removeYearOfPlenty();
+            players.get(playerIndex).getResources().addResource(firstResource, 1);
+            players.get(playerIndex).getResources().addResource(secondResource, 1);
         }
+        version++;
     }
 
     /**
@@ -1428,8 +1397,8 @@ public class Model {
     public void robPlayer(RobPlayerRequest robPlayerRequest) {
         int robberIndex = robPlayerRequest.getPlayerIndex();
         int victimIndex = robPlayerRequest.getVictimIndex();
-        ResourceType robbed = players.get(victimIndex).resources.robResource();
-        players.get(robberIndex).resources.addResource(robbed, 1);
+        ResourceType robbed = players.get(victimIndex).getResources().robResource();
+        players.get(robberIndex).getResources().addResource(robbed, 1);
         
         turnTracker.setStatus(TurnStatus.PLAYING);
         
@@ -1626,6 +1595,14 @@ public class Model {
             }
         }
         return null;
+    }
+    
+    public void checkWinner() {
+    	for(Player player: players) {
+    		if (player.getVictoryPoints() >= 10) {
+    			this.winner=player.playerIndex;
+    		}
+    	}
     }
 
 }

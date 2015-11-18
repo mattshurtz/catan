@@ -387,5 +387,37 @@ public class Player {
         }
         return true;
     }    
+
+    public void buyDevCard() {
+        resources.buyDevCard();
+    }
+
+    public void giveDevCard(DevCardType purchased) {
+        if(purchased != DevCardType.MONUMENT) {
+            newDevCards.addDevCard(purchased);
+        }
+        else {
+            oldDevCards.addDevCard(purchased);
+        } 
+    }
+
+    public void finishTurn() {
+        combineDevCardLists();
+    }
     
+    private void combineDevCardLists()
+    {
+        oldDevCards.setMonopoly(oldDevCards.getMonopoly() + newDevCards.getMonopoly());
+        oldDevCards.setMonument(oldDevCards.getMonument() + newDevCards.getMonument());
+        oldDevCards.setRoadBuilding(oldDevCards.getRoadBuilding() + newDevCards.getRoadBuilding());
+        oldDevCards.setSoldier(oldDevCards.getSoldier() + newDevCards.getSoldier());
+        oldDevCards.setYearOfPlenty(oldDevCards.getYearOfPlenty() + newDevCards.getYearOfPlenty());
+        
+        newDevCards = new DevCardList();
+    }
+
+    void playMonument() {
+        incrementVictoryPoints();
+        oldDevCards.removeMonument();
+    }
 }
