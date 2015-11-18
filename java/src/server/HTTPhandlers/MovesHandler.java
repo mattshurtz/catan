@@ -7,6 +7,9 @@ package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+
+import server.facade.IServerFacade;
+
 import java.io.IOException;
 import java.net.URI;
 import java.util.logging.Level;
@@ -19,8 +22,8 @@ import shared.exceptions.HTTPBadRequest;
  */
 public class MovesHandler extends catanHTTPHandler {
 
-	public MovesHandler() {
-		super();
+	public MovesHandler(IServerFacade facade) {
+		super(facade);
 	}
     
 	@Override

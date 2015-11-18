@@ -7,6 +7,7 @@ package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import server.facade.IServerFacade;
 import shared.exceptions.HTTPBadRequest;
 import java.io.IOException;
 import java.net.URI;
@@ -18,8 +19,8 @@ import java.net.URI;
  */
 public class UserHandler extends catanHTTPHandler{
 
-	public UserHandler() {
-		super();
+	public UserHandler(IServerFacade facade) {
+		super(facade);
 	}
 	
 	@Override

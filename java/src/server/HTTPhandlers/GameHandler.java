@@ -8,6 +8,7 @@ package server.HTTPhandlers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import server.facade.IServerFacade;
 import shared.exceptions.HTTPBadRequest;
 
 import java.io.IOException;
@@ -19,7 +20,13 @@ import java.net.URI;
  */
 public class GameHandler extends catanHTTPHandler {
 
-    @Override
+	
+	
+    public GameHandler(IServerFacade facade) {
+		super(facade);
+	}
+
+	@Override
     public void handle(HttpExchange exchange) throws IOException {
 		//System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
 		

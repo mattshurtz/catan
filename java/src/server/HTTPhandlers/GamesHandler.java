@@ -7,6 +7,8 @@ package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
 
+import server.facade.IServerFacade;
+
 import java.io.IOException;
 import java.net.URI;
 import shared.exceptions.HTTPBadRequest;
@@ -19,8 +21,8 @@ public class GamesHandler extends catanHTTPHandler {
 
 	
 	
-	public GamesHandler() {
-		super();
+	public GamesHandler(IServerFacade facade) {
+		super(facade);
 	}
 	
 	@Override
