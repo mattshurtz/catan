@@ -25,7 +25,7 @@ public abstract class VertexObject{
    private VertexLocation location;  
    private ArrayList<Hex> hexes;
 
-    public VertexObject(int owner, VertexLocation location, ArrayList<Hex> hexes) {
+    public VertexObject(int owner, VertexLocation location) {
         super();
         this.owner = owner;
         this.location = location;

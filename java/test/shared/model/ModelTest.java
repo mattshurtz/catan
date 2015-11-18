@@ -214,29 +214,21 @@ public class ModelTest {
 
 		Port portNine = new Port(PortType.SHEEP, EdgeDirection.NorthWest, new HexLocation(3, -1));
 
-		Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		Settlement sOne = new Settlement(3, new VertexLocation(new HexLocation(-1, 1), VertexDirection.SouthWest));
 
-		Settlement sTwo = new Settlement(3, new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthEast),
-				new ArrayList<Hex>());
+		Settlement sTwo = new Settlement(3, new VertexLocation(new HexLocation(1, -2), VertexDirection.SouthEast));
 
-		Settlement sThree = new Settlement(2, new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		Settlement sThree = new Settlement(2, new VertexLocation(new HexLocation(0, 0), VertexDirection.SouthWest));
 
-		Settlement sFour = new Settlement(2, new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		Settlement sFour = new Settlement(2, new VertexLocation(new HexLocation(1, -1), VertexDirection.SouthWest));
 
-		Settlement sFive = new Settlement(1, new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		Settlement sFive = new Settlement(1, new VertexLocation(new HexLocation(-2, 1), VertexDirection.SouthWest));
 
-		Settlement sSix = new Settlement(0, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast),
-				new ArrayList<Hex>());
+		Settlement sSix = new Settlement(0, new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast));
 
-		Settlement sSeven = new Settlement(0, new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		Settlement sSeven = new Settlement(0, new VertexLocation(new HexLocation(2, 0), VertexDirection.SouthWest));
 
-		City cOne = new City(1, new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest),
-				new ArrayList<Hex>());
+		City cOne = new City(1, new VertexLocation(new HexLocation(-1, -1), VertexDirection.SouthWest));
 
 		CatanMap toyMap = new CatanMap();
 
@@ -1010,17 +1002,17 @@ public class ModelTest {
             // This should be false because 0 is the current player as shown
             assertEquals(instance.getTurnTracker().getCurrentTurn(),0);
             CatanFacade.setMyPlayerIndex(1);
-            assertFalse(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
+            assertFalse(instance.canRoll( CatanFacade.getMyPlayerIndex() ));
             //Now we set the CatanFacade player to the player whose turn it is
             // this test will pass because the currentplayer is player 0
             CatanFacade.setMyPlayerIndex(0);
             assertEquals(CatanFacade.getMyPlayerIndex(),0);
-            assertTrue(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
+            assertTrue(instance.canRoll( CatanFacade.getMyPlayerIndex() ));
             
             //Test that it fails if the status is not rolling
             instance.getTurnTracker().setStatus(TurnStatus.ROBBING);
             assertEquals(instance.getTurnTracker().getStatus(),TurnStatus.ROBBING);
-            assertFalse(instance.canRollNumber( CatanFacade.getMyPlayerIndex() ));
+            assertFalse(instance.canRoll( CatanFacade.getMyPlayerIndex() ));
             
         }
         

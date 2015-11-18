@@ -659,6 +659,7 @@ public class CatanMap {
     }
 
     public void addCity(City city) {
+        settlements.remove( indexOfSettlementAt( city.getLocation() ) );
         cities.add(city);
     }
 
@@ -669,7 +670,20 @@ public class CatanMap {
     public void addSettlement(Settlement settlement) {
         settlements.add(settlement);
     }
+
+    public void makeCityAt(VertexLocation vertexLocation, int ownder ) {
+        // Remove settlement at that location & add city there
+        
+        cities.add( new City(ownder, vertexLocation));
+    }
     
+    private int indexOfSettlementAt( VertexLocation loc ) {
+        for ( int i = 0; i < settlements.size(); i++ ) {
+            if ( settlements.get(i).getLocation().equals( loc ) ) {
+                return i;
+            }
+        }
+        return -1;
+    }
     
-      
 }

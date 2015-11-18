@@ -14,8 +14,8 @@ public class City extends VertexObject{
 
     public final int VICTORY_POINTS = 2;
 
-    public City(int owner, VertexLocation location, ArrayList<Hex> hexes) {
-        super(owner, location, hexes);
+    public City(int owner, VertexLocation location) {
+        super(owner, location);
     }
    
     /**

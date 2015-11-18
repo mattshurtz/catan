@@ -22,12 +22,12 @@ public class buildCity extends Command{
         if(isUserInGame(gameID,user)){
             BuildCityRequest buildCityRequest = (BuildCityRequest)this.getDeserializer().toClass(BuildCityRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.buildCity(buildCityRequest);
+            currentModel.buildCity( buildCityRequest );
             
             this.addHistoryMessage(gameID, "built a city", user);
             
             return this.getSerializer().toJson(currentModel);
-        }else{
+        } else {
             return null;
         }
     }

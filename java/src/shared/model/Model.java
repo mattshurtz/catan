@@ -138,7 +138,7 @@ public class Model {
      * players accordingly.
      */
     public boolean acceptTrade(AcceptTradeRequest request) {
-        
+        version++;
         ResourceList recipientResources = players.get(tradeOffer.getReceiver()).getResources();
         ResourceList offererResources = players.get(tradeOffer.getSender()).getResources();
         
@@ -169,7 +169,6 @@ public class Model {
             bank.subtractResource(receive, 1);
             version++;
         }
-
         return false;
     }
 
@@ -183,15 +182,14 @@ public class Model {
      * @param playerIndex used to identify the player building this settlement
      */
     public void buildCity(BuildCityRequest buildCityRequest) {
+        version++;
         VertexLocation location = buildCityRequest.getVertexLocation();
         int playerIndex = buildCityRequest.getPlayerIndex();
-        //remove settlement to settlement list
         
-        
-        //add city to city list
+        // Decrement player's cities
         if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
             players.get(playerIndex).buildCity();
-            catanMap.addCity(new City(playerIndex,location,null));
+            catanMap.addCity(new City(playerIndex,location));
             version++;
         }
     }
@@ -204,6 +202,7 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
+        version++;
         if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
@@ -303,6 +302,7 @@ public class Model {
      * @param playerIndex is used to identify the player playing the road
      */
     public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
+        version++;
         int playerIndex = buildSettlementRequest.getPlayerIndex();
         VertexLocation location = buildSettlementRequest.getVertexLocation().getNormalizedLocation();
         if (canBuildSettlement(location) && isPlayersTurn(playerIndex)) {
@@ -313,7 +313,7 @@ public class Model {
                     }
                     
                     players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
-                    catanMap.addSettlement( new Settlement( playerIndex, location, null ));
+                    catanMap.addSettlement( new Settlement( playerIndex, location ));
                 }
                 version++;
             }
@@ -364,6 +364,7 @@ public class Model {
      * @param playerIndex
      */
     public void buyDevCard(MoveRequest moveRequest) {
+        version++;
         int playerIndex = moveRequest.getPlayerIndex();
         if (canBuyDevCard(playerIndex)) {
             players.get(playerIndex).getResources().buyDevCard();
@@ -644,7 +645,7 @@ public class Model {
     /**
      * returns true if its the players turn and turn status is ROLLING
      */
-    public boolean canRollNumber(int myPlayerIndex) {
+    public boolean canRoll(int myPlayerIndex) {
         if (myPlayerIndex == getTurnTracker().getCurrentTurn()
                 && getTurnTracker().getStatus() == TurnStatus.ROLLING) {
             return true;
@@ -662,12 +663,24 @@ public class Model {
      */
     public void discardCards(DiscardCardsRequest discardRequest) {
         Player player = players.get(discardRequest.getPlayerIndex());
-        if (isPlayersTurn(discardRequest.getPlayerIndex())
-                && canDiscardCards(discardRequest.getPlayerIndex())
+        if ( canDiscardCards( discardRequest.getPlayerIndex() )
                 && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
             player.getResources().discardResources(discardRequest.getDiscardedCards());
         }
-
+        // If everyone has discarded, change the turn status from Discarding to Robbing
+        if ( everyoneFinishedDiscarding() ){
+            turnTracker.setStatus(TurnStatus.ROBBING);
+        }
+        version++;
+    }
+    
+    private boolean everyoneFinishedDiscarding() {
+        for ( Player p : players ) {
+            if ( ! p.isDiscarded() ) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -1204,6 +1217,7 @@ public class Model {
             tradeOffer.setOffer(tradeOfferRequest.getOffer());
             tradeOffer.setReceiver(tradeOfferRequest.getReceiver());
             tradeOffer.setSender(sender);
+            version++;
             return true;
         }
         return false;
@@ -1219,6 +1233,7 @@ public class Model {
      */
     public void playMonopoly(PlayMonopolyRequest request) {
         try {
+            version++;
             int playerIndex = request.getPlayerIndex();
             ResourceType resource = request.getResource();
             if (canPlayMonopoly(playerIndex) && isPlayersTurn(playerIndex)) {
@@ -1243,6 +1258,7 @@ public class Model {
      * @param playerIndex the player playing the monument card.
      */
     public void playMonument(MoveRequest request) {
+        version++;
         int playerIndex = request.getPlayerIndex();
 
         try {
@@ -1262,6 +1278,7 @@ public class Model {
      * @param playerIndex
      */
     public void playRoadBuilding(PlayRoadBuildingRequest request) {
+        version++;
         int playerIndex = request.getPlayerIndex();
 
         try {
@@ -1287,6 +1304,7 @@ public class Model {
      * @param playerIndex
      */
     public void playSoldier(MoveRequest moveRequest) {
+        version++;
         int playerIndex = moveRequest.getPlayerIndex();
         if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {
             try {
@@ -1384,6 +1402,7 @@ public class Model {
      * @param secondResource
      */
     public void playYearOfPlenty(PlayYearOfPlentyRequest request) {
+        version++;
         int playerIndex = request.getPlayerIndex();
         ResourceType firstResource = request.getResource1();
         ResourceType secondResource = request.getResource2();
@@ -1410,6 +1429,10 @@ public class Model {
         int victimIndex = robPlayerRequest.getVictimIndex();
         ResourceType robbed = players.get(victimIndex).resources.robResource();
         players.get(robberIndex).resources.addResource(robbed, 1);
+        
+        turnTracker.setStatus(TurnStatus.PLAYING);
+        
+        version++;
     }
 
     /**
@@ -1419,13 +1442,26 @@ public class Model {
     public boolean rollNumber(RollNumberRequest rollNumberRequest) {
         int rolledNumber = rollNumberRequest.getNumber();
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
-        if (rolledNumber > 1 && rolledNumber < 13 && canRollNumber(myPlayerIndex)) {
+        version++;
+        if (rolledNumber > 1 && rolledNumber < 13 && rolledNumber != 7 && canRoll(myPlayerIndex)) {
             distributeResources(rolledNumber);
             turnTracker.setStatus(TurnStatus.PLAYING);
-            version++;
             return true;
+        } else if ( rolledNumber == 7 && canRoll(myPlayerIndex) ) {
+            everyoneDiscard();
         }
         return false;
+    }
+    
+    private void everyoneDiscard() {
+        // Set turn status to discard & everyone's hasDiscarded to false
+        this.turnTracker.setStatus( TurnStatus.DISCARDING );
+        for ( Player p : this.players ) {
+            if ( canDiscardCards(p.getPlayerIndex()) )
+                p.setDiscarded(false);
+            else
+                p.setDiscarded(true);
+        }
     }
 
     /**

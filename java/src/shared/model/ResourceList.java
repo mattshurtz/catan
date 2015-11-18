@@ -419,9 +419,9 @@ public class ResourceList {
         addToRobbableResouces(ResourceType.SHEEP, robbableResources);
         
         Random rand = new Random();
-        int randomNum = rand.nextInt((100 - 0) + 1);
+        int randomNum = rand.nextInt( robbableResources.size() );
         
-        ResourceType robbed = robbableResources.get(randomNum%robbableResources.size());
+        ResourceType robbed = robbableResources.get( randomNum );
         this.subtractResource(robbed, 1);
         return robbed;
     }

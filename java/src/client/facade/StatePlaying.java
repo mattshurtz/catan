@@ -37,7 +37,7 @@ public class StatePlaying extends StateBase {
 
     @Override
     public boolean canRollNumber() {
-        return model.canRollNumber(CatanFacade.getMyPlayerIndex());
+        return model.canRoll(CatanFacade.getMyPlayerIndex());
     }
 
     @Override

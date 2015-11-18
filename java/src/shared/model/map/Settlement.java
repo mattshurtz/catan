@@ -19,20 +19,8 @@ public class Settlement extends VertexObject{
 
     public final int VICTORY_POINTS = 1;
 
-    public Settlement(int owner, VertexLocation location, ArrayList<Hex> hexes) {
-        super(owner, location, hexes);
-        // TODO Auto-generated constructor stub
+    public Settlement(int owner, VertexLocation location) {
+        super(owner, location);
     }
 
-    /**
-     * @param rolledNumber - int not equal to 7
-     * @param robber - location of robber - disbales resource distribution
-     */
-    public void distributeResources(int rolledNumber, HexLocation robber)
-    {
-    	
-    }
-    
-    
- 
 }
