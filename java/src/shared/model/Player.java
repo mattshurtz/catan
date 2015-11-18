@@ -416,8 +416,12 @@ public class Player {
         newDevCards = new DevCardList();
     }
 
-    void playMonument() {
+    public void playMonument() {
         incrementVictoryPoints();
         oldDevCards.removeMonument();
+    }
+
+    public void giveResources(ResourceList resourceList) {
+       resources.addResources(resourceList);
     }
 }

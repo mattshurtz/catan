@@ -10,8 +10,10 @@ import client.data.RobPlayerInfo;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -1439,12 +1441,129 @@ public class Model {
         version++;
         if (rolledNumber > 1 && rolledNumber < 13 && rolledNumber != 7 && canRoll(myPlayerIndex)) {
             distributeResources(rolledNumber);
+            
             turnTracker.setStatus(TurnStatus.PLAYING);
             return true;
         } else if ( rolledNumber == 7 && canRoll(myPlayerIndex) ) {
             everyoneDiscard();
         }
         return false;
+    }
+    
+    private HashMap<Integer, ResourceList> adjustPlayerDistribution(HashMap<Integer, ResourceList> needed, ResourceList canGive) {
+        boolean canBrick = true;
+        boolean canSheep = true;
+        boolean canOre = true;
+        boolean canWheat = true;
+        boolean canWood = true;
+        
+        if(canGive.getBrick() == 0) {
+            canBrick = false;
+        }
+        if(canGive.getSheep() == 0) {
+            canSheep = false;
+        }
+        if(canGive.getOre() == 0) {
+            canOre = false;
+        }
+        if(canGive.getWheat() == 0) {
+            canWheat = false;
+        }
+        if(canGive.getWood() == 0) {
+            canWood = false;
+        }
+        
+        //make changes
+        for(ResourceList list : needed.values()) {
+            if(!canBrick) {
+                list.setBrick(0);
+            }
+            if(!canSheep) {
+                list.setSheep(0);
+            }
+            if(!canOre) {
+                list.setOre(0);
+            }
+            if(!canWheat) {
+                list.setWheat(0);
+            }
+            if(!canWood) {
+                list.setWood(0);
+            }
+        }
+        
+        return needed;
+    }
+    
+    private ResourceList adjustForAvailability(ResourceList totalNeeded)
+    {
+        if(totalNeeded.getBrick() > bank.getBrick()) {
+            totalNeeded.setBrick(0);
+        }
+        if(totalNeeded.getSheep() > bank.getSheep()) {
+            totalNeeded.setSheep(0);
+        }
+        if(totalNeeded.getOre() > bank.getOre()) {
+            totalNeeded.setOre(0);
+        }
+        if(totalNeeded.getWheat() > bank.getWheat()) {
+            totalNeeded.setWheat(0);
+        }
+        if(totalNeeded.getWood() > bank.getWood()) {
+            totalNeeded.setWood(0);
+        }
+        
+        return totalNeeded;
+    }
+    
+    private ResourceList addNeeded(HashMap<Integer,ResourceList> needed)
+    {
+        ResourceList totals = new ResourceList();
+        
+        int bricks = 0;
+        int sheeps = 0;
+        int ores = 0;
+        int wheats = 0;
+        int woods = 0;        
+        
+        for(ResourceList list : needed.values())
+        {
+            bricks += list.getBrick();
+            sheeps += list.getSheep();
+            ores += list.getOre();
+            wheats += list.getWheat();
+            woods += list.getWood();
+        }
+        
+        totals.setBrick(bricks);
+        totals.setSheep(sheeps);
+        totals.setOre(ores);
+        totals.setWheat(wheats);
+        totals.setWood(woods);
+        
+        return totals;
+    }
+    
+    private HashMap<Integer, ResourceList> determineResourcesForDistribution(int rolledNum) {
+        HashMap<Integer, ResourceList> needed = new HashMap<Integer, ResourceList>(players.size());
+        
+        for (Hex hex : catanMap.getHexes()) {
+            if (hex.getNumber() == rolledNum && !hex.getLocation().equals(catanMap.getRobber())) {
+                ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
+                for (VertexObject building : catanMap.getCitiesAndSettlements()) {
+                    if (validOwnerLocations.contains(building.getLocation().getNormalizedLocation())) {
+                        int ownerIndex = building.getOwner();
+                        if (building instanceof City) {
+                            needed.get(ownerIndex).addResource(hex.getResourceType(), 2);
+                        } else {
+                            needed.get(ownerIndex).addResource(hex.getResourceType(), 1);
+                        }
+                    }
+                }  
+            }
+        }
+        
+        return needed;
     }
     
     private void everyoneDiscard() {
@@ -1468,25 +1587,29 @@ public class Model {
     /**
      * @param rolledNumber - int not equal to 7
      */
-    public void distributeResources(int rolledNumber){
-        for (Hex hex : catanMap.getHexes()) {
-            if (hex.getNumber() == rolledNumber&& !hex.getLocation().equals(catanMap.getRobber())) {
-                for (Player player : players) {
-                    for (VertexObject building : catanMap.getCitiesAndSettlements()) {
-                        ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
-                        if (validOwnerLocations.contains(building.getLocation().getNormalizedLocation()) && building.getOwner() == player.getPlayerIndex()) {
-                            if (building instanceof City) {
-                                player.getResources().addResource(hex.getResourceType(), 2);
-                            } else {
-                                player.getResources().addResource(hex.getResourceType(), 1);
-                            }
-                        }
-                    }
-                }
-            }
+    public void distributeToPlayers(HashMap<Integer, ResourceList> distributing) {
+        for(Map.Entry<Integer, ResourceList> entry : distributing.entrySet()) {
+            players.get(entry.getKey()).giveResources(entry.getValue());
         }
     }
-
+    
+    public void distributeResources(int rolledNum) {
+        //check if valid
+        HashMap<Integer, ResourceList> needed = determineResourcesForDistribution(rolledNum);
+        //check if bank can give all of these
+        ResourceList totalNeeded = addNeeded(needed);
+        ResourceList canGive = adjustForAvailability(totalNeeded);
+        //adjust what to give to each player accordingly
+        needed = adjustPlayerDistribution(needed, canGive);
+        //distribute resources
+        distributeToPlayers(needed);   
+        reduceResources(canGive);
+    }
+    
+    public void reduceResources(ResourceList distributed) {
+        bank.subtractResources(distributed);
+    }
+    
     /**
      * Posts a chat message to the chat list.
      *

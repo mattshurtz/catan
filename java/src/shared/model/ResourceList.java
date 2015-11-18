@@ -456,4 +456,11 @@ public class ResourceList {
         ore++;
         sheep++;              
     }
+
+    public void subtractResources(ResourceList list) {
+        subtractResource(ResourceType.BRICK,list.brick);
+        subtractResource(ResourceType.WHEAT,list.wheat);
+        subtractResource(ResourceType.ORE,list.ore);
+        subtractResource(ResourceType.WOOD,list.wood);
+        subtractResource(ResourceType.SHEEP,list.sheep);    }
 }
