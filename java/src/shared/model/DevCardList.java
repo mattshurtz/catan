@@ -334,21 +334,27 @@ public class DevCardList {
         {
             case MONOPOLY: {
                 AddMonopoly();
+                break;
             }
             case MONUMENT: {
                 AddMonument();
+                break;
             }
             case SOLDIER: {
                 AddSoldier();
+                break;
             }
             case ROAD_BUILD: {
                 AddRoadBuilding();
+                break;
             }
             case YEAR_OF_PLENTY: {
                 AddYearOfPlenty();
+                break;
             }
             default: {
                System.out.println("INVALID DEV CARD TYPE.");
+               break;
             }
         }
     }

@@ -374,7 +374,6 @@ public class Model {
      * @param playerIndex
      */
     public void buyDevCard(MoveRequest moveRequest) {
-        version++;
         int playerIndex = moveRequest.getPlayerIndex();
         if (canBuyDevCard(playerIndex)) {
             players.get(playerIndex).buyDevCard();
@@ -385,6 +384,7 @@ public class Model {
             
             players.get(playerIndex).giveDevCard(purchased);
             
+            version++;
         }
     }
 
