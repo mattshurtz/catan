@@ -145,7 +145,7 @@ public class Model {
         ResourceList offererResources = players.get(tradeOffer.getSender()).getResources();
         
         if(recipientResources.hasResources(tradeOffer.getReceiveResources())&&
-        offererResources.hasResources(tradeOffer.getSendResources())){
+        offererResources.hasResources(tradeOffer.getSendResources()) && request.isWillAccept()){
            
            recipientResources.addResources(tradeOffer.getSendResources());
            recipientResources.discardResources(tradeOffer.getReceiveResources());
