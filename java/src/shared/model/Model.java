@@ -1403,6 +1403,7 @@ public class Model {
     public void robPlayer(RobPlayerRequest robPlayerRequest) {
         int robberIndex = robPlayerRequest.getPlayerIndex();
         int victimIndex = robPlayerRequest.getVictimIndex();
+        this.getMap().setRobber(robPlayerRequest.getLocation());
         ResourceType robbed = players.get(victimIndex).getResources().robResource();
         players.get(robberIndex).getResources().addResource(robbed, 1);
         turnTracker.setStatus(TurnStatus.PLAYING);

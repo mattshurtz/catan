@@ -87,12 +87,8 @@ public class DevCardListTest {
         System.out.println("removeMonopoly");
         DevCardList instance = new DevCardList();
         instance.setMonopoly(1);
-        try {
-			instance.removeMonopoly();
-			assertEquals(0,instance.getMonopoly());
-		} catch (InsufficientSupplies e) {
-			fail();
-		}
+        instance.removeMonopoly();
+		assertEquals(0,instance.getMonopoly());
     }
 
     /**
@@ -152,11 +148,8 @@ public class DevCardListTest {
     public void testRemoveRoadBuilding_0available_throwError() {
         System.out.println("removeRoadBuilding");
         DevCardList instance = new DevCardList();
-        try {
-			instance.removeRoadBuilding();
-			fail();
-		} catch (InsufficientSupplies e) {
-		}
+        instance.removeRoadBuilding();
+		fail();
         
     }
     
@@ -168,12 +161,8 @@ public class DevCardListTest {
         System.out.println("removeRoadBuilding");
         DevCardList instance = new DevCardList();
         instance.AddRoadBuilding();
-        try {
-			instance.removeRoadBuilding();
-			assertEquals(0, instance.getRoadBuilding());
-		} catch (InsufficientSupplies e) {
-			fail();
-		}
+        instance.removeRoadBuilding();
+		assertEquals(0, instance.getRoadBuilding());
         
     }
 
@@ -209,12 +198,8 @@ public class DevCardListTest {
     public void testRemoveSoldier_0available_throwError() {
         System.out.println("removeSoldier");
         DevCardList instance = new DevCardList();
-        try {
-			instance.removeSoldier();
-			fail();
-		} catch (InsufficientSupplies e) {
-			
-		}        
+        instance.removeSoldier();
+		fail();        
     }
     
     /**
@@ -225,12 +210,8 @@ public class DevCardListTest {
         System.out.println("removeSoldier");
         DevCardList instance = new DevCardList();
         instance.setSoldier(1);
-        try {
-			instance.removeSoldier();
-			assertEquals(0,instance.getSoldier());
-		} catch (InsufficientSupplies e) {
-			fail();
-		}        
+        instance.removeSoldier();
+		assertEquals(0,instance.getSoldier());        
     }
 
     /**
@@ -265,12 +246,8 @@ public class DevCardListTest {
     public void testRemoveYearOfPlenty_0available_throwError() {
         System.out.println("removeYearOfPlenty");
         DevCardList instance = new DevCardList();
-        try {
-			instance.removeYearOfPlenty();
-			fail();
-		} catch (InsufficientSupplies e) {
-			
-		}
+        instance.removeYearOfPlenty();
+		fail();
     }
     
     /**
@@ -281,12 +258,8 @@ public class DevCardListTest {
         System.out.println("removeYearOfPlenty");
         DevCardList instance = new DevCardList();
         instance.AddYearOfPlenty();
-        try {
-			instance.removeYearOfPlenty();
-			assertEquals(0,instance.getYearOfPlenty());
-		} catch (InsufficientSupplies e) {
-			fail();
-		}
+        instance.removeYearOfPlenty();
+		assertEquals(0,instance.getYearOfPlenty());
     }
 
     /**
