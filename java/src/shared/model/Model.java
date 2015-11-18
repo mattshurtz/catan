@@ -751,6 +751,7 @@ public class Model {
         if (canFinishTurn(finishTurnRequest.getPlayerIndex())) {
             turnTracker.finishTurn();
             players.get(finishTurnRequest.getPlayerIndex()).finishTurn();
+            players.get(turnTracker.getCurrentTurn()).playedDevCard = false;
             version++;
         }
     }
