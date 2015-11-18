@@ -155,6 +155,8 @@ public class Model {
            version++;
            tradeOffer = null;
            return true;
+        } else {
+        	tradeOffer = null;
         }
         return false;
     }
@@ -212,10 +214,11 @@ public class Model {
 
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
+                bank.payForRoad();
             } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
-            bank.payForRoad();
+            
             catanMap.addRoad(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
             
             updateLongestRoad();
@@ -322,7 +325,9 @@ public class Model {
                     
                     players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
                     catanMap.addSettlement( new Settlement( playerIndex, location ));
-                    bank.payForSettlement();
+                    if (!buildSettlementRequest.isFree()) {
+                    	bank.payForSettlement();
+                    }
                 }
                 checkWinner();
                 version++;
