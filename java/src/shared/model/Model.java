@@ -1235,6 +1235,7 @@ public class Model {
                 }
             }
             players.get(playerIndex).getOldDevCards().removeMonopoly();
+            players.get(playerIndex).playedDevCard = true;
         }
         version++;
     }
@@ -1261,7 +1262,7 @@ public class Model {
      * @param playerIndex
      */
     public void playRoadBuilding(PlayRoadBuildingRequest request) {
-        version++;
+        
         int playerIndex = request.getPlayerIndex();
 
         if (isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex)) {
@@ -1270,8 +1271,9 @@ public class Model {
 
             buildRoad(req1);
             buildRoad(req2);
-
+            players.get(playerIndex).playedDevCard = true;
             players.get(playerIndex).getOldDevCards().removeRoadBuilding();
+            version++;
         } 
     }
 
@@ -1288,7 +1290,7 @@ public class Model {
         if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {      
             players.get(playerIndex).getOldDevCards().removeSoldier();
             players.get(playerIndex).incrementSoldiers();
-
+            players.get(playerIndex).playedDevCard = true;
             updateLargestArmy();
             version++;
 
@@ -1403,7 +1405,6 @@ public class Model {
         int victimIndex = robPlayerRequest.getVictimIndex();
         ResourceType robbed = players.get(victimIndex).getResources().robResource();
         players.get(robberIndex).getResources().addResource(robbed, 1);
-        
         turnTracker.setStatus(TurnStatus.PLAYING);
         
         version++;
