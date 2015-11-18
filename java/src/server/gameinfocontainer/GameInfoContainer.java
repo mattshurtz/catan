@@ -73,17 +73,22 @@ public class GameInfoContainer {
         List<Player> players = gameModel.getPlayers();
         
         //check if player already exists
-        try {
         	//if does update color
-			Player currentPlayer = gameModel.getPlayer(playerId);
-			currentPlayer.setColor(CatanColor.fromString(color));
-		} catch (GetPlayerException e) {
+        boolean changedColor = false;
+            for(Player player: gameModel.getPlayers()){
+                if(player.getPlayerID() == playerId){
+                    player.setColor(CatanColor.fromString(color));
+                    changedColor = true;
+                }
+            }
+            
+		if(!changedColor){
 			//else lets check if we can add player
 			if(gameModel.getPlayers().size() >= 4)
 				return false;
 			String playerName = users.getPlayerName(playerId);
 	        gameModel.addPlayer( color, playerId, playerName );
-		}
+        }
         
         return true;
     }

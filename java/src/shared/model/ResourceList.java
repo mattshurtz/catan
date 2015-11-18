@@ -250,12 +250,12 @@ public class ResourceList {
         subtractResource(ResourceType.SHEEP,discard.sheep);
     }
     
-    public void addResources(ResourceList discard){
-        addResource(ResourceType.BRICK,discard.brick);
-        addResource(ResourceType.WHEAT,discard.wheat);
-        addResource(ResourceType.ORE,discard.ore);
-        addResource(ResourceType.WOOD,discard.wood);
-        addResource(ResourceType.SHEEP,discard.sheep);
+    public void addResources(ResourceList add){
+        addResource(ResourceType.BRICK,add.brick);
+        addResource(ResourceType.WHEAT,add.wheat);
+        addResource(ResourceType.ORE,add.ore);
+        addResource(ResourceType.WOOD,add.wood);
+        addResource(ResourceType.SHEEP,add.sheep);
     }
     
     public boolean canMarritimeTrade(){

@@ -689,7 +689,9 @@ public class Model {
         if ( canDiscardCards( discardRequest.getPlayerIndex() )
                 && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
             player.setDiscarded(true);
+            
             player.getResources().discardResources(discardRequest.getDiscardedCards());
+            bank.addResources(discardRequest.getDiscardedCards());
         }
         // If everyone has discarded, change the turn status from Discarding to Robbing
         if ( everyoneFinishedDiscarding() ){
@@ -1391,9 +1393,14 @@ public class Model {
         ResourceType secondResource = request.getResource2();
         if (isPlayersTurn(playerIndex)&&canPlayYearOfPlenty(playerIndex)) {
             players.get(playerIndex).getOldDevCards().removeYearOfPlenty();
-            players.get(playerIndex).getResources().addResource(firstResource, 1);
-            players.get(playerIndex).getResources().addResource(secondResource, 1);
-
+            if(bank.hasResource(firstResource)){
+                players.get(playerIndex).getResources().addResource(firstResource, 1);
+                bank.subtractResource(firstResource, 1);
+            }
+            if(bank.hasResource(secondResource)){
+                players.get(playerIndex).getResources().addResource(secondResource, 1);
+                bank.subtractResource(secondResource, 1);
+            }
         }
         version++;
     }
