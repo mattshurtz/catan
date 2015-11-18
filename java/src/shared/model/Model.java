@@ -1283,13 +1283,15 @@ public class Model {
      * @param playerIndex
      */
     public void playSoldier(MoveRequest moveRequest) {
-        version++;
+        
         int playerIndex = moveRequest.getPlayerIndex();
         if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {      
             players.get(playerIndex).getOldDevCards().removeSoldier();
             players.get(playerIndex).incrementSoldiers();
 
             updateLargestArmy();
+            version++;
+
         }
     }
     private void updateLargestArmy()
@@ -1376,6 +1378,7 @@ public class Model {
      * @param secondResource
      */
     public void playYearOfPlenty(PlayYearOfPlentyRequest request) {
+
         int playerIndex = request.getPlayerIndex();
         ResourceType firstResource = request.getResource1();
         ResourceType secondResource = request.getResource2();
@@ -1383,6 +1386,7 @@ public class Model {
             players.get(playerIndex).getOldDevCards().removeYearOfPlenty();
             players.get(playerIndex).getResources().addResource(firstResource, 1);
             players.get(playerIndex).getResources().addResource(secondResource, 1);
+
         }
         version++;
     }
