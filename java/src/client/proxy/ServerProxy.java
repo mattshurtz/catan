@@ -123,7 +123,9 @@ public class ServerProxy implements IServerProxy {
     private String doPost( String url_str, Object postParams ) throws ServerException {
         try {
             URL url = new URL( baseUrl() + url_str );
+            System.out.println("Getting connection from URL: " + url.toString());
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            System.out.println("Got connection: " + conn.toString());
             for (String cookie : cookies) {
                 conn.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
             }
@@ -374,9 +376,13 @@ public class ServerProxy implements IServerProxy {
     @Override
     public boolean register(Credentials userCredentials) throws ServerException {
         try {
+        	System.out.println("Getting response...");
             String response = doPost( "user/register", userCredentials );
+            System.out.println("Response: " + response.toString());
             boolean success = toBoolean( response );
+            System.out.println("Success? " + success);
             if ( success ) {
+            	System.out.println("Calling setName for newly registered player...");
                 CatanFacade.getMyPlayerInfo().setName( userCredentials.getUsername() );
             }
             return success;
