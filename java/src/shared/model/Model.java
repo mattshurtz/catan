@@ -191,6 +191,7 @@ public class Model {
         if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
             players.get(playerIndex).buildCity();
             catanMap.addCity(new City(playerIndex,location));
+            checkWinner();
             version++;
         }
     }
@@ -246,6 +247,7 @@ public class Model {
         }
         
         this.turnTracker.setLongestRoad(determineLongestRoad());
+        checkWinner();
     }
     
     /**
@@ -316,6 +318,7 @@ public class Model {
                     players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
                     catanMap.addSettlement( new Settlement( playerIndex, location ));
                 }
+                checkWinner();
                 version++;
             }
             
@@ -1218,6 +1221,7 @@ public class Model {
                     }
                 }
                 players.get(playerIndex).oldDevCards.removeMonopoly();
+                
             }
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -1238,6 +1242,7 @@ public class Model {
             if (isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
                 players.get(playerIndex).incrementVictoryPoints();
                 players.get(playerIndex).oldDevCards.removeMonument();
+                checkWinner();
             }
         } catch (InsufficientSupplies ex) {
             Logger.getLogger(Model.class.getName()).log(Level.SEVERE, null, ex);
@@ -1320,6 +1325,7 @@ public class Model {
         }
         
         this.turnTracker.setLongestRoad(determineLongestRoad());
+        checkWinner();
     }
     
     /**
@@ -1591,6 +1597,14 @@ public class Model {
             }
         }
         return null;
+    }
+    
+    public void checkWinner() {
+    	for(Player player: players) {
+    		if (player.getVictoryPoints() >= 10) {
+    			this.winner=player.playerIndex;
+    		}
+    	}
     }
 
 }
