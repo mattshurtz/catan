@@ -81,7 +81,6 @@ public class main{
 			e.printStackTrace();
 			return;
 		}
-
 		
 		//IServerFacade facade = new MockResponderFacade();
 		IServerFacade facade = new ResponderFacade();

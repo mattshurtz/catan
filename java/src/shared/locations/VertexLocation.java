@@ -66,15 +66,16 @@ public class VertexLocation
 			return false;
 		if(getClass() != obj.getClass())
 			return false;
-		VertexLocation other = (VertexLocation)obj;
-		if(direction != other.direction)
+		VertexLocation other = ((VertexLocation)obj).getNormalizedLocation();
+        VertexLocation thisOne = this.getNormalizedLocation();
+		if(thisOne.direction != other.direction)
 			return false;
-		if(hexLoc == null)
+		if(this.hexLoc == null)
 		{
 			if(other.hexLoc != null)
 				return false;
 		}
-		else if(!hexLoc.equals(other.hexLoc))
+		else if(!thisOne.hexLoc.equals(other.hexLoc))
 			return false;
 		return true;
 	}

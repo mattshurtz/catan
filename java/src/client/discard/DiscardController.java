@@ -22,7 +22,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	private IWaitView waitView;
     private ResourceList discardedCards;
     private int totalDiscardAmount;
-
 	
 	/**
 	 * DiscardController constructor
@@ -33,7 +32,6 @@ public class DiscardController extends Controller implements IDiscardController,
 	 *
 	 */
 	public DiscardController(IDiscardView view, IWaitView waitView) {
-		
 		super(view);
 		CatanFacade.addObserver( this );
 		discardedCards = new ResourceList();
@@ -41,24 +39,14 @@ public class DiscardController extends Controller implements IDiscardController,
 	}
 
 	public IDiscardView getDiscardView() {
-        //discardedCards = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex()).getResources();
-
-		
 		IDiscardView view =  (IDiscardView)super.getView();			
-		
-		
 		view.setDiscardButtonEnabled(false);		
-		
 		return view;
-        //return null;
-		
-		//return (IDiscardView)super.getView();
 	}
 	
 	public IWaitView getWaitView() {
 		return waitView;
 	}
-
 	
 	/**
 	 * add recource to a list to be discarded
@@ -159,7 +147,7 @@ public class DiscardController extends Controller implements IDiscardController,
 			//Get current player find out how many cards they need to discard (half of their hand, rounding up)
 			Player player = CatanFacade.getModel().getPlayer(CatanFacade.getMyPlayerIndex());
 			int playerResources = player.getResources().getTotalResources();
-			if (playerResources > 7) {
+			if ( playerResources > 7 && !player.isDiscarded() ) {
 				getDiscardView().setResourceMaxAmount(ResourceType.BRICK, player.getResources().getBrick());
 				getDiscardView().setResourceMaxAmount(ResourceType.ORE, player.getResources().getOre());
 				getDiscardView().setResourceMaxAmount(ResourceType.SHEEP, player.getResources().getSheep());
@@ -170,10 +158,12 @@ public class DiscardController extends Controller implements IDiscardController,
 				
 				updateAllButtons();
 			
-				getDiscardView().showModal();
+				if ( !getDiscardView().isModalShowing() )
+                    getDiscardView().showModal();
 			} else {
 				getWaitView().setMessage("Waiting for other players to discard");
-				getWaitView().showModal();
+				if ( !getWaitView().isModalShowing() )
+                    getWaitView().showModal();
 			}
 		} catch (GetPlayerException e) {
 			// TODO Auto-generated catch block

@@ -60,12 +60,16 @@ public class RollController extends Controller implements IRollController, Obser
 	public void rollDice() {		
         try {
             rollTimer.cancel();
+            
+            if ( getRollView().isModalShowing() ){
+                getRollView().closeModal();
+            }
+            
             getResultView().setRollValue(CatanFacade.getCurrentState().rollNumber());
         } catch (ServerException ex) {
             Logger.getLogger(RollController.class.getName()).log(Level.SEVERE, null, ex);
         }
         getResultView().showModal();
-
 	}
 
     @Override
@@ -79,8 +83,10 @@ public class RollController extends Controller implements IRollController, Obser
                 new java.util.TimerTask() {
                     @Override
                     public void run() {
-                        getRollView().closeModal();
-                        rollDice();
+                        if ( getRollView().isModalShowing() ) {
+                            getRollView().closeModal();
+                            rollDice();
+                        }
                     }
                 }, 
                 4000 // 4 seconds = 4000 millis
