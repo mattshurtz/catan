@@ -81,9 +81,8 @@ public class main{
 			e.printStackTrace();
 			return;
 		}
-
 		
-		IServerFacade facade = new MockResponderFacade();
+		IServerFacade facade = new ResponderFacade();
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 

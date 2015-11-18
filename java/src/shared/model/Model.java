@@ -665,6 +665,7 @@ public class Model {
         Player player = players.get(discardRequest.getPlayerIndex());
         if ( canDiscardCards( discardRequest.getPlayerIndex() )
                 && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
+            player.setDiscarded(true);
             player.getResources().discardResources(discardRequest.getDiscardedCards());
         }
         // If everyone has discarded, change the turn status from Discarding to Robbing
@@ -1455,13 +1456,20 @@ public class Model {
     
     private void everyoneDiscard() {
         // Set turn status to discard & everyone's hasDiscarded to false
-        this.turnTracker.setStatus( TurnStatus.DISCARDING );
+        boolean someoneDiscarding = false;
         for ( Player p : this.players ) {
-            if ( canDiscardCards(p.getPlayerIndex()) )
+            if ( canDiscardCards(p.getPlayerIndex()) ) {
                 p.setDiscarded(false);
-            else
+                someoneDiscarding = true;
+            } else {
                 p.setDiscarded(true);
+            }
         }
+        
+        if ( someoneDiscarding )
+            this.turnTracker.setStatus( TurnStatus.DISCARDING );
+        else
+            this.turnTracker.setStatus( TurnStatus.ROBBING );
     }
 
     /**
