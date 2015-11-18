@@ -18,6 +18,7 @@ import server.HTTPhandlers.GamesHandler;
 import server.HTTPhandlers.MovesHandler;
 import server.HTTPhandlers.UserHandler;
 import server.facade.IServerFacade;
+import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
 
 import java.io.IOException;
@@ -82,7 +83,7 @@ public class main{
 		}
 
 		
-		IServerFacade facade = new ResponderFacade();
+		IServerFacade facade = new MockResponderFacade();
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 

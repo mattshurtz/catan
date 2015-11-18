@@ -47,6 +47,7 @@ public class MovesHandler extends catanHTTPHandler {
                 String result = this.sendToFacade(newCommand, content, gameId, playerId);
                 
                 if(result != null) {
+                	this.setJsonHeader(exchange);
                 	this.sendResponseBody(exchange, result);	
                 } else {
                     throw new HTTPBadRequest("Invalid Arguments");
@@ -54,7 +55,7 @@ public class MovesHandler extends catanHTTPHandler {
  
             } catch (HTTPBadRequest e) {
                 setBadRequest(exchange,e.getMessage());
-		System.out.println(e.getMessage());            
+                System.out.println(e.getMessage());            
             } finally {
                 exchange.getResponseBody().close();
             }

@@ -47,7 +47,7 @@ public class ResourceListTest {
     @Test
     public void testCanAcceptTrade_yes() {
         System.out.println("canAcceptTrade");
-        ResourceList accept = new ResourceList(1,0,0,0,0);
+        ResourceList accept = new ResourceList(-1,0,0,0,0);
         ResourceList instance = new ResourceList(1,0,0,0,0);
         boolean expResult = true;
         boolean result = instance.canAcceptTrade(accept);
@@ -60,7 +60,7 @@ public class ResourceListTest {
     @Test
     public void testCanAcceptTrade_no() {
         System.out.println("canAcceptTrade");
-        ResourceList accept = new ResourceList(1,0,0,0,0);
+        ResourceList accept = new ResourceList(-1,0,0,0,0);
         ResourceList instance = new ResourceList(0,1,1,1,1);
         boolean expResult = false;
         boolean result = instance.canAcceptTrade(accept);

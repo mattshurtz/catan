@@ -35,7 +35,7 @@ public class MockResponderFacade implements IServerFacade {
     	case "games.create":            
             CreateGameResponse response = new CreateGameResponse();
             response.setTitle( "TITLE" );
-            response.setId(5);
+            response.setId(0);
             List<EmptyPlayerResponse> epr = new ArrayList<>();
             for (int i = 0; i < 4; i++ )
                 epr.add( new EmptyPlayerResponse() );
@@ -43,7 +43,7 @@ public class MockResponderFacade implements IServerFacade {
             returnValue = new Serializer().toJson(response);
     		break;
     	case "games.join":
-    		returnValue = "catan.game=" + 5 + "%7D;Path=/;";
+    		returnValue = "catan.game=" + 0 + "%7D;Path=/;";
     		break;
     	case "games.list":
     		List<GameResponse> list = new ArrayList<>();
@@ -88,7 +88,7 @@ public class MockResponderFacade implements IServerFacade {
     	default:
     		throw new HTTPBadRequest("Command not recognized");
     	}
-    	
+    	System.out.println("Mock Facade Returned - " + returnValue);
     	return returnValue;
     }    
 }

@@ -30,7 +30,7 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	public catanHTTPHandler() {
-		this.facade = new ResponderFacade();
+		//this.facade = new ResponderFacade();
 	}
 	
 	@Override
@@ -146,18 +146,34 @@ public class catanHTTPHandler implements HttpHandler{
     
     protected String getPlayerName ( HttpExchange exchange ) throws HTTPBadRequest {
         PlayerInfoCookie pic = this.getPlayerInfoCookie(exchange);
-        return pic.getName();
+        if(pic != null) {
+        	return pic.getName();
+        } else {
+        	return null;
+        }       
+        
     }
 	
 	protected int getPlayerId (HttpExchange exchange) throws HTTPBadRequest {
 		PlayerInfoCookie pic = this.getPlayerInfoCookie(exchange);
-        return pic.getId();
+        if(pic != null) {
+        	return pic.getId();
+        } else {
+        	return -1;
+        }
+		
 	}
 	
 	protected int getGameId (HttpExchange exchange) throws HTTPBadRequest {
 		String cookie = this.getCookie( exchange, "catan.game" );
-        int gameId = Integer.parseInt( cookie );
-        return gameId;
+        if (cookie != null) {
+        	cookie = cookie.replaceAll("[^\\d]", "");
+        	int gameId = Integer.parseInt( cookie );
+        	return gameId;
+        } else {
+        	return -1;
+        }
+		
 	}
     
     private PlayerInfoCookie getPlayerInfoCookie( HttpExchange exchange ) {
@@ -168,17 +184,21 @@ public class catanHTTPHandler implements HttpHandler{
     
     private String getCookie( HttpExchange exchange, String cookieName ) {
         List<String> cookies = exchange.getRequestHeaders().get("Cookie");
-        for ( String cookieStr : cookies ) {
-            String[] chocoChips = cookieStr.split(";");
-            for ( String crumb : chocoChips ) {
-                String milk = cookieName + "=";
-                if ( crumb.startsWith( milk ) ) {
-                    String stripped = crumb.substring( milk.length() );
-                    String decoded = deserializer.decodeURIComponent(stripped);
-                    return decoded;
+       
+        if (cookies != null) {
+        	for ( String cookieStr : cookies ) {
+                String[] chocoChips = cookieStr.split(";");
+                for ( String crumb : chocoChips ) {
+                    String milk = cookieName + "=";
+                    if ( crumb.startsWith( milk ) ) {
+                        String stripped = crumb.substring( milk.length() );
+                        String decoded = deserializer.decodeURIComponent(stripped);
+                        return decoded;
+                    }
                 }
             }
         }
+        
         return null;
     }
 

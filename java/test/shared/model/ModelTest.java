@@ -594,9 +594,6 @@ public class ModelTest {
 		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(2, 0), EdgeDirection.NorthWest),  CatanFacade.getMyPlayerIndex() ));
 
 		// this is a valid edgelocation for the player sam whose turn it is.
-		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(0, 2), EdgeDirection.NorthEast),  CatanFacade.getMyPlayerIndex() ));
-
-		// this is a valid edgelocation for the player sam whose turn it is.
 		assertEquals(true, instance.canBuildRoad(new EdgeLocation(new HexLocation(1, 1), EdgeDirection.North),  CatanFacade.getMyPlayerIndex() ));
 
 	}

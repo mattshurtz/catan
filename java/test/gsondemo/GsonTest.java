@@ -60,7 +60,7 @@ public class GsonTest {
     @Test
     public void testImportPlayer() {
         Player p;
-        try (FileReader in = new FileReader( "test/gsondemo/sample-player.json" ) )
+        try (FileReader in = new FileReader( "java/test/gsondemo/sample-player.json" ) )
         {
             Gson gson = new GsonBuilder().create();
             p = gson.fromJson( in, Player.class );
