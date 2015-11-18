@@ -24,7 +24,7 @@ public class TradeOffer {
             this.setReceiver(receiver);
             this.setOffer(offer);
     }
-    
+
    public ResourceList getSendResources(){
        ResourceList sendResources = new ResourceList();
        if(offer.getBrick()>0){

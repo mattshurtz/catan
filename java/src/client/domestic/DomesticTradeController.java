@@ -94,6 +94,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
+        
 		if(!CatanFacade.isMyTurn() || !(CatanFacade.getCurrentState() instanceof StatePlaying)) {
 			getTradeOverlay().setTradeEnabled(false);
 			getTradeOverlay().setStateMessage("not your turn or not in playing mode");

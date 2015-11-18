@@ -94,7 +94,7 @@ public class Model {
     private CatanMap catanMap;
     private ArrayList<Player> players;
 
-    private TradeOffer tradeOffer;
+    private TradeOffer tradeOffer = null;
     private TurnTracker turnTracker;
 
     private int version;
@@ -150,8 +150,9 @@ public class Model {
            
            offererResources.addResources(tradeOffer.getReceiveResources());
            offererResources.discardResources(tradeOffer.getSendResources());
-            
-            return true;
+           version++;
+           tradeOffer = null;
+           return true;
         }
         return false;
     }
@@ -567,6 +568,7 @@ public class Model {
         ResourceList sendersResources = players.get(tradeOfferRequest.getPlayerIndex()).getResources();
 
         if (sendersResources.hasResources(offer)) {
+            
             return true;
         }
 
@@ -980,21 +982,11 @@ public class Model {
 
             // check around North edge 
             if (normEdge.getDir() == EdgeDirection.North) {
-//                VertexLocation firstSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthEast);
-//                VertexLocation secondSuspectVertex = new VertexLocation(normEdge.getHexLoc(),VertexDirection.NorthWest);    
 
-                //There exists a vertex an adjecent vertex object owned by the player
-                //then this is a valid location. This is important for the setup phase
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
-//                    if(isBuildingThroughOpponent(firstSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1005,13 +997,7 @@ public class Model {
                 HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northwestNeighbor, EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-
-//                    if( isBuildingThroughOpponent(secondSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }           
+         
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1021,12 +1007,7 @@ public class Model {
 
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.NorthEast)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-//                    if(isBuildingThroughOpponent(firstSuspectVertex) ){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }  
+  
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1036,12 +1017,6 @@ public class Model {
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         normEdge.getHexLoc(), EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
 
-//                    if(isBuildingThroughOpponent(secondSuspectVertex)){
-//                        return false;
-//                    }
-//                    else {
-//                        return true;
-//                    }
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1214,9 +1189,7 @@ public class Model {
     public boolean offerTrade(OfferTradeRequest tradeOfferRequest) {
         int sender = tradeOfferRequest.getPlayerIndex();
         if (isPlayersTurn(sender) && canOfferTrade(tradeOfferRequest)) {
-            tradeOffer.setOffer(tradeOfferRequest.getOffer());
-            tradeOffer.setReceiver(tradeOfferRequest.getReceiver());
-            tradeOffer.setSender(sender);
+            tradeOffer = new TradeOffer(sender,tradeOfferRequest.getReceiver(),tradeOfferRequest.getOffer());
             version++;
             return true;
         }
