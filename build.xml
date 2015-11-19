@@ -129,6 +129,11 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<copy todir="${java.dist}/">
+			<fileset dir="docs">
+				<include name="**"/>
+			</fileset>
+		</copy>
  		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="client.main.Catan"/>
