@@ -63,6 +63,7 @@ public class GamesHandler extends catanHTTPHandler {
                     this.sendSuccess(exchange);
 				} else {
 					//send in body as json
+					this.setJsonHeader(exchange);
 					this.sendResponseBody(exchange, result);
 				}				
 			} else {
