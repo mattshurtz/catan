@@ -1734,6 +1734,7 @@ public class Model {
         int newPlayerIndex = players.size();
         Player p = new Player(CatanColor.fromString(color), playerName, newPlayerIndex, playerId);
         this.players.add( p );
+        version++;
     }
 
     public void addHistoryMessage(int playerId, String msg) {

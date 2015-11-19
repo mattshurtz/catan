@@ -16,3 +16,4 @@ java/build/**
 java/dist/
 /dist/
 tester.zip
+tester/
