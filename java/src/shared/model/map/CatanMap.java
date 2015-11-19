@@ -43,7 +43,7 @@ public class CatanMap {
     int radius;
     HexLocation robber;
     
-    Random rand = new Random();
+    transient Random rand = new Random();
     
     // Default values, to be used when random tiles/numbers/ports is FALSE
     public static final Map<HexLocation, HexType> defaultTiles;

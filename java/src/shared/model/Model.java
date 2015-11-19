@@ -102,7 +102,7 @@ public class Model {
     private int version;
     private int winner;
 
-    private String name;
+    private transient String name;
 
     public Model() {
         bank = new ResourceList();
