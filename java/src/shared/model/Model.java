@@ -1547,6 +1547,8 @@ public class Model {
     private HashMap<Integer, ResourceList> determineResourcesForDistribution(int rolledNum) {
         HashMap<Integer, ResourceList> needed = new HashMap<Integer, ResourceList>(players.size());
         
+        if (needed.size()==0)
+        	return needed;
         for (Hex hex : catanMap.getHexes()) {
             if (hex.getNumber() == rolledNum && !hex.getLocation().equals(catanMap.getRobber())) {
                 ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
