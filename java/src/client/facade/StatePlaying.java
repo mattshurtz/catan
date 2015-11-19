@@ -124,7 +124,7 @@ public class StatePlaying extends StateBase {
     @Override
     public boolean canBuildRoad(EdgeLocation roadLocation) {
         int playerIndex = CatanFacade.getMyPlayerIndex();
-    	return model.canBuyRoad(playerIndex) && model.canBuildRoad(roadLocation, playerIndex);
+    	return model.canBuildRoad(roadLocation, playerIndex); //model.canBuyRoad(playerIndex) && 
     }
     
    public StatePlaying(IServerProxy proxy, Model model) {
