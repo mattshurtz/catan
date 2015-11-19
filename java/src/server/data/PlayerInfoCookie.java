@@ -11,7 +11,7 @@ package server.data;
  */
 public class PlayerInfoCookie {
     private String name, password;
-    private int id;
+    private int playerID;
 
     public String getName() {
         return name;
@@ -30,11 +30,11 @@ public class PlayerInfoCookie {
     }
 
     public int getId() {
-        return id;
+        return playerID;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.playerID = id;
     }
     
     
