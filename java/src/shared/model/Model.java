@@ -1403,6 +1403,7 @@ public class Model {
                 players.get(playerIndex).getResources().addResource(secondResource, 1);
                 bank.subtractResource(secondResource, 1);
             }
+            players.get(playerIndex).playedDevCard = true;
         }
         version++;
     }
