@@ -40,6 +40,7 @@ public class UserHandler extends catanHTTPHandler{
 			//Convert content (POST) across to String
 			String content = this.getContent(exchange);   
 			
+			
 			//Call the facade
 			String result = this.sendToFacade(newCommand, content, 0, 0);
 			
@@ -53,7 +54,7 @@ public class UserHandler extends catanHTTPHandler{
 				throw new HTTPBadRequest("Login/Registration failed - bad password or username");
 			}
 			
-		} catch (HTTPBadRequest e) {
+		} catch (Exception e) {
 			setBadRequest(exchange,e.getMessage());
 			System.err.println(e.getMessage());
 		} finally {

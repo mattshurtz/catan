@@ -6,7 +6,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -63,9 +62,15 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	protected String getContent(HttpExchange exchange) throws IOException {
-		String content = IOUtils.toString(exchange.getRequestBody(), "UTF-8");
-		IOUtils.closeQuietly(exchange.getRequestBody());
-		return content;
+//		String content = IOUtils.toString(exchange.getRequestBody(), "UTF-8");
+//		IOUtils.closeQuietly(exchange.getRequestBody());
+//		return content;
+		return convertStreamToString(exchange.getRequestBody());
+	}
+	
+	static String convertStreamToString(java.io.InputStream is) {
+	    java.util.Scanner s = new java.util.Scanner(is,"UTF-8").useDelimiter("\\A");
+	    return s.hasNext() ? s.next() : "";
 	}
 	
 	/**
