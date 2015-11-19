@@ -1332,7 +1332,7 @@ public class Model {
             }
         }
         
-        this.turnTracker.setLongestRoad(determineLongestRoad());
+        this.turnTracker.setLargestArmy(determineLargestArmy());
         checkWinner();
     }
     
