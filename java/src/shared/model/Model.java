@@ -1546,9 +1546,12 @@ public class Model {
     
     private HashMap<Integer, ResourceList> determineResourcesForDistribution(int rolledNum) {
         HashMap<Integer, ResourceList> needed = new HashMap<Integer, ResourceList>(players.size());
-        
-        if (needed.size()==0)
-        	return needed;
+
+        for(int i = 0; i < players.size(); i++)
+        {
+            needed.put(i, new ResourceList());
+        }
+
         for (Hex hex : catanMap.getHexes()) {
             if (hex.getNumber() == rolledNum && !hex.getLocation().equals(catanMap.getRobber())) {
                 ArrayList<VertexLocation> validOwnerLocations = catanMap.getValidNormalizedVertexObjectLocations(hex.getLocation());
@@ -1557,7 +1560,7 @@ public class Model {
                         int ownerIndex = building.getOwner();
                         if (building instanceof City) {
                             needed.get(ownerIndex).addResource(hex.getResourceType(), 2);
-                        } else {
+                        } else if (building instanceof Settlement) {
                             needed.get(ownerIndex).addResource(hex.getResourceType(), 1);
                         }
                     }
