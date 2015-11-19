@@ -194,6 +194,7 @@ public class catanHTTPHandler implements HttpHandler{
         	for ( String cookieStr : cookies ) {
                 String[] chocoChips = cookieStr.split(";");
                 for ( String crumb : chocoChips ) {
+                	crumb = crumb.trim();
                     String milk = cookieName + "=";
                     if ( crumb.startsWith( milk ) ) {
                         String stripped = crumb.substring( milk.length() );
