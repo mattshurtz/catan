@@ -1,5 +1,6 @@
-package client.facade;
 
+import client.facade.CatanFacade;
+import client.facade.StateBase;
 import client.proxy.IServerProxy;
 import client.proxy.MockProxy;
 import java.io.IOException;
