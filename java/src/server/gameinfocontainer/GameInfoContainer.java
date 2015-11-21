@@ -77,6 +77,15 @@ public class GameInfoContainer {
         boolean changedColor = false;
             for(Player player: gameModel.getPlayers()){
                 if(player.getPlayerID() == playerId){
+                	
+                	//check for duplicate color
+                	for(Player player2: gameModel.getPlayers()) {
+                		if(player2.getPlayerID() != playerId && player2.getColor()==CatanColor.fromString(color)) {
+                			return false;
+                		}
+                	}
+                	
+                	//else change color
                     player.setColor(CatanColor.fromString(color));
                     changedColor = true;
                 }
@@ -86,6 +95,13 @@ public class GameInfoContainer {
 			//else lets check if we can add player
 			if(gameModel.getPlayers().size() >= 4)
 				return false;
+			for(Player player: gameModel.getPlayers()){
+				if (player.getColor()==CatanColor.fromString(color)) {
+					return false;
+				}
+			}
+			
+			
 			String playerName = users.getPlayerName(playerId);
 	        gameModel.addPlayer( color, playerId, playerName );
         }
