@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import shared.model.Model;
-import shared.model.ModelTest;
+import shared.model.ClientModelTest;
 import shared.model.ResourceList;
 
 /**
@@ -47,7 +47,7 @@ public class SerializerTest {
     public void testToJson() {
         // here we are serializing the bank object and testing to verify that the serializer converts it
         // to the correct json representation
-        Model model = ModelTest.testModel();
+        Model model = ClientModelTest.testModel();
         ResourceList bank = model.getBank();
         Object o = null;
         Serializer instance = new Serializer();

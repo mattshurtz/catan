@@ -273,7 +273,8 @@ public class Model {
             if(i != index)
             {
                 Player p = players.get(i);
-
+                
+                //only changes if LONGER than current longest owner
                 if(Player.MAX_ROADS - p.getRoads() > longestRoad)
                 {
                     longestRoad = Player.MAX_ROADS - p.getRoads();
@@ -281,7 +282,7 @@ public class Model {
                 }
             }
         }
-        
+        /*
         //check if tie exists
         for (int i = 0; i < players.size(); i++)
         {
@@ -297,7 +298,7 @@ public class Model {
                 }
             }
         }
-        
+        */
         return index;
     }
     

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package shared.model;
 
 import client.facade.CatanFacade;
@@ -38,7 +33,7 @@ import shared.model.map.Settlement;
 /**
  *
  */
-public class ModelTest {
+public class ClientModelTest {
 
 	private Model instance = null;
 
@@ -327,7 +322,7 @@ public class ModelTest {
 		return testModel;
 	}
 
-	public ModelTest() {
+	public ClientModelTest() {
 	}
 
 	@BeforeClass
@@ -867,7 +862,7 @@ public class ModelTest {
 
 	@Test
 	public void testCanRobPlayer() {
-		Model model = ModelTest.testModel();
+		Model model = ClientModelTest.testModel();
 
 		HexLocation robberLocation = new HexLocation(1, -1);
 
@@ -1033,6 +1028,5 @@ public class ModelTest {
             CatanFacade.setMyPlayerIndex(0);
             assertTrue(instance.canFinishTurn( CatanFacade.getMyPlayerIndex() ));
         }
-
-
+        
 }
