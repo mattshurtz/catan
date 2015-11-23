@@ -374,8 +374,10 @@ public class CommandTests {
     
     @Test
     public void testSendChat() {
+    	//TEST VALID CASE
     	Model m = gic.getModels().getGame(0);
     	int testPlayerIndex = 0;
+    	int gameID = 0;
         Player p = null;
         try {
             p = m.getPlayer( testPlayerIndex );
@@ -393,7 +395,7 @@ public class CommandTests {
     	//Execute the command
     	Command sc = new sendChat();
     	try {
-    		sc.execute(serializer.toJson(scReq), 0, p.getPlayerID());
+    		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
     	} catch (HTTPBadRequest ex) {
     		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
@@ -408,5 +410,47 @@ public class CommandTests {
     	
     	assertEquals(mlOld, mlNew);
     	assertEquals(oldVersion + 1, newVersion);
+    	
+    	//TEST WITH EMPTY INPUT
+    	mlOld = mlNew;
+    	oldVersion = newVersion;
+    	
+    	message = "";
+    	scReq = new SendChatRequest(testPlayerIndex, message);
+    	
+    	//Execute command
+    	try {
+    		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	mlNew = m.getChat();
+    	newVersion = m.getVersion();
+    	
+    	//manually update and see if they match
+    	line = new MessageLine(p.getName(), message);
+    	mlOld.getLines().add(line);
+    	
+    	assertEquals(mlOld, mlNew);
+    	assertEquals(oldVersion + 1, newVersion);
+    	
+    	
+    	//TEST WITH INVALID PLAYER ID
+    	int testPlayerID = -1;
+    	mlOld = mlNew;
+    	oldVersion = newVersion;
+    	
+    	message = "Hello world";
+    	scReq = new SendChatRequest(testPlayerIndex, message);
+    	
+    	try {
+    		sc.execute(serializer.toJson(scReq), gameID, testPlayerID);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
     }
 }

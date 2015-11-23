@@ -22,7 +22,12 @@ public class sendChat extends Command{
         if(isUserInGame(gameID,user)){
             SendChatRequest sendChatRequest = (SendChatRequest)this.getDeserializer().toClass(SendChatRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.sendChat(sendChatRequest);
+            boolean success = currentModel.sendChat(sendChatRequest);
+            
+            if (success) {
+            	currentModel.incrementVersion();
+            }
+            
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
