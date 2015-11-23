@@ -174,7 +174,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
             }else{
                 getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
             }
-            if(CatanFacade.getModel().canBuyCity()){
+            if(CatanFacade.getModel().canBuyCity(CatanFacade.getMyPlayerIndex())){
                 getView().setElementEnabled(ResourceBarElement.CITY, true);
             }else{
                 getView().setElementEnabled(ResourceBarElement.CITY, false);
