@@ -34,7 +34,7 @@ public class ResourceListTest {
     
     @Before
     public void setUp() {
-        this.model = ModelTest.testModel();
+        this.model = ClientModelTest.testModel();
     }
     
     @After

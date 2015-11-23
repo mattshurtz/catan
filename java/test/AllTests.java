@@ -33,9 +33,10 @@ public class AllTests {
             "shared.json.DeserializerTest",
             "shared.json.SerializerTest",
             "shared.model.DevCardListTest",
-            "shared.model.ModelTest",
+            "shared.model.ClientModelTest",
             "shared.model.ResourceListTest",
-            "shared.model.UserTest"
+            "shared.model.UserTest",
+            "server.CommandTests"
         };
         
         org.junit.runner.JUnitCore.main( testClasses );
