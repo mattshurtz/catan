@@ -230,9 +230,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void unsetResource(ResourceType resource) {
-		status.addResource(resource, 0);
+		status.subtractResource(resource, status.getResource(resource));
 		available.addResource(resource, offered.getResource(resource));
 		offered.subtractResource(resource, offered.getResource(resource));
+		desired.subtractResource(resource, desired.getResource(resource));
 		getTradeOverlay().setResourceAmount(resource, "0");
 		getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
 		checkTrade();

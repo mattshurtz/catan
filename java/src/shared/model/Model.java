@@ -1259,6 +1259,7 @@ public class Model {
         int playerIndex = request.getPlayerIndex();
         if (isPlayersTurn(playerIndex) && canPlayMonument(playerIndex)) {
             players.get(playerIndex).playMonument();
+            players.get(playerIndex).playedDevCard = true;
             checkWinner();
         }
         version++;

@@ -67,8 +67,7 @@ public class Player {
      * @return true if player can play a development card
      */
     public boolean canPlayDevCard(DevCardType cardType) {
-        if(playedDevCard && !cardType.equals(DevCardType.MONUMENT)){
-            
+        if(playedDevCard){
             return false;
         }else if(cardType.equals(DevCardType.MONUMENT)){
             if(oldDevCards.canPlayDevCard(cardType)||newDevCards.canPlayDevCard(cardType)){
@@ -418,7 +417,12 @@ public class Player {
 
     public void playMonument() {
         incrementVictoryPoints();
-        oldDevCards.removeMonument();
+        if(oldDevCards.getMonument() > 0){
+        	oldDevCards.removeMonument();
+        } else {
+        	newDevCards.removeMonument();
+        }
+        
     }
 
     public void giveResources(ResourceList resourceList) {
