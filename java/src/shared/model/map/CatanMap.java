@@ -82,6 +82,7 @@ public class CatanMap {
         defaultNumbers.put(new HexLocation(-1,0), 10);
         defaultNumbers.put(new HexLocation(-1,1), 9);
         defaultNumbers.put(new HexLocation(-1,2), 3);
+        defaultNumbers.put(new HexLocation(0,-2), 0); //Desert Default Location
         defaultNumbers.put(new HexLocation(0,-1), 3);
         defaultNumbers.put(new HexLocation(0,0), 11);
         defaultNumbers.put(new HexLocation(0,1), 4);
@@ -278,6 +279,16 @@ public class CatanMap {
     private void initNumbers( boolean randomNumbers ) {
         // make a temp copy of all the numbers
         List<Integer> tempNums = new ArrayList<>( numbers );
+        
+        Hex desert= null;
+        
+        for ( Hex h : this.hexes ) {
+        	if ( h.getHexType() == HexType.DESERT ) {
+        		desert = h;
+        		break;
+        	}
+        }
+        
         for ( Hex h : this.hexes ) {
             int theNum = 0;
             
@@ -288,7 +299,15 @@ public class CatanMap {
             if ( randomNumbers ) {
                 theNum = (Integer) removeRandomEntryFrom( tempNums );
             } else {
-                theNum = defaultNumbers.get( h.getLocation() );
+            	//System.out.println(h.getLocation().getX() + "," + h.getLocation().getY());
+            	
+            	if (h.getLocation() == new HexLocation(0,-2)) { //if in default desert location
+            		theNum = defaultNumbers.get(desert.getLocation());
+            	} else {
+            		theNum = defaultNumbers.get( h.getLocation() );
+            	}
+            	
+                
             }
             h.setNumber( theNum );
         }

@@ -91,7 +91,7 @@ public class main{
 		server.createContext("/games/", new GamesHandler(facade));
 		server.createContext("/moves/", new MovesHandler(facade));
 		server.createContext("/user/", new UserHandler(facade));
-		server.createContext("/", new SwaggerHandlers.BasicFile("/docs/api/view"));
+		server.createContext("/", new SwaggerHandlers.BasicFile("index.html"));
 		server.createContext("/docs/api/data", new SwaggerHandlers.JSONAppender(""));
         server.createContext("/docs/api/view", new SwaggerHandlers.BasicFile(""));
 	//start server

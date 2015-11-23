@@ -17,7 +17,7 @@ import shared.locations.VertexLocation;
 public class Settlement extends VertexObject{
 
 
-    public final int VICTORY_POINTS = 1;
+    public transient final int VICTORY_POINTS = 1;
 
     public Settlement(int owner, VertexLocation location) {
         super(owner, location);
