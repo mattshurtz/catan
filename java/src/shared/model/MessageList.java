@@ -36,6 +36,10 @@ public class MessageList {
     	lines.add(line);
     }
 
+    public int getLength() {
+        return lines.size();
+    }
+    
     @Override
     public int hashCode() {
         int hash = 7;

@@ -10,19 +10,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
-import server.commands.moves.Monopoly;
-import server.commands.moves.Monument;
-import server.commands.moves.Year_of_Plenty;
-import server.commands.moves.sendChat;
+import server.commands.moves.*;
 import server.gameinfocontainer.GameInfoContainer;
-import shared.communication.params.moves.MoveRequest;
-import shared.communication.params.moves.PlayMonopolyRequest;
-import shared.communication.params.moves.PlayYearOfPlentyRequest;
-import shared.communication.params.moves.SendChatRequest;
+import shared.communication.params.moves.*;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Serializer;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.model.MessageLine;
 import shared.model.MessageList;
 import shared.model.Model;
@@ -57,7 +54,7 @@ public class CommandTests {
 	@After
 	public void tearDown() {
 	}
-    
+
     @Test
     public void testMonument() {
         Model m = gic.getModels().getGame(0);
@@ -96,6 +93,99 @@ public class CommandTests {
     }
     
     @Test
+    public void testBuildCity() throws GetPlayerException {
+        Command cmd = new buildCity();
+        
+        Model m = gic.getModels().getGame(0);
+        int testPlayerIndex = 0;
+        Player p = null;
+        VertexLocation validVertex = new VertexLocation(new HexLocation(-2,0), VertexDirection.West);
+        VertexLocation emptyVertex = new VertexLocation(new HexLocation(-2,0), VertexDirection.NorthWest);
+        VertexLocation opponentVertex = new VertexLocation(new HexLocation(0,-1), VertexDirection.West);
+        
+        int historyLength = m.getLog().getLength();
+        
+        //test if not enough resources (3 ore 2 wheat)
+        p = m.getPlayer(0);
+        int numOre = p.getResources().getOre();
+        int numWheat = p.getResources().getWheat();
+        
+        if(numOre >= 3) {
+            int excess = numOre - 3;
+            p.getResources().setOre(2);
+            numOre = 2;
+            m.getBank().addResource(ResourceType.ORE, excess + 1);
+        }
+        
+        if(numWheat >= 2) {
+            int excess = numWheat - 2;
+            p.getResources().setWheat(1);
+            numWheat = 1;
+            m.getBank().addResource(ResourceType.WHEAT, excess + 1);
+        }
+        
+        BuildCityRequest req = new BuildCityRequest(validVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
+        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
+        assertEquals(m.getLog().getLength(), historyLength);
+        
+        //test if enough resources
+        if(numOre < 3) {
+            int needed = 3 - numOre;
+            p.getResources().setOre(3);
+            m.getBank().subtractResource(ResourceType.ORE, needed);
+            numOre = 3;
+        }
+        if(numWheat < 2) {
+            int needed = 2 - numWheat;
+            p.getResources().setWheat(2);
+            m.getBank().subtractResource(ResourceType.WHEAT, needed);
+            numWheat = 2;
+        }
+        
+        //test not own settlement
+        req = new BuildCityRequest(opponentVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
+        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
+        assertEquals(m.getLog().getLength(), historyLength);
+            
+        //test no settlement on vertex
+        req = new BuildCityRequest(emptyVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
+        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
+        assertEquals(m.getLog().getLength(), historyLength);
+        
+            //test if no settlements built
+            //test if no more cities
+            //test if valid
+            //test not your turn
+    }
+
+    @Test
     public void testMonopoly() {
         Model m = gic.getModels().getGame(0);
         int testPlayerIndex = 0;
@@ -127,7 +217,7 @@ public class CommandTests {
         }
         
         // Play the monopoly
-        PlayMonopolyRequest pmr = new PlayMonopolyRequest(ResourceType.WOOD );
+        PlayMonopolyRequest pmr = new PlayMonopolyRequest(ResourceType.WOOD);
         pmr.setPlayerIndex(testPlayerIndex);
         
         // Actually execute the command
