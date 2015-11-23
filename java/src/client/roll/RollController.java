@@ -72,25 +72,37 @@ public class RollController extends Controller implements IRollController, Obser
         getResultView().showModal();
 	}
 
+	public int TimerSec = 5;
+	
+	public void setRollTimer() {
+		rollTimer = new Timer();
+        rollTimer.schedule( 
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                	if(TimerSec > 1) {
+                		TimerSec--;
+                		getRollView().setMessage("Rolling in " + TimerSec + " seconds...");
+                		setRollTimer();
+                	} else if ( getRollView().isModalShowing() ) {
+                        getRollView().closeModal();
+                        rollDice();
+                    }
+                }
+            }, 
+            1100 // 4 seconds = 4000 millis
+        );
+	}
+	
     @Override
     public void update(Observable o, Object arg) {
-        if ( CatanFacade.isRolling() ) {
+        if ( CatanFacade.isRolling() && !getRollView().isModalShowing()) {
             getRollView().showModal();
             
             // Set timer to roll automatically after 4 seconds of inactivity
-            rollTimer = new Timer();
-            rollTimer.schedule( 
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        if ( getRollView().isModalShowing() ) {
-                            getRollView().closeModal();
-                            rollDice();
-                        }
-                    }
-                }, 
-                4000 // 4 seconds = 4000 millis
-            );
+            TimerSec=5;
+            getRollView().setMessage("Rolling in " + TimerSec + " seconds...");
+            setRollTimer();
         }
     }
 
