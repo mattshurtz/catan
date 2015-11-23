@@ -145,26 +145,6 @@ public class ModelBank {
     			continue;
     		readyModel.distributeResources(i);
     	}
-    	
-        try {
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
-            
-            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
-            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
-            
-            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 3);
-            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 3);
-        } catch (GetPlayerException ex) {
-            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
     	//SETUP GAME
     	readyModel.getTurnTracker().setCurrentTurn(0);

@@ -282,23 +282,6 @@ public class Model {
                 }
             }
         }
-        /*
-        //check if tie exists
-        for (int i = 0; i < players.size(); i++)
-        {
-            //not self
-            if(i != index)
-            {
-                Player p = players.get(i);
-
-                if(Player.MAX_ROADS - p.getRoads() == longestRoad)
-                {
-                    longestRoad = Player.MAX_ROADS - p.getRoads();
-                    index = -1;
-                }
-            }
-        }
-        */
         return index;
     }
     
