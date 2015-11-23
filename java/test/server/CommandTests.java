@@ -435,22 +435,5 @@ public class CommandTests {
     	
     	assertEquals(mlOld, mlNew);
     	assertEquals(oldVersion + 1, newVersion);
-    	
-    	
-    	//TEST WITH INVALID PLAYER ID
-    	int testPlayerID = -1;
-    	mlOld = mlNew;
-    	oldVersion = newVersion;
-    	
-    	message = "Hello world";
-    	scReq = new SendChatRequest(testPlayerIndex, message);
-    	
-    	try {
-    		sc.execute(serializer.toJson(scReq), gameID, testPlayerID);
-    	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
-    		fail();
-    	}
-    	
     }
 }
