@@ -11,6 +11,7 @@ public class AllTests {
 
     @BeforeClass
     public static void setUpClass() throws Exception {
+    	
     }
 
     @AfterClass
@@ -27,7 +28,6 @@ public class AllTests {
     
     public static void main(String args[]) {
         String[] testClasses = new String[] {
-            "client.facade.DoFacadeTest",
             "client.paller.ServerPallerTest",
             "client.proxy.IServerProxyTest",
             "shared.json.DeserializerTest",
