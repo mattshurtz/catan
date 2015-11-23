@@ -28,7 +28,7 @@ public class buildRoad extends Command {
             currentModel.buildRoad(roadRequest);
             
             this.addHistoryMessage(gameID, "built a road", user);
-            
+            currentModel.incrementVersion();
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

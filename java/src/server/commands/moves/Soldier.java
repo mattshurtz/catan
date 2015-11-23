@@ -25,7 +25,7 @@ public class Soldier extends Command{
             currentModel.playSoldier(request);
             
             this.addHistoryMessage(gameID, "has got soul but (s)he played a Soldier", user);
-            
+            currentModel.incrementVersion();
             return this.getSerializer().toJson(currentModel); 
         }
         else {

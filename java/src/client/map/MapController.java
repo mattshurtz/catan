@@ -12,6 +12,7 @@ import client.facade.CatanFacade;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.communication.params.moves.BuildRoadRequest;
 import shared.exceptions.GetPlayerException;
 
 import shared.exceptions.ServerException;
@@ -133,6 +134,10 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		//If the Model has roads, add those
 		List<Road> roads = map.getRoads();
+        if(firstEdgeLocation!=null){
+            Road firstRoad = new Road(CatanFacade.getMyPlayerIndex(),firstEdgeLocation);
+            roads.add(firstRoad);
+        }
 		for (Road road : roads) {
 			EdgeLocation edgeLoc = road.getLocation();
 			CatanColor color = road.getColor();
@@ -224,12 +229,17 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		if(CatanFacade.getCurrentState().canBuildRoad(edgeLoc))
-                {
-                    return true;
-                }
-                return false;
-
+       if(firstEdgeLocation!=null){ 
+        if(edgeLoc.getNormalizedLocation().equals(firstEdgeLocation.getNormalizedLocation())){
+            return false;
+        }
+        if(isConnectedRoad(edgeLoc, CatanFacade.getMyPlayerIndex())){
+           return true;
+        }
+        
+       }
+        int currentPlayer = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        return CatanFacade.getCurrentState().canBuildRoad(edgeLoc);
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {		
@@ -257,14 +267,25 @@ public class MapController extends Controller implements IMapController, Observe
                 if(roadBuildingCardCounter==0){
                     firstEdgeLocation = edgeLoc;
                     roadBuildingCardCounter++;
+                    BuildRoadRequest request = new BuildRoadRequest(edgeLoc,free);
+                    request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
+                    CatanFacade.getModel().buildRoad(request);
+                    Model model = CatanFacade.getModel();
+                    initFromModel();
+                    getView().startDrop(PieceType.ROAD, getMyColor(), true);
                 }else if(roadBuildingCardCounter==1){
                     secondEdgeLocation = edgeLoc;
                     CatanFacade.getCurrentState().playRoadBuilding(firstEdgeLocation, secondEdgeLocation);
                     roadBuildingCardCounter = 0;
+                    playingRoadBuilding = false;
+                    firstEdgeLocation = null;
+                    secondEdgeLocation = null;
+                    CatanFacade.getModel().setFirstRoadBuildingLocation(null);
                 }
-            }
+            }else{
             CatanFacade.getCurrentState().buildRoad(edgeLoc,free);
             getView().placeRoad(edgeLoc, getMyColor());
+            }
         } catch (ServerException ex) {
             Logger.getLogger(MapController.class.getName()).log(Level.SEVERE, null, ex);
 //            CatanFacade.triggerUpdate();
@@ -346,7 +367,6 @@ public class MapController extends Controller implements IMapController, Observe
         
         playingRoadBuilding = true;
         getView().startDrop(PieceType.ROAD, getMyColor(), true);
-        getView().startDrop(PieceType.ROAD, getMyColor(), true);
 		
 	}
 	
@@ -408,6 +428,168 @@ public class MapController extends Controller implements IMapController, Observe
         
         return myColor;
     }
-	
+    
+    public boolean isConnectedRoad(EdgeLocation location, int myPlayerIndex){
+        EdgeLocation normEdge = location.getNormalizedLocation();
+        HexLocation normHexLocation = normEdge.getHexLoc();
+//        int currentPlayer = CatanFacade.getModel().getTurnTracker().getCurrentTurn();
+        
+     //check if connected and determine connected verticies
+        boolean connected = false;
+        ArrayList<VertexLocation> connectedVerticies = new ArrayList<VertexLocation>();
+
+            // check around North edge 
+            if (normEdge.getDir() == EdgeDirection.North) {
+
+                HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        northeastNeighbor, EdgeDirection.NorthWest)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+
+                HexLocation northwestNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthWest);
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        northwestNeighbor, EdgeDirection.NorthEast)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+         
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.NorthEast)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+  
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.NorthWest))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+            }
+            //Check arround the NorthWest edge
+            if (normEdge.getDir() == EdgeDirection.NorthWest) {
+                HexLocation northwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest);
+                HexLocation southwestNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest);
+
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        northwestNeighbor, EdgeDirection.NorthEast))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        southwestNeighbor, EdgeDirection.NorthEast)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        southwestNeighbor, EdgeDirection.North))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southwestNeighbor, VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.North))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthWest);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+            }
+            //Check arround the NorthEast edge
+            if (normEdge.getDir() == EdgeDirection.NorthEast) {
+                HexLocation northeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast);
+                HexLocation southeastNeighbor = normEdge.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast);
+
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        northeastNeighbor, EdgeDirection.NorthWest)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        southeastNeighbor, EdgeDirection.NorthWest))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthWest);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        southeastNeighbor, EdgeDirection.North))  && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(southeastNeighbor, VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+                if (firstEdgeLocation.getNormalizedLocation().equals(new EdgeLocation(
+                        normEdge.getHexLoc(), EdgeDirection.North)) && CatanFacade.getModel().isValidPortEdge(normEdge)) {
+                    connected = true;
+                    VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
+                    if (!connectedVerticies.contains(suspectVertex)) {
+                        connectedVerticies.add(suspectVertex);
+                    }
+                }
+            }
+        
+
+        //check connected verticies for own or buildings
+        if (connected && !isBuiltThroughOpponent(connectedVerticies, myPlayerIndex)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    public boolean isBuiltThroughOpponent(ArrayList<VertexLocation> suspectVerticies, int myPlayerIndex) {
+        int numOpponentsBuiltThrough = 0;
+        for (VertexLocation loc : suspectVerticies) {
+            for (VertexObject vObj : CatanFacade.getModel().getMap().getCitiesAndSettlements()) {
+                if (vObj.getLocation().getNormalizedLocation().equals(loc)) {
+                    if (vObj.getOwner() != myPlayerIndex) {
+                        numOpponentsBuiltThrough++;
+                    } else {
+                        //found valid connected vertex with own building
+                        return false;
+                    }
+                }
+            }
+        }
+	    if (numOpponentsBuiltThrough == suspectVerticies.size()) {
+            //every suspect vertex is through an opponent
+            return true;
+        } else {
+            //connected vertex with no building
+            return false;
+        }
+    }
 }
 

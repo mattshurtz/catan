@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -143,6 +146,14 @@ public class ModelBank {
     		readyModel.distributeResources(i);
     	}
     	
+        try {
+            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 3);
+            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 3);
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     	//SETUP GAME
     	readyModel.getTurnTracker().setCurrentTurn(0);
     	readyModel.getTurnTracker().setStatus(TurnStatus.ROLLING);

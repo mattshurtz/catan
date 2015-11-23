@@ -13,6 +13,7 @@ import shared.definitions.CatanColor;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
+import shared.locations.EdgeLocation;
 import shared.model.DevCardList;
 import shared.model.Model;
 import shared.model.Player;
@@ -27,7 +28,7 @@ public class CatanFacade {
 	//set in the chat messages
 	private static boolean hackPlayer = false;
 	private static String hackOn = "bug fix";
-	
+
     public static boolean isHackPlayer() {
 		return hackPlayer;
 	}
@@ -356,5 +357,5 @@ public class CatanFacade {
         } catch (GetPlayerException ex) {
             Logger.getLogger(CatanFacade.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
+    }    
 }

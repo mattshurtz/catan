@@ -6,7 +6,6 @@ package shared.locations;
 public class EdgeLocation
 {
 	private int x, y;
-	private HexLocation hexLoc;
 	private EdgeDirection direction;
 	
 	public EdgeLocation(HexLocation hexLoc, EdgeDirection dir)
@@ -17,10 +16,8 @@ public class EdgeLocation
 	
 	public HexLocation getHexLoc()
 	{
-		if ( hexLoc == null )
-            hexLoc = new HexLocation(x, y);
+            return new HexLocation(x, y);
         
-        return hexLoc;
 	}
 	
 	private void setHexLoc(HexLocation hexLoc)
@@ -29,7 +26,8 @@ public class EdgeLocation
 		{
 			throw new IllegalArgumentException("hexLoc cannot be null");
 		}
-		this.hexLoc = hexLoc;
+		x = hexLoc.getX();
+        y = hexLoc.getY();
 	}
 	
 	public EdgeDirection getDir()
@@ -45,7 +43,7 @@ public class EdgeLocation
 	@Override
 	public String toString()
 	{
-		return "EdgeLocation [hexLoc=" + hexLoc + ", dir=" + direction + "]";
+		return "EdgeLocation [hexLoc=" + getHexLoc() + ", dir=" + direction + "]";
 	}
 	
 	@Override
@@ -54,34 +52,31 @@ public class EdgeLocation
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((direction == null) ? 0 : direction.hashCode());
-		result = prime * result + ((hexLoc == null) ? 0 : hexLoc.hashCode());
 		return result;
 	}
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EdgeLocation other = (EdgeLocation) obj;
+        if (this.x != other.x) {
+            return false;
+        }
+        if (this.y != other.y) {
+            return false;
+        }
+        if (this.direction != other.direction) {
+            return false;
+        }
+        return true;
+    }
 	
-	@Override
-	public boolean equals(Object obj)
-	{
-		// Load hex location from x & y ints if not already there
-        getHexLoc();
-        
-        if(this == obj)
-			return true;
-		if(obj == null)
-			return false;
-		if(getClass() != obj.getClass())
-			return false;
-		EdgeLocation other = (EdgeLocation)obj;
-		if(direction != other.direction)
-			return false;
-		if(hexLoc == null)
-		{
-			if(other.hexLoc != null)
-				return false;
-		}
-		else if(!hexLoc.equals(other.hexLoc))
-			return false;
-		return true;
-	}
+
 	
 	/**
 	 * Returns a canonical (i.e., unique) value for this edge location. Since
@@ -94,7 +89,7 @@ public class EdgeLocation
 	public EdgeLocation getNormalizedLocation()
 	{
         // Loads hex location from x & y if null
-		getHexLoc();
+		HexLocation hexLoc = getHexLoc();
         
 		// Return an EdgeLocation that has direction NW, N, or NE
 		switch (direction)

@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import shared.communication.params.moves.*;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -24,7 +22,6 @@ import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
-import shared.exceptions.InsufficientSupplies;
 import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -95,6 +92,7 @@ public class Model {
     @SerializedName("map")
     private CatanMap catanMap;
     private ArrayList<Player> players;
+    private EdgeLocation firstRoadBuildingLocation;
 
     private TradeOffer tradeOffer = null;
     private TurnTracker turnTracker;
@@ -211,9 +209,9 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-
+    boolean canBuildRoad = canBuildRoad(buildRoadInfo.getRoadLocation(),buildRoadInfo.getPlayerIndex());
+    boolean isplayersturn = isPlayersTurn(buildRoadInfo.getPlayerIndex());
         if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
-
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
                 bank.payForRoad();
@@ -222,10 +220,8 @@ public class Model {
             }
             
             catanMap.addRoad(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
-            
             updateLongestRoad();
             
-            version++;
         }
     }
 
@@ -437,6 +433,7 @@ public class Model {
      * did not have enough resources or pieces
      */
     public boolean canBuildRoad(EdgeLocation location, int myPlayerIndex) {
+        
         if (isValidRoadLocation(location, myPlayerIndex)) {
             return true;
         } else {
@@ -1014,7 +1011,6 @@ public class Model {
                 HexLocation northeastNeighbor = normHexLocation.getNeighborLoc(EdgeDirection.NorthEast);
                 if (road.getLocation().getNormalizedLocation().equals(new EdgeLocation(
                         northeastNeighbor, EdgeDirection.NorthWest)) && road.getOwner() == currentPlayer && isValidPortEdge(normEdge)) {
-
                     connected = true;
                     VertexLocation suspectVertex = new VertexLocation(normEdge.getHexLoc(), VertexDirection.NorthEast);
                     if (!connectedVerticies.contains(suspectVertex)) {
@@ -1276,8 +1272,9 @@ public class Model {
 
         if (isPlayersTurn(playerIndex) && canPlayRoadBuilding(playerIndex)) {
             BuildRoadRequest req1 = new BuildRoadRequest(request.getSpot1(), true);
+            req1.setPlayerIndex(playerIndex);
             BuildRoadRequest req2 = new BuildRoadRequest(request.getSpot2(), true);
-
+            req2.setPlayerIndex(playerIndex);
             buildRoad(req1);
             buildRoad(req2);
             players.get(playerIndex).playedDevCard = true;
@@ -1332,7 +1329,7 @@ public class Model {
             }
         }
         
-        this.turnTracker.setLongestRoad(determineLongestRoad());
+        this.turnTracker.setLargestArmy(newLargestIndex);
         checkWinner();
     }
     
@@ -1341,42 +1338,46 @@ public class Model {
      */
     private int determineLargestArmy() {
         
-        //2 is the most possible roads without awarding largestArmy
-        int index = turnTracker.getLargestArmy();
-        int largestArmy = (index == -1) ? 2 : players.get(index).getSoldiers();
+        //2 is the most possible soldiers without awarding largestArmy
+        int currentOwner = turnTracker.getLargestArmy();
+//        int largestArmy = (currentOwner == -1) ? 2 : players.get(currentOwner).getSoldiers();
+       
+        int largestArmy;
+        if( currentOwner !=  -1){
+            largestArmy = players.get(currentOwner).getSoldiers();
+        }else{
+            largestArmy = 2;
+        }
         
         //find largest. will find one even if tied
         for (int i = 0; i < players.size(); i++)
         {
-            if(i != index)
+            if(i != currentOwner)
             {
                 Player p = players.get(i);
-
                 if(p.getSoldiers() > largestArmy)
                 {
                     largestArmy = p.getSoldiers();
-                    index = p.getPlayerIndex();
+                    currentOwner = p.getPlayerIndex();
                 }
             }
         }
+        return currentOwner;
         
-        //check if tie exists
-        for (int i = 0; i < players.size(); i++)
-        {
-            //not self
-            if(i != index)
-            {
-                Player p = players.get(i);
-
-                if(p.getSoldiers() == largestArmy)
-                {
-                    largestArmy = p.getSoldiers();
-                    index = -1;
-                }
-            }
-        }
-        
-        return index;
+//                int largestArmyPlayerIndex = -1;
+//        int sizeOfLargestArmy = 2;
+//        //find largest. will find one even if tied
+//        for (int i = 0; i < players.size(); i++)
+//        {
+//                Player p = players.get(i);
+//                if(p.getSoldiers() > sizeOfLargestArmy && i != currentOwner)
+//                {
+//                    sizeOfLargestArmy = p.getSoldiers();
+//                    largestArmyPlayerIndex = p.getPlayerIndex();
+//                }
+//        }
+//        
+//        return largestArmyPlayerIndex;
     }
     
     /**
@@ -1757,5 +1758,19 @@ public class Model {
     		}
     	}
     }
+    
+    public void incrementVersion(){
+        version++;
+    }
+
+    public EdgeLocation getFirstRoadBuildingLocation() {
+        return firstRoadBuildingLocation;
+    }
+
+    public void setFirstRoadBuildingLocation(EdgeLocation firstRoadBuildingLocation) {
+        this.firstRoadBuildingLocation = firstRoadBuildingLocation;
+    }
+    
+    
 
 }
