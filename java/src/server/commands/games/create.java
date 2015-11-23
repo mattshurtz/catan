@@ -22,6 +22,10 @@ public class create extends Command{
     public String execute(String json, int gameID, int user) throws HTTPBadRequest {
         CreateGameRequest request = (CreateGameRequest) this.getDeserializer().toClass(CreateGameRequest.class, json);
     
+        if(request.getName() == null || request.getName().equals("")) {
+        	throw new HTTPBadRequest("The game must have a name");
+        }
+        
         int gid = GameInfoContainer.getInstance().createGame(request.getName(), request.isRandomNumbers(), request.isRandomPorts(), request.isRandomTiles());
         
         CreateGameResponse response = new CreateGameResponse( request.getName(), gid );
