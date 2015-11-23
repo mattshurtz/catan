@@ -11,9 +11,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
 import server.commands.moves.Monopoly;
+import server.commands.moves.Monument;
 import server.commands.moves.Year_of_Plenty;
 import server.commands.moves.sendChat;
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.PlayMonopolyRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.SendChatRequest;
@@ -56,7 +58,42 @@ public class CommandTests {
 	public void tearDown() {
 	}
     
-    
+    @Test
+    public void testMonument() {
+        Model m = gic.getModels().getGame(0);
+        int testPlayerIndex = 0;
+        Player p = null;
+        try {
+            p = m.getPlayer( testPlayerIndex );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        int oldVictoryPoints = p.getVictoryPoints();
+        int oldVersion = m.getVersion();
+        p.getOldDevCards().AddMonument();
+        p.setPlayedDevCard(false);
+        
+        // Play the monopoly
+        MoveRequest pmr = new MoveRequest();
+        pmr.setType("Monument");
+        pmr.setPlayerIndex(testPlayerIndex);
+        
+        // Actually execute the command
+        Command mon = new Monument();
+        try {
+            mon.execute( serializer.toJson( pmr ), 0, p.getPlayerID() );
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        int newVic = p.getVictoryPoints();
+        int newVersion = m.getVersion();
+        assertEquals( oldVictoryPoints+1, newVic );
+        assertEquals( oldVersion + 1, newVersion );
+    }
     
     @Test
     public void testMonopoly() {
