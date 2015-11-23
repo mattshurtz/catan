@@ -50,6 +50,7 @@ public interface IMapView extends IView
 	 */
 	void placeRoad(EdgeLocation edgeLoc, CatanColor color);
 	
+	void removeRoad(EdgeLocation edgeLoc);
 	/**
 	 * This method places a settlement on the map.
 	 * 

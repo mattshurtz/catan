@@ -259,7 +259,7 @@ public class CatanMap {
             }
         }
     }
-    
+       
     private void initPorts( boolean randomPorts ) {
         
         // Initialize all the hexes with the number 0 & no ports yet

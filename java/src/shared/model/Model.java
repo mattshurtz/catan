@@ -210,7 +210,6 @@ public class Model {
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
     boolean canBuildRoad = canBuildRoad(buildRoadInfo.getRoadLocation(),buildRoadInfo.getPlayerIndex());
-    boolean isplayersturn = isPlayersTurn(buildRoadInfo.getPlayerIndex());
         if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
@@ -223,6 +222,16 @@ public class Model {
             updateLongestRoad();
             
         }
+    }
+    
+    public void removeRoad(Road road){
+        for(int i = 0; i<catanMap.getRoads().size();i++){
+            Road currentRoad = catanMap.getRoads().get(i);
+            if(currentRoad == road){
+               catanMap.getRoads().remove(i);
+            }
+        }
+        updateLongestRoad();
     }
 
     private void updateLongestRoad()
@@ -418,11 +427,7 @@ public class Model {
      */
     public boolean canBuildRoad(EdgeLocation location, int myPlayerIndex) {
         
-        if (isValidRoadLocation(location, myPlayerIndex)) {
-            return true;
-        } else {
-            return false;
-        }
+        return isValidRoadLocation(location, myPlayerIndex);
     }
 
     /**
