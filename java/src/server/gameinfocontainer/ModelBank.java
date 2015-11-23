@@ -147,7 +147,19 @@ public class ModelBank {
     	}
     	
         try {
-            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(0).getOldDevCards().AddSoldier();
+            
+            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
+            readyModel.getPlayer(1).getOldDevCards().AddSoldier();
+            
             readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 3);
             readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 3);
         } catch (GetPlayerException ex) {
