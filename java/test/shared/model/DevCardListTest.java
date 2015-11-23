@@ -74,12 +74,11 @@ public class DevCardListTest {
      * Test of removeMonopoly method, of class DevCardList.
      * @throws InsufficientSupplies 
      */
-    @Test(expected=InsufficientSupplies.class)
-    public void testRemoveMonopoly_0available_throwError() throws InsufficientSupplies {
+    public void testRemoveMonopoly_0available() {
         System.out.println("removeMonopoly");
         DevCardList instance = new DevCardList();
         instance.removeMonopoly();
-        fail();
+        assertEquals(0, instance.getMonopoly());
     }
     
     @Test
@@ -149,7 +148,7 @@ public class DevCardListTest {
         System.out.println("removeRoadBuilding");
         DevCardList instance = new DevCardList();
         instance.removeRoadBuilding();
-		fail();
+        assertEquals(0,instance.getRoadBuilding());
         
     }
     
@@ -199,7 +198,7 @@ public class DevCardListTest {
         System.out.println("removeSoldier");
         DevCardList instance = new DevCardList();
         instance.removeSoldier();
-		fail();        
+        assertEquals(0, instance.getSoldier());          
     }
     
     /**
@@ -211,7 +210,7 @@ public class DevCardListTest {
         DevCardList instance = new DevCardList();
         instance.setSoldier(1);
         instance.removeSoldier();
-		assertEquals(0,instance.getSoldier());        
+        assertEquals(0, instance.getSoldier());      
     }
 
     /**
@@ -247,7 +246,7 @@ public class DevCardListTest {
         System.out.println("removeYearOfPlenty");
         DevCardList instance = new DevCardList();
         instance.removeYearOfPlenty();
-		fail();
+        assertEquals(0,instance.getYearOfPlenty());
     }
     
     /**

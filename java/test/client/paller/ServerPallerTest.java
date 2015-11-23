@@ -34,6 +34,9 @@ public class ServerPallerTest {
     
     @BeforeClass
     public static void setUpClass() {
+    	server.main.main server = new server.main.main();
+    	server.useMockFacade();
+    	server.run(server.getDefaultServerPortNumber());
     }
     
     @AfterClass

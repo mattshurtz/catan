@@ -50,16 +50,21 @@ import shared.definitions.*;
 public class IServerProxyTest {
     
     IServerProxy instance = null;
+    static server.main.main server;
     
     public IServerProxyTest() {
     }
     
     @BeforeClass
     public static void setUpClass() {
+    	server = new server.main.main();
+    	server.useMockFacade();
+    	server.run(server.getDefaultServerPortNumber());
     }
     
     @AfterClass
     public static void tearDownClass() {
+    	//server.getServer().stop(0);
     }
     
     @Before

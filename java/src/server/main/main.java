@@ -39,8 +39,27 @@ public class main{
 	
     private static final int DEFAULT_SERVER_PORT_NUMBER = 8081;
     private static final int MAX_WAITING_CONNECTIONS = 10;   
-        
-    /**
+    
+    private static IServerFacade facade = new ResponderFacade();
+    
+
+	public static void setFacade(IServerFacade facade) {
+		main.facade = facade;
+	}
+	
+	public static void useMockFacade() {
+		main.facade = new MockResponderFacade();
+	}
+
+	public static int getDefaultServerPortNumber() {
+		return DEFAULT_SERVER_PORT_NUMBER;
+	}
+	
+	public HttpServer getServer() {
+		return server;
+	}
+
+	/**
      * Specifies port to listen to and starts the server. 
      * @param args port number
      */
@@ -83,7 +102,7 @@ public class main{
 		}
 		
 		//IServerFacade facade = new MockResponderFacade();
-		IServerFacade facade = new ResponderFacade();
+		
 	//specify handlers
 		server.setExecutor(null); // use the default executor
 

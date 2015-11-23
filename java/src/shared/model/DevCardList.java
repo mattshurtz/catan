@@ -73,6 +73,7 @@ public class DevCardList {
 	 * @throws InsufficientSupplies if there are no monopoly cards.
 	 */
 	public void removeMonopoly() {
+		if(monopoly > 0)
             this.monopoly--;
 	}
 
@@ -104,11 +105,13 @@ public class DevCardList {
 	 * @throws InsufficientSupplies if there are no road building cards.
 	 */
 	public void removeRoadBuilding() {
+		if(roadBuilding > 0)
             this.roadBuilding--;
 	}
     
         public void removeMonument() {
-            this.monument--;
+        	if(monument > 0)
+        		this.monument--;
         }
 
         public int getSoldier() {
@@ -127,6 +130,7 @@ public class DevCardList {
 	 * @throws InsufficientSupplies if there are no soldier cards.
 	 */
 	public void removeSoldier() {
+		if(this.soldier > 0)
             this.soldier--;
 	}
 
@@ -146,6 +150,7 @@ public class DevCardList {
 	 * @throws InsufficientSupplies if there are no year of plenty cards.
 	 */
 	public void removeYearOfPlenty() {
+		if(this.yearOfPlenty > 0)
             this.yearOfPlenty--;
 	}
 	
