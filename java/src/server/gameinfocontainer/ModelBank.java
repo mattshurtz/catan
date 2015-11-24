@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -141,6 +142,13 @@ public class ModelBank {
 //give player road building card
         try {
             readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+            readyModel.getDeck().removeRoadBuilding();
+            readyModel.getBank().subtractResource(ResourceType.BRICK, 8);
+            readyModel.getBank().subtractResource(ResourceType.WOOD, 8);
+            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 4);
+            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 4);
+            readyModel.getPlayer(1).getResources().addResource(ResourceType.WOOD, 4);
+            readyModel.getPlayer(1).getResources().addResource(ResourceType.BRICK, 4);            
         } catch (GetPlayerException ex) {
             Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
         }
