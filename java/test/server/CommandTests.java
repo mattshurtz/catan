@@ -1416,9 +1416,8 @@ public class CommandTests {
        fail(); 
     }
     
-
-    public void testRollNumber() {
-    	//TEST VALID CASE WITH NORMAL REQUEST
+    @Test
+    public void testRollNumber_valid_twoSettlements_oneHex() {
     	int gameIndex = 1;
     	Model m = gic.getModels().getGame(gameIndex);
         Player matt = null;
@@ -1436,20 +1435,24 @@ public class CommandTests {
 	        fail();
 	    }
     	
-    	//ROLL 11 - Matt rolls, Garrett gets 2 wheat
-    	//Jan also gets 1 wood
+    	/**
+    	 * ROLL 11
+    	 * Garrett gets 2 wheat
+    	 * Jan gets 1 wood
+    	 */
     	ResourceList mattBefore = matt.getResources().copy();
     	ResourceList garBefore = garrett.getResources().copy();
     	ResourceList scottBefore = scott.getResources().copy();
     	ResourceList janBefore = jan.getResources().copy();
     	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
     	
-    	RollNumberRequest rnReq = new RollNumberRequest(matt.getPlayerID(), 11);
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 11);
     	
     	//Execute command
     	Command rn = new rollNumber();
     	try {
-    		rn.execute(serializer.toJson(rnReq), gameIndex, matt.getPlayerID());
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
     	} catch( HTTPBadRequest ex) {
     		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
@@ -1471,10 +1474,143 @@ public class CommandTests {
     	assertEquals(scottBefore, scottAfter);
     	assertEquals(janBefore, janAfter);
     	assertEquals(oldVersion + 1, newVersion);
+    }
+    
+    @Test
+    public void testRollNumber_valid_multHexes_onePlayerPerHex() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
     	
-    	//ROLL 9 - Two players (Matt, Scott) each get one sheep
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
     	
-    	//
+    	/**
+    	 * ROLL 9
+    	 * Garrett and Scott get one sheep
+    	 * Jan and Garrett get one ore
+    	 */
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 9);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	ResourceList mattAfter = matt.getResources();
+    	ResourceList garAfter = garrett.getResources();
+    	ResourceList scottAfter = scott.getResources();
+    	ResourceList janAfter = jan.getResources();
+    	int newVersion = m.getVersion();
+    	
+    	//manually update resource to match expected result
+    	garBefore.addResource(ResourceType.SHEEP, 1);
+    	garBefore.addResource(ResourceType.ORE, 1);
+    	
+    	scottBefore.addResource(ResourceType.SHEEP, 1);
+    	janBefore.addResource(ResourceType.ORE, 1);
+    	
+    	assertEquals(mattBefore, mattAfter);
+    	assertEquals(garBefore, garAfter);
+    	assertEquals(scottBefore, scottAfter);
+    	assertEquals(janBefore, janAfter);
+    	assertEquals(oldVersion + 1, newVersion);
+    }
+    
+    @Test
+    public void testRollNumber_valid_rollSeven() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+    	
+    	/**
+    	 * Roll a 7, no resources distributed
+    	 */
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 7);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	assertEquals(mattBefore, matt.getResources());
+    	assertEquals(garBefore, garrett.getResources());
+    	assertEquals(scottBefore, scott.getResources());
+    	assertEquals(janBefore, jan.getResources());
+    	assertEquals(oldVersion + 1, m.getVersion());	
+    }
+    
+    @Test
+    public void testRollNumber_invalid_wrongPlayerID() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+    	
+    	int falseCurrentTurn = 3; //actual current turn is 0
+    	int rollNum = 11;
+
+    	int oldVersion = m.getVersion();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(falseCurrentTurn, rollNum);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, falseCurrentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}	
+    	
+    	int newVersion = m.getVersion();
+    	//Version should not increment, model should not change
+    	assertEquals(oldVersion, newVersion);
     }
 }
 
