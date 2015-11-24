@@ -239,7 +239,7 @@ public class Model {
         updateLongestRoad();
     }
 
-    private void updateLongestRoad()
+    public void updateLongestRoad()
     {
         int oldLongestIndex = turnTracker.getLongestRoad();
         int newLongestIndex = determineLongestRoad();
@@ -1296,7 +1296,8 @@ public class Model {
 
         }
     }
-    private void updateLargestArmy()
+    
+    public void updateLargestArmy()
     {
         int oldLargestIndex = turnTracker.getLargestArmy();
         int newLargestIndex = determineLargestArmy();
