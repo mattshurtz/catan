@@ -213,11 +213,6 @@ public class CommandTests {
 	}
 	
 //MOVES TESTS
-	@Test
-	public void acceptTrade() {
-		
-	}
-	
 	
     @Test
     public void testMonument() {
@@ -763,4 +758,51 @@ public class CommandTests {
     	assertEquals(mlOld, mlNew);
     	assertEquals(oldVersion + 1, newVersion);
     }
+    
+    @Test
+    public void discardCards(){
+        fail();
+    }
+    
+    @Test
+    public void acceptTrade(){
+       fail(); 
+    }
+    
+    @Test
+    public void roadBuilding(){
+       fail(); 
+    }
+    
+    @Test
+    public void soldier(){
+       fail(); 
+    }
+    
+    @Test
+    public void finishTurn(){
+       fail(); 
+    }
+    
+    @Test
+    public void maritimeTrade(){
+       fail(); 
+    }
+    
+    @Test
+    public void offerTrade(){
+       fail(); 
+    }
+    
+    @Test
+    public void robPlayer(){
+       fail(); 
+    }
+    
+    @Test
+    public void rollNumber(){
+       fail(); 
+    }
+
 }
+
