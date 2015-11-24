@@ -57,7 +57,7 @@ public class StatePlaying extends StateBase {
 
     @Override
     public boolean canBuySettlement() {
-        return model.canBuySettlement();
+        return model.canBuySettlement(CatanFacade.getMyPlayerIndex());
     }
 
     @Override

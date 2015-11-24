@@ -22,6 +22,7 @@ import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.RollException;
 import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -303,28 +304,26 @@ public class Model {
      * @param location where the player is playing the settlement
      * @param playerIndex is used to identify the player playing the road
      */
-    public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-        version++;
+    public boolean buildSettlement(BuildSettlementRequest buildSettlementRequest) {
         int playerIndex = buildSettlementRequest.getPlayerIndex();
         VertexLocation location = buildSettlementRequest.getVertexLocation().getNormalizedLocation();
-        if (canBuildSettlement(location) && isPlayersTurn(playerIndex)) {
-            {
-                if ( buildSettlementRequest.isFree() || canBuildSettlement(location)) {
-                    if(players.get(playerIndex).settlements==4){
-                        addSurroundingResources(location, playerIndex);
-                    }
-                    
-                    players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
-                    catanMap.addSettlement( new Settlement( playerIndex, location ));
-                    if (!buildSettlementRequest.isFree()) {
-                    	bank.payForSettlement();
-                    }
+        if (canBuildSettlement(location) && isPlayersTurn(playerIndex) && (buildSettlementRequest.isFree() || canBuySettlement(playerIndex))) {    
+           // if ( buildSettlementRequest.isFree() || (canBuildSettlement(location)) {
+                if(players.get(playerIndex).settlements == Player.MAX_SETTLEMENTS - 1 && (getTurnTracker().getStatus() == TurnStatus.SECOND_ROUND)){
+                    addSurroundingResources(location, playerIndex);
                 }
-                checkWinner();
-                version++;
-            }
-            
+
+                players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
+                catanMap.addSettlement( new Settlement( playerIndex, location ));
+                if (!buildSettlementRequest.isFree()) {
+                    bank.payForSettlement();
+                }
+           // }
+            checkWinner();
+            return true;   
         }
+        
+        return false;
     }
     
     public void addSurroundingResources(VertexLocation location, int playerIndex){
@@ -508,8 +507,8 @@ public class Model {
      * @return True if they player has enough resources and settlements, false
      * if no
      */
-    public boolean canBuySettlement() {
-        if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()) {
+    public boolean canBuySettlement(int playerIndex) {
+        if (!players.get(playerIndex).getResources().canBuySettlement()) {
             //Player doesn't have enough resources
             return false;
         }
@@ -1428,10 +1427,10 @@ public class Model {
      * Rolls a number and changes the turn status from ROLLING to PLAYING Add
      * resources accordingly.
      */
-    public boolean rollNumber(RollNumberRequest rollNumberRequest) {
+    public boolean rollNumber(RollNumberRequest rollNumberRequest) throws RollException {
         int rolledNumber = rollNumberRequest.getNumber();
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
-        version++;
+        
         if (rolledNumber > 1 && rolledNumber < 13 && rolledNumber != 7 && canRoll(myPlayerIndex)) {
             distributeResources(rolledNumber);
             
@@ -1439,7 +1438,19 @@ public class Model {
             return true;
         } else if ( rolledNumber == 7 && canRoll(myPlayerIndex) ) {
             everyoneDiscard();
+        } else { //player can't roll, or number is invalid
+        	String exMessage = "";
+        	RollException rollEx;
+        	if (!canRoll(myPlayerIndex)) {
+        		exMessage = "Given player index (from rollNumberRequest) can't roll.";
+        	} else if (rolledNumber < 1 || rolledNumber > 12) {
+        		exMessage = "Given rolledNumber is invalid: must be between 1 and 12.";
+        	} 
+        	
+        	rollEx = new RollException(exMessage);
+        	throw rollEx;
         }
+        
         return false;
     }
     

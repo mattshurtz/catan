@@ -145,13 +145,13 @@ public class GameInfoContainer {
         return models.getGame(gameID);
     }
   
-    /**
-     * 
-     * @return UserInfoBank of registered user information.
-     */
-    public UserInfoBank getRegisteredUserInfo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    /**
+//     * 
+//     * @return UserInfoBank of registered user information.
+//     */
+//    public UserInfoBank getRegisteredUserInfo() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     /**
      * 

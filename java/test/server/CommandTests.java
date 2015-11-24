@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -10,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
+import server.commands.game.listAI;
+import server.commands.game.model;
 import server.commands.games.create;
 import server.commands.games.join;
 import server.commands.games.list;
@@ -27,6 +30,8 @@ import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Serializer;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
@@ -36,6 +41,7 @@ import shared.model.MessageList;
 import shared.model.Model;
 import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.map.City;
 
 /**
  *
@@ -207,7 +213,6 @@ public class CommandTests {
 			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
-		System.out.println(result);
 		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
 	}
 	
@@ -327,13 +332,46 @@ public class CommandTests {
 	}
 //GAME TESTS	
 	@Test
-	public void testModel() {
+	public void testModel_valid() {
+		String result = "";
+		try {
+			result = (new model()).execute(null, 0, 0);			
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
 		
+		String expect = "{\"bank\":{\"brick\":19,\"ore\":19,\"sheep\":19,\"wheat\":19,\"wood\":19},\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"chat\":{\"lines\":[]},\"log\":{\"lines\":[]},\"map\":{\"hexes\":[{\"location\":{\"x\":-2,\"y\":0},\"resource\":\"ore\",\"number\":5},{\"location\":{\"x\":-2,\"y\":1},\"resource\":\"wheat\",\"number\":2},{\"location\":{\"x\":-2,\"y\":2},\"resource\":\"wood\",\"number\":6},{\"location\":{\"x\":-1,\"y\":-1},\"resource\":\"brick\",\"number\":8},{\"location\":{\"x\":-1,\"y\":0},\"resource\":\"sheep\",\"number\":10},{\"location\":{\"x\":-1,\"y\":1},\"resource\":\"sheep\",\"number\":9},{\"location\":{\"x\":-1,\"y\":2},\"resource\":\"ore\",\"number\":3},{\"location\":{\"x\":0,\"y\":-2},\"number\":0},{\"location\":{\"x\":0,\"y\":-1},\"resource\":\"wood\",\"number\":3},{\"location\":{\"x\":0,\"y\":0},\"resource\":\"wheat\",\"number\":11},{\"location\":{\"x\":0,\"y\":1},\"resource\":\"wood\",\"number\":4},{\"location\":{\"x\":0,\"y\":2},\"resource\":\"wheat\",\"number\":8},{\"location\":{\"x\":1,\"y\":-2},\"resource\":\"brick\",\"number\":4},{\"location\":{\"x\":1,\"y\":-1},\"resource\":\"ore\",\"number\":9},{\"location\":{\"x\":1,\"y\":0},\"resource\":\"brick\",\"number\":5},{\"location\":{\"x\":1,\"y\":1},\"resource\":\"sheep\",\"number\":10},{\"location\":{\"x\":2,\"y\":-2},\"resource\":\"wood\",\"number\":11},{\"location\":{\"x\":2,\"y\":-1},\"resource\":\"sheep\",\"number\":12},{\"location\":{\"x\":2,\"y\":0},\"resource\":\"wheat\",\"number\":6}],\"ports\":[{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-3},\"direction\":\"S\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":3,\"y\":-3},\"direction\":\"SW\",\"ratio\":3},{\"resource\":\"sheep\",\"location\":{\"x\":3,\"y\":-1},\"direction\":\"NW\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":2,\"y\":1},\"direction\":\"NW\",\"ratio\":3},{\"resource\":\"three\",\"location\":{\"x\":0,\"y\":3},\"direction\":\"N\",\"ratio\":3},{\"resource\":\"brick\",\"location\":{\"x\":-2,\"y\":3},\"direction\":\"NE\",\"ratio\":2},{\"resource\":\"wood\",\"location\":{\"x\":-3,\"y\":2},\"direction\":\"NE\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":-3,\"y\":0},\"direction\":\"SE\",\"ratio\":3},{\"resource\":\"wheat\",\"location\":{\"x\":-1,\"y\":-2},\"direction\":\"S\",\"ratio\":2}],\"roads\":[],\"settlements\":[],\"cities\":[],\"radius\":4,\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"cities\":4,\"color\":\"blue\",\"discarded\":false,\"monuments\":0,\"name\":\"Matt\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":0,\"playedDevCard\":false,\"playerID\":0,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"green\",\"discarded\":false,\"monuments\":0,\"name\":\"Scott\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":1,\"playedDevCard\":false,\"playerID\":1,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"orange\",\"discarded\":false,\"monuments\":0,\"name\":\"Jan\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":2,\"playedDevCard\":false,\"playerID\":2,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"red\",\"discarded\":false,\"monuments\":0,\"name\":\"Garrett\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":3,\"playedDevCard\":false,\"playerID\":3,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0}],\"turnTracker\":{\"currentTurn\":0,\"status\":\"FirstRound\",\"longestRoad\":-1,\"largestArmy\":-1},\"version\":0,\"winner\":-1}";
+		
+		assertEquals(expect,result);
+
+	}
+	
+	@Test
+	public void testModel_badGame() {
+		String result = "";
+		String expect = null;
+		try {
+			result = (new model()).execute(null, 500, 0);	
+			
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
+		assertEquals(null,result);
 	}
 	
 	@Test
 	public void testListAI() {
-		
+		String result = "";
+		String expect = "[]";
+		try {
+			result = (new listAI()).execute(null, 0, 0);				
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
+		assertEquals(expect,result);
 	}
 	
 //MOVES TESTS
@@ -537,8 +575,6 @@ public class CommandTests {
         
     }
     
-    
-    
     @Test
     public void testBuildCity() throws GetPlayerException {
         Command cmd = new buildCity();
@@ -561,6 +597,7 @@ public class CommandTests {
         p = m.getPlayer(0);
         int numOre = p.getResources().getOre();
         int numWheat = p.getResources().getWheat();
+        int numSettlements = p.getSettlements();
         int numCities = p.getCities();
         
         if(numOre >= 3) {
@@ -586,6 +623,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre, m.getPlayer(0).getResources().getOre());
@@ -620,6 +658,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre, m.getPlayer(0).getResources().getOre());
@@ -638,6 +677,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre, m.getPlayer(0).getResources().getOre());
@@ -661,6 +701,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre, m.getPlayer(0).getResources().getOre());
@@ -688,6 +729,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre, m.getPlayer(0).getResources().getOre());
@@ -711,6 +753,7 @@ public class CommandTests {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
         }
         
         assertEquals(numOre - 3, m.getPlayer(0).getResources().getOre());
@@ -719,9 +762,383 @@ public class CommandTests {
         assertEquals(bankWheat + 2, m.getBank().getWheat());
         assertEquals(historyLength + 1, m.getLog().getLength());
         assertEquals(numCities - 1, m.getPlayer(0).getCities());
+        assertEquals(numSettlements + 1, m.getPlayer(0).getSettlements());
         assertEquals(++version, m.getVersion());
     }
 
+    @Test
+    public void testBuildRoad() {
+        Command cmd = new buildRoad();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        int testPlayerIndex = 0;
+        Player p = null;
+        EdgeLocation emptyEdge = new EdgeLocation(new HexLocation(0,-2), EdgeDirection.North);
+        EdgeLocation opponentEdge = new EdgeLocation(new HexLocation(0,-1), EdgeDirection.SouthWest);
+        EdgeLocation myEdge = new EdgeLocation(new HexLocation(-3,1), EdgeDirection.NorthEast);
+        EdgeLocation waterEdge = new EdgeLocation(new HexLocation(-3,0), EdgeDirection.NorthEast);
+        EdgeLocation attachOpponentEdge = new EdgeLocation(new HexLocation(-2,2), EdgeDirection.South);
+        EdgeLocation attachOpponentSettlement = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.North);
+        
+        //test with Player Index 1 (green)
+        EdgeLocation validEdge = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.North);
+        EdgeLocation buildThrough = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthEast);
+        EdgeLocation validFree = new EdgeLocation(new HexLocation(0,-1), EdgeDirection.NorthEast);
+        
+        
+        int historyLength = m.getLog().getLength();
+        int version = m.getVersion();
+        int bankBrick = m.getBank().getBrick();
+        int bankWood = m.getBank().getWood();
+        
+        //test not my turn
+        
+        //test not enough resources ( 1 brick 1 wood)
+        //test enough resources
+            //test not attached to own road
+            //test not attached to own settlement
+            //test on own road
+            //test on opponent road
+            //test floating road
+            //test in water
+            //test no more roads
+            //test build through opponent settlement
+            //test valid road placement
+    }
+    
+    @Test
+    public void testBuildSettlement() throws GetPlayerException {
+        Command cmd = new buildSettlement();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        //add additional roads for free
+    	BuildRoadRequest r1 = new BuildRoadRequest(new EdgeLocation(new HexLocation(-2,0), EdgeDirection.South), true);
+    	r1.setPlayerIndex(0);
+    	m.buildRoad(r1);
+        
+        BuildRoadRequest r2 = new BuildRoadRequest(new EdgeLocation(new HexLocation(-2,0), EdgeDirection.SouthEast), true);
+    	r1.setPlayerIndex(0);
+    	m.buildRoad(r2);
+        
+        BuildRoadRequest r3 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,2), EdgeDirection.South), true);
+    	r1.setPlayerIndex(0);
+    	m.buildRoad(r3);
+            
+        VertexLocation validVertex = new VertexLocation(new HexLocation(-2,0), VertexDirection.SouthEast);
+        VertexLocation opponentRoadVertex = new VertexLocation(new HexLocation(0, 1), VertexDirection.SouthEast);
+        VertexLocation emptyVertex = new VertexLocation(new HexLocation(2,0), VertexDirection.East);
+        VertexLocation waterVertex = new VertexLocation(new HexLocation(3,0), VertexDirection.East);
+        VertexLocation tooCloseVertex = new VertexLocation(new HexLocation(-2,0), VertexDirection.East);
+        VertexLocation settlementVertex = new VertexLocation(new HexLocation(0,0), VertexDirection.NorthEast);
+        VertexLocation cityVertex = new VertexLocation(new HexLocation(0, 2), VertexDirection.West);
+        VertexLocation freeVertex = new VertexLocation(new HexLocation(0, 2), VertexDirection.SouthWest);
+          
+        int historyLength = m.getLog().getLength();
+        int version = m.getVersion();
+        int bankBrick = m.getBank().getBrick();
+        int bankWood = m.getBank().getWood();   
+        int bankSheep = m.getBank().getSheep();
+        int bankWheat = m.getBank().getWheat();
+        
+        //test not enough resources
+        p = m.getPlayer(0);
+        int numBrick = p.getResources().getBrick();
+        int numWheat = p.getResources().getWheat();
+        int numWood = p.getResources().getWood();
+        int numSheep = p.getResources().getSheep();
+        int numSettlements = p.getSettlements();
+        boolean free = false;
+        
+        p.getResources().setBrick(0);
+        m.getBank().addResource(ResourceType.BRICK, numBrick);
+        bankBrick += numBrick;
+        numBrick = 0;
+        
+        p.getResources().setWheat(0);
+        m.getBank().addResource(ResourceType.WHEAT, numWheat);
+        bankWheat += numWheat;
+        numWheat = 0;
+        
+        p.getResources().setWood(0);
+        m.getBank().addResource(ResourceType.WOOD, numWood);
+        bankWood += numWood;
+        numWood = 0;
+        
+        p.getResources().setSheep(0);
+        m.getBank().addResource(ResourceType.SHEEP, numSheep);
+        bankSheep += numSheep;
+        numSheep = 0;
+      
+        BuildSettlementRequest req = new BuildSettlementRequest(validVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test enough resources (for 1 road)
+        p.getResources().setBrick(1);
+        numBrick = 1;
+        m.getBank().subtractResource(ResourceType.BRICK, numBrick);
+        bankBrick -= numBrick;
+        
+        p.getResources().setWheat(1);
+        numWheat = 1;
+        m.getBank().subtractResource(ResourceType.WHEAT, numWheat);
+        bankWheat -= numWheat;
+        
+        p.getResources().setWood(1);
+        numWood = 1;
+        m.getBank().subtractResource(ResourceType.WOOD, numWood);
+        bankWood -= numWood;
+        
+        p.getResources().setSheep(1);
+        numSheep = 1;
+        m.getBank().subtractResource(ResourceType.SHEEP, numSheep);
+        bankSheep -= numSheep;
+            
+        //test not my turn
+        m.getTurnTracker().setCurrentTurn(1);
+        
+        req = new BuildSettlementRequest(validVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+
+        m.getTurnTracker().setCurrentTurn(0);
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test not on my road
+        req = new BuildSettlementRequest(opponentRoadVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test floating settlement
+        req = new BuildSettlementRequest(emptyVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test on water
+        req = new BuildSettlementRequest(waterVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test too close
+        req = new BuildSettlementRequest(tooCloseVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test on my settlement
+        req = new BuildSettlementRequest(settlementVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        //test on my city
+        p.setCities(p.getCities() - 1);
+        p.setSettlements(p.getSettlements() + 1);
+        m.getMap().addCity(new City(0, cityVertex));
+        numSettlements++;
+        
+        req = new BuildSettlementRequest(cityVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+            
+        //test valid
+        req = new BuildSettlementRequest(validVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(--numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(--numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(--numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(--numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(++bankBrick, m.getBank().getBrick());
+        assertEquals(++bankWheat, m.getBank().getWheat());  
+        assertEquals(++bankSheep, m.getBank().getSheep());
+        assertEquals(++bankWood, m.getBank().getWood());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(--numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(++version, m.getVersion());
+        
+        //test free
+        free = true;
+        m.getMap().getSettlements().remove(m.getMap().indexOfSettlementAt(validVertex));
+        p.setSettlements(p.getSettlements() + 1);
+        numSettlements++;
+        
+        req = new BuildSettlementRequest(validVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(--numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(++version, m.getVersion());
+    }
+    
     @Test
     public void testMonopoly() {
         Model m = gic.getModels().getGame(0);
@@ -820,7 +1237,7 @@ public class CommandTests {
     
     @Test
     public void testSendChat() {
-    	//TEST VALID CASE
+    	//TEST VALID CASE WITH NORMAL MESSAGE
     	Model m = gic.getModels().getGame(0);
     	int testPlayerIndex = 0;
     	int gameID = 0;
@@ -985,10 +1402,65 @@ public class CommandTests {
        fail(); 
     }
     
-    @Test
-    public void testRollNumber(){
-       fail(); 
-    }
 
+    public void testRollNumber() {
+    	//TEST VALID CASE WITH NORMAL REQUEST
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+    	
+    	//ROLL 11 - Matt rolls, Garrett gets 2 wheat
+    	//Jan also gets 1 wood
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(matt.getPlayerID(), 11);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	ResourceList mattAfter = matt.getResources();
+    	ResourceList garAfter = garrett.getResources();
+    	ResourceList scottAfter = scott.getResources();
+    	ResourceList janAfter = jan.getResources();
+    	int newVersion = m.getVersion();
+    	
+    	//manually update resource to match expected result
+    	garBefore.addResource(ResourceType.WHEAT, 2);
+    	janBefore.addResource(ResourceType.WOOD, 1);
+    	
+    	assertEquals(mattBefore, mattAfter);
+    	assertEquals(garBefore, garAfter);
+    	assertEquals(scottBefore, scottAfter);
+    	assertEquals(janBefore, janAfter);
+    	assertEquals(oldVersion + 1, newVersion);
+    	
+    	//ROLL 9 - Two players (Matt, Scott) each get one sheep
+    	
+    	//
+    }
 }
 
