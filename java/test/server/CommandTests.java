@@ -1,6 +1,5 @@
 package server;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -43,6 +42,7 @@ import shared.model.Player;
 import shared.model.ResourceList;
 import shared.model.TradeOffer;
 import shared.model.map.City;
+import shared.model.map.Settlement;
 
 /**
  *
@@ -2144,18 +2144,32 @@ public class CommandTests {
     }
     
     @Test
-    public void testMaritimeTrade() throws GetPlayerException{
+    public void testMaritimeTrade() throws GetPlayerException, HTTPBadRequest{
         Model model = gic.getModels().getGame(1);
-       
+        Command cmd = new maritimeTrade();
         int playerIndex = 3;
         
-        //int playerIndex, int ratio, ResourceType inputResource, ResourceType ouput
+        
+        ResourceList bankResources = model.getBank();
+        int initialBrick = bankResources.getBrick();
+        int initialOre = bankResources.getOre();
+        int initialWheat = bankResources.getWheat();
+        int initialSheep = bankResources.getSheep();
+        int initialWood = bankResources.getWood();
+        
         MaritimeTradeRequest maritimeTrade4BRickRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.BRICK,ResourceType.BRICK);
         MaritimeTradeRequest maritimeTrade4WheatRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.WHEAT,ResourceType.WHEAT);
         MaritimeTradeRequest maritimeTrade4SheepRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.SHEEP,ResourceType.SHEEP);
         MaritimeTradeRequest maritimeTrade4WoodRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.WOOD,ResourceType.WOOD);
         MaritimeTradeRequest maritimeTrade4OreRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.ORE,ResourceType.ORE);
+
+        MaritimeTradeRequest maritimeTrade3BRickRequest = new MaritimeTradeRequest(playerIndex,3,ResourceType.BRICK,ResourceType.BRICK);
+        MaritimeTradeRequest maritimeTrade3WheatRequest = new MaritimeTradeRequest(playerIndex,3,ResourceType.WHEAT,ResourceType.WHEAT);
+        MaritimeTradeRequest maritimeTrade3SheepRequest = new MaritimeTradeRequest(playerIndex,3,ResourceType.SHEEP,ResourceType.SHEEP);
+        MaritimeTradeRequest maritimeTrade3WoodRequest = new MaritimeTradeRequest(playerIndex,3,ResourceType.WOOD,ResourceType.WOOD);
+        MaritimeTradeRequest maritimeTrade3OreRequest = new MaritimeTradeRequest(playerIndex,3,ResourceType.ORE,ResourceType.ORE);
         
+        // Initialized players resources to 4 of everything
         model.getPlayer(playerIndex).getResources().setBrick(4);
         model.getPlayer(playerIndex).getResources().setOre(4);
         model.getPlayer(playerIndex).getResources().setWheat(4);
@@ -2163,31 +2177,115 @@ public class CommandTests {
         model.getPlayer(playerIndex).getResources().setSheep(4);
         
         
-        Command cmd = new maritimeTrade();
-        cmd.execute(serializer.toJson(maritimeTrade4BRickRequest),1,0);
+        // Test that trade is invalid when it is not your turn
+        model.getTurnTracker().setCurrentTurn(2);
+
+        assertFalse(model.getTurnTracker().getCurrentTurn()==playerIndex);
+    
+        maritimeTrade4BRickRequest.setPlayerIndex(playerIndex);
+        assertEquals(model.getVersion(),0);
+        cmd.execute(serializer.toJson(maritimeTrade4BRickRequest),1,playerIndex);
+        assertEquals(model.getVersion(),0);
+        maritimeTrade4BRickRequest.setPlayerIndex(playerIndex);
+        model.getTurnTracker().setCurrentTurn(playerIndex);
+        
+        //Trade 4 for 1 all resources
+        cmd.execute(serializer.toJson(maritimeTrade4BRickRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4WheatRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4SheepRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4WoodRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4OreRequest),1,3);
+        
+        assertEquals(model.getVersion(),5);
+        assertEquals(bankResources,new ResourceList(initialBrick+3,initialWood+3,
+        initialSheep+3,initialWheat+3,initialOre+3));
+        assertEquals(model.getPlayer(playerIndex).getResources(),new ResourceList(1,1,1,1,1));
+        
+        // Test when the player doesn't have enough resources for the trade
+        //Player only has 1 of each, we are testing as if they had 4
+        cmd.execute(serializer.toJson(maritimeTrade4BRickRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4WheatRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4SheepRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4WoodRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade4OreRequest),1,3); 
+         
+        //Verify that nothing changes because all of the commands are invalid 
+        assertEquals(model.getVersion(),5);
+        assertEquals(bankResources,new ResourceList(initialBrick+3,initialWood+3,
+        initialSheep+3,initialWheat+3,initialOre+3));
+        assertEquals(model.getPlayer(playerIndex).getResources(),new ResourceList(1,1,1,1,1));
+        
+        //Test 3 for one port trade when player does NOT HAVE a 3 for 1 port
+        model.getPlayer(playerIndex).getResources().setBrick(3);
+        model.getPlayer(playerIndex).getResources().setOre(3);
+        model.getPlayer(playerIndex).getResources().setWheat(3);
+        model.getPlayer(playerIndex).getResources().setWood(3);
+        model.getPlayer(playerIndex).getResources().setSheep(3);
+        
+        cmd.execute(serializer.toJson(maritimeTrade3BRickRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3WheatRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3SheepRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3WoodRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3OreRequest),1,3);
+        assertEquals(model.getVersion(),5);
+
+        
+        //Test 3 for one port trade when player HAS a 3 for 1 port
+        model.getMap().addSettlement(new Settlement(playerIndex,new VertexLocation(new HexLocation(2,-2),VertexDirection.East)));
+        
+        cmd.execute(serializer.toJson(maritimeTrade3BRickRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3WheatRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3SheepRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3WoodRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade3OreRequest),1,3);
+
+        assertEquals(bankResources,new ResourceList(initialBrick+5,initialWood+5,
+        initialSheep+5,initialWheat+5,initialOre+5));
+        assertEquals(model.getPlayer(playerIndex).getResources(),new ResourceList(1,1,1,1,1));
+        assertEquals(model.getVersion(),10);
+        
+        //Add a 2 for 1 port for brick
+        model.getMap().addSettlement(new Settlement(playerIndex,new VertexLocation(new HexLocation(-1,2),VertexDirection.West)));
+        
+        MaritimeTradeRequest maritimeTrade2BrickRequest = new MaritimeTradeRequest(playerIndex,2,ResourceType.BRICK,ResourceType.BRICK);
+        MaritimeTradeRequest maritimeTrade2WheatRequest = new MaritimeTradeRequest(playerIndex,2,ResourceType.WHEAT,ResourceType.WHEAT);
+        MaritimeTradeRequest maritimeTrade2SheepRequest = new MaritimeTradeRequest(playerIndex,2,ResourceType.SHEEP,ResourceType.SHEEP);
+        MaritimeTradeRequest maritimeTrade2WoodRequest = new MaritimeTradeRequest(playerIndex,2,ResourceType.WOOD,ResourceType.WOOD);
+        MaritimeTradeRequest maritimeTrade2OreRequest = new MaritimeTradeRequest(playerIndex,2,ResourceType.ORE,ResourceType.ORE);        
+        
+        // Set all resources in players hand to two
+        model.getPlayer(playerIndex).getResources().setBrick(2);
+        model.getPlayer(playerIndex).getResources().setOre(2);
+        model.getPlayer(playerIndex).getResources().setWheat(2);
+        model.getPlayer(playerIndex).getResources().setWood(2);
+        model.getPlayer(playerIndex).getResources().setSheep(2);
+        
+        cmd.execute(serializer.toJson(maritimeTrade2BrickRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade2WheatRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade2SheepRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade2WoodRequest),1,3);
+        cmd.execute(serializer.toJson(maritimeTrade2OreRequest),1,3);
         
         
+        assertEquals(bankResources,new ResourceList(initialBrick+6,initialWood+5,
+        initialSheep+5,initialWheat+5,initialOre+5));
+        assertEquals(model.getPlayer(playerIndex).getResources(),new ResourceList(1,2,2,2,2));
+        assertEquals(model.getVersion(),11);
         
+        // Test that the bank doesn't have enough resources to complete the trade
+        model.setBank(new ResourceList(0,0,0,0,0));
+        model.getPlayer(playerIndex).setResources(new ResourceList(2,3,3,3,3));
         
-        //isPlayersTurn
+        cmd.execute(serializer.toJson(maritimeTrade2BrickRequest),1,playerIndex);
+        cmd.execute(serializer.toJson(maritimeTrade3WheatRequest),1,playerIndex);
+        cmd.execute(serializer.toJson(maritimeTrade3SheepRequest),1,playerIndex);
+        cmd.execute(serializer.toJson(maritimeTrade3WoodRequest),1,playerIndex);
+        cmd.execute(serializer.toJson(maritimeTrade3OreRequest),1,playerIndex);
         
-        //isNotPlayersTurn
-        
-        //bank has resources
-        
-        //Test 4 resources for all resources
-        
-        //Test 3 resources for all resources
-        
-        //test 2 resources for sheep. 
-        
-        //bank does not have resources
-        
-        //player has resources
-        
-        //player does not have resources 
-       
-       
+        assertEquals(model.getBank(),new ResourceList(0,0,0,0,0));
+        assertEquals(model.getPlayer(playerIndex).getResources(),new ResourceList(2,3,3,3,3));
+        assertEquals(model.getVersion(),11);
+ 
     }
     
     @Test
