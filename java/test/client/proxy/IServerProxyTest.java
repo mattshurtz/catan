@@ -59,7 +59,16 @@ public class IServerProxyTest {
     public static void setUpClass() {
     	server = new server.main.main();
     	server.useMockFacade();
-    	server.run(server.getDefaultServerPortNumber());
+    	
+    	try {
+    		(new java.net.Socket("localhost", server.getDefaultServerPortNumber())).close();
+    		
+    	} catch (Exception e) {
+    		
+    	} finally {
+    		server.run(server.getDefaultServerPortNumber());
+    	}
+    	
     }
     
     @AfterClass

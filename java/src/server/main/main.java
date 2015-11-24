@@ -97,7 +97,7 @@ public class main{
 		} catch (IOException e) {
 			System.out.println("Could not create HTTP server: "
 					+ e.getMessage());
-			e.printStackTrace();
+			//e.printStackTrace();
 			return;
 		}
 		

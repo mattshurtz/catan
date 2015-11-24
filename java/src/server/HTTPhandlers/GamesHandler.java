@@ -30,8 +30,8 @@ public class GamesHandler extends catanHTTPHandler {
 		
 		System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
         try {
-            System.out.println("Player Id: " + this.getPlayerId( exchange ) );
-            System.out.println("Player name: " + this.getPlayerName( exchange ) );
+            //System.out.println("Player Id: " + this.getPlayerId( exchange ) );
+            //System.out.println("Player name: " + this.getPlayerName( exchange ) );
 			//prep command
 			URI url = exchange.getRequestURI();
 			String newCommand = "games." + url.getPath().replace("/games/", "");
@@ -74,9 +74,9 @@ public class GamesHandler extends catanHTTPHandler {
 		} catch (HTTPBadRequest e) {
 			setBadRequest(exchange,e.getMessage());
 			System.err.println("HTTPBadRequest: " + e.getMessage());
-            e.printStackTrace();
+            //e.printStackTrace();
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
 		} finally {
             exchange.getResponseBody().close();
         }
