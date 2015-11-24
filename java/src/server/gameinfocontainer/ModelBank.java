@@ -182,7 +182,12 @@ public class ModelBank {
      * @return the game Model
      */
     public Model getGame(int gameId) {
-    	return this.games.get( gameId );
+    	try {
+    		return this.games.get( gameId );
+    	} catch (Exception e) {
+    		return null;
+    	}
+    	
     }
 
 	public List<GameResponse> toGameResponseList() {
