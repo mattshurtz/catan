@@ -671,7 +671,7 @@ public class Model {
      * @param playerIndex
      * @param listToDiscard
      */
-    public void discardCards(DiscardCardsRequest discardRequest) {
+    public boolean discardCards(DiscardCardsRequest discardRequest) {
         Player player = players.get(discardRequest.getPlayerIndex());
         if (turnTracker.getStatus()==TurnStatus.DISCARDING&& hasMoreThanSevenCards( discardRequest.getPlayerIndex() )
                 && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
@@ -679,12 +679,13 @@ public class Model {
             
             player.getResources().discardResources(discardRequest.getDiscardedCards());
             bank.addResources(discardRequest.getDiscardedCards());
-        }
-        // If everyone has discarded, change the turn status from Discarding to Robbing
-        if ( turnTracker.getStatus()==TurnStatus.DISCARDING && everyoneFinishedDiscarding() ){
+                // If everyone has discarded, change the turn status from Discarding to Robbing
+        if (everyoneFinishedDiscarding() ){
             turnTracker.setStatus(TurnStatus.ROBBING);
         }
-        version++;
+        return true;
+        }
+        return false;
     }
     
     private boolean everyoneFinishedDiscarding() {

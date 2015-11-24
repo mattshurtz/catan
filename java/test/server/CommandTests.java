@@ -470,21 +470,21 @@ public class CommandTests {
         assertEquals(initialBankYearOfPlenty,2);
         
         try {
-            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,2,2,3,2)));
-            // the version number is initialy 16 after we have initialized the map
+            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,1,2,2,1)));
+            // the version number is initialy 0 after we have initialized the map
             int versionNumber = model.getVersion();
-            assertEquals(model.getVersion(),16);
+            assertEquals(model.getVersion(),0);
             //Test while is not players turn
             cmd.execute(serializer.toJson(request),1,testPlayerHasResources);
             //Version number is the same because it was not the players turn. 
-            assertTrue(versionNumber==16);
+            assertTrue(versionNumber==0);
             
             //change turn to the correct player
             model.getTurnTracker().setCurrentTurn(3);
             //run again and the buyDevCardRequest should be succsessful
             cmd.execute(serializer.toJson(request),1,testPlayerHasResources);
             //Check that resources were discarded from the player correctly
-            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,2,1,2,1)));
+            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,1,1,1,0)));
             //Check that resources were added to the bank correctly
             assertTrue(model.getBank().hasResources(new ResourceList(
             initialBrick,initialWood,initialSheep+1,initialWheat+1,initialOre+1)));
@@ -1317,7 +1317,9 @@ public class CommandTests {
         int initialSheep = bankResources.getSheep();
         int initialWood = bankResources.getWood();
         //These are resources in the hand of the player who needs to discard
+        model.getPlayer(mustDiscardIndex).setResources(new ResourceList(0,2,2,3,2));
         ResourceList playerDiscardsResources = model.getPlayer(mustDiscardIndex).getResources();
+        ResourceList playerDiscardsResourcesInitial = playerDiscardsResources.copy();
         int initialDiscardBrick = playerDiscardsResources.getBrick();
         int initialDiscadOre = playerDiscardsResources.getOre();
         int initialDiscardWheat = playerDiscardsResources.getWheat();
@@ -1330,21 +1332,15 @@ public class CommandTests {
         ResourceList notDiscardedCards = new ResourceList(0,0,0,1,1);
         
         DiscardCardsRequest  mustDiscardRequest = new DiscardCardsRequest(mustDiscardIndex,discardCards);
-        DiscardCardsRequest  noNeedToDiscardRequest = new DiscardCardsRequest(noNeedToDiscardIndex,notDiscardedCards);
         
-        //Verify the players Initial Resources which sum to greater than 7
+        //Verify the players Initial Resources, which sum to greater than 7
         assertEquals(initialDiscardBrick,0);
         assertEquals(initialDiscadOre,2);
         assertEquals(initialDiscardWheat,3);
         assertEquals(initialDiscardSheep,2);
         assertEquals(initialDiscardWood,2);
         
-        // roll a 7 to set players that need to discard
-        RollNumberRequest rollRequest = new RollNumberRequest(7);
-        Command rollNumber = new rollNumber();
-        rollNumber.execute(serializer.toJson(rollRequest),1,model.getTurnTracker().getCurrentTurn());
         model.getTurnTracker().setStatus(TurnStatus.DISCARDING);
-        
         // Try to discard cards with a player that has more than 7 cards
         Command cmd = new discardCards();
         cmd.execute(serializer.toJson(mustDiscardRequest),1,mustDiscardIndex);
@@ -1357,14 +1353,32 @@ public class CommandTests {
         assertEquals(initialWood+discardCards.getWood(),model.getBank().getWood());
         
         //check that Correct resources are removed from the player's resources
-        assertEquals(initialBrick+discardCards.getBrick(),model.getBank().getBrick());
-        assertEquals(initialOre+discardCards.getOre(),model.getBank().getOre());
-        assertEquals(initialWheat+discardCards.getWheat(),model.getBank().getWheat());
-        assertEquals(initialSheep+discardCards.getSheep(),model.getBank().getSheep());
-        assertEquals(initialWood+discardCards.getWood(),model.getBank().getWood());
+        assertEquals(playerDiscardsResources,new ResourceList(playerDiscardsResourcesInitial.getBrick()-0,
+        playerDiscardsResourcesInitial.getWood()-1,playerDiscardsResourcesInitial.getSheep()-1,
+        playerDiscardsResourcesInitial.getWheat()-1,playerDiscardsResourcesInitial.getOre()-1));
 
+        //Check if player tries to discard cards that they do not have
+        //set resources in players hand to greater than 7
+        model.getPlayer(mustDiscardIndex).setResources(new ResourceList(0,2,2,3,2));
+        DiscardCardsRequest  mustDiscardBadRequest = new DiscardCardsRequest(mustDiscardIndex,new ResourceList(1,1,1,1,1));
+        // Verify the initial Version number, which is 1 because we have updated once by
+        // succesfully discarding cards
+        assertEquals(model.getVersion(),1);
         
+        //execute bad Command, version number should not update
+        cmd.execute(serializer.toJson(mustDiscardBadRequest),1,mustDiscardIndex);
+
+        //Verify that version number does not update
+        assertEquals(model.getVersion(),1);
         
+        // When the player has less than 7 cards
+        DiscardCardsRequest  noNeedToDiscardRequest = new DiscardCardsRequest(noNeedToDiscardIndex,notDiscardedCards);
+        //Save to check that the resources are not changed
+        ResourceList initialFailToDiscardResources = notDiscardedCards.copy();
+        //Execute the bad request
+        cmd.execute(serializer.toJson(noNeedToDiscardRequest),1,noNeedToDiscardIndex);
+        //check that version number is the same
+        assertEquals(model.getVersion(),1);
     }
     
     @Test

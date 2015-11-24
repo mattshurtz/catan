@@ -22,7 +22,11 @@ public class discardCards extends Command{
         if(isUserInGame(gameID, user)){
             DiscardCardsRequest discardCardsRequest = (DiscardCardsRequest)this.getDeserializer().toClass(DiscardCardsRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.discardCards(discardCardsRequest);
+            
+            boolean success = currentModel.discardCards(discardCardsRequest);
+            if(success){
+                currentModel.incrementVersion();
+            }
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
