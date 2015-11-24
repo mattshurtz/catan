@@ -137,6 +137,13 @@ public class ModelBank {
     	BuildRoadRequest r8 = new BuildRoadRequest(new EdgeLocation(new HexLocation(1,-1), EdgeDirection.SouthWest), true);
     	r8.setPlayerIndex(3);
     	readyModel.buildRoad(r8);
+        
+//give player road building card
+        try {
+            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
+        }
     	
     	//Give out some cards
     	for (int i=2;i<13;i++) {

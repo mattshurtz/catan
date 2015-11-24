@@ -1426,12 +1426,13 @@ public class Model {
         	ResourceType robbed = players.get(victimIndex).getResources().robResource();
         	players.get(robberIndex).getResources().addResource(robbed, 1);
         } else { //rob request failed
+            turnTracker.setStatus(TurnStatus.PLAYING);
+            this.getMap().setRobber(robPlayerRequest.getLocation());
         	return false;
         }
         
         //move robber
         this.getMap().setRobber(robPlayerRequest.getLocation());
-        
         turnTracker.setStatus(TurnStatus.PLAYING);
         
         return true;

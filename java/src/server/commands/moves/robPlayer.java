@@ -26,10 +26,11 @@ public class robPlayer extends Command{
             RobPlayerRequest robPlayerRequest = (RobPlayerRequest)this.getDeserializer().toClass(RobPlayerRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             boolean success = currentModel.robPlayer(robPlayerRequest);
-            
+            //Incremented every time because status is changed from robbing to playing
+            //every time robplayer is called
+            currentModel.incrementVersion();
+
             if (success) {
-            	//increment version and add to game log
-            	currentModel.incrementVersion();
             	
 	            String recipientName = null;
 	            try {
