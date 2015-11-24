@@ -19,7 +19,11 @@ public class model extends Command{
     @Override
     public String execute(String json, int gameID, int user) throws HTTPBadRequest {
         Model mod = GameInfoContainer.getInstance().getGameModel( gameID );
-        return getSerializer().toJson(mod);
+        
+        
+        if(mod!=null)
+        	return getSerializer().toJson(mod);
+        return null;
     }
     
 }

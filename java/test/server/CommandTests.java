@@ -10,6 +10,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
+import server.commands.game.listAI;
+import server.commands.game.model;
 import server.commands.games.create;
 import server.commands.games.join;
 import server.commands.games.list;
@@ -20,7 +22,6 @@ import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
-import shared.communication.params.LoadGameRequest;
 import shared.communication.params.moves.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -207,7 +208,6 @@ public class CommandTests {
 			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
-		System.out.println(result);
 		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
 	}
 	
@@ -327,13 +327,46 @@ public class CommandTests {
 	}
 //GAME TESTS	
 	@Test
-	public void testModel() {
+	public void testModel_valid() {
+		String result = "";
+		try {
+			result = (new model()).execute(null, 0, 0);			
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
 		
+		String expect = "{\"bank\":{\"brick\":19,\"ore\":19,\"sheep\":19,\"wheat\":19,\"wood\":19},\"deck\":{\"yearOfPlenty\":2,\"monopoly\":2,\"soldier\":14,\"roadBuilding\":2,\"monument\":5},\"chat\":{\"lines\":[]},\"log\":{\"lines\":[]},\"map\":{\"hexes\":[{\"location\":{\"x\":-2,\"y\":0},\"resource\":\"ore\",\"number\":5},{\"location\":{\"x\":-2,\"y\":1},\"resource\":\"wheat\",\"number\":2},{\"location\":{\"x\":-2,\"y\":2},\"resource\":\"wood\",\"number\":6},{\"location\":{\"x\":-1,\"y\":-1},\"resource\":\"brick\",\"number\":8},{\"location\":{\"x\":-1,\"y\":0},\"resource\":\"sheep\",\"number\":10},{\"location\":{\"x\":-1,\"y\":1},\"resource\":\"sheep\",\"number\":9},{\"location\":{\"x\":-1,\"y\":2},\"resource\":\"ore\",\"number\":3},{\"location\":{\"x\":0,\"y\":-2},\"number\":0},{\"location\":{\"x\":0,\"y\":-1},\"resource\":\"wood\",\"number\":3},{\"location\":{\"x\":0,\"y\":0},\"resource\":\"wheat\",\"number\":11},{\"location\":{\"x\":0,\"y\":1},\"resource\":\"wood\",\"number\":4},{\"location\":{\"x\":0,\"y\":2},\"resource\":\"wheat\",\"number\":8},{\"location\":{\"x\":1,\"y\":-2},\"resource\":\"brick\",\"number\":4},{\"location\":{\"x\":1,\"y\":-1},\"resource\":\"ore\",\"number\":9},{\"location\":{\"x\":1,\"y\":0},\"resource\":\"brick\",\"number\":5},{\"location\":{\"x\":1,\"y\":1},\"resource\":\"sheep\",\"number\":10},{\"location\":{\"x\":2,\"y\":-2},\"resource\":\"wood\",\"number\":11},{\"location\":{\"x\":2,\"y\":-1},\"resource\":\"sheep\",\"number\":12},{\"location\":{\"x\":2,\"y\":0},\"resource\":\"wheat\",\"number\":6}],\"ports\":[{\"resource\":\"ore\",\"location\":{\"x\":1,\"y\":-3},\"direction\":\"S\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":3,\"y\":-3},\"direction\":\"SW\",\"ratio\":3},{\"resource\":\"sheep\",\"location\":{\"x\":3,\"y\":-1},\"direction\":\"NW\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":2,\"y\":1},\"direction\":\"NW\",\"ratio\":3},{\"resource\":\"three\",\"location\":{\"x\":0,\"y\":3},\"direction\":\"N\",\"ratio\":3},{\"resource\":\"brick\",\"location\":{\"x\":-2,\"y\":3},\"direction\":\"NE\",\"ratio\":2},{\"resource\":\"wood\",\"location\":{\"x\":-3,\"y\":2},\"direction\":\"NE\",\"ratio\":2},{\"resource\":\"three\",\"location\":{\"x\":-3,\"y\":0},\"direction\":\"SE\",\"ratio\":3},{\"resource\":\"wheat\",\"location\":{\"x\":-1,\"y\":-2},\"direction\":\"S\",\"ratio\":2}],\"roads\":[],\"settlements\":[],\"cities\":[],\"radius\":4,\"robber\":{\"x\":0,\"y\":-2}},\"players\":[{\"cities\":4,\"color\":\"blue\",\"discarded\":false,\"monuments\":0,\"name\":\"Matt\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":0,\"playedDevCard\":false,\"playerID\":0,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"green\",\"discarded\":false,\"monuments\":0,\"name\":\"Scott\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":1,\"playedDevCard\":false,\"playerID\":1,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"orange\",\"discarded\":false,\"monuments\":0,\"name\":\"Jan\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":2,\"playedDevCard\":false,\"playerID\":2,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0},{\"cities\":4,\"color\":\"red\",\"discarded\":false,\"monuments\":0,\"name\":\"Garrett\",\"newDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"oldDevCards\":{\"yearOfPlenty\":0,\"monopoly\":0,\"soldier\":0,\"roadBuilding\":0,\"monument\":0},\"playerIndex\":3,\"playedDevCard\":false,\"playerID\":3,\"resources\":{\"brick\":0,\"ore\":0,\"sheep\":0,\"wheat\":0,\"wood\":0},\"roads\":15,\"settlements\":5,\"soldiers\":0,\"victoryPoints\":0}],\"turnTracker\":{\"currentTurn\":0,\"status\":\"FirstRound\",\"longestRoad\":-1,\"largestArmy\":-1},\"version\":0,\"winner\":-1}";
+		
+		assertEquals(expect,result);
+
+	}
+	
+	@Test
+	public void testModel_badGame() {
+		String result = "";
+		String expect = null;
+		try {
+			result = (new model()).execute(null, 500, 0);	
+			
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
+		assertEquals(null,result);
 	}
 	
 	@Test
 	public void testListAI() {
-		
+		String result = "";
+		String expect = "[]";
+		try {
+			result = (new listAI()).execute(null, 0, 0);				
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
+		assertEquals(expect,result);
 	}
 	
 //MOVES TESTS
