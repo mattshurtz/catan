@@ -1428,12 +1428,14 @@ public class Model {
         } else { //rob request failed
             turnTracker.setStatus(TurnStatus.PLAYING);
             this.getMap().setRobber(robPlayerRequest.getLocation());
+            version++;
         	return false;
         }
         
         //move robber
         this.getMap().setRobber(robPlayerRequest.getLocation());
         turnTracker.setStatus(TurnStatus.PLAYING);
+        version++;
         
         return true;
     }
