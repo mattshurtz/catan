@@ -186,19 +186,20 @@ public class Model {
      * @param location where the player would like to place a city
      * @param playerIndex used to identify the player building this settlement
      */
-    public void buildCity(BuildCityRequest buildCityRequest) {
-        version++;
+    public boolean buildCity(BuildCityRequest buildCityRequest) {
         VertexLocation location = buildCityRequest.getVertexLocation();
         int playerIndex = buildCityRequest.getPlayerIndex();
         
         // Decrement player's cities
-        if (canBuildCity(location) && isPlayersTurn(playerIndex)) {
+        if (canBuildCity(location) && isPlayersTurn(playerIndex) && canBuyCity(playerIndex)) {
             players.get(playerIndex).buildCity();
             catanMap.addCity(new City(playerIndex,location));
             bank.payForCity();
             checkWinner();
-            version++;
+            return true;
         }
+        
+        return false;
     }
 
     /**
@@ -458,13 +459,13 @@ public class Model {
      *
      * @return true if a city can be bought
      */
-    public boolean canBuyCity() {
+    public boolean canBuyCity(int playerIndex) {
         //checks if the player has enough resources.
-        if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuyCity()) {
+        if (!players.get(playerIndex).getResources().canBuyCity()) {
             return false;
         }
         //check if the player has remaining cities available to build
-        if (!players.get(turnTracker.getCurrentTurn()).hasCity()) {
+        if (!players.get(playerIndex).hasCity()) {
             return false;
         }
         return true;
@@ -1613,10 +1614,10 @@ public class Model {
      * @param chat the MessageLine object containing the message as well as the
      * name of the player that sent it.
      */
-    public void sendChat(SendChatRequest chat) {
+    public boolean sendChat(SendChatRequest chat) {
         MessageLine message = new MessageLine(players.get(chat.getPlayerIndex()).getName(), chat.getContent());
         this.chat.addLine(message);
-        version++;
+        return true;
     }
 
     public void setBank(ResourceList bank) {

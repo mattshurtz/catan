@@ -5,12 +5,17 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
 import server.commands.moves.*;
+import server.commands.user.login;
+import server.commands.user.register;
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.Credentials;
+import shared.communication.params.LoadGameRequest;
 import shared.communication.params.moves.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -41,6 +46,7 @@ public class CommandTests {
     
     @BeforeClass
 	public static void setUpClass() {
+    	
 	}
 
 	@AfterClass
@@ -49,14 +55,170 @@ public class CommandTests {
 
 	@Before
 	public void setUp() {
-        gic = GameInfoContainer.getInstance();
+		gic = GameInfoContainer.getInstance();
         serializer = new Serializer();
 	}
 
 	@After
 	public void tearDown() {
+		GameInfoContainer.reset();
 	}
 
+	
+//USER TESTS	
+	@Test
+	public void testLogin_valid() {
+		
+		
+		String result = "";
+		//test valid login		
+		Credentials rqt = new Credentials("Matt","matt");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("catan.user=%7B%22name%22%3A%22Matt%22%2C%22password%22%3A%22matt%22%2C%22playerID%22%3A0%7D;Path=/;",result);
+		
+	}
+	
+	@Test
+	public void testLogin_badPassword() {
+		
+		String result = "";
+				
+		Credentials rqt = new Credentials("Matt","matt2");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+		}
+	}
+	
+	@Test
+	public void testLogin_badUsername() {
+		
+		String result = "";
+			
+		Credentials rqt = new Credentials("Matt2","matt");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+		}
+	}
+	
+	@Test
+	public void testLogin_badUsername_emptyString() {
+		
+		String result = "";
+				
+		Credentials rqt = new Credentials("","");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);    
+			return;
+		}
+		fail();
+	}
+	
+	@Test
+	public void testRegister_valid() {
+		String result = "";
+		//test valid registration	
+		Credentials rqt = new Credentials("random","random");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("catan.user=%7B%22name%22%3A%22random%22%2C%22password%22%3A%22random%22%2C%22playerID%22%3A5%7D;Path=/;",result);	
+	}
+	
+	@Test
+	public void testRegister_userAlreadyExists() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("Matt","123456");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
+	@Test
+	public void testRegister_invalidUsername() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("ba","123456");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
+	@Test
+	public void testRegister_invalidPassword() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("baby","12");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
+//GAMES TESTS
+	@Test
+	public void testCreate() {
+		
+	}
+	
+	@Test
+	public void testJoin() {
+		
+	}
+	
+	@Test
+	public void testList() {
+		
+	}
+//GAME TESTS	
+	@Test
+	public void testModel() {
+		
+	}
+	
+	@Test
+	public void testListAI() {
+		
+	}
+	
+//MOVES TESTS
+	@Test
+	public void acceptTrade() {
+		
+	}
+	
+	
     @Test
     public void testMonument() {
         Model m = gic.getModels().getGame(0);
@@ -262,7 +424,8 @@ public class CommandTests {
     public void testBuildCity() throws GetPlayerException {
         Command cmd = new buildCity();
         
-        Model m = gic.getModels().getGame(0);
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
         int testPlayerIndex = 0;
         Player p = null;
         VertexLocation validVertex = new VertexLocation(new HexLocation(-2,0), VertexDirection.West);
@@ -270,17 +433,23 @@ public class CommandTests {
         VertexLocation opponentVertex = new VertexLocation(new HexLocation(0,-1), VertexDirection.West);
         
         int historyLength = m.getLog().getLength();
+        int version = m.getVersion();
+        int bankOre = m.getBank().getOre();
+        int bankWheat = m.getBank().getWheat();
         
-        //test if not enough resources (3 ore 2 wheat)
+        
+        //test if NOT ENOUGH RESOURCES (3 ore 2 wheat)
         p = m.getPlayer(0);
         int numOre = p.getResources().getOre();
         int numWheat = p.getResources().getWheat();
+        int numCities = p.getCities();
         
         if(numOre >= 3) {
             int excess = numOre - 3;
             p.getResources().setOre(2);
             numOre = 2;
             m.getBank().addResource(ResourceType.ORE, excess + 1);
+            bankOre += (excess + 1);
         }
         
         if(numWheat >= 2) {
@@ -288,33 +457,40 @@ public class CommandTests {
             p.getResources().setWheat(1);
             numWheat = 1;
             m.getBank().addResource(ResourceType.WHEAT, excess + 1);
+            bankWheat += (excess + 1);
         }
         
         BuildCityRequest req = new BuildCityRequest(validVertex);
         req.setType("buildCity");
         req.setPlayerIndex(0);
         try {
-            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
-        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
-        assertEquals(m.getLog().getLength(), historyLength);
+        assertEquals(numOre, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre, m.getBank().getOre());
+        assertEquals(bankWheat, m.getBank().getWheat());        
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numCities, m.getPlayer(0).getCities());
+        assertEquals(version, m.getVersion());
         
-        //test if enough resources
+        //ENOUGH RESOURCES
         if(numOre < 3) {
             int needed = 3 - numOre;
             p.getResources().setOre(3);
             m.getBank().subtractResource(ResourceType.ORE, needed);
             numOre = 3;
+            bankOre -= needed;
         }
         if(numWheat < 2) {
             int needed = 2 - numWheat;
             p.getResources().setWheat(2);
             m.getBank().subtractResource(ResourceType.WHEAT, needed);
             numWheat = 2;
+            bankWheat -= needed;
         }
         
         //test not own settlement
@@ -322,33 +498,109 @@ public class CommandTests {
         req.setType("buildCity");
         req.setPlayerIndex(0);
         try {
-            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
-        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
-        assertEquals(m.getLog().getLength(), historyLength);
-            
+        assertEquals(numOre, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre, m.getBank().getOre());
+        assertEquals(bankWheat, m.getBank().getWheat());        
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numCities, m.getPlayer(0).getCities());
+        assertEquals(version, m.getVersion());
+        
         //test no settlement on vertex
         req = new BuildCityRequest(emptyVertex);
         req.setType("buildCity");
         req.setPlayerIndex(0);
         try {
-            cmd.execute(serializer.toJson(req),0,p.getPlayerID());
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        assertEquals(m.getPlayer(0).getResources().getOre(), numOre);
-        assertEquals(m.getPlayer(0).getResources().getWheat(), numWheat);
-        assertEquals(m.getLog().getLength(), historyLength);
+        assertEquals(numOre, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre, m.getBank().getOre());
+        assertEquals(bankWheat, m.getBank().getWheat());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numCities, m.getPlayer(0).getCities());
+        assertEquals(version, m.getVersion());
         
-            //test if no settlements built
-            //test if no more cities
-            //test if valid
-            //test not your turn
+        //test if no more cities but on valid vertex
+        assertEquals(4,numCities);
+        p.setCities(0);
+        numCities = p.getCities(); //should be 0
+        assertEquals(0, numCities);
+        
+        req = new BuildCityRequest(validVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numOre, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre, m.getBank().getOre());
+        assertEquals(bankWheat, m.getBank().getWheat());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numCities, m.getPlayer(0).getCities());
+        assertEquals(version, m.getVersion());
+        
+        p.setCities(4);
+        numCities = p.getCities();
+        assertEquals(4, numCities);
+        
+        //test not your turn
+        m.getTurnTracker().setCurrentTurn(1);
+        
+        assertTrue(numOre >= 3);
+        assertTrue(numWheat >= 2);
+        
+        req = new BuildCityRequest(validVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numOre, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre, m.getBank().getOre());
+        assertEquals(bankWheat, m.getBank().getWheat());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numCities, m.getPlayer(0).getCities());
+        assertEquals(version, m.getVersion());
+        
+        m.getTurnTracker().setCurrentTurn(0);
+        
+        //test if valid
+        assertTrue(numOre >= 3);
+        assertTrue(numWheat >= 2);
+        
+        req = new BuildCityRequest(validVertex);
+        req.setType("buildCity");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numOre - 3, m.getPlayer(0).getResources().getOre());
+        assertEquals(numWheat - 2, m.getPlayer(0).getResources().getWheat());
+        assertEquals(bankOre + 3, m.getBank().getOre());
+        assertEquals(bankWheat + 2, m.getBank().getWheat());
+        assertEquals(historyLength + 1, m.getLog().getLength());
+        assertEquals(numCities - 1, m.getPlayer(0).getCities());
+        assertEquals(++version, m.getVersion());
     }
 
     @Test
@@ -449,8 +701,10 @@ public class CommandTests {
     
     @Test
     public void testSendChat() {
+    	//TEST VALID CASE
     	Model m = gic.getModels().getGame(0);
     	int testPlayerIndex = 0;
+    	int gameID = 0;
         Player p = null;
         try {
             p = m.getPlayer( testPlayerIndex );
@@ -468,7 +722,7 @@ public class CommandTests {
     	//Execute the command
     	Command sc = new sendChat();
     	try {
-    		sc.execute(serializer.toJson(scReq), 0, p.getPlayerID());
+    		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
     	} catch (HTTPBadRequest ex) {
     		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
@@ -479,6 +733,31 @@ public class CommandTests {
     	
     	//manually update old messageList and see if they match
     	MessageLine line = new MessageLine(p.getName(), message);
+    	mlOld.getLines().add(line);
+    	
+    	assertEquals(mlOld, mlNew);
+    	assertEquals(oldVersion + 1, newVersion);
+    	
+    	//TEST WITH EMPTY INPUT
+    	mlOld = mlNew;
+    	oldVersion = newVersion;
+    	
+    	message = "";
+    	scReq = new SendChatRequest(testPlayerIndex, message);
+    	
+    	//Execute command
+    	try {
+    		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	mlNew = m.getChat();
+    	newVersion = m.getVersion();
+    	
+    	//manually update and see if they match
+    	line = new MessageLine(p.getName(), message);
     	mlOld.getLines().add(line);
     	
     	assertEquals(mlOld, mlNew);

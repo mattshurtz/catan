@@ -785,7 +785,7 @@ public class ClientModelTest {
 	@Test
 	public void testCanBuyCityInsufficientResources() throws Exception {
 		//Current player has 1 wheat and 0 ore, so this should return false
-		assertFalse(instance.canBuyCity());
+		assertFalse(instance.canBuyCity(0));
 	}
 	
 	/**
@@ -813,7 +813,7 @@ public class ClientModelTest {
 		assertEquals(player.getCities(), 0);
 		
 		//Player has no cities, so canBuyCity should return false
-		assertFalse(instance.canBuyCity());
+		assertFalse(instance.canBuyCity(0));
 	}
 	
 	/**
@@ -840,7 +840,7 @@ public class ClientModelTest {
 		//make sure player has a city to place
 		assertTrue(player.getCities() > 0);
 		
-		assertTrue(instance.canBuyCity());
+		assertTrue(instance.canBuyCity(0));
 	}
 
 	/**

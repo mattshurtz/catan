@@ -23,6 +23,10 @@ public class GameInfoContainer {
 		return instance;
 	}
 	
+	public static void reset() {
+		instance = null;
+	}
+	
     private ModelBank models;
     private UserInfoBank users;
     

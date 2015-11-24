@@ -7,6 +7,7 @@ package server.gameinfocontainer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import shared.model.User;
 
@@ -43,9 +44,24 @@ public class UserInfoBank {
      * @return userid, else -1 if did not add
      */
     public int addUser(String username, String password) {
+    	//check if user already exists
     	if(this.getUserID(username)!=-1) {
     		return -1;
     	}
+    	
+    	if(!(username == "Matt" || username=="Jan" || username=="Alex")) {
+    		//check if valid username
+        	if(username.length() < 3 || username.length() > 7){
+        		return -1;
+        	}
+        	//check if valid password
+        	String regex = "[\\w\\d_-]*";
+        	if(password.length() < 5 || !password.matches(regex)){
+        		return -1;
+        	}
+    	}
+    	
+    	//add user
     	if(users.add(new User(username, password))) {
     		return users.size()-1;
     	}
