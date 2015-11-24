@@ -71,7 +71,7 @@ public class main{
 	 */
 	public static void main(String[] args) {
 	//start server with default port if no argument is given
-		if (args.length == 1) {
+		if (args.length >= 1) {
 			new main().run(Integer.parseInt(args[0]));
 		} else if (args.length == 0) {
 			new main().run(DEFAULT_SERVER_PORT_NUMBER);
