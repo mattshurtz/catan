@@ -36,8 +36,9 @@ public class Road {
 	 */
 	public CatanColor getColor() {
 		Model currentModel = CatanFacade.getModel();
-		if (currentModel == null)
-			System.out.println("Catan Model is null but shouldn't be");
+		if (currentModel == null) {
+			//System.out.println("Catan Model is null but shouldn't be");
+		}
 		
 		try {
 			Player player = currentModel.getPlayer(owner);

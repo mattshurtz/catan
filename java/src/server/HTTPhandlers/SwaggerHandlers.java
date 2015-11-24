@@ -36,8 +36,8 @@ public class SwaggerHandlers {
 				exchange.sendResponseHeaders(404, -1);
 				OutputStream os = exchange.getResponseBody();
 				os.close();
-				System.out.println("Couldn't find the file " + new
-				File(filepath).getAbsolutePath());
+				////System.out.println("Couldn't find the file " + new
+				//File(filepath).getAbsolutePath());
 			}
 		}
 	}
@@ -61,7 +61,7 @@ public class SwaggerHandlers {
 			super(rootPath);
 		}@Override
 		public void handle(HttpExchange exchange) throws IOException {
-			System.out.println(this.rootPath + " ___ " + this.getRequestPath(exchange));
+			////System.out.println(this.rootPath + " ___ " + this.getRequestPath(exchange));
 			this.sendFile(exchange, this.rootPath + this.getRequestPath(exchange) + ".json");
 		}
 	}

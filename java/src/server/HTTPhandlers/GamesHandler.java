@@ -28,10 +28,10 @@ public class GamesHandler extends catanHTTPHandler {
 	@Override
     public void handle(HttpExchange exchange) throws IOException {
 		
-		System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
+		////System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
         try {
-            //System.out.println("Player Id: " + this.getPlayerId( exchange ) );
-            //System.out.println("Player name: " + this.getPlayerName( exchange ) );
+            //////System.out.println("Player Id: " + this.getPlayerId( exchange ) );
+            //////System.out.println("Player name: " + this.getPlayerName( exchange ) );
 			//prep command
 			URI url = exchange.getRequestURI();
 			String newCommand = "games." + url.getPath().replace("/games/", "");

@@ -86,7 +86,7 @@ public class LoginController extends Controller implements ILoginController {
         boolean success = CatanFacade.getGameHubFacade().login( username, pass );
         
         if ( success ) {
-            System.out.println("logged in!");
+            //System.out.println("logged in!");
             // If log in succeeded
             getLoginView().closeModal();
             loginAction.execute();
@@ -167,7 +167,7 @@ public class LoginController extends Controller implements ILoginController {
         boolean success = CatanFacade.getGameHubFacade().register( username, pass );
         
         if ( success ) {
-            System.out.println("registered!");
+            //System.out.println("registered!");
             // If register succeeded
             getLoginView().closeModal();
             loginAction.execute();

@@ -299,7 +299,7 @@ public class CatanMap {
             if ( randomNumbers ) {
                 theNum = (Integer) removeRandomEntryFrom( tempNums );
             } else {
-            	//System.out.println(h.getLocation().getX() + "," + h.getLocation().getY());
+            	////System.out.println(h.getLocation().getX() + "," + h.getLocation().getY());
             	
             	if (h.getLocation() == new HexLocation(0,-2)) { //if in default desert location
             		theNum = defaultNumbers.get(desert.getLocation());

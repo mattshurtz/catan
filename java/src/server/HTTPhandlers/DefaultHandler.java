@@ -23,7 +23,7 @@ public class DefaultHandler extends catanHTTPHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
        
-        System.out.println(exchange.getRequestURI().toString());
+        ////System.out.println(exchange.getRequestURI().toString());
         
         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
     }

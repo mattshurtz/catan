@@ -25,7 +25,7 @@ public class StateSetup extends StateBase {
      */
     public void buildRoad( EdgeLocation location, boolean free ) throws ServerException{
        BuildRoadRequest request = new BuildRoadRequest(location, free);
-        System.out.println("build Road Location: "+location);
+        //System.out.println("build Road Location: "+location);
        request.setType("buildRoad");
        request.setPlayerIndex(CatanFacade.getModel().getTurnTracker().getCurrentTurn());
        

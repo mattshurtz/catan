@@ -70,7 +70,7 @@ public class DevCardController extends Controller implements IDevCardController 
 
 	@Override
 	public void startPlayCard() {
-        System.out.println(" start play card ");
+        //System.out.println(" start play card ");
 
 		//SOLDIER, YEAR_OF_PLENTY, MONOPOLY, ROAD_BUILD, MONUMENT
         getPlayCardView().setCardEnabled(DevCardType.SOLDIER, CatanFacade.getCurrentState().canPlaySoldier());

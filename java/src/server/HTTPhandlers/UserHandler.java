@@ -26,7 +26,7 @@ public class UserHandler extends catanHTTPHandler{
 	@Override
     public void handle(HttpExchange exchange) throws IOException {
     	
-    	System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
+    	////System.out.println("CLIENT CALLED: " + exchange.getRequestURI().getPath());
     	
     	try {
     		

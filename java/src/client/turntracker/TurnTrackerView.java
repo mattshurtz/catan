@@ -131,7 +131,7 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
         if(playerPanel[playerIndex].getComponentCount()>=1){
     	playerPanel[playerIndex].setBackground(color.getJavaColor());
         playerPanel[playerIndex].getComponent(1).setBackground(color.getJavaColor());
-        System.out.println(playerPanel[playerIndex].getComponent(1));
+        //System.out.println(playerPanel[playerIndex].getComponent(1));
         }
     }
 

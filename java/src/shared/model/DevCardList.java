@@ -358,7 +358,7 @@ public class DevCardList {
                 break;
             }
             default: {
-               System.out.println("INVALID DEV CARD TYPE.");
+               //System.out.println("INVALID DEV CARD TYPE.");
                break;
             }
         }

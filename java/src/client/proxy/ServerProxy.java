@@ -81,18 +81,18 @@ public class ServerProxy implements IServerProxy {
 //        Credentials c = new Credentials();
 //        c.setUsername("Sam");
 //        c.setPassword("sam");
-//        System.out.println(sp.doPost("user/login", c));
+//        //System.out.println(sp.doPost("user/login", c));
 //
 //        String response = sp.doGet( "games/list" );
-//        System.out.println(response);
+//        //System.out.println(response);
 //        List<GameResponse> games = sp.deserializer.toGamesList(response);
 ////        String gameListJson = sp.doGet("games/list");
-////        System.out.println(gameListJson);
+////        //System.out.println(gameListJson);
 ////        JoinGameRequest jgr = new JoinGameRequest();
 ////        jgr.setColor("yellow");
 ////        jgr.setGameID(0);
-////        System.out.println(sp.doPost("games/join", jgr));
-////        System.out.println(sp.doGet("game/model"));
+////        //System.out.println(sp.doPost("games/join", jgr));
+////        //System.out.println(sp.doGet("game/model"));
 //    }
 
     private String baseUrl() {
@@ -138,12 +138,12 @@ public class ServerProxy implements IServerProxy {
                 conn.setRequestMethod("GET");
             }
             
-            //System.out.println( conn.getHeaderFields() );
+            ////System.out.println( conn.getHeaderFields() );
 
             // Grab the cookie headers & save 'em
             for (Entry<String, List<String>> header : conn.getHeaderFields().entrySet()) {
                 // For testing
-//                System.out.println(header.getKey() + "=" + header.getValue());
+//                //System.out.println(header.getKey() + "=" + header.getValue());
                 if ( header.getKey() == null || header.getValue() == null )
                     continue;
                 if ( header.getKey().equalsIgnoreCase("set-cookie") ) {

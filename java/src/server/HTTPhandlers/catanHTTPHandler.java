@@ -118,7 +118,7 @@ public class catanHTTPHandler implements HttpHandler{
 	protected void sendResponseBody(HttpExchange exchange, String result) {
 		// TODO Auto-generated method stub
 		try {
-			//System.out.println("headers: " + printHeaders( exchange.getResponseHeaders() ) );
+			//////System.out.println("headers: " + printHeaders( exchange.getResponseHeaders() ) );
                         exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 			OutputStreamWriter writer = new OutputStreamWriter(
 					exchange.getResponseBody());

@@ -194,14 +194,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		startJoinGame(currentGame);
 		boolean success = CatanFacade.getGameHubFacade().join(currentGame, color.toString());
         if ( success ) {
-            System.out.println("Join succeeded!");
+            //System.out.println("Join succeeded!");
             // If join succeeded
             OverlayView.closeAllModals();
             joinAction.execute();
             //this triggered update allows modals to pop up on rejoining games that have been started.
             CatanFacade.triggerUpdate();
         } else {
-            System.out.println("Join failed.");
+            //System.out.println("Join failed.");
         }
 	}
     

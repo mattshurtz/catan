@@ -189,8 +189,8 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-        System.out.println("this is the hexlocation of robber: "+hexLoc);
-        System.out.println("current state: "+CatanFacade.getCurrentState().toString());
+        //System.out.println("this is the hexlocation of robber: "+hexLoc);
+        //System.out.println("current state: "+CatanFacade.getCurrentState().toString());
         
 		return CatanFacade.getCurrentState().canPlaceRobber(hexLoc);		
 	}
