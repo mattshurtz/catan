@@ -22,6 +22,7 @@ import shared.definitions.ResourceType;
 import shared.definitions.TurnStatus;
 
 import shared.exceptions.GetPlayerException;
+import shared.exceptions.RollException;
 import shared.json.Deserializer;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -1428,10 +1429,10 @@ public class Model {
      * Rolls a number and changes the turn status from ROLLING to PLAYING Add
      * resources accordingly.
      */
-    public boolean rollNumber(RollNumberRequest rollNumberRequest) {
+    public boolean rollNumber(RollNumberRequest rollNumberRequest) throws RollException {
         int rolledNumber = rollNumberRequest.getNumber();
         int myPlayerIndex = rollNumberRequest.getPlayerIndex();
-        version++;
+        
         if (rolledNumber > 1 && rolledNumber < 13 && rolledNumber != 7 && canRoll(myPlayerIndex)) {
             distributeResources(rolledNumber);
             
@@ -1439,7 +1440,19 @@ public class Model {
             return true;
         } else if ( rolledNumber == 7 && canRoll(myPlayerIndex) ) {
             everyoneDiscard();
+        } else { //player can't roll, or number is invalid
+        	String exMessage = "";
+        	RollException rollEx;
+        	if (!canRoll(myPlayerIndex)) {
+        		exMessage = "Given player index (from rollNumberRequest) can't roll.";
+        	} else if (rolledNumber < 1 || rolledNumber > 12) {
+        		exMessage = "Given rolledNumber is invalid: must be between 1 and 12.";
+        	} 
+        	
+        	rollEx = new RollException(exMessage);
+        	throw rollEx;
         }
+        
         return false;
     }
     

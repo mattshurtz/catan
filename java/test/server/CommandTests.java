@@ -1,5 +1,6 @@
 package server;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
@@ -853,7 +854,7 @@ public class CommandTests {
     
     @Test
     public void testSendChat() {
-    	//TEST VALID CASE
+    	//TEST VALID CASE WITH NORMAL MESSAGE
     	Model m = gic.getModels().getGame(0);
     	int testPlayerIndex = 0;
     	int gameID = 0;
@@ -957,9 +958,64 @@ public class CommandTests {
     }
     
     @Test
-    public void rollNumber(){
-       fail(); 
+    public void testRollNumber() {
+    	//TEST VALID CASE WITH NORMAL REQUEST
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+    	
+    	//ROLL 11 - Matt rolls, Garrett gets 2 wheat
+    	//Jan also gets 1 wood
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(matt.getPlayerID(), 11);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	ResourceList mattAfter = matt.getResources();
+    	ResourceList garAfter = garrett.getResources();
+    	ResourceList scottAfter = scott.getResources();
+    	ResourceList janAfter = jan.getResources();
+    	int newVersion = m.getVersion();
+    	
+    	//manually update resource to match expected result
+    	garBefore.addResource(ResourceType.WHEAT, 2);
+    	janBefore.addResource(ResourceType.WOOD, 1);
+    	
+    	assertEquals(mattBefore, mattAfter);
+    	assertEquals(garBefore, garAfter);
+    	assertEquals(scottBefore, scottAfter);
+    	assertEquals(janBefore, janAfter);
+    	assertEquals(oldVersion + 1, newVersion);
+    	
+    	//ROLL 9 - Two players (Matt, Scott) each get one sheep
+    	
+    	//
     }
-
 }
 

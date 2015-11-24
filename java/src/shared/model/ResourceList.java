@@ -386,6 +386,12 @@ public class ResourceList {
         }
         return true;
     }
+    
+    public ResourceList copy() {
+//    	ResourceList(int brick, int wood, int sheep, int wheat, int ore)
+    	ResourceList copy = new ResourceList(this.brick, this.wood, this.sheep, this.wheat, this.ore);
+    	return copy;
+    }
 
 	public int getResource(ResourceType resource) {
 		switch (resource){
