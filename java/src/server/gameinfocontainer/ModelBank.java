@@ -139,19 +139,19 @@ public class ModelBank {
     	r8.setPlayerIndex(3);
     	readyModel.buildRoad(r8);
         
-//give player road building card
-        try {
-            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
-            readyModel.getDeck().removeRoadBuilding();
-            readyModel.getBank().subtractResource(ResourceType.BRICK, 8);
-            readyModel.getBank().subtractResource(ResourceType.WOOD, 8);
-            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 4);
-            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 4);
-            readyModel.getPlayer(1).getResources().addResource(ResourceType.WOOD, 4);
-            readyModel.getPlayer(1).getResources().addResource(ResourceType.BRICK, 4);            
-        } catch (GetPlayerException ex) {
-            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//For TA passoff use ONLY
+//        try {
+//            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+//            readyModel.getDeck().removeRoadBuilding();
+//            readyModel.getBank().subtractResource(ResourceType.BRICK, 8);
+//            readyModel.getBank().subtractResource(ResourceType.WOOD, 8);
+//            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 4);
+//            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 4);
+//            readyModel.getPlayer(1).getResources().addResource(ResourceType.WOOD, 4);
+//            readyModel.getPlayer(1).getResources().addResource(ResourceType.BRICK, 4);            
+//        } catch (GetPlayerException ex) {
+//            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     	
     	//Give out some cards
     	for (int i=2;i<13;i++) {
