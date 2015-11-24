@@ -25,10 +25,12 @@ public class buildRoad extends Command {
         if(isUserInGame(gameID,user)){
             BuildRoadRequest roadRequest = (BuildRoadRequest)this.getDeserializer().toClass(BuildRoadRequest.class, json);
             Model currentModel =GameInfoContainer.getInstance().getGameModel(gameID);
+            
             currentModel.buildRoad(roadRequest);
             
             this.addHistoryMessage(gameID, "built a road", user);
             currentModel.incrementVersion();
+            
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

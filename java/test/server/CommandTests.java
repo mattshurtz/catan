@@ -4,8 +4,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -13,6 +12,7 @@ import server.commands.Command;
 import server.commands.moves.*;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.moves.*;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
@@ -20,10 +20,12 @@ import shared.json.Serializer;
 import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
+import shared.model.DevCardList;
 import shared.model.MessageLine;
 import shared.model.MessageList;
 import shared.model.Model;
 import shared.model.Player;
+import shared.model.ResourceList;
 
 /**
  *
@@ -91,6 +93,170 @@ public class CommandTests {
         assertEquals( oldVictoryPoints+1, newVic );
         assertEquals( oldVersion + 1, newVersion );
     }
+        
+    @Test
+    public void buyDevCard() throws GetPlayerException{
+        Command cmd = new buyDevCard();
+        Model model = gic.getModels().getGame(1);
+        
+        int testPlayerHasResources = 3;
+        int testPlayerNotHaveResources = 0;
+        
+        MoveRequest request = new MoveRequest("buyDevCard",testPlayerHasResources);
+        ResourceList bankResources = model.getBank();
+        
+        int initialBrick = bankResources.getBrick();
+        int initialOre = bankResources.getOre();
+        int initialWheat = bankResources.getWheat();
+        int initialSheep = bankResources.getSheep();
+        int initialWood = bankResources.getWood();
+        
+        int initialBankMonopoly = model.getDeck().getMonopoly();
+        int initialBankMonument = model.getDeck().getMonument();
+        int initialBankRoadBuilding = model.getDeck().getRoadBuilding();
+        int initialBankSoldier = model.getDeck().getSoldier();
+        int initialBankYearOfPlenty = model.getDeck().getYearOfPlenty();
+
+        int initialPlayerNEWMonopoly = model.getPlayer(3).getNewDevCards().getMonopoly();
+        int initialPlayerNEWMonument = model.getPlayer(3).getNewDevCards().getMonument();
+        int initialPlayerNEWRoadBuilding = model.getPlayer(3).getNewDevCards().getRoadBuilding();
+        int initialPlayerNEWSoldier = model.getPlayer(3).getNewDevCards().getSoldier();
+        int initialPlayerNEWYearOfPlenty = model.getPlayer(3).getNewDevCards().getYearOfPlenty();
+        
+        int initialPlayerMonopoly = model.getPlayer(3).getOldDevCards().getMonopoly();
+        int initialPlayerMonument = model.getPlayer(3).getOldDevCards().getMonument();
+        int initialPlayerRoadBuilding = model.getPlayer(3).getOldDevCards().getRoadBuilding();
+        int initialPlayerSoldier = model.getPlayer(3).getOldDevCards().getSoldier();
+        int initialPlayerYearOfPlenty = model.getPlayer(3).getOldDevCards().getYearOfPlenty();
+        
+        //Check that player does not have Development cards in their old Dev card list
+        assertEquals(initialPlayerMonopoly,0);
+        assertEquals(initialPlayerMonument,0);
+        assertEquals(initialPlayerRoadBuilding,0);
+        assertEquals(initialPlayerSoldier,0);
+        assertEquals(initialPlayerYearOfPlenty,0);
+        
+        //Check that player does not have Development cards in their new Dev card list        
+        assertEquals(initialPlayerNEWMonopoly,0);
+        assertEquals(initialPlayerNEWMonument,0);
+        assertEquals(initialPlayerNEWRoadBuilding,0);
+        assertEquals(initialPlayerNEWSoldier,0);
+        assertEquals(initialPlayerNEWYearOfPlenty,0);
+        
+        //Check that the Bank starts with the correct Dev Cards
+        assertEquals(initialBankMonopoly,2);
+        assertEquals(initialBankMonument,5);
+        assertEquals(initialBankRoadBuilding,2);
+        assertEquals(initialBankSoldier,14);
+        assertEquals(initialBankYearOfPlenty,2);
+        
+        try {
+            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,2,2,3,2)));
+            // the version number is initialy 16 after we have initialized the map
+            int versionNumber = model.getVersion();
+            assertEquals(model.getVersion(),16);
+            //Test while is not players turn
+            cmd.execute(serializer.toJson(request),1,testPlayerHasResources);
+            //Version number is the same because it was not the players turn. 
+            assertTrue(versionNumber==16);
+            
+            //change turn to the correct player
+            model.getTurnTracker().setCurrentTurn(3);
+            //run again and the buyDevCardRequest should be succsessful
+            cmd.execute(serializer.toJson(request),1,testPlayerHasResources);
+            //Check that resources were discarded from the player correctly
+            assertTrue(model.getPlayer(testPlayerHasResources).getResources().hasResources(new ResourceList(0,2,1,2,1)));
+            //Check that resources were added to the bank correctly
+            assertTrue(model.getBank().hasResources(new ResourceList(
+            initialBrick,initialWood,initialSheep+1,initialWheat+1,initialOre+1)));
+            
+            //Check that no devcards were added to the OLD devcard list unless it is a monument
+            int finalPlayerMonopoly = model.getPlayer(3).getOldDevCards().getMonopoly();
+            int finalPlayerRoadBuilding = model.getPlayer(3).getOldDevCards().getRoadBuilding();
+            int finalPlayerSoldier = model.getPlayer(3).getOldDevCards().getSoldier();
+            int finalPlayerYearOfPlenty = model.getPlayer(3).getOldDevCards().getYearOfPlenty();
+            
+            assertEquals(finalPlayerMonopoly,0);
+            assertEquals(finalPlayerRoadBuilding,0);
+            assertEquals(finalPlayerSoldier,0);
+            assertEquals(finalPlayerYearOfPlenty,0);
+            
+            //Get which dev card was added to the players list. by using canPlayDevCard
+            // on each type, this isn't want canPlayDevCard would normally be used for but 
+            // it comes in handy here. 
+            DevCardType typeOfDevCard;
+            
+            DevCardList oldDevCards = model.getPlayer(3).getOldDevCards();
+            DevCardList newDevCards = model.getPlayer(3).getNewDevCards();
+            
+            // use these ints to keep track of what the players final new devcard list should be.
+            int amountSoldier;
+            int amountMonument;
+            int amountMonopoly;
+            int amountRoadBuilding;
+            int amountYOP;
+            
+            //Find which devcard they recieved. 
+            if(newDevCards.canPlayDevCard(DevCardType.SOLDIER)){
+                typeOfDevCard = DevCardType.SOLDIER;
+                amountSoldier =1;
+            }else{
+               amountSoldier=0; 
+            }
+            if(oldDevCards.canPlayDevCard(DevCardType.MONUMENT)){
+                typeOfDevCard = DevCardType.MONUMENT;
+                amountMonument=1;
+                // check that Monument was not added to the newDevCard list
+                assertEquals(newDevCards.getMonument(),0);
+            }else{
+                amountMonument=0;
+            }
+            if(newDevCards.canPlayDevCard(DevCardType.MONOPOLY)){
+                typeOfDevCard = DevCardType.MONOPOLY;
+                amountMonopoly=1;
+            }else{
+                amountMonopoly=0;
+            }          
+            if(newDevCards.canPlayDevCard(DevCardType.YEAR_OF_PLENTY)){
+                typeOfDevCard = DevCardType.YEAR_OF_PLENTY;
+                amountYOP = 1;
+            }else{
+                amountYOP=0;
+            }          
+            if(newDevCards.canPlayDevCard(DevCardType.ROAD_BUILD)){
+                typeOfDevCard = DevCardType.ROAD_BUILD;
+                amountRoadBuilding = 1;
+            }else{
+               amountRoadBuilding = 0; 
+            }
+            
+            // makes sure that only one devCard was added
+            assertEquals(model.getPlayer(3).getNewDevCards().getMonopoly(),amountMonopoly);
+            assertEquals(model.getPlayer(3).getNewDevCards().getMonument(),amountMonument);
+            assertEquals(model.getPlayer(3).getNewDevCards().getSoldier(),amountSoldier);
+            assertEquals(model.getPlayer(3).getNewDevCards().getYearOfPlenty(),amountYOP);
+            assertEquals(model.getPlayer(3).getNewDevCards().getRoadBuilding(),amountRoadBuilding);
+            
+            // checks that the correct devCard was taken from the bank
+            assertEquals(model.getDeck().getMonopoly(),initialBankMonopoly-amountMonopoly);
+            assertEquals(model.getDeck().getMonument(),initialBankMonument-amountMonument);
+            assertEquals(model.getDeck().getSoldier(),initialBankSoldier-amountSoldier);
+            assertEquals(model.getDeck().getYearOfPlenty(),initialBankYearOfPlenty-amountYOP);
+            assertEquals(model.getDeck().getRoadBuilding(),initialBankRoadBuilding-amountRoadBuilding);
+            
+            
+   
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        
+    }
+    
+    
     
     @Test
     public void testBuildCity() throws GetPlayerException {

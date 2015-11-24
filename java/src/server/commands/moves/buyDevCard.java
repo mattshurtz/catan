@@ -33,6 +33,7 @@ public class buyDevCard extends Command{
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
-        }    }
+        }    
+    }
     
 }

@@ -209,7 +209,6 @@ public class Model {
      * @param buildRoadInfo where the player is playing the road
      */
     public void buildRoad(BuildRoadRequest buildRoadInfo) {
-    boolean canBuildRoad = canBuildRoad(buildRoadInfo.getRoadLocation(),buildRoadInfo.getPlayerIndex());
         if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
