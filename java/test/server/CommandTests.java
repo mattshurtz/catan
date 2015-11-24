@@ -551,8 +551,8 @@ public class CommandTests {
             
             // makes sure that only one devCard was added
             assertEquals(model.getPlayer(3).getNewDevCards().getMonopoly(),amountMonopoly);
-            assertEquals(model.getPlayer(3).getNewDevCards().getMonument(),amountMonument);
             assertEquals(model.getPlayer(3).getNewDevCards().getSoldier(),amountSoldier);
+            assertEquals(model.getPlayer(3).getOldDevCards().getMonument(),amountMonument);
             assertEquals(model.getPlayer(3).getNewDevCards().getYearOfPlenty(),amountYOP);
             assertEquals(model.getPlayer(3).getNewDevCards().getRoadBuilding(),amountRoadBuilding);
             
@@ -1387,8 +1387,82 @@ public class CommandTests {
     }
     
     @Test
-    public void testRoadBuilding(){
-       fail(); 
+    public void testRoadBuilding() throws HTTPBadRequest, GetPlayerException{
+        
+        Model model = gic.getModels().getGame(1);
+        
+        //These are two VALID road locations all other build road scenarios are
+        // covered in the testBuildRoad function
+        EdgeLocation spot1 = new EdgeLocation(new HexLocation(0,3),EdgeDirection.North);
+        EdgeLocation spot2 = new EdgeLocation(new HexLocation(0,2),EdgeDirection.North);
+        int playerIndex = 0;
+        Player player = model.getPlayer(playerIndex);
+        
+        //Verify that version number is 0
+        assertEquals(model.getVersion(),0);
+        //Verify Player has not played dev card this turn
+        assertFalse(player.isPlayedDevCard());
+        //Verify is this players turn
+        assertEquals(model.getTurnTracker().getCurrentTurn(),playerIndex);
+        //Verify that player does not have Roadbuilding card
+        assertEquals(player.getOldDevCards().getRoadBuilding(),0);
+        assertEquals(player.getNewDevCards().getRoadBuilding(),0);
+
+        //Create the roadBuildingj request that should fail because player does
+        // not have the roadBuilding card
+        PlayRoadBuildingRequest roadBuildingCardRequest = new PlayRoadBuildingRequest(0, spot1,spot2);
+        //Player does NOT have road building card
+        Command cmd = new Road_Building();
+        cmd.execute(serializer.toJson(roadBuildingCardRequest),1,0);
+        
+        //Verify that version number is 0, meaning that it did NOT change
+        assertEquals(model.getVersion(),0);
+        
+        //Player bought RoadBuilding this turn
+        player.giveDevCard(DevCardType.ROAD_BUILD);
+        //Verify that player has RoadBuilding card in the new dev cards list. 
+        assertTrue(player.getNewDevCards().canPlayDevCard(DevCardType.ROAD_BUILD));
+        // Execute this request which proves that players can not player road Buidling
+        // the turn they get it. 
+        cmd.execute(serializer.toJson(roadBuildingCardRequest),1,0);
+        //Verify that version number is 0, meaning that it did NOT change
+        assertEquals(model.getVersion(),0);
+        
+        //Show that Player who has already played a development card this turn can't play Roadbuilding
+        assertFalse(player.isPlayedDevCard());
+        //Change played to true
+        player.setPlayedDevCard(true);
+        //Change road building form new dev card list to old dev card list
+        player.getNewDevCards().removeRoadBuilding();
+        player.getOldDevCards().AddRoadBuilding();
+        assertTrue(player.getOldDevCards().canPlayRoadBuilding());
+        
+        // Verify that player can not play Roadbuilding if they have already played
+        // a development card this turn
+        cmd.execute(serializer.toJson(roadBuildingCardRequest),1,0);
+        
+        //Verify that version number is 0, meaning that it did NOT change
+        assertEquals(model.getVersion(),0);
+        
+        //Player HAS roadbuilding card from previous turn and has not player
+        //a development card this turn. 
+        player.setPlayedDevCard(false);
+        
+        assertEquals(model.getTurnTracker().getCurrentTurn(),playerIndex);
+        assertFalse(player.isPlayedDevCard());
+        assertTrue(player.getOldDevCards().canPlayDevCard(DevCardType.ROAD_BUILD));
+        
+        // Play should pass all tests to be able to play Roadbuilding
+        cmd.execute(serializer.toJson(roadBuildingCardRequest),1,0);
+
+        //Verify that version number is 1, meaning that it is this players turn
+        //this player has not played a development card this turn, they have
+        //a road building card, and they did not buy it this turn. 
+        assertEquals(model.getVersion(),1);
+
+        
+        
+        
     }
     
     @Test
