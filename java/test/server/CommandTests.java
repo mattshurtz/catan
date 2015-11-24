@@ -41,6 +41,7 @@ import shared.model.MessageList;
 import shared.model.Model;
 import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.TradeOffer;
 import shared.model.map.City;
 
 /**
@@ -1715,8 +1716,117 @@ public class CommandTests {
     }
     
     @Test
-    public void testAcceptTrade(){
-       fail(); 
+    public void testAcceptTrade_accepting(){
+        // First, make a trade offer in the model, from Matt to Jan, 3 sheep for 1 wood
+        // (clearly, Jan has the upper hand in this game)
+        testOfferTrade_valid();
+        
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        int mattOldSheep = matt.getResources().getSheep();
+        int mattOldWood = matt.getResources().getWood();
+                
+        int janOldWood = jan.getResources().getWood();
+        int janOldSheep = jan.getResources().getSheep();
+        
+    
+        // Accept the offer
+        AcceptTradeRequest atr = new AcceptTradeRequest( true );
+        atr.setPlayerIndex(jan.getPlayerIndex());
+        //Execute command
+    	Command rn = new acceptTrade();
+    	try {
+    		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        int mattNewSheep = matt.getResources().getSheep();
+        int mattNewWood = matt.getResources().getWood();
+        
+        int janNewWood = jan.getResources().getWood();
+        int janNewSheep = jan.getResources().getSheep();
+        
+        assertEquals( mattOldWood - 3, mattNewWood );
+        assertEquals( mattOldSheep + 1, mattNewSheep );
+        assertEquals( janOldSheep - 1, janNewSheep );
+        assertEquals( janOldWood + 3, janNewWood );
+        assertTrue( oldVersion < m.getVersion() );
+        assertNull( m.getTradeOffer() );
+    }
+    
+    @Test
+    public void testAcceptTrade_notAccepting(){
+        // First, make a trade offer in the model, from Matt to Jan, 3 sheep for 1 wood
+        // (clearly, Jan has the upper hand in this game)
+        testOfferTrade_valid();
+        
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        int mattOldSheep = matt.getResources().getSheep();
+        int mattOldWood = matt.getResources().getWood();
+                
+        int janOldWood = jan.getResources().getWood();
+        int janOldSheep = jan.getResources().getSheep();
+        
+    
+        // Accept the offer
+        AcceptTradeRequest atr = new AcceptTradeRequest( false );
+        atr.setPlayerIndex(jan.getPlayerIndex());
+        //Execute command
+    	Command rn = new acceptTrade();
+    	try {
+    		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        int mattNewSheep = matt.getResources().getSheep();
+        int mattNewWood = matt.getResources().getWood();
+        
+        int janNewWood = jan.getResources().getWood();
+        int janNewSheep = jan.getResources().getSheep();
+        
+        assertEquals( mattOldWood, mattNewWood );
+        assertEquals( mattOldSheep, mattNewSheep );
+        assertEquals( janOldSheep, janNewSheep );
+        assertEquals( janOldWood, janNewWood );
+        assertTrue( oldVersion < m.getVersion() );
+        assertNull( m.getTradeOffer() );
     }
     
     @Test
@@ -1740,8 +1850,103 @@ public class CommandTests {
     }
     
     @Test
-    public void testOfferTrade(){
-       fail(); 
+    public void testOfferTrade_valid(){
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Matt's going to offer Jan some wood for a sheep
+        matt.getResources().addResource(ResourceType.WOOD, 3);
+        jan.getResources().addResource(ResourceType.SHEEP, 1);
+        
+        // No trade offer before
+        assertNull( m.getTradeOffer() );
+        
+        ResourceList theOffer = new ResourceList();
+        theOffer.setWood( 3 );
+        theOffer.setSheep( -1 );
+        OfferTradeRequest otr = new OfferTradeRequest( theOffer, 2 );
+        otr.setPlayerIndex( 0 );
+        
+        //Execute command
+    	Command rn = new offerTrade();
+    	try {
+    		rn.execute(serializer.toJson(otr), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        // look now there's a trade offer
+        TradeOffer to = m.getTradeOffer();
+        assertNotNull( to );
+        
+        ResourceList offer = new ResourceList();
+        offer.setWood(3);
+        offer.setSheep(-1);
+        assertEquals( offer, to.getOffer());
+    }
+    
+    @Test
+    public void testOfferTrade_notEnoughResources() {
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Matt's going to offer Jan some wood for a sheep,
+        // but he's not going to have any wood. It's going to FAIL
+        matt.getResources().setWood(0);
+        
+        // No trade offer before
+        assertNull( m.getTradeOffer() );
+        
+        ResourceList theOffer = new ResourceList();
+        theOffer.setWood( 3 );
+        theOffer.setSheep( -1 );
+        OfferTradeRequest otr = new OfferTradeRequest( theOffer, 2 );
+        otr.setPlayerIndex( 0 );
+        
+        //Execute command
+    	Command rn = new offerTrade();
+    	try {
+    		rn.execute(serializer.toJson(otr), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+            fail();
+    	}
+        
+        // make sure version number hasn't incremented & there's still no trade offer
+        // in the model.
+        assertEquals( oldVersion, m.getVersion() );
+        assertNull( m.getTradeOffer() );
+        
     }
     
     @Test
