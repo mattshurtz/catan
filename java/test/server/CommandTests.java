@@ -88,7 +88,7 @@ public class CommandTests {
 		try {
 			result = (new login()).execute(serializer.toJson(rqt), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("catan.user=%7B%22name%22%3A%22Matt%22%2C%22password%22%3A%22matt%22%2C%22playerID%22%3A0%7D;Path=/;",result);
@@ -106,7 +106,7 @@ public class CommandTests {
 			//should throw HTTPBadRequest
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
 		}
 	}
 	
@@ -121,7 +121,7 @@ public class CommandTests {
 			//should throw HTTPBadRequest
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
 		}
 	}
 	
@@ -136,7 +136,7 @@ public class CommandTests {
 			//should throw HTTPBadRequest
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);    
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);    
 			return;
 		}
 		fail();
@@ -150,7 +150,7 @@ public class CommandTests {
 		try {
 			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("catan.user=%7B%22name%22%3A%22random%22%2C%22password%22%3A%22random%22%2C%22playerID%22%3A5%7D;Path=/;",result);	
@@ -165,7 +165,7 @@ public class CommandTests {
 			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             
 		}
 	}
@@ -179,7 +179,7 @@ public class CommandTests {
 			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             
 		}
 	}
@@ -193,7 +193,7 @@ public class CommandTests {
 			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             
 		}
 	}
@@ -211,7 +211,7 @@ public class CommandTests {
 		try {
 			result = (new create()).execute(serializer.toJson(request), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
@@ -229,7 +229,7 @@ public class CommandTests {
 		try {
 			result = (new create()).execute(serializer.toJson(request), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
@@ -243,7 +243,7 @@ public class CommandTests {
 		try {
 			result = (new create()).execute(serializer.toJson(request), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("{\"title\":\"game1\",\"id\":3,\"players\":[{},{},{},{}]}",result);
@@ -263,7 +263,7 @@ public class CommandTests {
 			result = (new create()).execute(serializer.toJson(request), 0, 0);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             
 		}
 		assertEquals("",result);
@@ -280,7 +280,7 @@ public class CommandTests {
 		try {
 			result = (new join()).execute(serializer.toJson(request), 0, 0);
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
 		}
 		assertEquals("catan.game=1;Path=/;",result);		
@@ -297,7 +297,7 @@ public class CommandTests {
 			result = (new join()).execute(serializer.toJson(request), 0, 50);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			return;
 		}
 		fail();		
@@ -314,7 +314,7 @@ public class CommandTests {
 			result = (new join()).execute(serializer.toJson(request), 0, 0);
 			fail();
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			return;
 		}
 		fail();		
@@ -326,7 +326,7 @@ public class CommandTests {
 		try {
 			result = (new list()).execute(null, 0, 0);			
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			fail();
 		}
 		assertEquals("[{\"title\":\"Default Setup\",\"id\":0,\"players\":[{\"color\":\"blue\",\"name\":\"Matt\",\"id\":0},{\"color\":\"green\",\"name\":\"Scott\",\"id\":1},{\"color\":\"orange\",\"name\":\"Jan\",\"id\":2},{\"color\":\"red\",\"name\":\"Garrett\",\"id\":3}]},{\"title\":\"Default Post Setup\",\"id\":1,\"players\":[{\"color\":\"blue\",\"name\":\"Matt\",\"id\":0},{\"color\":\"green\",\"name\":\"Scott\",\"id\":1},{\"color\":\"orange\",\"name\":\"Jan\",\"id\":2},{\"color\":\"red\",\"name\":\"Garrett\",\"id\":3}]}]",result);
@@ -338,7 +338,7 @@ public class CommandTests {
 		try {
 			result = (new model()).execute(null, 0, 0);			
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			fail();
 		}
 		
@@ -356,7 +356,7 @@ public class CommandTests {
 			result = (new model()).execute(null, 500, 0);	
 			
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			fail();
 		}
 		assertEquals(null,result);
@@ -369,7 +369,7 @@ public class CommandTests {
 		try {
 			result = (new listAI()).execute(null, 0, 0);				
 		} catch (HTTPBadRequest ex) {
-			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
 			fail();
 		}
 		assertEquals(expect,result);
@@ -385,7 +385,7 @@ public class CommandTests {
         try {
             p = m.getPlayer( testPlayerIndex );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -404,7 +404,7 @@ public class CommandTests {
         try {
             mon.execute( serializer.toJson( pmr ), 0, p.getPlayerID() );
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -567,9 +567,9 @@ public class CommandTests {
             
    
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -620,7 +620,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -655,7 +655,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -674,7 +674,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -698,7 +698,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -726,7 +726,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -750,7 +750,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -818,7 +818,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -850,7 +850,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -871,7 +871,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -890,7 +890,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -909,7 +909,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -928,7 +928,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -947,7 +947,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -967,7 +967,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1031,7 +1031,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1053,7 +1053,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1074,7 +1074,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1095,7 +1095,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1181,7 +1181,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1227,7 +1227,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
 
@@ -1252,7 +1252,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1275,7 +1275,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1298,7 +1298,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1321,7 +1321,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1344,7 +1344,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1372,7 +1372,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1399,7 +1399,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1425,7 +1425,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1453,7 +1453,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req),1,p.getPlayerID());
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1478,7 +1478,7 @@ public class CommandTests {
         try {
             p = m.getPlayer( testPlayerIndex );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         int oldAmountWood = p.getResources().getWood();
@@ -1493,7 +1493,7 @@ public class CommandTests {
             try {
                 p2 = m.getPlayer( i );
             } catch (GetPlayerException ex) {
-                Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
                 fail();
             }
             int amountWoodGiving = i + 1; // just a random number basically
@@ -1510,7 +1510,7 @@ public class CommandTests {
         try {
             mon.execute( serializer.toJson( pmr ), 0, p.getPlayerID() );
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1524,7 +1524,7 @@ public class CommandTests {
             try {
                 p2 = m.getPlayer( i );
             } catch (GetPlayerException ex) {
-                Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
                 fail();
             }
             assertEquals( 0, p2.getResources().getWood() );
@@ -1541,7 +1541,7 @@ public class CommandTests {
         try {
             p = m.getPlayer( testPlayerIndex );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         int amountWood = p.getResources().getWood();
@@ -1555,7 +1555,7 @@ public class CommandTests {
         try {
             yop.execute( serializer.toJson( pyorp ), 0, p.getPlayerID() );
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -1576,7 +1576,7 @@ public class CommandTests {
         try {
             p = m.getPlayer( testPlayerIndex );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
     	
@@ -1591,7 +1591,7 @@ public class CommandTests {
     	try {
     		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
     	} catch (HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
     	
@@ -1616,7 +1616,7 @@ public class CommandTests {
     	try {
     		sc.execute(serializer.toJson(scReq), gameID, p.getPlayerID());
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
     	
@@ -1732,7 +1732,7 @@ public class CommandTests {
             matt = m.getPlayer(0);
             jan = m.getPlayer(2);
         } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
@@ -1751,7 +1751,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
         
@@ -1789,7 +1789,7 @@ public class CommandTests {
             matt = m.getPlayer(0);
             jan = m.getPlayer(2);
         } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
@@ -1808,7 +1808,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
         
@@ -1928,7 +1928,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         assertEquals(numSoldierCards, p.getTotalSoldiers());
@@ -1963,7 +1963,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         assertEquals(numSoldierCards, p.getTotalSoldiers());
@@ -2004,7 +2004,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         assertEquals(--numSoldierCards, p.getTotalSoldiers());
@@ -2046,7 +2046,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         assertEquals(numSoldierCards, p.getTotalSoldiers());
@@ -2084,7 +2084,7 @@ public class CommandTests {
         try {
             cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         assertEquals(numSoldierCards, p.getTotalSoldiers());
@@ -2108,7 +2108,7 @@ public class CommandTests {
         try {
             matt = m.getPlayer(0);
         } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
@@ -2121,7 +2121,7 @@ public class CommandTests {
         try {
             finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -2134,7 +2134,7 @@ public class CommandTests {
         try {
             finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
         } catch (HTTPBadRequest ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
         
@@ -2304,7 +2304,7 @@ public class CommandTests {
             matt = m.getPlayer(0);
             jan = m.getPlayer(2);
         } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
@@ -2326,7 +2326,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(otr), gameIndex, matt.getPlayerID());
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
         
@@ -2356,7 +2356,7 @@ public class CommandTests {
             matt = m.getPlayer(0);
             jan = m.getPlayer(2);
         } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
@@ -2399,7 +2399,7 @@ public class CommandTests {
     	   matt = m.getPlayer(0); //BLUE
     	   scott = m.getPlayer(1); //GREEN
        } catch (GetPlayerException ex) {
-	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	       //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	       fail();
 	   }
        
@@ -2416,7 +2416,7 @@ public class CommandTests {
 	   	try {
 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
 	   	} catch( HTTPBadRequest ex) {
-	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	   		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	   		fail();
 	   	}
 	   	
@@ -2442,7 +2442,7 @@ public class CommandTests {
      	   matt = m.getPlayer(0); //BLUE
      	   scott = m.getPlayer(1); //GREEN
         } catch (GetPlayerException ex) {
- 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	       fail();
  	   }
         
@@ -2459,7 +2459,7 @@ public class CommandTests {
  	   	try {
  	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
  	   	} catch( HTTPBadRequest ex) {
- 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	   		fail();
  	   	}
  	   	
@@ -2486,7 +2486,7 @@ public class CommandTests {
      	   matt = m.getPlayer(0); //BLUE
      	   scott = m.getPlayer(1); //GREEN
         } catch (GetPlayerException ex) {
- 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	       fail();
  	   }
         
@@ -2503,7 +2503,7 @@ public class CommandTests {
  	   	try {
  	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
  	   	} catch( HTTPBadRequest ex) {
- 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	   		fail();
  	   	}
  	   	
@@ -2530,7 +2530,7 @@ public class CommandTests {
      	   matt = m.getPlayer(0); //BLUE
      	   scott = m.getPlayer(1); //GREEN
         } catch (GetPlayerException ex) {
- 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	       fail();
  	   }
         
@@ -2550,7 +2550,7 @@ public class CommandTests {
  	   	try {
  	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
  	   	} catch( HTTPBadRequest ex) {
- 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
  	   		fail();
  	   	}
  	   	
@@ -2581,7 +2581,7 @@ public class CommandTests {
 	        jan = m.getPlayer(2); //ORANGE
 	        garrett = m.getPlayer(3); //RED
 	    } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
     	
@@ -2604,7 +2604,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
     	
@@ -2641,7 +2641,7 @@ public class CommandTests {
 	        jan = m.getPlayer(2); //ORANGE
 	        garrett = m.getPlayer(3); //RED
 	    } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
     	
@@ -2664,7 +2664,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
     	
@@ -2704,7 +2704,7 @@ public class CommandTests {
 	        jan = m.getPlayer(2); //ORANGE
 	        garrett = m.getPlayer(3); //RED
 	    } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
     	
@@ -2725,7 +2725,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}
     	
@@ -2754,7 +2754,7 @@ public class CommandTests {
     	try {
     		rn.execute(serializer.toJson(rnReq), gameIndex, falseCurrentTurn);
     	} catch( HTTPBadRequest ex) {
-    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		//Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
     	}	
     	
@@ -2773,7 +2773,7 @@ public class CommandTests {
             m.checkWinner();
             assertEquals( 0, m.getWinner() );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
     }
@@ -2788,7 +2788,7 @@ public class CommandTests {
             m.checkWinner();
             assertEquals( 0, m.getWinner() );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
     }
@@ -2810,7 +2810,7 @@ public class CommandTests {
             m.updateLongestRoad();
             assertEquals( 1, m.getTurnTracker().getLongestRoad() );
         } catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
     }
@@ -2860,7 +2860,7 @@ public class CommandTests {
     		assertEquals(2, p2.getVictoryPoints());
     		
     	} catch (GetPlayerException ex) {
-            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
             fail();
         }
     }
@@ -2879,7 +2879,7 @@ public class CommandTests {
 	        jan = m.getPlayer(2); //ORANGE
 	        garrett = m.getPlayer(3); //RED
 	    } catch (GetPlayerException ex) {
-	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        //Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
 	        fail();
 	    }
         
