@@ -2652,5 +2652,27 @@ public class CommandTests {
             fail();
         }
     }
+    
+    @Test
+    public void testUpdateLongestRoad() {
+        Model m = gic.getGameModel(1);
+        try {
+            Player p1 = m.getPlayer(0);
+            for ( int i = 0; i < 3; i++ )
+                p1.buildRoad(false);
+            m.updateLongestRoad();
+            assertEquals( 0, m.getTurnTracker().getLongestRoad() );
+            
+            // Now have player 2 take it
+            Player p2 = m.getPlayer(1);
+            for ( int i = 0; i < 5; i++ )
+                p2.buildRoad(false);
+            m.updateLongestRoad();
+            assertEquals( 1, m.getTurnTracker().getLongestRoad() );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
 }
 
