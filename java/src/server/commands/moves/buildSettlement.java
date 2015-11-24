@@ -22,11 +22,15 @@ public class buildSettlement extends Command{
      */
     @Override
     public String execute(String json, int gameID, int user) throws HTTPBadRequest {
-            if(isUserInGame(gameID,user)){
+        if(isUserInGame(gameID,user)){
             BuildSettlementRequest buildSettlementRequest = (BuildSettlementRequest)this.getDeserializer().toClass(BuildSettlementRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.buildSettlement(buildSettlementRequest);
-            this.addHistoryMessage(gameID, "built a settlement", user);
+            boolean success = currentModel.buildSettlement(buildSettlementRequest);
+            
+            if(success) {
+                this.addHistoryMessage(gameID, "built a settlement", user);
+                currentModel.incrementVersion();
+            }
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

@@ -616,7 +616,7 @@ public class ClientModelTest {
 	@Test
 	public void testCanBuySettlementInsufficientResources() throws Exception {
 		// Current player 0 doesn't have enough resources to buy a settlement
-		assertEquals(false, instance.canBuySettlement());
+		assertEquals(false, instance.canBuySettlement(0));
 	}
 
 	/**
@@ -642,7 +642,7 @@ public class ClientModelTest {
 		assertEquals(player.getSettlements(), 0);
 
 		// Test buying a settlement without any settlements, should fail
-		assertEquals(instance.canBuySettlement(), false);
+		assertEquals(instance.canBuySettlement(0), false);
 	}
 
 	/**
@@ -672,7 +672,7 @@ public class ClientModelTest {
 		assertTrue(player.getSettlements() > 0);
 
 		// Buy the settlement - should return true
-		assertEquals(instance.canBuySettlement(), true);
+		assertEquals(instance.canBuySettlement(0), true);
 	}
 
 	/**

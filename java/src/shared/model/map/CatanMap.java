@@ -696,7 +696,7 @@ public class CatanMap {
         cities.add( new City(ownder, vertexLocation));
     }
     
-    private int indexOfSettlementAt( VertexLocation loc ) {
+    public int indexOfSettlementAt( VertexLocation loc ) {
         VertexLocation normal = loc.getNormalizedLocation();
         for ( int i = 0; i < settlements.size(); i++ ) {
             if ( settlements.get(i).getLocation().getNormalizedLocation().equals( normal ) ) {

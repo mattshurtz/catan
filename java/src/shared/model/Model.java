@@ -304,28 +304,26 @@ public class Model {
      * @param location where the player is playing the settlement
      * @param playerIndex is used to identify the player playing the road
      */
-    public void buildSettlement(BuildSettlementRequest buildSettlementRequest) {
-        version++;
+    public boolean buildSettlement(BuildSettlementRequest buildSettlementRequest) {
         int playerIndex = buildSettlementRequest.getPlayerIndex();
         VertexLocation location = buildSettlementRequest.getVertexLocation().getNormalizedLocation();
-        if (canBuildSettlement(location) && isPlayersTurn(playerIndex)) {
-            {
-                if ( buildSettlementRequest.isFree() || canBuildSettlement(location)) {
-                    if(players.get(playerIndex).settlements==4){
-                        addSurroundingResources(location, playerIndex);
-                    }
-                    
-                    players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
-                    catanMap.addSettlement( new Settlement( playerIndex, location ));
-                    if (!buildSettlementRequest.isFree()) {
-                    	bank.payForSettlement();
-                    }
+        if (canBuildSettlement(location) && isPlayersTurn(playerIndex) && (buildSettlementRequest.isFree() || canBuySettlement(playerIndex))) {    
+           // if ( buildSettlementRequest.isFree() || (canBuildSettlement(location)) {
+                if(players.get(playerIndex).settlements == Player.MAX_SETTLEMENTS - 1 && (getTurnTracker().getStatus() == TurnStatus.SECOND_ROUND)){
+                    addSurroundingResources(location, playerIndex);
                 }
-                checkWinner();
-                version++;
-            }
-            
+
+                players.get(playerIndex).buildSettlement(buildSettlementRequest.isFree());
+                catanMap.addSettlement( new Settlement( playerIndex, location ));
+                if (!buildSettlementRequest.isFree()) {
+                    bank.payForSettlement();
+                }
+           // }
+            checkWinner();
+            return true;   
         }
+        
+        return false;
     }
     
     public void addSurroundingResources(VertexLocation location, int playerIndex){
@@ -509,8 +507,8 @@ public class Model {
      * @return True if they player has enough resources and settlements, false
      * if no
      */
-    public boolean canBuySettlement() {
-        if (!players.get(turnTracker.getCurrentTurn()).getResources().canBuySettlement()) {
+    public boolean canBuySettlement(int playerIndex) {
+        if (!players.get(playerIndex).getResources().canBuySettlement()) {
             //Player doesn't have enough resources
             return false;
         }
