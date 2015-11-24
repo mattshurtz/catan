@@ -2724,5 +2724,57 @@ public class CommandTests {
             fail();
         }
     }
+    
+    public void testDistributeResources() {
+        int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Go through and take away everyone's resources. Then we'll roll a few numbers
+        // and make sure they have the right resources distributed
+        matt.setResources( new ResourceList() );
+        scott.setResources( new ResourceList() );
+        jan.setResources( new ResourceList() );
+        garrett.setResources( new ResourceList() );
+        
+        // if we roll a 3:
+        // - scott gets a wood and an ore
+        // - garrett gets a wood
+        // - matt gets an ore
+        m.distributeResources(3);
+        assertEquals( 1, scott.getResources().getWood() );
+        assertEquals( 1, scott.getResources().getOre() );
+        assertEquals( 1, garrett.getResources().getWood() );
+        assertEquals( 1, matt.getResources().getOre() );
+        
+        // reset again
+        matt.setResources( new ResourceList() );
+        scott.setResources( new ResourceList() );
+        jan.setResources( new ResourceList() );
+        garrett.setResources( new ResourceList() );
+        
+        // now have jan build a city
+        m.getMap().addCity( new City(2, new VertexLocation( new HexLocation( -2, 2 ), VertexDirection.West)));
+        
+        // if we roll a 6, jan should get 2 wood and no one should get anything else
+        m.distributeResources(6);
+        assertEquals( new ResourceList(), matt.getResources() );
+        assertEquals( new ResourceList(), scott.getResources() );
+        assertEquals( new ResourceList(0, 2, 0, 0, 0), jan.getResources() );
+        assertEquals( new ResourceList(), garrett.getResources() );
+    }
 }
 
