@@ -41,6 +41,7 @@ import shared.model.MessageList;
 import shared.model.Model;
 import shared.model.Player;
 import shared.model.ResourceList;
+import shared.model.TradeOffer;
 import shared.model.map.City;
 
 /**
@@ -570,9 +571,6 @@ public class CommandTests {
         } catch (GetPlayerException ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
     
     @Test
@@ -1715,8 +1713,117 @@ public class CommandTests {
     }
     
     @Test
-    public void testAcceptTrade(){
-       fail(); 
+    public void testAcceptTrade_accepting(){
+        // First, make a trade offer in the model, from Matt to Jan, 3 sheep for 1 wood
+        // (clearly, Jan has the upper hand in this game)
+        testOfferTrade_valid();
+        
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        int mattOldSheep = matt.getResources().getSheep();
+        int mattOldWood = matt.getResources().getWood();
+                
+        int janOldWood = jan.getResources().getWood();
+        int janOldSheep = jan.getResources().getSheep();
+        
+    
+        // Accept the offer
+        AcceptTradeRequest atr = new AcceptTradeRequest( true );
+        atr.setPlayerIndex(jan.getPlayerIndex());
+        //Execute command
+    	Command rn = new acceptTrade();
+    	try {
+    		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        int mattNewSheep = matt.getResources().getSheep();
+        int mattNewWood = matt.getResources().getWood();
+        
+        int janNewWood = jan.getResources().getWood();
+        int janNewSheep = jan.getResources().getSheep();
+        
+        assertEquals( mattOldWood - 3, mattNewWood );
+        assertEquals( mattOldSheep + 1, mattNewSheep );
+        assertEquals( janOldSheep - 1, janNewSheep );
+        assertEquals( janOldWood + 3, janNewWood );
+        assertTrue( oldVersion < m.getVersion() );
+        assertNull( m.getTradeOffer() );
+    }
+    
+    @Test
+    public void testAcceptTrade_notAccepting(){
+        // First, make a trade offer in the model, from Matt to Jan, 3 sheep for 1 wood
+        // (clearly, Jan has the upper hand in this game)
+        testOfferTrade_valid();
+        
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        int mattOldSheep = matt.getResources().getSheep();
+        int mattOldWood = matt.getResources().getWood();
+                
+        int janOldWood = jan.getResources().getWood();
+        int janOldSheep = jan.getResources().getSheep();
+        
+    
+        // Accept the offer
+        AcceptTradeRequest atr = new AcceptTradeRequest( false );
+        atr.setPlayerIndex(jan.getPlayerIndex());
+        //Execute command
+    	Command rn = new acceptTrade();
+    	try {
+    		rn.execute(serializer.toJson(atr), gameIndex, jan.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        int mattNewSheep = matt.getResources().getSheep();
+        int mattNewWood = matt.getResources().getWood();
+        
+        int janNewWood = jan.getResources().getWood();
+        int janNewSheep = jan.getResources().getSheep();
+        
+        assertEquals( mattOldWood, mattNewWood );
+        assertEquals( mattOldSheep, mattNewSheep );
+        assertEquals( janOldSheep, janNewSheep );
+        assertEquals( janOldWood, janNewWood );
+        assertTrue( oldVersion < m.getVersion() );
+        assertNull( m.getTradeOffer() );
     }
     
     @Test
@@ -1799,13 +1906,241 @@ public class CommandTests {
     }
     
     @Test
-    public void testSoldier(){
-       fail(); 
+    public void testSoldier_dontHaveCard() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());      
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_NotMyTurn() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setCurrentTurn(1);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_CanPlay() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        p.finishTurn();
+        assertEquals(1, p.getOldDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(--numSoldierCards, p.getTotalSoldiers());
+        assertEquals(++numSoldiers, p.getSoldiers());
+        assertTrue(p.isPlayedDevCard());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(++version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_AlreadyPlayed() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.setPlayedDevCard(true);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        p.finishTurn();
+        assertEquals(1, p.getOldDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_JustPurchased() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
     }
     
     @Test
     public void testFinishTurn(){
-       fail(); 
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        try {
+            matt = m.getPlayer(0);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Now have Matt finish his turn
+        MoveRequest finish = new MoveRequest();
+        finish.setPlayerIndex(matt.getPlayerIndex());
+        finish.setType( "finishTurn" );
+        Command finishCom = new finishTurn();
+        
+        try {
+            finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        TurnStatus oldTurnStatus = m.getTurnTracker().getStatus();
+        assertEquals( 1, m.getTurnTracker().getCurrentTurn() );
+        int newVersion = m.getVersion();
+        assertEquals( oldVersion+1, newVersion );
+        
+        // Now have Matt try to finish his turn again but it should fail
+        try {
+            finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals( newVersion, m.getVersion() );
+        assertEquals( 1, m.getTurnTracker().getCurrentTurn() );
+        assertEquals( oldTurnStatus, m.getTurnTracker().getStatus() );
     }
     
     @Test
@@ -1856,13 +2191,281 @@ public class CommandTests {
     }
     
     @Test
-    public void testOfferTrade(){
-       fail(); 
+    public void testOfferTrade_valid(){
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Matt's going to offer Jan some wood for a sheep
+        matt.getResources().addResource(ResourceType.WOOD, 3);
+        jan.getResources().addResource(ResourceType.SHEEP, 1);
+        
+        // No trade offer before
+        assertNull( m.getTradeOffer() );
+        
+        ResourceList theOffer = new ResourceList();
+        theOffer.setWood( 3 );
+        theOffer.setSheep( -1 );
+        OfferTradeRequest otr = new OfferTradeRequest( theOffer, 2 );
+        otr.setPlayerIndex( 0 );
+        
+        //Execute command
+    	Command rn = new offerTrade();
+    	try {
+    		rn.execute(serializer.toJson(otr), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+        
+        // look now there's a trade offer
+        TradeOffer to = m.getTradeOffer();
+        assertNotNull( to );
+        
+        ResourceList offer = new ResourceList();
+        offer.setWood(3);
+        offer.setSheep(-1);
+        assertEquals( offer, to.getOffer());
     }
     
     @Test
-    public void testRobPlayer(){
-       fail(); 
+    public void testOfferTrade_notEnoughResources() {
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        Player jan = null;
+        try {
+            matt = m.getPlayer(0);
+            jan = m.getPlayer(2);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Matt's going to offer Jan some wood for a sheep,
+        // but he's not going to have any wood. It's going to FAIL
+        matt.getResources().setWood(0);
+        
+        // No trade offer before
+        assertNull( m.getTradeOffer() );
+        
+        ResourceList theOffer = new ResourceList();
+        theOffer.setWood( 3 );
+        theOffer.setSheep( -1 );
+        OfferTradeRequest otr = new OfferTradeRequest( theOffer, 2 );
+        otr.setPlayerIndex( 0 );
+        
+        //Execute command
+    	Command rn = new offerTrade();
+    	try {
+    		rn.execute(serializer.toJson(otr), gameIndex, matt.getPlayerID());
+    	} catch( HTTPBadRequest ex) {
+            fail();
+    	}
+        
+        // make sure version number hasn't incremented & there's still no trade offer
+        // in the model.
+        assertEquals( oldVersion, m.getVersion() );
+        assertNull( m.getTradeOffer() );
+        
+    }
+    
+    @Test
+    public void testRobPlayer_valid(){
+       int gameIndex = 1;
+       Model m = gic.getModels().getGame(gameIndex);
+       Player matt = null;
+       Player scott = null;
+       
+       try {
+    	   matt = m.getPlayer(0); //BLUE
+    	   scott = m.getPlayer(1); //GREEN
+       } catch (GetPlayerException ex) {
+	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	       fail();
+	   }
+       
+       HexLocation robHexLoc = new HexLocation(0,-1);
+       RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+       
+       int victimBefore = scott.getResources().getTotalResources();
+       int playerBefore = matt.getResources().getTotalResources();
+       
+       int oldVersion = m.getVersion();
+       
+	   	//Execute command
+	   	Command rp = new robPlayer();
+	   	try {
+	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+	   	} catch( HTTPBadRequest ex) {
+	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	   		fail();
+	   	}
+	   	
+	   	//Check version and resources after robbing
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter + 1, victimBefore);
+	   	assertEquals(playerAfter - 1, playerBefore);
+	   	assertEquals(newVersion - 1, oldVersion);
+    }
+    
+    @Test 
+    public void testRobPlayer_invalid_waterHex() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-3);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
+    }
+    
+    @Test
+    public void testRobPlayer_invalid_currentRobberHex() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-2);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
+    }
+    
+    @Test
+    public void testRobPlayer_invalid_noVictimResources() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-1);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        //Set scott's resources to zero
+        scott.setResources(new ResourceList(0,0,0,0,0));
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
     }
     
     @Test
@@ -2060,6 +2663,36 @@ public class CommandTests {
     	int newVersion = m.getVersion();
     	//Version should not increment, model should not change
     	assertEquals(oldVersion, newVersion);
+    }
+    
+    @Test
+    public void testCheckWinner() {
+        Model m = gic.getGameModel(1);
+        assertEquals( -1, m.getWinner() );
+        try {
+            Player p1 = m.getPlayer(0);
+            p1.setVictoryPoints(10);
+            m.checkWinner();
+            assertEquals( 0, m.getWinner() );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
+    
+    @Test
+    public void testCheckWinner_moreThan10() {
+        Model m = gic.getGameModel(1);
+        assertEquals( -1, m.getWinner() );
+        try {
+            Player p1 = m.getPlayer(0);
+            p1.setVictoryPoints(300);
+            m.checkWinner();
+            assertEquals( 0, m.getWinner() );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
     }
 }
 
