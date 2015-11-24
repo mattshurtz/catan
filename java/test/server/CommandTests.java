@@ -2792,5 +2792,129 @@ public class CommandTests {
             fail();
         }
     }
+    
+    @Test
+    public void testUpdateLongestRoad() {
+        Model m = gic.getGameModel(1);
+        try {
+            Player p1 = m.getPlayer(0);
+            for ( int i = 0; i < 3; i++ )
+                p1.buildRoad(false);
+            m.updateLongestRoad();
+            assertEquals( 0, m.getTurnTracker().getLongestRoad() );
+            
+            // Now have player 2 take it
+            Player p2 = m.getPlayer(1);
+            for ( int i = 0; i < 5; i++ )
+                p2.buildRoad(false);
+            m.updateLongestRoad();
+            assertEquals( 1, m.getTurnTracker().getLongestRoad() );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
+    
+    @Test
+    public void testUpdateLargestArmy() {
+    	Model m = gic.getGameModel(1);
+    	assertEquals(-1, m.getTurnTracker().getLargestArmy());
+    	
+    	try {
+    		Player p1 = m.getPlayer(0);
+    		assertEquals(2, p1.getVictoryPoints());
+    		Player p2 = m.getPlayer(1);
+    		assertEquals(2, p2.getVictoryPoints());
+    		
+    		//give two soldiers - still hasn't earned largest army
+    		p1.setSoldiers(2);
+    		m.updateLargestArmy();
+    		assertEquals(-1, m.getTurnTracker().getLargestArmy());
+    		assertEquals(2, p1.getVictoryPoints());
+    		
+    		//give a third soldier - earns largest army
+    		p1.setSoldiers(3);
+    		m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		
+    		//player 2 ties with player 1 for largest army - player 1 retains award
+    		p2.setSoldiers(3);
+    		m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		assertEquals(2, p2.getVictoryPoints());
+    		
+    		//player 2 gets one more army than player 1, takes largest army award
+    		p2.setSoldiers(4);
+    		m.updateLargestArmy();
+    		assertEquals(1, m.getTurnTracker().getLargestArmy());
+    		assertEquals(2, p1.getVictoryPoints());
+    		assertEquals(4, p2.getVictoryPoints());
+    		
+    		//player 1 re-takes largest army and goes back up to 4 points
+    		p1.setSoldiers(5);
+    		m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		assertEquals(2, p2.getVictoryPoints());
+    		
+    	} catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
+    
+    public void testDistributeResources() {
+        int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Go through and take away everyone's resources. Then we'll roll a few numbers
+        // and make sure they have the right resources distributed
+        matt.setResources( new ResourceList() );
+        scott.setResources( new ResourceList() );
+        jan.setResources( new ResourceList() );
+        garrett.setResources( new ResourceList() );
+        
+        // if we roll a 3:
+        // - scott gets a wood and an ore
+        // - garrett gets a wood
+        // - matt gets an ore
+        m.distributeResources(3);
+        assertEquals( 1, scott.getResources().getWood() );
+        assertEquals( 1, scott.getResources().getOre() );
+        assertEquals( 1, garrett.getResources().getWood() );
+        assertEquals( 1, matt.getResources().getOre() );
+        
+        // reset again
+        matt.setResources( new ResourceList() );
+        scott.setResources( new ResourceList() );
+        jan.setResources( new ResourceList() );
+        garrett.setResources( new ResourceList() );
+        
+        // now have jan build a city
+        m.getMap().addCity( new City(2, new VertexLocation( new HexLocation( -2, 2 ), VertexDirection.West)));
+        
+        // if we roll a 6, jan should get 2 wood and no one should get anything else
+        m.distributeResources(6);
+        assertEquals( new ResourceList(), matt.getResources() );
+        assertEquals( new ResourceList(), scott.getResources() );
+        assertEquals( new ResourceList(0, 2, 0, 0, 0), jan.getResources() );
+        assertEquals( new ResourceList(), garrett.getResources() );
+    }
 }
 
