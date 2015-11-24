@@ -27,7 +27,6 @@ public class rollNumber extends Command{
             	currentModel.rollNumber(rollNumberRequest);
             } catch (RollException rollEx) {
             	//if something broke, return the currentModel without updating the log or incrementing version number
-            	rollEx.printStackTrace();
             	return this.getSerializer().toJson(currentModel);
             }
             
