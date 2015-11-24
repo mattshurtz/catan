@@ -2683,18 +2683,41 @@ public class CommandTests {
     	try {
     		Player p1 = m.getPlayer(0);
     		assertEquals(2, p1.getVictoryPoints());
+    		Player p2 = m.getPlayer(1);
+    		assertEquals(2, p2.getVictoryPoints());
     		
     		//give two soldiers - still hasn't earned largest army
     		p1.setSoldiers(2);
-    		//m.updateLargestArmy();
+    		m.updateLargestArmy();
     		assertEquals(-1, m.getTurnTracker().getLargestArmy());
     		assertEquals(2, p1.getVictoryPoints());
     		
     		//give a third soldier - earns largest army
     		p1.setSoldiers(3);
-    		//m.updateLargestArmy();
+    		m.updateLargestArmy();
     		assertEquals(0, m.getTurnTracker().getLargestArmy());
     		assertEquals(4, p1.getVictoryPoints());
+    		
+    		//player 2 ties with player 1 for largest army - player 1 retains award
+    		p2.setSoldiers(3);
+    		m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		assertEquals(2, p2.getVictoryPoints());
+    		
+    		//player 2 gets one more army than player 1, takes largest army award
+    		p2.setSoldiers(4);
+    		m.updateLargestArmy();
+    		assertEquals(1, m.getTurnTracker().getLargestArmy());
+    		assertEquals(2, p1.getVictoryPoints());
+    		assertEquals(4, p2.getVictoryPoints());
+    		
+    		//player 1 re-takes largest army and goes back up to 4 points
+    		p1.setSoldiers(5);
+    		m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		assertEquals(2, p2.getVictoryPoints());
     		
     	} catch (GetPlayerException ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
