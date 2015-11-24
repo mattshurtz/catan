@@ -74,6 +74,9 @@ public class GameInfoContainer {
      */
     public boolean joinGame(int playerId, String color, int gameId){
         Model gameModel = models.getGame(gameId);
+        if (gameModel == null)
+        	return false;
+        
         List<Player> players = gameModel.getPlayers();
         
         //check if player already exists

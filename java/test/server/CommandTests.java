@@ -10,11 +10,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
+import server.commands.games.create;
+import server.commands.games.join;
+import server.commands.games.list;
 import server.commands.moves.*;
 import server.commands.user.login;
 import server.commands.user.register;
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
+import shared.communication.params.JoinGameRequest;
 import shared.communication.params.LoadGameRequest;
 import shared.communication.params.moves.*;
 import shared.definitions.DevCardType;
@@ -188,18 +193,137 @@ public class CommandTests {
 	
 //GAMES TESTS
 	@Test
-	public void testCreate() {
+	public void testCreate_valid() {
+		String result = "";
+		
+		CreateGameRequest request= new CreateGameRequest();
+		request.setName("game1");
+		request.setRandomNumbers(false);
+		request.setRandomPorts(false);
+		request.setRandomTiles(false);		
+		try {
+			result = (new create()).execute(serializer.toJson(request), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		System.out.println(result);
+		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
+	}
+	
+	@Test
+	public void testCreate_AllVersionsOfRandomness() {
+		String result = "";
+		
+		CreateGameRequest request= new CreateGameRequest();
+		request.setName("game1");
+		request.setRandomNumbers(false);
+		request.setRandomPorts(false);
+		request.setRandomTiles(false);		
+		try {
+			result = (new create()).execute(serializer.toJson(request), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("{\"title\":\"game1\",\"id\":2,\"players\":[{},{},{},{}]}",result);
+		
+		
+		
+		request.setName("game1");
+		request.setRandomNumbers(true);
+		request.setRandomPorts(true);
+		request.setRandomTiles(true);		
+		try {
+			result = (new create()).execute(serializer.toJson(request), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("{\"title\":\"game1\",\"id\":3,\"players\":[{},{},{},{}]}",result);
 		
 	}
 	
 	@Test
-	public void testJoin() {
+	public void testCreate_emtpyGameName() {
+		String result = "";
 		
+		CreateGameRequest request= new CreateGameRequest();
+		request.setName("");
+		request.setRandomNumbers(false);
+		request.setRandomPorts(false);
+		request.setRandomTiles(false);		
+		try {
+			result = (new create()).execute(serializer.toJson(request), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+		assertEquals("",result);
+
+	}
+	
+	@Test
+	public void testJoin_valid() {
+		String result = "";
+		
+		JoinGameRequest request = new JoinGameRequest();
+		request.setGameID(1);
+		request.setColor("blue");
+		try {
+			result = (new join()).execute(serializer.toJson(request), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("catan.game=1;Path=/;",result);		
+	}
+	
+	@Test
+	public void testJoin_invalidUser() {
+		String result = "";
+		
+		JoinGameRequest request = new JoinGameRequest();
+		request.setGameID(1);
+		request.setColor("blue");
+		try {
+			result = (new join()).execute(serializer.toJson(request), 0, 50);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			return;
+		}
+		fail();		
+	}
+	
+	@Test
+	public void testJoin_invalidGame() {
+		String result = "";
+		
+		JoinGameRequest request = new JoinGameRequest();
+		request.setGameID(500);
+		request.setColor("blue");
+		try {
+			result = (new join()).execute(serializer.toJson(request), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			return;
+		}
+		fail();		
 	}
 	
 	@Test
 	public void testList() {
-		
+		String result = "";
+		try {
+			result = (new list()).execute(null, 0, 0);			
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex); 
+			fail();
+		}
+		assertEquals("[{\"title\":\"Default Setup\",\"id\":0,\"players\":[{\"color\":\"blue\",\"name\":\"Matt\",\"id\":0},{\"color\":\"green\",\"name\":\"Scott\",\"id\":1},{\"color\":\"orange\",\"name\":\"Jan\",\"id\":2},{\"color\":\"red\",\"name\":\"Garrett\",\"id\":3}]},{\"title\":\"Default Post Setup\",\"id\":1,\"players\":[{\"color\":\"blue\",\"name\":\"Matt\",\"id\":0},{\"color\":\"green\",\"name\":\"Scott\",\"id\":1},{\"color\":\"orange\",\"name\":\"Jan\",\"id\":2},{\"color\":\"red\",\"name\":\"Garrett\",\"id\":3}]}]",result);
 	}
 //GAME TESTS	
 	@Test
