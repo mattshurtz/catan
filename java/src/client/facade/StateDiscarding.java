@@ -23,7 +23,7 @@ public class StateDiscarding extends StateBase {
     
     @Override
     public boolean canDiscardCards(int playerIndex, ResourceList discardedCards ) {
-        return model.canDiscardCards(playerIndex);
+        return model.hasMoreThanSevenCards(playerIndex);
     }
     
     @Override

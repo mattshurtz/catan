@@ -527,7 +527,7 @@ public class Model {
      * @return true if the player must discard cards because of a seven being
      * rolled
      */
-    public boolean canDiscardCards(int playerIndex) {
+    public boolean hasMoreThanSevenCards(int playerIndex) {
         if (players.get(playerIndex).getResources().getTotalResources() > 7) {
             return true;
         }
@@ -674,7 +674,7 @@ public class Model {
      */
     public void discardCards(DiscardCardsRequest discardRequest) {
         Player player = players.get(discardRequest.getPlayerIndex());
-        if ( canDiscardCards( discardRequest.getPlayerIndex() )
+        if (turnTracker.getStatus()==TurnStatus.DISCARDING&& hasMoreThanSevenCards( discardRequest.getPlayerIndex() )
                 && player.getResources().hasResources(discardRequest.getDiscardedCards())) {
             player.setDiscarded(true);
             
@@ -682,7 +682,7 @@ public class Model {
             bank.addResources(discardRequest.getDiscardedCards());
         }
         // If everyone has discarded, change the turn status from Discarding to Robbing
-        if ( everyoneFinishedDiscarding() ){
+        if ( turnTracker.getStatus()==TurnStatus.DISCARDING && everyoneFinishedDiscarding() ){
             turnTracker.setStatus(TurnStatus.ROBBING);
         }
         version++;
@@ -1568,7 +1568,7 @@ public class Model {
         // Set turn status to discard & everyone's hasDiscarded to false
         boolean someoneDiscarding = false;
         for ( Player p : this.players ) {
-            if ( canDiscardCards(p.getPlayerIndex()) ) {
+            if ( hasMoreThanSevenCards(p.getPlayerIndex()) ) {
                 p.setDiscarded(false);
                 someoneDiscarding = true;
             } else {

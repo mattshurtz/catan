@@ -20,10 +20,10 @@ import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
-import shared.communication.params.LoadGameRequest;
 import shared.communication.params.moves.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Serializer;
@@ -376,7 +376,7 @@ public class CommandTests {
     }
         
     @Test
-    public void buyDevCard() throws GetPlayerException{
+    public void testBuyDevCard() throws GetPlayerException{
         Command cmd = new buyDevCard();
         Model model = gic.getModels().getGame(1);
         
@@ -884,47 +884,109 @@ public class CommandTests {
     }
     
     @Test
-    public void discardCards(){
-        fail();
+    public void testDiscardCards() throws HTTPBadRequest, GetPlayerException{
+        
+        Model model = gic.getModels().getGame(1);
+                
+        //Creating two cases where players don't need to discard and do need to discard
+        int mustDiscardIndex = 3;
+        int noNeedToDiscardIndex = 0;
+        
+        //These are used to be sure the correct resources are added to the bank
+        ResourceList bankResources = model.getBank();
+        int initialBrick = bankResources.getBrick();
+        int initialOre = bankResources.getOre();
+        int initialWheat = bankResources.getWheat();
+        int initialSheep = bankResources.getSheep();
+        int initialWood = bankResources.getWood();
+        //These are resources in the hand of the player who needs to discard
+        ResourceList playerDiscardsResources = model.getPlayer(mustDiscardIndex).getResources();
+        int initialDiscardBrick = playerDiscardsResources.getBrick();
+        int initialDiscadOre = playerDiscardsResources.getOre();
+        int initialDiscardWheat = playerDiscardsResources.getWheat();
+        int initialDiscardSheep = playerDiscardsResources.getSheep();
+        int initialDiscardWood = playerDiscardsResources.getWood();
+        
+
+        //Creating two cases where players don't need to discard and do need to discard
+        ResourceList discardCards = new ResourceList(0,1,1,1,1);
+        ResourceList notDiscardedCards = new ResourceList(0,0,0,1,1);
+        
+        DiscardCardsRequest  mustDiscardRequest = new DiscardCardsRequest(mustDiscardIndex,discardCards);
+        DiscardCardsRequest  noNeedToDiscardRequest = new DiscardCardsRequest(noNeedToDiscardIndex,notDiscardedCards);
+        
+        //Verify the players Initial Resources which sum to greater than 7
+        assertEquals(initialDiscardBrick,0);
+        assertEquals(initialDiscadOre,2);
+        assertEquals(initialDiscardWheat,3);
+        assertEquals(initialDiscardSheep,2);
+        assertEquals(initialDiscardWood,2);
+        
+        // roll a 7 to set players that need to discard
+        RollNumberRequest rollRequest = new RollNumberRequest(7);
+        Command rollNumber = new rollNumber();
+        rollNumber.execute(serializer.toJson(rollRequest),1,model.getTurnTracker().getCurrentTurn());
+        model.getTurnTracker().setStatus(TurnStatus.DISCARDING);
+        
+        // Try to discard cards with a player that has more than 7 cards
+        Command cmd = new discardCards();
+        cmd.execute(serializer.toJson(mustDiscardRequest),1,mustDiscardIndex);
+        
+        //Check that the correct resources are added to the bank
+        assertEquals(initialBrick+discardCards.getBrick(),model.getBank().getBrick());
+        assertEquals(initialOre+discardCards.getOre(),model.getBank().getOre());
+        assertEquals(initialWheat+discardCards.getWheat(),model.getBank().getWheat());
+        assertEquals(initialSheep+discardCards.getSheep(),model.getBank().getSheep());
+        assertEquals(initialWood+discardCards.getWood(),model.getBank().getWood());
+        
+        //check that Correct resources are removed from the player's resources
+        assertEquals(initialBrick+discardCards.getBrick(),model.getBank().getBrick());
+        assertEquals(initialOre+discardCards.getOre(),model.getBank().getOre());
+        assertEquals(initialWheat+discardCards.getWheat(),model.getBank().getWheat());
+        assertEquals(initialSheep+discardCards.getSheep(),model.getBank().getSheep());
+        assertEquals(initialWood+discardCards.getWood(),model.getBank().getWood());
+
+        
+        
     }
     
     @Test
-    public void acceptTrade(){
+    public void testAcceptTrade(){
        fail(); 
     }
     
     @Test
-    public void roadBuilding(){
+    public void testRoadBuilding(){
        fail(); 
     }
     
     @Test
-    public void soldier(){
+    public void testSoldier(){
        fail(); 
     }
     
     @Test
-    public void finishTurn(){
+    public void testFinishTurn(){
        fail(); 
     }
     
     @Test
-    public void maritimeTrade(){
+    public void testMaritimeTrade(){
        fail(); 
     }
     
     @Test
-    public void offerTrade(){
+    public void testOfferTrade(){
        fail(); 
     }
     
     @Test
-    public void robPlayer(){
+    public void testRobPlayer(){
        fail(); 
     }
     
     @Test
-    public void rollNumber(){
+    public void testRollNumber(){
        fail(); 
     }
 
