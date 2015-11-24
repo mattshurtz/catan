@@ -25,15 +25,20 @@ public class robPlayer extends Command{
         if(isUserInGame(gameID, user)){
             RobPlayerRequest robPlayerRequest = (RobPlayerRequest)this.getDeserializer().toClass(RobPlayerRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.robPlayer(robPlayerRequest);
+            boolean success = currentModel.robPlayer(robPlayerRequest);
             
-            String recipientName = null;
-            try {
-                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
-            } catch (GetPlayerException ex) {
-                Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
+            if (success) {
+            	//increment version and add to game log
+            	currentModel.incrementVersion();
+            	
+	            String recipientName = null;
+	            try {
+	                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
+	            } catch (GetPlayerException ex) {
+	                Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
+	            }
+	            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
             }
-            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
             
             return this.getSerializer().toJson(currentModel);
         }else{

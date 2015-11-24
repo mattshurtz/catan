@@ -1411,21 +1411,28 @@ public class Model {
      * @param robberIndex
      * @param victimIndex
      */
-    public void robPlayer(RobPlayerRequest robPlayerRequest) {
-    	
+    public boolean robPlayer(RobPlayerRequest robPlayerRequest) {
+        //is new robber location a valid location?
+        HexLocation newRobLoc = robPlayerRequest.getLocation();
+        if (!canPlaceRobber(newRobLoc))
+        	return false;
+        
         int robberIndex = robPlayerRequest.getPlayerIndex();
         int victimIndex = robPlayerRequest.getVictimIndex();
         //do they have resources
         if(victimIndex != -1 && players.get(victimIndex).getResources().getTotalResources() > 0) {
         	ResourceType robbed = players.get(victimIndex).getResources().robResource();
         	players.get(robberIndex).getResources().addResource(robbed, 1);
+        } else { //rob request failed
+        	return false;
         }
         
+        //move robber
         this.getMap().setRobber(robPlayerRequest.getLocation());
         
         turnTracker.setStatus(TurnStatus.PLAYING);
         
-        version++;
+        return true;
     }
 
     /**
