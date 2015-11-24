@@ -571,9 +571,6 @@ public class CommandTests {
         } catch (GetPlayerException ex) {
             Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
-        
     }
     
     @Test
@@ -1915,7 +1912,51 @@ public class CommandTests {
     
     @Test
     public void testFinishTurn(){
-       fail(); 
+        int gameIndex = 1;
+        Model m = gic.getModels().getGame( gameIndex );
+        int oldVersion = m.getVersion();
+        
+        // set it to matt's turn
+        m.getTurnTracker().setCurrentTurn(0);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        
+        Player matt = null;
+        try {
+            matt = m.getPlayer(0);
+        } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+        
+        // Now have Matt finish his turn
+        MoveRequest finish = new MoveRequest();
+        finish.setPlayerIndex(matt.getPlayerIndex());
+        finish.setType( "finishTurn" );
+        Command finishCom = new finishTurn();
+        
+        try {
+            finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        TurnStatus oldTurnStatus = m.getTurnTracker().getStatus();
+        assertEquals( 1, m.getTurnTracker().getCurrentTurn() );
+        int newVersion = m.getVersion();
+        assertEquals( oldVersion+1, newVersion );
+        
+        // Now have Matt try to finish his turn again but it should fail
+        try {
+            finishCom.execute ( serializer.toJson(finish), gameIndex, matt.getPlayerID() );
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals( newVersion, m.getVersion() );
+        assertEquals( 1, m.getTurnTracker().getCurrentTurn() );
+        assertEquals( oldTurnStatus, m.getTurnTracker().getStatus() );
     }
     
     @Test
