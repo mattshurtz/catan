@@ -2674,5 +2674,32 @@ public class CommandTests {
             fail();
         }
     }
+    
+    @Test
+    public void testUpdateLargestArmy() {
+    	Model m = gic.getGameModel(1);
+    	assertEquals(-1, m.getTurnTracker().getLargestArmy());
+    	
+    	try {
+    		Player p1 = m.getPlayer(0);
+    		assertEquals(2, p1.getVictoryPoints());
+    		
+    		//give two soldiers - still hasn't earned largest army
+    		p1.setSoldiers(2);
+    		//m.updateLargestArmy();
+    		assertEquals(-1, m.getTurnTracker().getLargestArmy());
+    		assertEquals(2, p1.getVictoryPoints());
+    		
+    		//give a third soldier - earns largest army
+    		p1.setSoldiers(3);
+    		//m.updateLargestArmy();
+    		assertEquals(0, m.getTurnTracker().getLargestArmy());
+    		assertEquals(4, p1.getVictoryPoints());
+    		
+    	} catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
 }
 
