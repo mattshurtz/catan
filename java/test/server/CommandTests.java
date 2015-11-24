@@ -2558,12 +2558,12 @@ public class CommandTests {
 	   	int victimAfter = scott.getResources().getTotalResources();
 	   	int playerAfter = matt.getResources().getTotalResources();
 	   	
-	   	//resources and version shouldn't change
+	   	//resources shouldnt change BUT version should change
 	   	int newVersion = m.getVersion();
 	   	
 	   	assertEquals(victimAfter, victimBefore);
 	   	assertEquals(playerAfter, playerBefore);
-	   	assertEquals(newVersion, oldVersion);
+	   	assertEquals(newVersion, ++oldVersion);
     }
     
     @Test

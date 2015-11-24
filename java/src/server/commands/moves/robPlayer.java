@@ -28,14 +28,17 @@ public class robPlayer extends Command{
             boolean success = currentModel.robPlayer(robPlayerRequest);
 
             if (success) {
-            	
+            	currentModel.incrementVersion();
 	            String recipientName = null;
-	            try {
-	                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
-	            } catch (GetPlayerException ex) {
-	                Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
+	            if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
+	            			&& currentModel.getPlayers().get(robPlayerRequest.getVictimIndex()).getResources().getTotalResources() > 0) {
+	            	try {
+		                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
+		            } catch (GetPlayerException ex) {
+		                Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
+		            }
+		            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
 	            }
-	            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
             }
             
             return this.getSerializer().toJson(currentModel);

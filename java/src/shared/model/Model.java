@@ -1418,24 +1418,19 @@ public class Model {
         HexLocation newRobLoc = robPlayerRequest.getLocation();
         if (!canPlaceRobber(newRobLoc))
         	return false;
+              
+        //move robber
+        this.getMap().setRobber(robPlayerRequest.getLocation());
+        turnTracker.setStatus(TurnStatus.PLAYING);
         
         int robberIndex = robPlayerRequest.getPlayerIndex();
         int victimIndex = robPlayerRequest.getVictimIndex();
+        //rob
         //do they have resources
         if(victimIndex != -1 && players.get(victimIndex).getResources().getTotalResources() > 0) {
         	ResourceType robbed = players.get(victimIndex).getResources().robResource();
         	players.get(robberIndex).getResources().addResource(robbed, 1);
-        } else { //rob request failed
-            turnTracker.setStatus(TurnStatus.PLAYING);
-            this.getMap().setRobber(robPlayerRequest.getLocation());
-            version++;
-        	return false;
-        }
-        
-        //move robber
-        this.getMap().setRobber(robPlayerRequest.getLocation());
-        turnTracker.setStatus(TurnStatus.PLAYING);
-        version++;
+        } 
         
         return true;
     }
