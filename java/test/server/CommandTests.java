@@ -56,6 +56,50 @@ public class CommandTests {
 	public void tearDown() {
 	}
 
+	
+//USER TESTS	
+	@Test
+	public void testLogin() {
+		
+	}
+	
+	@Test
+	public void testRegister() {
+		
+	}
+//GAMES TESTS
+	@Test
+	public void testCreate() {
+		
+	}
+	
+	@Test
+	public void testJoin() {
+		
+	}
+	
+	@Test
+	public void testList() {
+		
+	}
+//GAME TESTS	
+	@Test
+	public void testModel() {
+		
+	}
+	
+	@Test
+	public void testListAI() {
+		
+	}
+	
+//MOVES TESTS
+	@Test
+	public void acceptTrade() {
+		
+	}
+	
+	
     @Test
     public void testMonument() {
         Model m = gic.getModels().getGame(0);
