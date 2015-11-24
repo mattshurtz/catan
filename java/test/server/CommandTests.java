@@ -1809,8 +1809,50 @@ public class CommandTests {
     }
     
     @Test
-    public void testMaritimeTrade(){
-       fail(); 
+    public void testMaritimeTrade() throws GetPlayerException{
+        Model model = gic.getModels().getGame(1);
+       
+        int playerIndex = 3;
+        
+        //int playerIndex, int ratio, ResourceType inputResource, ResourceType ouput
+        MaritimeTradeRequest maritimeTrade4BRickRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.BRICK,ResourceType.BRICK);
+        MaritimeTradeRequest maritimeTrade4WheatRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.WHEAT,ResourceType.WHEAT);
+        MaritimeTradeRequest maritimeTrade4SheepRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.SHEEP,ResourceType.SHEEP);
+        MaritimeTradeRequest maritimeTrade4WoodRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.WOOD,ResourceType.WOOD);
+        MaritimeTradeRequest maritimeTrade4OreRequest = new MaritimeTradeRequest(playerIndex,4,ResourceType.ORE,ResourceType.ORE);
+        
+        model.getPlayer(playerIndex).getResources().setBrick(4);
+        model.getPlayer(playerIndex).getResources().setOre(4);
+        model.getPlayer(playerIndex).getResources().setWheat(4);
+        model.getPlayer(playerIndex).getResources().setWood(4);
+        model.getPlayer(playerIndex).getResources().setSheep(4);
+        
+        
+        Command cmd = new maritimeTrade();
+        cmd.execute(serializer.toJson(maritimeTrade4BRickRequest),1,0);
+        
+        
+        
+        
+        //isPlayersTurn
+        
+        //isNotPlayersTurn
+        
+        //bank has resources
+        
+        //Test 4 resources for all resources
+        
+        //Test 3 resources for all resources
+        
+        //test 2 resources for sheep. 
+        
+        //bank does not have resources
+        
+        //player has resources
+        
+        //player does not have resources 
+       
+       
     }
     
     @Test

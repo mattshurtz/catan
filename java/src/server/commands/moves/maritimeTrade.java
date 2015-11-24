@@ -23,10 +23,11 @@ public class maritimeTrade extends Command{
         if(isUserInGame(gameID, user)){
             MaritimeTradeRequest maritimeTradeRequest = (MaritimeTradeRequest)this.getDeserializer().toClass(MaritimeTradeRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.acceptMaritimeTrade(maritimeTradeRequest);
-            
-            this.addHistoryMessage(gameID, "did a maritime trade", user);
-            
+            boolean success = currentModel.acceptMaritimeTrade(maritimeTradeRequest);
+            if(success){
+                this.addHistoryMessage(gameID, "did a maritime trade", user);
+                currentModel.incrementVersion();
+            }
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

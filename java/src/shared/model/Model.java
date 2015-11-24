@@ -173,7 +173,7 @@ public class Model {
             players.get(playerIndex).getResources().subtractResource(give, amount);
             bank.addResource(give, amount);
             bank.subtractResource(receive, 1);
-            version++;
+            return true;
         }
         return false;
     }
