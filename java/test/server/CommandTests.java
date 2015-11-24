@@ -2065,8 +2065,181 @@ public class CommandTests {
     }
     
     @Test
-    public void testRobPlayer(){
-       fail(); 
+    public void testRobPlayer_valid(){
+       int gameIndex = 1;
+       Model m = gic.getModels().getGame(gameIndex);
+       Player matt = null;
+       Player scott = null;
+       
+       try {
+    	   matt = m.getPlayer(0); //BLUE
+    	   scott = m.getPlayer(1); //GREEN
+       } catch (GetPlayerException ex) {
+	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	       fail();
+	   }
+       
+       HexLocation robHexLoc = new HexLocation(0,-1);
+       RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+       
+       int victimBefore = scott.getResources().getTotalResources();
+       int playerBefore = matt.getResources().getTotalResources();
+       
+       int oldVersion = m.getVersion();
+       
+	   	//Execute command
+	   	Command rp = new robPlayer();
+	   	try {
+	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+	   	} catch( HTTPBadRequest ex) {
+	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	   		fail();
+	   	}
+	   	
+	   	//Check version and resources after robbing
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter + 1, victimBefore);
+	   	assertEquals(playerAfter - 1, playerBefore);
+	   	assertEquals(newVersion - 1, oldVersion);
+    }
+    
+    @Test 
+    public void testRobPlayer_invalid_waterHex() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-3);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
+    }
+    
+    @Test
+    public void testRobPlayer_invalid_currentRobberHex() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-2);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
+    }
+    
+    @Test
+    public void testRobPlayer_invalid_noVictimResources() {
+    	int gameIndex = 1;
+        Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        
+        try {
+     	   matt = m.getPlayer(0); //BLUE
+     	   scott = m.getPlayer(1); //GREEN
+        } catch (GetPlayerException ex) {
+ 	       Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	       fail();
+ 	   }
+        
+        HexLocation robHexLoc = new HexLocation(0,-1);
+        RobPlayerRequest rpReq = new RobPlayerRequest(matt.getPlayerIndex(), scott.getPlayerIndex(), robHexLoc);
+        
+        //Set scott's resources to zero
+        scott.setResources(new ResourceList(0,0,0,0,0));
+        
+        int victimBefore = scott.getResources().getTotalResources();
+        int playerBefore = matt.getResources().getTotalResources();
+        
+        int oldVersion = m.getVersion();
+        
+ 	   	//Execute command
+ 	   	Command rp = new robPlayer();
+ 	   	try {
+ 	   		rp.execute(serializer.toJson(rpReq), gameIndex, matt.getPlayerID());
+ 	   	} catch( HTTPBadRequest ex) {
+ 	   		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+ 	   		fail();
+ 	   	}
+ 	   	
+	   	//Check version and resources after false rob
+	   	int victimAfter = scott.getResources().getTotalResources();
+	   	int playerAfter = matt.getResources().getTotalResources();
+	   	
+	   	//resources and version shouldn't change
+	   	int newVersion = m.getVersion();
+	   	
+	   	assertEquals(victimAfter, victimBefore);
+	   	assertEquals(playerAfter, playerBefore);
+	   	assertEquals(newVersion, oldVersion);
     }
     
     @Test
