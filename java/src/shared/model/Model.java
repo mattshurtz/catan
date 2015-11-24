@@ -1284,7 +1284,7 @@ public class Model {
      *
      * @param playerIndex
      */
-    public void playSoldier(MoveRequest moveRequest) {
+    public boolean playSoldier(MoveRequest moveRequest) {
         
         int playerIndex = moveRequest.getPlayerIndex();
         if (canPlaySoldier(playerIndex) && isPlayersTurn(playerIndex)) {      
@@ -1292,9 +1292,10 @@ public class Model {
             players.get(playerIndex).incrementSoldiers();
             players.get(playerIndex).playedDevCard = true;
             updateLargestArmy();
-            version++;
-
+            return true;
         }
+        
+        return false;
     }
     
     public void updateLargestArmy()

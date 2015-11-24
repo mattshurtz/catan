@@ -1906,8 +1906,192 @@ public class CommandTests {
     }
     
     @Test
-    public void testSoldier(){
-       fail(); 
+    public void testSoldier_dontHaveCard() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());      
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_NotMyTurn() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setCurrentTurn(1);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_CanPlay() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        p.finishTurn();
+        assertEquals(1, p.getOldDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(--numSoldierCards, p.getTotalSoldiers());
+        assertEquals(++numSoldiers, p.getSoldiers());
+        assertTrue(p.isPlayedDevCard());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(++version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_AlreadyPlayed() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.setPlayedDevCard(true);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        p.finishTurn();
+        assertEquals(1, p.getOldDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
+    }
+    
+    @Test
+    public void testSoldier_HaveCard_JustPurchased() throws GetPlayerException{
+        Command cmd = new Soldier();
+        
+        //model is default post setup
+        Model m = gic.getModels().getGame(1);
+        m.getTurnTracker().setStatus(TurnStatus.PLAYING);
+        int version = m.getVersion();
+        int historyLength = m.getLog().getLength();
+        
+        int testPlayerIndex = 0;
+        Player p = null;
+        
+        p = m.getPlayer(testPlayerIndex);
+        p.giveDevCard(DevCardType.SOLDIER);
+        int numSoldierCards = p.getTotalSoldiers();
+        int numSoldiers = p.getSoldiers();
+        assertEquals(1, numSoldierCards);
+        assertEquals(0, numSoldiers);
+        assertEquals(1, p.getNewDevCards().getSoldier());
+        
+        MoveRequest req = new MoveRequest();
+        req.setPlayerIndex(0);
+        req.setType("Soldier");
+        
+        try {
+            cmd.execute(serializer.toJson(req), 1, testPlayerIndex);
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        assertEquals(numSoldierCards, p.getTotalSoldiers());
+        assertEquals(numSoldiers, p.getSoldiers());
+        assertTrue(!p.isPlayedDevCard());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(version, m.getVersion());
     }
     
     @Test

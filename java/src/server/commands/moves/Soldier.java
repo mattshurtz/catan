@@ -22,10 +22,13 @@ public class Soldier extends Command{
         if(isUserInGame(gameID, user)){
             MoveRequest request = (MoveRequest)this.getDeserializer().toClass(MoveRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            currentModel.playSoldier(request);
+            boolean success = currentModel.playSoldier(request);
             
-            this.addHistoryMessage(gameID, "has got soul but (s)he played a Soldier", user);
-            currentModel.incrementVersion();
+            if(success) {
+                this.addHistoryMessage(gameID, "has got soul but (s)he played a Soldier", user);
+                currentModel.incrementVersion();
+            }
+            
             return this.getSerializer().toJson(currentModel); 
         }
         else {
