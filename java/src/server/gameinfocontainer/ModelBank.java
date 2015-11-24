@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import shared.definitions.ResourceType;
 
 /**
  *
@@ -137,6 +138,20 @@ public class ModelBank {
     	BuildRoadRequest r8 = new BuildRoadRequest(new EdgeLocation(new HexLocation(1,-1), EdgeDirection.SouthWest), true);
     	r8.setPlayerIndex(3);
     	readyModel.buildRoad(r8);
+        
+//For TA passoff use ONLY
+//        try {
+//            readyModel.getPlayer(0).getOldDevCards().AddRoadBuilding();
+//            readyModel.getDeck().removeRoadBuilding();
+//            readyModel.getBank().subtractResource(ResourceType.BRICK, 8);
+//            readyModel.getBank().subtractResource(ResourceType.WOOD, 8);
+//            readyModel.getPlayer(0).getResources().addResource(ResourceType.WOOD, 4);
+//            readyModel.getPlayer(0).getResources().addResource(ResourceType.BRICK, 4);
+//            readyModel.getPlayer(1).getResources().addResource(ResourceType.WOOD, 4);
+//            readyModel.getPlayer(1).getResources().addResource(ResourceType.BRICK, 4);            
+//        } catch (GetPlayerException ex) {
+//            Logger.getLogger(ModelBank.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     	
     	//Give out some cards
     	for (int i=2;i<13;i++) {
