@@ -12,7 +12,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import server.commands.Command;
 import server.commands.moves.*;
+import server.commands.user.login;
+import server.commands.user.register;
 import server.gameinfocontainer.GameInfoContainer;
+import shared.communication.params.Credentials;
+import shared.communication.params.LoadGameRequest;
 import shared.communication.params.moves.*;
 import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
@@ -40,6 +44,7 @@ public class CommandTests {
     
     @BeforeClass
 	public static void setUpClass() {
+    	
 	}
 
 	@AfterClass
@@ -48,25 +53,137 @@ public class CommandTests {
 
 	@Before
 	public void setUp() {
-        gic = GameInfoContainer.getInstance();
+		gic = GameInfoContainer.getInstance();
         serializer = new Serializer();
 	}
 
 	@After
 	public void tearDown() {
+		GameInfoContainer.reset();
 	}
 
 	
 //USER TESTS	
 	@Test
-	public void testLogin() {
+	public void testLogin_valid() {
+		
+		
+		String result = "";
+		//test valid login		
+		Credentials rqt = new Credentials("Matt","matt");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("catan.user=%7B%22name%22%3A%22Matt%22%2C%22password%22%3A%22matt%22%2C%22playerID%22%3A0%7D;Path=/;",result);
 		
 	}
 	
 	@Test
-	public void testRegister() {
+	public void testLogin_badPassword() {
 		
+		String result = "";
+				
+		Credentials rqt = new Credentials("Matt","matt2");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+		}
 	}
+	
+	@Test
+	public void testLogin_badUsername() {
+		
+		String result = "";
+			
+		Credentials rqt = new Credentials("Matt2","matt");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);            
+		}
+	}
+	
+	@Test
+	public void testLogin_badUsername_emptyString() {
+		
+		String result = "";
+				
+		Credentials rqt = new Credentials("","");
+		try {
+			result = (new login()).execute(serializer.toJson(rqt), 0, 0);			
+			//should throw HTTPBadRequest
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);    
+			return;
+		}
+		fail();
+	}
+	
+	@Test
+	public void testRegister_valid() {
+		String result = "";
+		//test valid registration	
+		Credentials rqt = new Credentials("random","random");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+		}
+		assertEquals("catan.user=%7B%22name%22%3A%22random%22%2C%22password%22%3A%22random%22%2C%22playerID%22%3A5%7D;Path=/;",result);	
+	}
+	
+	@Test
+	public void testRegister_userAlreadyExists() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("Matt","123456");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
+	@Test
+	public void testRegister_invalidUsername() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("ba","123456");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
+	@Test
+	public void testRegister_invalidPassword() {
+		String result = "";
+	
+		Credentials rqt = new Credentials("baby","12");
+		try {
+			result = (new register()).execute(serializer.toJson(rqt), 0, 0);
+			fail();
+		} catch (HTTPBadRequest ex) {
+			Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            
+		}
+	}
+	
 //GAMES TESTS
 	@Test
 	public void testCreate() {
