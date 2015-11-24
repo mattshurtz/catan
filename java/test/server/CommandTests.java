@@ -767,44 +767,347 @@ public class CommandTests {
     }
 
     @Test
-    public void testBuildRoad() {
+    public void testBuildRoad() throws GetPlayerException {
         Command cmd = new buildRoad();
         
         //model is default post setup
         Model m = gic.getModels().getGame(1);
         int testPlayerIndex = 0;
         Player p = null;
+        
+        //build some extra roads
+    	BuildRoadRequest r1 = new BuildRoadRequest(new EdgeLocation(new HexLocation(0,0), EdgeDirection.North), true);
+    	r1.setPlayerIndex(0);
+    	m.buildRoad(r1);
+        
         EdgeLocation emptyEdge = new EdgeLocation(new HexLocation(0,-2), EdgeDirection.North);
         EdgeLocation opponentEdge = new EdgeLocation(new HexLocation(0,-1), EdgeDirection.SouthWest);
         EdgeLocation myEdge = new EdgeLocation(new HexLocation(-3,1), EdgeDirection.NorthEast);
-        EdgeLocation waterEdge = new EdgeLocation(new HexLocation(-3,0), EdgeDirection.NorthEast);
-        EdgeLocation attachOpponentEdge = new EdgeLocation(new HexLocation(-2,2), EdgeDirection.South);
-        EdgeLocation attachOpponentSettlement = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.North);
+        EdgeLocation waterEdge = new EdgeLocation(new HexLocation(-3,0), EdgeDirection.South);
+        EdgeLocation attachOpponentRoadEdge = new EdgeLocation(new HexLocation(-2,2), EdgeDirection.South);
+        EdgeLocation attachOpponentSettlementEdge = new EdgeLocation(new HexLocation(-1,0), EdgeDirection.North);
         
         //test with Player Index 1 (green)
-        EdgeLocation validEdge = new EdgeLocation(new HexLocation(0, 0), EdgeDirection.North);
-        EdgeLocation buildThrough = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthEast);
-        EdgeLocation validFree = new EdgeLocation(new HexLocation(0,-1), EdgeDirection.NorthEast);
-        
+        EdgeLocation validEdge = new EdgeLocation(new HexLocation(0, 1), EdgeDirection.South);
+        EdgeLocation buildThroughOpponentEdge = new EdgeLocation(new HexLocation(0, -1), EdgeDirection.SouthEast);
+        EdgeLocation validFreeEdge = new EdgeLocation(new HexLocation(0,-1), EdgeDirection.NorthWest);
         
         int historyLength = m.getLog().getLength();
         int version = m.getVersion();
         int bankBrick = m.getBank().getBrick();
         int bankWood = m.getBank().getWood();
         
-        //test not my turn
-        
         //test not enough resources ( 1 brick 1 wood)
+        p = m.getPlayer(0);
+        int numBrick = p.getResources().getBrick();
+        int numWood = p.getResources().getWood();
+        int numRoads = p.getRoads();
+        boolean free = false;
+        
+        p.getResources().setBrick(0);
+        m.getBank().addResource(ResourceType.BRICK, numBrick);
+        bankBrick += numBrick;
+        numBrick = 0;
+
+        p.getResources().setWood(0);
+        m.getBank().addResource(ResourceType.WOOD, numWood);
+        bankWood += numWood;
+        numWood = 0;
+        
+        BuildRoadRequest req = new BuildRoadRequest(validEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
         //test enough resources
-            //test not attached to own road
-            //test not attached to own settlement
-            //test on own road
-            //test on opponent road
-            //test floating road
-            //test in water
-            //test no more roads
-            //test build through opponent settlement
-            //test valid road placement
+        p.getResources().setBrick(1);
+        numBrick = 1;
+        m.getBank().subtractResource(ResourceType.BRICK, numBrick);
+        bankBrick -= numBrick;
+        
+        p.getResources().setWood(1);
+        numWood = 1;
+        m.getBank().subtractResource(ResourceType.WOOD, numWood);
+        bankWood -= numWood;
+        
+        //test not my turn
+        m.getTurnTracker().setCurrentTurn(1);
+        
+        req = new BuildRoadRequest(validEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        m.getTurnTracker().setCurrentTurn(0);
+        
+        //test floating road
+        req = new BuildRoadRequest(emptyEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //test on top of opponent road
+        req = new BuildRoadRequest(opponentEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+            
+        //test on top of own road
+        req = new BuildRoadRequest(myEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //test in water
+        req = new BuildRoadRequest(waterEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //test not attached to own road
+        req = new BuildRoadRequest(attachOpponentRoadEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //test not attached to own settlement
+        p.setSettlements(0);
+        req = new BuildRoadRequest(attachOpponentSettlementEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(0).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //SWITCH TO PLAYER INDEX 1
+        p = m.getPlayer(1);
+        m.getTurnTracker().setCurrentTurn(1);
+        numRoads = p.getRoads();
+        numBrick = p.getResources().getBrick();
+        numWood = p.getResources().getWood();
+        
+        p.getResources().setBrick(0);
+        m.getBank().addResource(ResourceType.BRICK, numBrick);
+        bankBrick += numBrick;
+        numBrick = 0;
+
+        p.getResources().setWood(0);
+        m.getBank().addResource(ResourceType.WOOD, numWood);
+        bankWood += numWood;
+        numWood = 0;
+        
+        p.getResources().setBrick(2);
+        numBrick = 2;
+        m.getBank().subtractResource(ResourceType.BRICK, numBrick);
+        bankBrick -= numBrick;
+        
+        p.getResources().setWood(2);
+        numWood = 2;
+        m.getBank().subtractResource(ResourceType.WOOD, numWood);
+        bankWood -= numWood;
+        
+        if(numBrick == 0) {
+            p.getResources().addResource(ResourceType.BRICK, 1);
+            numBrick = 1;
+            m.getBank().subtractResource(ResourceType.BRICK, 1);
+            bankBrick--;
+        }
+        
+        if(numWood == 0) {
+            p.getResources().addResource(ResourceType.WOOD, 1);
+            numWood = 1;
+            m.getBank().subtractResource(ResourceType.WOOD, 1);
+            bankWood--;
+        }
+        
+        //test no more roads
+        int remainingRoads = numRoads;
+        p.setRoads(0);
+        numRoads = 0;
+        
+        req = new BuildRoadRequest(validEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(1);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(1).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(1).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(1).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        numRoads = remainingRoads;
+        p.setRoads(remainingRoads);
+        
+        //test valid road placement
+        req = new BuildRoadRequest(validEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(1);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(--numBrick, m.getPlayer(1).getResources().getBrick());
+        assertEquals(--numWood, m.getPlayer(1).getResources().getWood());
+        assertEquals(++bankBrick, m.getBank().getBrick());
+        assertEquals(++bankWood, m.getBank().getWood());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(--numRoads, m.getPlayer(1).getRoads());
+        assertEquals(++version, m.getVersion());
+        
+        //test build through opponent settlement
+        //add resources so that command is invalid because of placement 
+        
+        req = new BuildRoadRequest(buildThroughOpponentEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(1);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(1).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(1).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numRoads, m.getPlayer(1).getRoads());
+        assertEquals(version, m.getVersion());
+        
+        //test free
+        free = true;
+        
+        req = new BuildRoadRequest(validFreeEdge, free);
+        req.setType("buildRoad");
+        req.setPlayerIndex(1);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(1).getResources().getBrick());
+        assertEquals(numWood, m.getPlayer(1).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(++historyLength, m.getLog().getLength());
+        assertEquals(--numRoads, m.getPlayer(1).getRoads());
+        assertEquals(++version, m.getVersion());
     }
     
     @Test
@@ -1086,7 +1389,37 @@ public class CommandTests {
         assertEquals(historyLength, m.getLog().getLength());
         assertEquals(numSettlements, m.getPlayer(0).getSettlements());
         assertEquals(version, m.getVersion());
-            
+        
+        //test no more settlements
+        int remaining = numSettlements;
+        p.setSettlements(0);
+        numSettlements = 0;
+        
+        req = new BuildSettlementRequest(validVertex, free);
+        req.setType("buildSettlement");
+        req.setPlayerIndex(0);
+        try {
+            cmd.execute(serializer.toJson(req),1,p.getPlayerID());
+        } catch (HTTPBadRequest ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+        
+        assertEquals(numBrick, m.getPlayer(0).getResources().getBrick());
+        assertEquals(numWheat, m.getPlayer(0).getResources().getWheat());
+        assertEquals(numSheep, m.getPlayer(0).getResources().getSheep());
+        assertEquals(numWood, m.getPlayer(0).getResources().getWood());
+        assertEquals(bankBrick, m.getBank().getBrick());
+        assertEquals(bankWheat, m.getBank().getWheat());  
+        assertEquals(bankSheep, m.getBank().getSheep());
+        assertEquals(bankWood, m.getBank().getWood());
+        assertEquals(historyLength, m.getLog().getLength());
+        assertEquals(numSettlements, m.getPlayer(0).getSettlements());
+        assertEquals(version, m.getVersion());
+        
+        p.setSettlements(remaining);
+        numSettlements = remaining;
+        
         //test valid
         req = new BuildSettlementRequest(validVertex, free);
         req.setType("buildSettlement");
@@ -1490,9 +1823,8 @@ public class CommandTests {
        fail(); 
     }
     
-
-    public void testRollNumber() {
-    	//TEST VALID CASE WITH NORMAL REQUEST
+    @Test
+    public void testRollNumber_valid_twoSettlements_oneHex() {
     	int gameIndex = 1;
     	Model m = gic.getModels().getGame(gameIndex);
         Player matt = null;
@@ -1510,20 +1842,24 @@ public class CommandTests {
 	        fail();
 	    }
     	
-    	//ROLL 11 - Matt rolls, Garrett gets 2 wheat
-    	//Jan also gets 1 wood
+    	/**
+    	 * ROLL 11
+    	 * Garrett gets 2 wheat
+    	 * Jan gets 1 wood
+    	 */
     	ResourceList mattBefore = matt.getResources().copy();
     	ResourceList garBefore = garrett.getResources().copy();
     	ResourceList scottBefore = scott.getResources().copy();
     	ResourceList janBefore = jan.getResources().copy();
     	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
     	
-    	RollNumberRequest rnReq = new RollNumberRequest(matt.getPlayerID(), 11);
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 11);
     	
     	//Execute command
     	Command rn = new rollNumber();
     	try {
-    		rn.execute(serializer.toJson(rnReq), gameIndex, matt.getPlayerID());
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
     	} catch( HTTPBadRequest ex) {
     		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
     		fail();
@@ -1545,10 +1881,143 @@ public class CommandTests {
     	assertEquals(scottBefore, scottAfter);
     	assertEquals(janBefore, janAfter);
     	assertEquals(oldVersion + 1, newVersion);
+    }
+    
+    @Test
+    public void testRollNumber_valid_multHexes_onePlayerPerHex() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
     	
-    	//ROLL 9 - Two players (Matt, Scott) each get one sheep
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
     	
-    	//
+    	/**
+    	 * ROLL 9
+    	 * Garrett and Scott get one sheep
+    	 * Jan and Garrett get one ore
+    	 */
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 9);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	ResourceList mattAfter = matt.getResources();
+    	ResourceList garAfter = garrett.getResources();
+    	ResourceList scottAfter = scott.getResources();
+    	ResourceList janAfter = jan.getResources();
+    	int newVersion = m.getVersion();
+    	
+    	//manually update resource to match expected result
+    	garBefore.addResource(ResourceType.SHEEP, 1);
+    	garBefore.addResource(ResourceType.ORE, 1);
+    	
+    	scottBefore.addResource(ResourceType.SHEEP, 1);
+    	janBefore.addResource(ResourceType.ORE, 1);
+    	
+    	assertEquals(mattBefore, mattAfter);
+    	assertEquals(garBefore, garAfter);
+    	assertEquals(scottBefore, scottAfter);
+    	assertEquals(janBefore, janAfter);
+    	assertEquals(oldVersion + 1, newVersion);
+    }
+    
+    @Test
+    public void testRollNumber_valid_rollSeven() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+        Player matt = null;
+        Player scott = null;
+        Player jan = null;
+        Player garrett = null;
+    	
+    	try {
+	        matt = m.getPlayer(0); //BLUE
+	        scott = m.getPlayer(1); //GREEN
+	        jan = m.getPlayer(2); //ORANGE
+	        garrett = m.getPlayer(3); //RED
+	    } catch (GetPlayerException ex) {
+	        Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+	        fail();
+	    }
+    	
+    	/**
+    	 * Roll a 7, no resources distributed
+    	 */
+    	ResourceList mattBefore = matt.getResources().copy();
+    	ResourceList garBefore = garrett.getResources().copy();
+    	ResourceList scottBefore = scott.getResources().copy();
+    	ResourceList janBefore = jan.getResources().copy();
+    	int oldVersion = m.getVersion();
+    	int currentTurn = m.getTurnTracker().getCurrentTurn();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(currentTurn, 7);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, currentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}
+    	
+    	//compare after command execution
+    	assertEquals(mattBefore, matt.getResources());
+    	assertEquals(garBefore, garrett.getResources());
+    	assertEquals(scottBefore, scott.getResources());
+    	assertEquals(janBefore, jan.getResources());
+    	assertEquals(oldVersion + 1, m.getVersion());	
+    }
+    
+    @Test
+    public void testRollNumber_invalid_wrongPlayerID() {
+    	int gameIndex = 1;
+    	Model m = gic.getModels().getGame(gameIndex);
+    	
+    	int falseCurrentTurn = 3; //actual current turn is 0
+    	int rollNum = 11;
+
+    	int oldVersion = m.getVersion();
+    	
+    	RollNumberRequest rnReq = new RollNumberRequest(falseCurrentTurn, rollNum);
+    	
+    	//Execute command
+    	Command rn = new rollNumber();
+    	try {
+    		rn.execute(serializer.toJson(rnReq), gameIndex, falseCurrentTurn);
+    	} catch( HTTPBadRequest ex) {
+    		Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+    		fail();
+    	}	
+    	
+    	int newVersion = m.getVersion();
+    	//Version should not increment, model should not change
+    	assertEquals(oldVersion, newVersion);
     }
 }
 

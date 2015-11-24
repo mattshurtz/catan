@@ -210,7 +210,7 @@ public class Model {
      *
      * @param buildRoadInfo where the player is playing the road
      */
-    public void buildRoad(BuildRoadRequest buildRoadInfo) {
+    public boolean buildRoad(BuildRoadRequest buildRoadInfo) {
         if (canBuildRoad(buildRoadInfo.getRoadLocation(), buildRoadInfo.getPlayerIndex()) && isPlayersTurn(buildRoadInfo.getPlayerIndex())) {
             if (canBuyRoad(buildRoadInfo.getPlayerIndex()) && !buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
@@ -218,11 +218,15 @@ public class Model {
             } else if (buildRoadInfo.isFree()) {
                 players.get(buildRoadInfo.getPlayerIndex()).buildRoad(buildRoadInfo.isFree());
             }
+            else {
+                return false;
+            }
             
             catanMap.addRoad(new Road(buildRoadInfo.getPlayerIndex(),buildRoadInfo.getRoadLocation()));
             updateLongestRoad();
-            
+            return true;
         }
+        return false;
     }
     
     public void removeRoad(Road road){
