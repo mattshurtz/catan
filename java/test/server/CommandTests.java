@@ -2453,5 +2453,20 @@ public class CommandTests {
             fail();
         }
     }
+    
+    @Test
+    public void testCheckWinner_moreThan10() {
+        Model m = gic.getGameModel(1);
+        assertEquals( -1, m.getWinner() );
+        try {
+            Player p1 = m.getPlayer(0);
+            p1.setVictoryPoints(300);
+            m.checkWinner();
+            assertEquals( 0, m.getWinner() );
+        } catch (GetPlayerException ex) {
+            Logger.getLogger(CommandTests.class.getName()).log(Level.SEVERE, null, ex);
+            fail();
+        }
+    }
 }
 
