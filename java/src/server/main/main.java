@@ -20,6 +20,8 @@ import server.HTTPhandlers.UserHandler;
 import server.facade.IServerFacade;
 import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
+import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -71,10 +73,30 @@ public class main{
 	 */
 	public static void main(String[] args) {
 	//start server with default port if no argument is given
-		if (args.length >= 1) {
-			new main().run(Integer.parseInt(args[0]));
-		} else if (args.length == 0) {
-			new main().run(DEFAULT_SERVER_PORT_NUMBER);
+		Persistence persis;
+		String persistance_type;
+		int delta;
+		
+		switch (args.length) {
+			case 3:
+				persistance_type = args[0].toString();
+				delta = Integer.parseInt(args[1]);
+				persis = Persistence.getInstance();
+				persis.set(persistance_type, delta);
+				if(args[2].toString().equals("wipe")) {
+					persis.wipe();
+				}				
+				new main().run(DEFAULT_SERVER_PORT_NUMBER);
+				break;
+			case 2:
+				persistance_type = args[1].toString();
+				delta = Integer.parseInt(args[2]);
+				persis = Persistence.getInstance();
+				persis.set(persistance_type, delta);
+				new main().run(DEFAULT_SERVER_PORT_NUMBER);
+				break;
+			default:
+				return;
 		}
 	}
 	private HttpServer server;
@@ -86,9 +108,6 @@ public class main{
 	 *            The port number
 	 */
 	public void run(int port_number) {
-	//initializes stuff
-
-
 	//initializes HTTP server
 		try {
 			server = HttpServer.create(new InetSocketAddress(port_number),
