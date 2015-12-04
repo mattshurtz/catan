@@ -5,7 +5,9 @@
  */
 package server.persistence.filePlugin;
 
+import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IGamesDAO;
+import shared.model.Model;
 
 /**
  *
@@ -13,7 +15,7 @@ import server.persistence.DAO.IGamesDAO;
 public class FileGamesDAO implements IGamesDAO {
 
     @Override
-    public void getGames() throws Exception {
+    public ModelBank getGames() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -23,7 +25,7 @@ public class FileGamesDAO implements IGamesDAO {
     }
 
     @Override
-    public void updateGame() throws Exception {
+    public void updateGame( int id, Model game ) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

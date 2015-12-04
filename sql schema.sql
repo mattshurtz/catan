@@ -23,3 +23,12 @@ create table if not exists Commands (
 	game_id int,
 	version int
 );
+
+update CurrentGames set 
+	version = ?, 
+	player0_id = ?, 
+	player1_id = ?, 
+	player2_id = ?, 
+	player3_id = ?, 
+	state = ?
+where id = ?
