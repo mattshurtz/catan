@@ -1,6 +1,8 @@
 package server.persistence;
 
 import server.gameinfocontainer.GameInfoContainer;
+import server.gameinfocontainer.ModelBank;
+import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.IFactory;
@@ -31,6 +33,7 @@ public class Persistence {
 	public void set(String plugin, int delta) {
 		this.delta = delta;
 		this.plugin = plugin;
+		
 	}
 	
 	public boolean loadData() {
@@ -49,11 +52,27 @@ public class Persistence {
 	}	
 	
 	private boolean loadUsers() {
-		return false;
+		try {
+			UserInfoBank users = factory.getUserDAO().getUsers();
+			GameInfoContainer.getInstance().setUser(users);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	private boolean loadGames() {
-		return false;
+		try {
+			ModelBank games = factory.getGameDAO().getGames();
+			GameInfoContainer.getInstance().setGames(games);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	private boolean saveCommand(String command, String json, int gameId, int playerId) {

@@ -6,6 +6,8 @@
 package server.persistence.sqlPlugin;
 
 import java.sql.Connection;
+
+import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IUsersDAO;
 
 /**
@@ -29,7 +31,7 @@ public class SQLUsersDAO implements IUsersDAO {
     }
 
     @Override
-    public void getUsers() throws Exception {
+    public UserInfoBank getUsers() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

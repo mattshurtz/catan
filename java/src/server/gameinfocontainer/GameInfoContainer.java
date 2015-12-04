@@ -160,4 +160,13 @@ public class GameInfoContainer {
     public List<GameResponse> getListOfGames() {
         return models.toGameResponseList();
     }
+
+	public void setUser(UserInfoBank users) {
+		this.users = users;
+	}
+
+	public void setGames(ModelBank games) {
+		this.models = games;
+		
+	}
 }
