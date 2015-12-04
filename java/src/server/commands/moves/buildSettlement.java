@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.BuildSettlementRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -30,6 +31,7 @@ public class buildSettlement extends Command{
             if(success) {
                 this.addHistoryMessage(gameID, "built a settlement", user);
                 currentModel.incrementVersion();
+                Persistence.getInstance().saveCommand("buildSettlement", json, gameID, user);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

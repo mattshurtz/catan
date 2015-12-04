@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.MoveRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -25,6 +26,7 @@ public class Monument extends Command{
             currentModel.playMonument(request);
             
             this.addHistoryMessage(gameID, "played a Monument", user);
+            Persistence.getInstance().saveCommand("Monument", json, gameID, user);
             
             return this.getSerializer().toJson(currentModel); 
         }

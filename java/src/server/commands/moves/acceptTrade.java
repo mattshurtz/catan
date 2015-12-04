@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.AcceptTradeRequest;
 import shared.communication.params.moves.OfferTradeRequest;
 import shared.exceptions.HTTPBadRequest;
@@ -37,7 +38,7 @@ public class acceptTrade extends Command{
                 msg = "didn't accept the trade";
             }
             this.addHistoryMessage(gameID, msg, user);
-            
+            Persistence.getInstance().saveCommand("acceptTrade", json, gameID, user);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

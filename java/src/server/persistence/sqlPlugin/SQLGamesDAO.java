@@ -70,5 +70,17 @@ public class SQLGamesDAO implements IGamesDAO {
 		return null;
         
     }
+
+	@Override
+	public void addGame(Model model) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateGame(int id, Model game) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
     
 }

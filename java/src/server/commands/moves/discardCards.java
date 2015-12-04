@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.DiscardCardsRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -26,6 +27,7 @@ public class discardCards extends Command{
             boolean success = currentModel.discardCards(discardCardsRequest);
             if(success){
                 currentModel.incrementVersion();
+                Persistence.getInstance().saveCommand("discardCards", json, gameID, user);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

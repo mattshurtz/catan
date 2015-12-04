@@ -31,7 +31,12 @@ import java.util.Map;
 public class ModelBank {
     
     private Map<Integer, Model> games;
-    private int nextGameId = 0;
+    
+    public Map<Integer, Model> getGames() {
+		return games;
+	}
+
+	private int nextGameId = 0;
     
     
     
@@ -224,4 +229,5 @@ public class ModelBank {
 		
 		return g;
 	}
+
 }

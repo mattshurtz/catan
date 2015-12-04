@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.MoveRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -25,6 +26,7 @@ public class finishTurn extends Command{
             currentModel.finishTurn(finishTurnRequest);
             
             this.addHistoryMessage(gameID, "finished their turn", user);
+            Persistence.getInstance().saveCommand("finishTurn", json, gameID, user);
             
             return this.getSerializer().toJson(currentModel);
         }else{

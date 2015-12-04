@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.PlayMonopolyRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -27,6 +28,7 @@ public class Monopoly extends Command{
             currentModel.playMonopoly(request);
             
             this.addHistoryMessage(gameID, "played a Monopoly", user);
+            Persistence.getInstance().saveCommand("Monopoly", json, gameID, user);
             
             return this.getSerializer().toJson(currentModel);
         }

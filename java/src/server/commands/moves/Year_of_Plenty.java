@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.MoveRequest;
 import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.exceptions.HTTPBadRequest;
@@ -26,6 +27,7 @@ public class Year_of_Plenty extends Command{
             currentModel.playYearOfPlenty(request);
             
             this.addHistoryMessage(gameID, "played Year of Plenty", user);
+            Persistence.getInstance().saveCommand("Year_of_Plenty", json, gameID, user);
             
             return this.getSerializer().toJson(currentModel); 
         }

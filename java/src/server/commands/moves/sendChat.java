@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.SendChatRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -26,6 +27,7 @@ public class sendChat extends Command{
             
             if (success) {
             	currentModel.incrementVersion();
+            	Persistence.getInstance().saveCommand("sendChat", json, gameID, user);
             }
             
             return this.getSerializer().toJson(currentModel);

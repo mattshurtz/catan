@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.PlayRoadBuildingRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -27,7 +28,7 @@ public class Road_Building extends Command{
             currentModel.playRoadBuilding(request);
             
             this.addHistoryMessage(gameID, "played Road Building", user);
-            
+            Persistence.getInstance().saveCommand("Road_Building", json, gameID, user);
             return this.getSerializer().toJson(currentModel);    
         }
         else {

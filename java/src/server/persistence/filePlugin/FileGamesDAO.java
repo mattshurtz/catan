@@ -38,6 +38,18 @@ public class FileGamesDAO implements IGamesDAO {
     public void addCommand() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+	@Override
+	public void addGame() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateGame() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
     
     
     

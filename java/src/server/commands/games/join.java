@@ -7,6 +7,7 @@ package server.commands.games;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.JoinGameRequest;
 import shared.exceptions.HTTPBadRequest;
 
@@ -22,6 +23,7 @@ public class join extends Command{
     	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
     	
     	if (GameInfoContainer.getInstance().joinGame(user, request.getColor(), request.getGameID())) {
+    		//Persistence.getInstance()
     		return this.buildGameCookie(request.getGameID());
     	} else {
     		throw new HTTPBadRequest("Could not add player to game");
