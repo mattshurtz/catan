@@ -7,13 +7,13 @@ import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
 
-public class persistence {
+public class Persistence {
 
-	private static persistence instance;
+	private static Persistence instance;
 	
-	public static persistence getInstance() {
+	public static Persistence getInstance() {
 		if (instance == null) {
-			instance = new persistence();
+			instance = new Persistence();
 		}
 		return instance;
 	}
@@ -26,7 +26,7 @@ public class persistence {
 	private int delta;
 	private String plugin;
 	
-	public persistence() {
+	public Persistence() {
 		
 	}
 	

@@ -58,6 +58,8 @@ public class SQLGamesDAOTest {
         System.out.println("addGame");
         SQLGamesDAO instance = new SQLGamesDAO(factory.getConnection());
         instance.addGame(0,gic.getModels().getGame(0));
+        ModelBank theGame = instance.getGames();
+        assertNotNull( theGame );
         // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
     }
@@ -69,7 +71,7 @@ public class SQLGamesDAOTest {
     public void testUpdateGame() throws Exception {
         System.out.println("updateGame");
         SQLGamesDAO instance = null;
-        instance.updateGame();
+//        instance.updateGame();
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
