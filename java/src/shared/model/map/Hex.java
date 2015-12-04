@@ -1,5 +1,6 @@
 package shared.model.map;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import shared.definitions.HexType;
@@ -12,7 +13,7 @@ import shared.locations.HexLocation;
 *this tile gives - it's only here if the tile is not desert.,
 *number (integer, optional): What number is on this tile. It's omitted if this is a desert hex.
 */
-public class Hex {
+public class Hex implements Serializable{
     HexLocation location;
     ResourceType resource;
     int number;

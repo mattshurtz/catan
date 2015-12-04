@@ -3,6 +3,7 @@ package shared.model.map;
 import java.util.Objects;
 
 import client.facade.CatanFacade;
+import java.io.Serializable;
 import shared.definitions.CatanColor;
 import shared.exceptions.GetPlayerException;
 import shared.locations.EdgeLocation;
@@ -12,7 +13,7 @@ import shared.model.*;
 *owner (index): The index (not id) of the player who owns this piece (0-3),
 *location (EdgeLocation): The location of this road.
 */
-public class Road {
+public class Road implements Serializable{
     
     private int owner;
     private EdgeLocation location;

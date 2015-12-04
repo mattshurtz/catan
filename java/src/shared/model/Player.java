@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
@@ -30,7 +31,7 @@ import shared.locations.HexLocation;
  * @author Shurt
  *
  */
-public class Player {
+public class Player implements Serializable{
 
     int cities = 4;
     CatanColor color = null;

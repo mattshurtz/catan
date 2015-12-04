@@ -5,13 +5,13 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
- * @author karahartley
  */
-public class MessageLine {
+public class MessageLine implements Serializable{
     
     String message;
     

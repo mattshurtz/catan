@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import java.io.Serializable;
 import java.util.Objects;
 import shared.definitions.PortType;
 import shared.definitions.ResourceType;
@@ -20,7 +21,7 @@ import shared.locations.HexLocation;
 *direction (string) = ['NW' or 'N' or 'NE' or 'E' or 'SE' or 'SW']: Which edge this port is on.,
 *ratio (integer): The ratio for trade in (ie, if this is 2, then it's a 2:1 port.
 */
-public class Port {
+public class Port implements Serializable{
    PortType resource = PortType.THREE;
    HexLocation location;
    EdgeDirection direction;

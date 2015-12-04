@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import client.facade.CatanFacade;
+import java.io.Serializable;
 import shared.definitions.CatanColor;
 import shared.exceptions.GetPlayerException;
 import shared.locations.VertexLocation;
@@ -20,7 +21,7 @@ import shared.model.*;
 *ArrayList of hexes are the three hexes that correspond to this vertex on the map this is used
 *after roll when determining which resources a player should receive from the bank. 
 */
-public abstract class VertexObject{
+public abstract class VertexObject implements Serializable{
    private int owner;
    private VertexLocation location;  
    private ArrayList<Hex> hexes;

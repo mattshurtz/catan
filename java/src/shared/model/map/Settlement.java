@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import shared.locations.HexLocation;
 
@@ -14,7 +15,7 @@ import shared.locations.VertexLocation;
 *owner (index): The index (not id) of the player who owns this piece (0-3),
 *location (VertexLocation): The location of this settlement.
 */
-public class Settlement extends VertexObject{
+public class Settlement extends VertexObject implements Serializable{
 
 
     public transient final int VICTORY_POINTS = 1;

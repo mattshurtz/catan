@@ -1,8 +1,10 @@
 package server.persistence.DAO;
 
+import shared.model.Model;
+
 public interface IGamesDAO {
 
-    public void addGame() throws Exception;
+    public void addGame(Model model) throws Exception;
     
     public void updateGame() throws Exception;
     

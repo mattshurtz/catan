@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import shared.definitions.TurnStatus;
 
@@ -15,7 +16,7 @@ import shared.definitions.TurnStatus;
 *longestRoad (index): The index of who has the longest road, -1 if no one has it
 *largestArmy (index): The index of who has the biggest army (3 or more), -1 if no one has it
 */
-public class TurnTracker {
+public class TurnTracker implements Serializable{
     private int currentTurn;
     private TurnStatus status;
     private int longestRoad;

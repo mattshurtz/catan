@@ -5,14 +5,14 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Objects;
 
 /**
  *
- * @author karahartley
  */
-public class MessageList {
+public class MessageList implements Serializable{
     private ArrayList<MessageLine> lines;
 
     public MessageList(ArrayList<MessageLine> lines) {

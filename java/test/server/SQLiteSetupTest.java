@@ -58,4 +58,8 @@ public class SQLiteSetupTest {
         }
         System.out.println("Opened database successfully");
     }
+    
+    public void addGame(String args[]){
+        
+    }
 }

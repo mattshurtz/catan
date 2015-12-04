@@ -5,6 +5,7 @@
  */
 package shared.model.map;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,7 +34,7 @@ import shared.locations.VertexLocation;
 /**
  *
  */
-public class CatanMap {
+public class CatanMap implements Serializable{
 
     List<Hex> hexes;
     List<Port> ports;

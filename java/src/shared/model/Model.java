@@ -8,6 +8,7 @@ package shared.model;
 import client.data.PlayerInfo;
 import client.data.RobPlayerInfo;
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ import shared.model.map.VertexObject;
  * incremented whenever anyone makes a move., winner (index): This is -1 when
  * nobody's won yet. When they have, it's their order index [0-3]
  */
-public class Model {
+public class Model implements Serializable{
 
     public static final EdgeLocation[] setValues = new EdgeLocation[]{
         new EdgeLocation(new HexLocation(-3, 1), EdgeDirection.NorthEast),

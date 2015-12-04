@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.Random;
 import shared.definitions.DevCardType;
 import shared.exceptions.InsufficientSupplies;
@@ -13,7 +14,7 @@ import shared.exceptions.InsufficientSupplies;
  * Container for development cards
  * 
  */
-public class DevCardList {
+public class DevCardList implements Serializable{
     
     static final int MAX_YEAROFPLENTY = 2;
     static final int MAX_MONOPOLY = 2;

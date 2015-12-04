@@ -5,6 +5,7 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 import shared.definitions.ResourceType;
 
@@ -14,7 +15,7 @@ import shared.definitions.ResourceType;
 *offer (ResourceList): Positive numbers are resources being offered. Negative are resources
 *being asked for.
 */
-public class TradeOffer {
+public class TradeOffer implements Serializable{
     private int sender;
     private int receiver;
     private ResourceList offer;

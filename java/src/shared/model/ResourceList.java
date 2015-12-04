@@ -5,13 +5,14 @@
  */
 package shared.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 import shared.definitions.ResourceType;
 
 /**
  */
-public class ResourceList {
+public class ResourceList implements Serializable{
 
     static final int MAX_RESOURCE = 19;
     

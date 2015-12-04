@@ -3,6 +3,7 @@ package server.persistence.sqlPlugin;
 import java.sql.Connection;
 import java.sql.Statement;
 import server.persistence.DAO.IGamesDAO;
+import shared.model.Model;
 
 /**
  *
@@ -16,9 +17,9 @@ public class SQLGamesDAO implements IGamesDAO {
     }
 
     @Override
-    public void addGame() throws Exception {
+    public void addGame(Model model) throws Exception {
         try ( Statement s = this.conn.createStatement() ) {
-            // add the game
+            s.execute("INSERT INTO CurrentGames");
         }
     }
 
