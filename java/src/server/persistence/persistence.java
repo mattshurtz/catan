@@ -5,7 +5,7 @@ import server.gameinfocontainer.ModelBank;
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
-import server.persistence.factory.IFactory;
+import server.persistence.factory.AbstractFactory;
 
 public class Persistence {
 
@@ -20,8 +20,8 @@ public class Persistence {
 	
 	private IGamesDAO gameDAO;
 	private IUsersDAO userDAO;
-	private IFactory factory;
-	private pluginRegistry registry;
+	private AbstractFactory factory;
+	private PluginRegistry registry;
 	
 	private int delta;
 	private String plugin;
@@ -59,7 +59,7 @@ public class Persistence {
 	
 	private boolean loadUsers() {
 		try {
-			UserInfoBank users = factory.getUserDAO().getUsers();
+			UserInfoBank users = factory.getUsersDAO().getUsers();
 			GameInfoContainer.getInstance().setUser(users);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -71,7 +71,7 @@ public class Persistence {
 	
 	private boolean loadGames() {
 		try {
-			ModelBank games = factory.getGameDAO().getGames();
+			ModelBank games = factory.getGamesDAO().getGames();
 			GameInfoContainer.getInstance().setGames(games);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
