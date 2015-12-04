@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.BuildCityRequest;
 import shared.communication.params.moves.DiscardCardsRequest;
 import shared.exceptions.HTTPBadRequest;
@@ -27,6 +28,7 @@ public class buildCity extends Command{
             if(success){
                 currentModel.incrementVersion();
                 this.addHistoryMessage(gameID, "built a city", user);
+                Persistence.getInstance().saveCommand("buildCity", json, gameID, user);
             }
             
             return this.getSerializer().toJson(currentModel);

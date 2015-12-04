@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -27,6 +28,7 @@ public class maritimeTrade extends Command{
             if(success){
                 this.addHistoryMessage(gameID, "did a maritime trade", user);
                 currentModel.incrementVersion();
+                Persistence.getInstance().saveCommand("maritimeTrade", json, gameID, user);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

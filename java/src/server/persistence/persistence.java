@@ -43,13 +43,19 @@ public class Persistence {
 		return false;
 	}
 	
+	public boolean saveCommand(String command, String json, int gameId, int playerId) {
+		return false;
+	}
+	
+	public boolean newGame(int gameId) {
+		return false;
+	}
+	
 	public boolean wipe() {
 		return false;
 	}
 	
-	public boolean save(String command, String json, int gameId, int playerId) {
-		return false;
-	}	
+		
 	
 	private boolean loadUsers() {
 		try {
@@ -73,10 +79,6 @@ public class Persistence {
 			return false;
 		}
 		return true;
-	}
-	
-	private boolean saveCommand(String command, String json, int gameId, int playerId) {
-		return false;
 	}
 	
 	private boolean saveGame(int gameId) {

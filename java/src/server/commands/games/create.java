@@ -7,6 +7,7 @@ package server.commands.games;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.responses.CreateGameResponse;
 import shared.exceptions.HTTPBadRequest;
@@ -29,6 +30,8 @@ public class create extends Command{
         int gid = GameInfoContainer.getInstance().createGame(request.getName(), request.isRandomNumbers(), request.isRandomPorts(), request.isRandomTiles());
         
         CreateGameResponse response = new CreateGameResponse( request.getName(), gid );
+        
+        Persistence.getInstance().newGame(gid);
         
         return getSerializer().toJson(response);
     }

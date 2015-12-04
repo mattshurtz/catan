@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.OfferTradeRequest;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
@@ -38,7 +39,7 @@ public class offerTrade extends Command{
                 Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.addHistoryMessage(gameID, "offered trade" + (( recipientName == null ) ? "" : " to " + recipientName), user);
-            
+            Persistence.getInstance().saveCommand("offerTrade", json, gameID, user);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
