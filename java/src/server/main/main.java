@@ -5,14 +5,7 @@
  */
 package server.main;
 
-import com.sun.net.httpserver.HttpContext;
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
-import com.sun.net.ssl.internal.www.protocol.https.Handler;
-import java.io.File;
-
-import server.HTTPhandlers.DefaultHandler;
 import server.HTTPhandlers.GameHandler;
 import server.HTTPhandlers.GamesHandler;
 import server.HTTPhandlers.MovesHandler;
@@ -20,15 +13,11 @@ import server.HTTPhandlers.UserHandler;
 import server.facade.IServerFacade;
 import server.facade.MockResponderFacade;
 import server.facade.ResponderFacade;
-import server.gameinfocontainer.GameInfoContainer;
-import server.persistence.Persistence;
 
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.ArrayList;
-import java.util.concurrent.Executor;
 import server.HTTPhandlers.SwaggerHandlers;
+import server.persistence.persistence;
 
 
 
@@ -73,7 +62,7 @@ public class main{
 	 */
 	public static void main(String[] args) {
 	//start server with default port if no argument is given
-		Persistence persis;
+		persistence persis;
 		String persistance_type;
 		int delta;
 		
@@ -81,7 +70,7 @@ public class main{
 			case 3:
 				persistance_type = args[0].toString();
 				delta = Integer.parseInt(args[1]);
-				persis = Persistence.getInstance();
+				persis = persistence.getInstance();
 				persis.set(persistance_type, delta);
 				if(args[2].toString().equals("wipe")) {
 					persis.wipe();
@@ -91,7 +80,7 @@ public class main{
 			case 2:
 				persistance_type = args[1].toString();
 				delta = Integer.parseInt(args[2]);
-				persis = Persistence.getInstance();
+				persis = persistence.getInstance();
 				persis.set(persistance_type, delta);
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 				break;

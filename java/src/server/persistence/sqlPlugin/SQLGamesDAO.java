@@ -44,9 +44,7 @@ public class SQLGamesDAO implements IGamesDAO {
             oos.close();
             baos.close();
             
-            Blob blob = conn.createBlob();
-            blob.setBytes( 0, bytes );
-            ps.setBlob(8, blob);
+            ps.setBytes(8, bytes);
             
             ps.execute();
         }

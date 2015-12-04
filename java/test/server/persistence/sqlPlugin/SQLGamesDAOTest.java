@@ -11,7 +11,9 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
+import shared.json.Serializer;
 
 /**
  *
@@ -20,6 +22,9 @@ import server.gameinfocontainer.ModelBank;
 public class SQLGamesDAOTest {
 
     private SQLGamesDAO instance;
+    private GameInfoContainer gic;
+    private Serializer serializer;
+    private SQLFactory factory;
     
     public SQLGamesDAOTest() {
     }
@@ -34,8 +39,11 @@ public class SQLGamesDAOTest {
     
     @Before
     public void setUp() {
-        SQLFactory factory = new SQLFactory();
+        factory = new SQLFactory();
+        factory.init();
         instance = (SQLGamesDAO) factory.getGameDAO();
+        gic = GameInfoContainer.getInstance();
+        serializer = new Serializer();
     }
     
     @After
@@ -48,10 +56,10 @@ public class SQLGamesDAOTest {
     @Test
     public void testAddGame() throws Exception {
         System.out.println("addGame");
-        SQLGamesDAO instance = null;
-//        instance.addGame();
+        SQLGamesDAO instance = new SQLGamesDAO(factory.getConnection());
+        instance.addGame(0,gic.getModels().getGame(0));
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        fail("The test case is a prototype.");
     }
 
     /**

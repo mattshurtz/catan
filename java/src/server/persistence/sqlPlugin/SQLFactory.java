@@ -80,4 +80,8 @@ public class SQLFactory implements IFactory{
         System.out.println("Opened database successfully");
     }
     
+    public Connection getConnection(){
+        return conn;
+    }
+    
 }
