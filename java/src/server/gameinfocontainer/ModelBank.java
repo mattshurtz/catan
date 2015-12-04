@@ -43,7 +43,13 @@ public class ModelBank {
      */
     public ModelBank() {
     	games = new HashMap<>();
-    	addDefaultModel();
+//    	addDefaultModel();
+    }
+    
+    public void addGame( int id, Model theModel ) {
+        games.put(id, theModel);
+        if ( nextGameId <= id )
+            nextGameId = ++id;
     }
     
     public int addDefaultModel() {
