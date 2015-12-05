@@ -113,14 +113,14 @@ public class SQLGamesDAO implements IGamesDAO {
     static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
 
     @Override
-    public void addCommand(String command, String json, int player_id, int game_id, int version, int randomValue) throws Exception {
+    public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
         try ( PreparedStatement ps = this.conn.prepareStatement(addCommand) ) {  
             ps.setString(1, command);
             ps.setString(2, json);
             ps.setInt(3, player_id);
             ps.setInt(4, game_id);
             ps.setInt(5, version);
-            ps.setInt(6,randomValue);
+            ps.setString(6,randomValue);
             
             ps.execute();
         }
