@@ -10,12 +10,12 @@ import java.sql.DriverManager;
 import java.sql.Statement;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
-import server.persistence.factory.IFactory;
+import server.persistence.factory.AbstractFactory;
 
 /**
  *
  */
-public class SQLFactory implements IFactory{
+public class SQLFactory extends AbstractFactory{
 
     private SQLConnectionUtility connUtility;
     

@@ -11,7 +11,7 @@ import com.google.gson.GsonBuilder;
 import server.persistence.factory.AbstractFactory;
 
 public class PluginRegistry {
-	private final String CONFIG_PATH = "java/src/server/persistence/config.json";
+	private final String CONFIG_PATH = "src/server/persistence/config.json";
 	private HashMap<String, String> pluginMap = new HashMap();
 	
 	public PluginRegistry()
@@ -40,7 +40,7 @@ public class PluginRegistry {
 				System.exit(0);
 			}
 			
-			return (AbstractFactory)newFactory;		
+			return (AbstractFactory) newFactory;		
 		}
 		else
 		{
