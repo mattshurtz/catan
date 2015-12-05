@@ -17,7 +17,7 @@ import server.facade.ResponderFacade;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import server.HTTPhandlers.SwaggerHandlers;
-import server.persistence.persistence;
+import server.persistence.Persistence;
 
 
 
@@ -62,7 +62,7 @@ public class main{
 	 */
 	public static void main(String[] args) {
 	//start server with default port if no argument is given
-		persistence persis;
+		Persistence persis;
 		String persistance_type;
 		int delta;
 		
@@ -70,7 +70,7 @@ public class main{
 			case 3:
 				persistance_type = args[0].toString();
 				delta = Integer.parseInt(args[1]);
-				persis = persistence.getInstance();
+				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
 				if(args[2].toString().equals("wipe")) {
 					persis.wipe();
@@ -80,7 +80,7 @@ public class main{
 			case 2:
 				persistance_type = args[1].toString();
 				delta = Integer.parseInt(args[2]);
-				persis = persistence.getInstance();
+				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 				break;
