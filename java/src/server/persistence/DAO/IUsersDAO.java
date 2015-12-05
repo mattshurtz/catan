@@ -1,6 +1,7 @@
 package server.persistence.DAO;
 
 import server.gameinfocontainer.UserInfoBank;
+import server.persistence.sqlPlugin.SQLConnectionUtility;
 
 public interface IUsersDAO {
 
@@ -10,4 +11,6 @@ public interface IUsersDAO {
     
     public UserInfoBank getUsers() throws Exception;
     
+    public SQLConnectionUtility getConnectionUtility();
+
 }

@@ -7,11 +7,17 @@ package server.persistence.filePlugin;
 
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IUsersDAO;
+import server.persistence.sqlPlugin.SQLConnectionUtility;
 
 /**
  *
  */
 public class FileUsersDAO implements IUsersDAO {
+
+    @Override
+    public SQLConnectionUtility getConnectionUtility() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public void addUser() throws Exception {
