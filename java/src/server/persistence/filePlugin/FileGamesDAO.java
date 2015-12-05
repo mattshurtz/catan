@@ -15,21 +15,6 @@ import shared.model.Model;
 public class FileGamesDAO implements IGamesDAO {
 
     @Override
-    public void addGame(Model model) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateGame(int id, Model game) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void updateGame() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
     public ModelBank getGames() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -51,5 +36,10 @@ public class FileGamesDAO implements IGamesDAO {
 
 
      
+
+    @Override
+    public void updateGame(int id, Model game) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
