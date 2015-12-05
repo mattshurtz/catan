@@ -3,37 +3,38 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package server.persistence.sqlPlugin;
+package server.persistence.filePlugin;
 
-import java.sql.Connection;
-
-import server.gameinfocontainer.UserInfoBank;
-import server.persistence.DAO.IUsersDAO;
+import server.persistence.DAO.IConnections;
 
 /**
  *
  */
-public class SQLUsersDAO implements IUsersDAO {
-    private Connection conn;
-    private  SQLConnectionUtility connectionUtility;
+public class FileConnection implements IConnections {
+
+    @Override
+    public void startTransaction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void endTransaction() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void rollBack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void openConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void closeConnection() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
-    public SQLUsersDAO( SQLConnectionUtility connectionUtility ) {
-        this.connectionUtility = connectionUtility;
-        this.conn = connectionUtility.getConnection();
-    }
-
-    @Override
-    public void addUser() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void clearUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public UserInfoBank getUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

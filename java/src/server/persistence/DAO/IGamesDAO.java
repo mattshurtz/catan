@@ -1,6 +1,7 @@
 package server.persistence.DAO;
 
 import server.gameinfocontainer.ModelBank;
+import server.persistence.sqlPlugin.SQLConnectionUtility;
 import shared.model.Model;
 
 public interface IGamesDAO {
@@ -16,4 +17,5 @@ public interface IGamesDAO {
 
 	void updateGame(int id, Model game) throws Exception;
     
+    public SQLConnectionUtility getConnectionUtility();
 }

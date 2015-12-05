@@ -20,11 +20,15 @@ import shared.model.Model;
  *
  */
 public class SQLGamesDAO implements IGamesDAO {
+
+
     
+    private SQLConnectionUtility connectionUtility;
     private Connection conn;
     
-    public SQLGamesDAO( Connection c ) {
-        this.conn = c;
+    public SQLGamesDAO( SQLConnectionUtility c ) {
+        this.connectionUtility = c;
+        this.conn = c.getConnection();
     }
 //INSERT INTO CurrentGames (id,version,name,player0_id,player1_id,player2_id,player3_id,state) VALUES (0,0,"text",0,0,0,0,null)
     static final String addGameSql = "INSERT INTO currentGames(id,version,name,"+
@@ -91,6 +95,7 @@ public class SQLGamesDAO implements IGamesDAO {
             ps.execute();
         }
     }
+    
 
     @Override
     public void clearGames() throws Exception {
@@ -100,6 +105,11 @@ public class SQLGamesDAO implements IGamesDAO {
     @Override
     public void addCommand() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    @Override
+    public SQLConnectionUtility getConnectionUtility() {
+        return connectionUtility;
     }
 
     static final String getAllGamesSql = "select * from CurrentGames";
