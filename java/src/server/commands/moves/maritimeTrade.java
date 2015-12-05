@@ -28,7 +28,7 @@ public class maritimeTrade extends Command{
             if(success){
                 this.addHistoryMessage(gameID, "did a maritime trade", user);
                 currentModel.incrementVersion();
-                Persistence.getInstance().saveCommand("maritimeTrade", json, gameID, user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

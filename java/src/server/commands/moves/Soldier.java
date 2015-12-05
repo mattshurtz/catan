@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.MoveRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -26,6 +27,7 @@ public class Soldier extends Command{
             
             if(success) {
                 this.addHistoryMessage(gameID, "has got soul but (s)he played a Soldier", user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
                 currentModel.incrementVersion();
             }
             

@@ -16,4 +16,6 @@ public interface IServerFacade {
     
     public String doFunction(String command, String content, int gameId, int user) throws HTTPBadRequest;
     
+    public String doFunction(String command, String content, int gameId, int user, String random) throws HTTPBadRequest;
+    
 }

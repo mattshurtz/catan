@@ -90,5 +90,12 @@ public class MockResponderFacade implements IServerFacade {
     	}
     	//////System.out.println("Mock Facade Returned - " + returnValue);
     	return returnValue;
-    }    
+    }
+
+	@Override
+	public String doFunction(String command, String content, int gameId, int user, String random)
+			throws HTTPBadRequest {
+		// TODO Auto-generated method stub
+		return null;
+	}    
 }

@@ -27,7 +27,7 @@ public class discardCards extends Command{
             boolean success = currentModel.discardCards(discardCardsRequest);
             if(success){
                 currentModel.incrementVersion();
-                Persistence.getInstance().saveCommand("discardCards", json, gameID, user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

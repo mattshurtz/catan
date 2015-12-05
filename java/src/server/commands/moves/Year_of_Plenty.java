@@ -27,7 +27,7 @@ public class Year_of_Plenty extends Command{
             currentModel.playYearOfPlenty(request);
             
             this.addHistoryMessage(gameID, "played Year of Plenty", user);
-            Persistence.getInstance().saveCommand("Year_of_Plenty", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             
             return this.getSerializer().toJson(currentModel); 
         }

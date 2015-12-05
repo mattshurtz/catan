@@ -32,7 +32,7 @@ public class buildRoad extends Command {
             if(success) {
                 this.addHistoryMessage(gameID, "built a road", user);
                 currentModel.incrementVersion();
-                Persistence.getInstance().saveCommand("buildRoad", json, gameID, user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             
             return this.getSerializer().toJson(currentModel);

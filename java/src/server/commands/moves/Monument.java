@@ -26,7 +26,7 @@ public class Monument extends Command{
             currentModel.playMonument(request);
             
             this.addHistoryMessage(gameID, "played a Monument", user);
-            Persistence.getInstance().saveCommand("Monument", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             
             return this.getSerializer().toJson(currentModel); 
         }

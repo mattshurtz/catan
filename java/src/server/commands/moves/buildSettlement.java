@@ -31,7 +31,7 @@ public class buildSettlement extends Command{
             if(success) {
                 this.addHistoryMessage(gameID, "built a settlement", user);
                 currentModel.incrementVersion();
-                Persistence.getInstance().saveCommand("buildSettlement", json, gameID, user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             return this.getSerializer().toJson(currentModel);
         }else{

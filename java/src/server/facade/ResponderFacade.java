@@ -75,5 +75,23 @@ public class ResponderFacade implements IServerFacade {
     	return null;
     	
     }
+
+    
+    //for persistence stuff
+	@Override
+	public String doFunction(String command, String content, int gameId, int user, String random)
+			throws HTTPBadRequest {
+		// TODO Auto-generated method stub
+		switch (command) {
+			case "buyDevCard":
+			case "robPlayer":
+				
+				break;
+			default:
+				doFunction(command, content,gameId,user);
+		}
+		
+		return null;
+	}
     
 }

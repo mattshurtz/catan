@@ -28,7 +28,7 @@ public class Monopoly extends Command{
             currentModel.playMonopoly(request);
             
             this.addHistoryMessage(gameID, "played a Monopoly", user);
-            Persistence.getInstance().saveCommand("Monopoly", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             
             return this.getSerializer().toJson(currentModel);
         }

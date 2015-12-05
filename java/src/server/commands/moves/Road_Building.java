@@ -28,7 +28,7 @@ public class Road_Building extends Command{
             currentModel.playRoadBuilding(request);
             
             this.addHistoryMessage(gameID, "played Road Building", user);
-            Persistence.getInstance().saveCommand("Road_Building", json, gameID, user);
+            Persistence.getInstance().saveCommand("Road_Building", json, gameID, user,null);
             return this.getSerializer().toJson(currentModel);    
         }
         else {

@@ -364,4 +364,37 @@ public class DevCardList implements Serializable{
             }
         }
     }
+
+
+
+	public DevCardType getCard(DevCardType card) {
+		switch(card)
+        {
+            case MONOPOLY: {
+                this.removeMonopoly();
+                break;
+            }
+            case MONUMENT: {
+                this.removeMonument();
+                break;
+            }
+            case SOLDIER: {
+                this.removeSoldier();
+                break;
+            }
+            case ROAD_BUILD: {
+                this.removeRoadBuilding();
+                break;
+            }
+            case YEAR_OF_PLENTY: {
+                this.removeYearOfPlenty();
+                break;
+            }
+            default: {
+               //System.out.println("INVALID DEV CARD TYPE.");
+               return null;
+            }
+        }
+		return card;
+	}
 }

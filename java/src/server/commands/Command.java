@@ -31,12 +31,23 @@ public abstract class Command {
      * @param json 
      * @throws HTTPBadRequest 
      */
-    public abstract String execute(String json, int gameID, int playerId) throws HTTPBadRequest;
+    public String execute(String json, int gameID, int playerId, String random) throws HTTPBadRequest {return null;};
+    
+    public String execute(String json, int gameID, int playerId) throws HTTPBadRequest {return null;};
     
     public Command()
     {
         deserializer = new Deserializer();
         serializer = new Serializer();
+    }
+    
+    public String getClassName(Class<?> c) {
+    	Class<?> enclosingClass = c.getEnclosingClass();
+    	if (enclosingClass != null) {
+    	  return enclosingClass.getName();
+    	} else {
+    	  return getClass().getName();
+    	}
     }
     
     public boolean isUserInGame(int gameID, int userID){
