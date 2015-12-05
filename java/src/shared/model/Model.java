@@ -373,19 +373,28 @@ public class Model implements Serializable{
      *
      * @param playerIndex
      */
-    public void buyDevCard(MoveRequest moveRequest) {
+    public DevCardType buyDevCard(MoveRequest moveRequest,DevCardType card) {
         int playerIndex = moveRequest.getPlayerIndex();
         if (canBuyDevCard(playerIndex)) {
             players.get(playerIndex).buyDevCard();
             bank.payForDevCard();
             
             //get DevCard
-            DevCardType purchased = deck.pickDevCard();
+            DevCardType purchased;
+            if(card==null) {
+            	purchased = deck.pickDevCard();
+            } else {
+            	purchased = deck.getCard(card);
+            }
+            
             
             players.get(playerIndex).giveDevCard(purchased);
             
             version++;
+            
+            return purchased;
         }
+        return null;
     }
 
     public boolean canAcceptMaritimeTrade(ResourceType resourceType) {
@@ -1413,12 +1422,13 @@ public class Model implements Serializable{
      *
      * @param robberIndex
      * @param victimIndex
+     * @throws Exception 
      */
-    public boolean robPlayer(RobPlayerRequest robPlayerRequest) {
+    public ResourceType robPlayer(RobPlayerRequest robPlayerRequest, ResourceType resource) throws Exception {
         //is new robber location a valid location?
         HexLocation newRobLoc = robPlayerRequest.getLocation();
         if (!canPlaceRobber(newRobLoc))
-        	return false;
+        	throw new Exception();
               
         //move robber
         this.getMap().setRobber(robPlayerRequest.getLocation());
@@ -1429,11 +1439,20 @@ public class Model implements Serializable{
         //rob
         //do they have resources
         if(victimIndex != -1 && players.get(victimIndex).getResources().getTotalResources() > 0) {
-        	ResourceType robbed = players.get(victimIndex).getResources().robResource();
-        	players.get(robberIndex).getResources().addResource(robbed, 1);
+        	ResourceType robbed;
+        	if(resource != null) {
+        		robbed = players.get(victimIndex).getResources().robResource();
+            	players.get(robberIndex).getResources().addResource(robbed, 1);
+        	} else {
+        		robbed = resource;
+        		players.get(victimIndex).getResources().subtractResource(resource, 1);
+            	players.get(robberIndex).getResources().addResource(resource, 1);
+        	}
+        	
+        	return robbed;
         } 
         
-        return true;
+        return null;
     }
 
     /**

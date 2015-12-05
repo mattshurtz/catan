@@ -38,7 +38,7 @@ public class acceptTrade extends Command{
                 msg = "didn't accept the trade";
             }
             this.addHistoryMessage(gameID, msg, user);
-            Persistence.getInstance().saveCommand("acceptTrade", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

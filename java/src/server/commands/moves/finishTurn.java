@@ -26,7 +26,7 @@ public class finishTurn extends Command{
             currentModel.finishTurn(finishTurnRequest);
             
             this.addHistoryMessage(gameID, "finished their turn", user);
-            Persistence.getInstance().saveCommand("finishTurn", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             
             return this.getSerializer().toJson(currentModel);
         }else{

@@ -39,7 +39,7 @@ public class offerTrade extends Command{
                 Logger.getLogger(offerTrade.class.getName()).log(Level.SEVERE, null, ex);
             }
             this.addHistoryMessage(gameID, "offered trade" + (( recipientName == null ) ? "" : " to " + recipientName), user);
-            Persistence.getInstance().saveCommand("offerTrade", json, gameID, user);
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;

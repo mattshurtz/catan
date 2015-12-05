@@ -7,6 +7,7 @@ package server.commands.moves;
 
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.exceptions.RollException;
@@ -32,6 +33,7 @@ public class rollNumber extends Command{
             
             //rollNumber was successful - increment version and add statement to log, and return updated model
             currentModel.incrementVersion();
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             int theNum = rollNumberRequest.getNumber();
             this.addHistoryMessage(gameID, "rolled " + getArticle( theNum ) + " " + theNum, user);
             

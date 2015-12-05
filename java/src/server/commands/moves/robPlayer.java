@@ -9,7 +9,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.moves.RobPlayerRequest;
+import shared.definitions.ResourceType;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
@@ -21,17 +23,22 @@ import shared.model.Model;
 public class robPlayer extends Command{
 
     @Override
-    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+    public String execute(String json, int gameID, int user, String random) throws HTTPBadRequest {
         if(isUserInGame(gameID, user)){
             RobPlayerRequest robPlayerRequest = (RobPlayerRequest)this.getDeserializer().toClass(RobPlayerRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            boolean success = currentModel.robPlayer(robPlayerRequest);
-
-            if (success) {
-            	currentModel.incrementVersion();
-	            String recipientName = null;
-	            if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
-	            			&& currentModel.getPlayers().get(robPlayerRequest.getVictimIndex()).getResources().getTotalResources() > 0) {
+            ResourceType success;
+			try {
+				//returns resource if got one
+				//returns null if did not get one
+				//throws exception if unable to rob player
+				success = currentModel.robPlayer(robPlayerRequest,ResourceType.valueOf(random));
+	            	
+				currentModel.incrementVersion();
+	            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
+		        String recipientName = null;
+		        if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
+		            			&& currentModel.getPlayers().get(robPlayerRequest.getVictimIndex()).getResources().getTotalResources() > 0) {
 	            	try {
 		                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
 		            } catch (GetPlayerException ex) {
@@ -39,7 +46,10 @@ public class robPlayer extends Command{
 		            }
 		            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
 	            }
-            }
+			} catch (Exception e) {
+			}
+
+            
             
             return this.getSerializer().toJson(currentModel);
         }else{
@@ -47,4 +57,8 @@ public class robPlayer extends Command{
         }
     }
     
+    @Override
+    public String execute(String json, int gameID, int user) throws HTTPBadRequest {
+    	return this.execute(json, gameID, user, null);
+    }
 }

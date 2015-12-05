@@ -28,7 +28,7 @@ public class buildCity extends Command{
             if(success){
                 currentModel.incrementVersion();
                 this.addHistoryMessage(gameID, "built a city", user);
-                Persistence.getInstance().saveCommand("buildCity", json, gameID, user);
+                Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             
             return this.getSerializer().toJson(currentModel);

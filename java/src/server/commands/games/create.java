@@ -31,7 +31,7 @@ public class create extends Command{
         
         CreateGameResponse response = new CreateGameResponse( request.getName(), gid );
         
-        Persistence.getInstance().newGame(gid);
+        Persistence.getInstance().addGame(gid);
         
         return getSerializer().toJson(response);
     }

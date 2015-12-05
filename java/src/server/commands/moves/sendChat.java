@@ -27,7 +27,7 @@ public class sendChat extends Command{
             
             if (success) {
             	currentModel.incrementVersion();
-            	Persistence.getInstance().saveCommand("sendChat", json, gameID, user);
+            	Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             }
             
             return this.getSerializer().toJson(currentModel);
