@@ -22,6 +22,8 @@ import shared.model.Model;
 public class SQLGamesDAO implements IGamesDAO {
 
 
+
+
     
     private SQLConnectionUtility connectionUtility;
     private Connection conn;
@@ -96,15 +98,36 @@ public class SQLGamesDAO implements IGamesDAO {
         }
     }
     
+    
+    static final String clearGames = "DELETE FROM currentGames;";
 
     @Override
     public void clearGames() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Statement s = this.conn.createStatement();
+        s.execute(clearGames);
     }
+    
+    static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version) VAlues (?,?,?,?,?)";
 
     @Override
-    public void addCommand() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception {
+        try ( PreparedStatement ps = this.conn.prepareStatement(addCommand) ) {  
+            ps.setString(1, command);
+            ps.setString(2, json);
+            ps.setInt(3, player_id);
+            ps.setInt(4, game_id);
+            ps.setInt(5, version);
+            
+            ps.execute();
+        }
+    
+    }
+    
+    static final String getCommands = "";
+    @Override
+    public void getCommands(int game_id, int version) {
+
+    
     }
     
     @Override

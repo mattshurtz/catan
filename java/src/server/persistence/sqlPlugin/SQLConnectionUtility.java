@@ -43,12 +43,13 @@ public class SQLConnectionUtility implements IConnections {
     
     static final String createCommandsSql = 
             "create table if not exists Commands (\n" +
-            "	id int,\n" +
+            "	id INTEGER PRIMARY KEY   AUTOINCREMENT ,\n" +
             "	command text,\n" +
             "	json text,\n" +
             "	player_id int,\n" +
             "	game_id int,\n" +
-            "	version int\n" +
+            "	version int,\n" +
+            "   randomValue text"+
             ");";
     
     public SQLConnectionUtility(){

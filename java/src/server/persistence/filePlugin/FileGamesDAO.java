@@ -16,6 +16,11 @@ import shared.model.Model;
 public class FileGamesDAO implements IGamesDAO {
 
     @Override
+    public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public SQLConnectionUtility getConnectionUtility() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -32,11 +37,6 @@ public class FileGamesDAO implements IGamesDAO {
 
     @Override
     public void clearGames() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void addCommand() throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

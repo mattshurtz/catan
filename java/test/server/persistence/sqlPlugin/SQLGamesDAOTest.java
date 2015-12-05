@@ -102,10 +102,14 @@ public class SQLGamesDAOTest {
     @Test
     public void testAddCommand() throws Exception {
         System.out.println("addCommand");
-        SQLGamesDAO instance = null;
-        instance.addCommand();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SQLGamesDAO instance = new SQLGamesDAO(new SQLConnectionUtility());
+        
+                instance.getConnectionUtility().startTransaction();
+
+        instance.addCommand("hello","world",7,4,1);
+        
+                instance.getConnectionUtility().endTransaction();
+
     }
 
     /**
