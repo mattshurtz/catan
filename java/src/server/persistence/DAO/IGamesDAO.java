@@ -1,7 +1,9 @@
 package server.persistence.DAO;
 
+import java.util.ArrayList;
 import server.gameinfocontainer.ModelBank;
 import server.persistence.sqlPlugin.SQLConnectionUtility;
+import shared.communication.params.CommandParam;
 import shared.model.Model;
 
 public interface IGamesDAO {
@@ -11,9 +13,9 @@ public interface IGamesDAO {
     
     public void clearGames() throws Exception;
     
-    public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception;
+    public void addCommand(String command, String json, int player_id, int game_id, int version, int randomValue) throws Exception;
     
-    public void getCommands(int game_id, int version) throws Exception;
+    public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception;
     
     public ModelBank getGames() throws Exception;
 

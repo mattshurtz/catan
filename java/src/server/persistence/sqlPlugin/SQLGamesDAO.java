@@ -16,6 +16,7 @@ import server.commands.Command;
 
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IGamesDAO;
+import shared.communication.params.CommandParam;
 import shared.model.Model;
 
 /**
@@ -109,37 +110,39 @@ public class SQLGamesDAO implements IGamesDAO {
         s.execute(clearGames);
     }
     
-    static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version) VAlues (?,?,?,?,?)";
+    static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
 
     @Override
-    public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception {
+    public void addCommand(String command, String json, int player_id, int game_id, int version, int randomValue) throws Exception {
         try ( PreparedStatement ps = this.conn.prepareStatement(addCommand) ) {  
             ps.setString(1, command);
             ps.setString(2, json);
             ps.setInt(3, player_id);
             ps.setInt(4, game_id);
             ps.setInt(5, version);
+            ps.setInt(6,randomValue);
             
             ps.execute();
         }
     
     }
     
-    static final String getCommands = "SELECT * FROM Commands WHERE version>? and game_id = ?";
+    static final String getCommands = "SELECT * FROM Commands WHERE version > ? and game_id = ?";
     @Override
-    public void getCommands(int game_id, int version) throws Exception {
+    public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
+        ArrayList<CommandParam> commands = new ArrayList<CommandParam>();
         try ( PreparedStatement ps = this.conn.prepareStatement(getCommands) ) {  
             ps.setInt(1, version);
             ps.setInt(2, game_id);
             
             ResultSet rs = ps.executeQuery();
-            ArrayList<Command> commands = new ArrayList<Command>();
             
             while(rs.next()){
-                Command command = new Command(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getInt(4),rs.getString(4));
+                CommandParam commandParam = new CommandParam(rs.getString(2),rs.getString(3),rs.getInt(4),rs.getInt(5),rs.getString(7));
+                commands.add(commandParam);
             }
         }
-    
+        return commands;
     }
     
     @Override

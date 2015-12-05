@@ -5,6 +5,7 @@
  */
 package server.persistence.sqlPlugin;
 
+import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -13,6 +14,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
+import shared.communication.params.CommandParam;
 import shared.json.Serializer;
 
 /**
@@ -106,7 +108,22 @@ public class SQLGamesDAOTest {
         
                 instance.getConnectionUtility().startTransaction();
 
-        instance.addCommand("hello","world",7,4,1);
+        instance.addCommand("hello","world",7,4,10,80);
+        
+                instance.getConnectionUtility().endTransaction();
+
+    }
+    
+        /**
+     */
+    @Test
+    public void testGetCommand() throws Exception {
+        System.out.println("getCommands");
+        SQLGamesDAO instance = new SQLGamesDAO(new SQLConnectionUtility());
+        
+                instance.getConnectionUtility().startTransaction();
+
+                ArrayList<CommandParam> commandParams = instance.getCommands(4,5);
         
                 instance.getConnectionUtility().endTransaction();
 

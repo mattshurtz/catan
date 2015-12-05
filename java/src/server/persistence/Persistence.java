@@ -11,7 +11,7 @@ import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
-import shared.communication.params.Command;
+import shared.communication.params.CommandParam;
 import shared.model.Model;
 
 public class Persistence {
@@ -170,7 +170,7 @@ public class Persistence {
 	}
 	
 	private boolean loadCommands() {
-		ListArray<Command> commands;
+		ListArray<CommandParam> commands;
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
 			commands = gameDAO.getCommands();
@@ -183,7 +183,7 @@ public class Persistence {
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-		for(Command cmd:commands) {
+		for(CommandParam cmd:commands) {
 			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
 		}		
 		

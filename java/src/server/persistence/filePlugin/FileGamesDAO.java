@@ -5,9 +5,11 @@
  */
 package server.persistence.filePlugin;
 
+import java.util.ArrayList;
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.sqlPlugin.SQLConnectionUtility;
+import shared.communication.params.CommandParam;
 import shared.model.Model;
 
 /**
@@ -16,12 +18,14 @@ import shared.model.Model;
 public class FileGamesDAO implements IGamesDAO {
 
     @Override
-    public void getCommands(int game_id, int version) {
+    public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+
+
     @Override
-    public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception {
+    public void addCommand(String command, String json, int player_id, int game_id, int version, int randomValue) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
