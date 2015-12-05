@@ -1,5 +1,6 @@
 package server.persistence;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -11,7 +12,7 @@ import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
-import shared.communication.params.CommandParam;
+import shared.communication.params.Command;
 import shared.model.Model;
 
 public class Persistence {
@@ -170,7 +171,7 @@ public class Persistence {
 	}
 	
 	private boolean loadCommands() {
-		ListArray<CommandParam> commands;
+		ArrayList<Command> commands;
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
 			commands = gameDAO.getCommands();
@@ -183,7 +184,7 @@ public class Persistence {
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-		for(CommandParam cmd:commands) {
+		for(Command cmd:commands) {
 			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
 		}		
 		

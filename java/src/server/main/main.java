@@ -29,6 +29,8 @@ public class main{
     
 	
     private static final int DEFAULT_SERVER_PORT_NUMBER = 8081;
+    private static final String DEFAULT_PLUGIN = "sql";
+    private static final int DEFAULT_DELTA = 5;
     private static final int MAX_WAITING_CONNECTIONS = 10;   
     
     private static IServerFacade facade = new ResponderFacade();
@@ -74,7 +76,10 @@ public class main{
 				persis.set(persistance_type, delta);
 				if(args[2].toString().equals("wipe")) {
 					persis.wipe();
-				}				
+					System.err.println("you can only 'wipe'");
+				} else {
+					persis.loadData();
+				}
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 				break;
 			case 2:
@@ -82,10 +87,14 @@ public class main{
 				delta = Integer.parseInt(args[2]);
 				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
+				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 				break;
 			default:
-				return;
+				persis = Persistence.getInstance();
+				persis.set(DEFAULT_PLUGIN, DEFAULT_DELTA);
+				persis.loadData();
+				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 		}
 	}
 	private HttpServer server;
