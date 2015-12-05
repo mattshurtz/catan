@@ -25,12 +25,18 @@ public class ResponderFacade implements IServerFacade {
      * @throws Throwable 
      */
     @Override
-    public String doFunction(String command, String content, int gameId, int playerId) throws HTTPBadRequest {
+    public String doFunction(String command, String content, int gameId, int playerId, String random) throws HTTPBadRequest {
     	Class<?> c;
     	Method method;
 		try {
 			c = Class.forName("server.commands." + command);
-			method = c.getDeclaredMethod ("execute", new Class[] {String.class, int.class, int.class});
+			
+			if(random==null) {
+				method = c.getDeclaredMethod ("execute", new Class[] {String.class, int.class, int.class});
+			} else {
+				method = c.getDeclaredMethod ("execute", new Class[] {String.class, int.class, int.class, String.class});
+			}
+			
 			Object instance = c.newInstance();
 			
 			if(!command.equals("game.model")) {
@@ -79,19 +85,9 @@ public class ResponderFacade implements IServerFacade {
     
     //for persistence stuff
 	@Override
-	public String doFunction(String command, String content, int gameId, int user, String random)
+	public String doFunction(String command, String content, int gameId, int user)
 			throws HTTPBadRequest {
-		// TODO Auto-generated method stub
-		switch (command) {
-			case "buyDevCard":
-			case "robPlayer":
-				
-				break;
-			default:
-				doFunction(command, content,gameId,user);
-		}
-		
-		return null;
+		return doFunction(command, content,gameId,user,null);
 	}
     
 }
