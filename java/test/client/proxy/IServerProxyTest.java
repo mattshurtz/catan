@@ -11,21 +11,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import shared.communication.params.AddAiRequest;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
-import shared.communication.params.LoadGameRequest;
-import shared.communication.params.PostCommandsRequest;
-import shared.communication.params.SaveGameRequest;
-import shared.communication.params.moves.BuildCityRequest;
-import shared.communication.params.moves.BuildRoadRequest;
-import shared.communication.params.moves.BuildSettlementRequest;
 import shared.communication.params.moves.DiscardCardsRequest;
-import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
-import shared.communication.params.moves.PlayRoadBuildingRequest;
-import shared.communication.params.moves.PlayYearOfPlentyRequest;
 import shared.communication.params.moves.RobPlayerRequest;
 import shared.communication.params.moves.RollNumberRequest;
 import shared.communication.params.moves.SendChatRequest;
@@ -33,15 +23,9 @@ import shared.communication.responses.CreateGameResponse;
 import shared.communication.responses.EmptyPlayerResponse;
 import shared.communication.responses.GameResponse;
 import shared.exceptions.ServerException;
-import shared.json.Deserializer;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 import shared.model.Model;
 import shared.model.ResourceList;
-import shared.definitions.*;
 
 /**
  *

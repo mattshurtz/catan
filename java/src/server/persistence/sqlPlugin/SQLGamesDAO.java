@@ -10,7 +10,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
 import javax.sql.rowset.CachedRowSet;
+import server.commands.Command;
 
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IGamesDAO;
@@ -123,10 +125,20 @@ public class SQLGamesDAO implements IGamesDAO {
     
     }
     
-    static final String getCommands = "";
+    static final String getCommands = "SELECT * FROM Commands WHERE version>? and game_id = ?";
     @Override
-    public void getCommands(int game_id, int version) {
-
+    public void getCommands(int game_id, int version) throws Exception {
+        try ( PreparedStatement ps = this.conn.prepareStatement(getCommands) ) {  
+            ps.setInt(1, version);
+            ps.setInt(2, game_id);
+            
+            ResultSet rs = ps.executeQuery();
+            ArrayList<Command> commands = new ArrayList<Command>();
+            
+            while(rs.next()){
+                Command command = new Command(rs.getString(1),rs.getString(2),rs.getInt(3),rs.getInt(4),rs.getString(4));
+            }
+        }
     
     }
     

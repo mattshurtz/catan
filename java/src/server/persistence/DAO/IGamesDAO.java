@@ -13,7 +13,7 @@ public interface IGamesDAO {
     
     public void addCommand(String command, String json, int player_id, int game_id, int version) throws Exception;
     
-    public void getCommands(int game_id, int version);
+    public void getCommands(int game_id, int version) throws Exception;
     
     public ModelBank getGames() throws Exception;
 
