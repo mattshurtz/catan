@@ -13,6 +13,7 @@ import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
 import shared.communication.params.Command;
+import shared.communication.params.CommandParam;
 import shared.model.Model;
 
 public class Persistence {
@@ -72,7 +73,7 @@ public class Persistence {
 		try {
 			int version = GameInfoContainer.getInstance().getGameModel(gameId).getVersion();
 			gameDAO.getConnectionUtility().startTransaction();
-			gameDAO.addCommand();
+			gameDAO.addCommand(command, json, playerId, gameId, version, randomResult);
 			gameDAO.getConnectionUtility().endTransaction();
 			deltaCount.put(gameId, deltaCount.get(gameId) + 1);
 		} catch (Exception e) {
@@ -162,6 +163,7 @@ public class Persistence {
 			gameDAO.getConnectionUtility().endTransaction();
 			GameInfoContainer.getInstance().setGames(games);
 			loadDeltaCount(games);
+			loadCommands(games);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,11 +172,11 @@ public class Persistence {
 		return true;
 	}
 	
-	private boolean loadCommands() {
-		ArrayList<Command> commands;
+	private boolean loadCommands(ModelBank games) {
+		ArrayList<CommandParam> commands;
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			commands = gameDAO.getCommands();
+			commands = gameDAO.getCommands(game_id, version);
 			gameDAO.getConnectionUtility().endTransaction();			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -184,7 +186,7 @@ public class Persistence {
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-		for(Command cmd:commands) {
+		for(CommandParam cmd:commands) {
 			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
 		}		
 		

@@ -13,7 +13,7 @@ public interface IGamesDAO {
     
     public void clearGames() throws Exception;
     
-    public void addCommand(String command, String json, int player_id, int game_id, int version, int randomValue) throws Exception;
+    public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception;
     
     public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception;
     
