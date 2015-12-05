@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
+import shared.communication.params.Command;
 import shared.model.Model;
 
 public class Persistence {
@@ -30,6 +32,8 @@ public class Persistence {
 	private int delta;
 	private String plugin;
 	
+	private boolean saving;
+	
 	
 	private HashMap<Integer,Integer> deltaCount;
 	
@@ -39,6 +43,7 @@ public class Persistence {
 		this.delta = 0;
 		this.plugin = null;	
 		registry = new PluginRegistry();
+		this.saving = false;
 	}
 	
 	public void set(String plugin, int delta) {
@@ -50,13 +55,19 @@ public class Persistence {
 	}
 	
 	public boolean loadData() {
-		if(loadUsers() && loadGames()) {
+		this.saving = false;
+		if(loadUsers() && loadGames() && loadCommands()) {
+			this.saving = true;
 			return true;
 		}
+		this.saving = true;
 		return false;
 	}
 	
 	public boolean saveCommand(String command, String json, int gameId, int playerId, String randomResult) {
+		if (!saving)
+			return false;
+		
 		try {
 			int version = GameInfoContainer.getInstance().getGameModel(gameId).getVersion();
 			gameDAO.getConnectionUtility().startTransaction();
@@ -77,6 +88,9 @@ public class Persistence {
 	}
 	
 	public boolean addGame(int gameId) {
+		if (!saving)
+			return false;
+		
 		try {
 			Model game = GameInfoContainer.getInstance().getGameModel(gameId);
 			gameDAO.getConnectionUtility().startTransaction();
@@ -92,6 +106,8 @@ public class Persistence {
 	}
 	
 	public boolean addUser() {
+		if (!saving)
+			return false;
 		
 		try {
 			userDAO.getConnectionUtility().startTransaction();
@@ -154,17 +170,23 @@ public class Persistence {
 	}
 	
 	private boolean loadCommands() {
+		ListArray<Command> commands;
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			ModelBank games = gameDAO.getCommands();
-			gameDAO.getConnectionUtility().endTransaction();
-			GameInfoContainer.getInstance().setGames(games);
-			loadDeltaCount(games);
+			commands = gameDAO.getCommands();
+			gameDAO.getConnectionUtility().endTransaction();			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
 		}
+		
+		ResponderFacade serverFacade = new ResponderFacade();
+		
+		for(Command cmd:commands) {
+			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
+		}		
+		
 		return true;
 	}
 	
