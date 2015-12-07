@@ -54,9 +54,9 @@ public class SQLUsersDAO implements IUsersDAO {
     public UserInfoBank getUsers() throws Exception {
     	Statement s = this.conn.createStatement();
         ResultSet rs = s.executeQuery(selectUsers);
-        UserInfoBank users = new UserInfoBank();
+        UserInfoBank users = new UserInfoBank(false);
         while(rs.next()){
-          users.addUser(rs.getString(1), rs.getString(2));  
+          users.addUser(rs.getString(2), rs.getString(3));  
         }
         return users;
     }

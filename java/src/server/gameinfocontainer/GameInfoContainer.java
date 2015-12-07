@@ -35,7 +35,7 @@ public class GameInfoContainer {
      */
     GameInfoContainer() {
         models = new ModelBank();
-        users = new UserInfoBank();
+        users = new UserInfoBank(true);
     }
     
     GameInfoContainer(ModelBank games, UserInfoBank users) {

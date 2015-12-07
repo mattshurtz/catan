@@ -23,12 +23,16 @@ public class UserInfoBank {
      * Creates the UserInfoBank. Contains user information such as usernames,
      * passwords, userIDs, currentGames.
      */
-    public UserInfoBank(){
+    public UserInfoBank(boolean hasDefaultUsers){
         //Different Constructor for loading previously saved server state?
         //update IDcounter if some users already stored. 
     	users = new ArrayList<shared.model.User>();
-    	addDefaultUsers();
+    	if(hasDefaultUsers){
+                    addDefaultUsers();
+        }
     }
+    
+    
     
     public void addDefaultUsers() {
     	addUser("Matt","matt");

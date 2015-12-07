@@ -60,7 +60,7 @@ public class SQLUsersDAOTest {
         SQLUsersDAO instance = new SQLUsersDAO(new SQLConnectionUtility());;
         instance.getConnectionUtility().startTransaction();
         
-        instance.addUser(2,"kimberly","Jenkins");
+        instance.addUser(2,"Jan","Jenkins");
         
         instance.getConnectionUtility().endTransaction();
 
@@ -88,7 +88,7 @@ public class SQLUsersDAOTest {
         System.out.println("addUser");
         SQLUsersDAO instance = new SQLUsersDAO(new SQLConnectionUtility());;
         instance.getConnectionUtility().startTransaction();
-        UserInfoBank bank = new UserInfoBank();
+        UserInfoBank bank = new UserInfoBank(false);
         bank = instance.getUsers();
         
         instance.getConnectionUtility().endTransaction();
