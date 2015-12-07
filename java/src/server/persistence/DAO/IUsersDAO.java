@@ -11,6 +11,6 @@ public interface IUsersDAO {
     
     public UserInfoBank getUsers() throws Exception;
     
-    public SQLConnectionUtility getConnectionUtility();
+    public IConnections getConnectionUtility();
 
 }

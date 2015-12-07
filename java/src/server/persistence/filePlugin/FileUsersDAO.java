@@ -13,6 +13,12 @@ import server.persistence.sqlPlugin.SQLConnectionUtility;
  *
  */
 public class FileUsersDAO implements IUsersDAO {
+    
+    private FileConnection fc = null;
+    
+    public FileUsersDAO( FileConnection fc ) {
+        this.fc = fc;
+    }
 
     @Override
     public SQLConnectionUtility getConnectionUtility() {
