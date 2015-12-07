@@ -5,9 +5,14 @@
  */
 package server.persistence.filePlugin;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.UserInfoBank;
+import server.persistence.DAO.IConnections;
 import server.persistence.DAO.IUsersDAO;
-import server.persistence.sqlPlugin.SQLConnectionUtility;
+import static server.persistence.filePlugin.FileGamesDAO.getGameInfoContainer;
 
 /**
  *
@@ -21,23 +26,44 @@ public class FileUsersDAO implements IUsersDAO {
     }
 
     @Override
-    public SQLConnectionUtility getConnectionUtility() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public IConnections getConnectionUtility() {
+       return this.fc;
     }
 
     @Override
     public void addUser(int userID, String username, String password) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameInfoContainer gic = getGameInfoContainer( fc );
+        gic.getUsers().addUser(username, password);
+        fc.writeGamesBytes( toBytes(gic) );    
     }
 
     @Override
     public void clearUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameInfoContainer gic = getGameInfoContainer( fc );
+        gic.setUser(new UserInfoBank(false));
+        byte[] bytes = toBytes( gic );
+        fc.writeGamesBytes(bytes);
     }
 
     @Override
     public UserInfoBank getUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            return getGameInfoContainer( fc ).getUsers();
+    }
+    
+    public byte[] toBytes( Object o ) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject( o );
+            byte[] bytes = baos.toByteArray();
+            oos.close();
+            baos.close();
+
+            return bytes;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     
     
