@@ -60,7 +60,7 @@ public class SQLUsersDAOTest {
         SQLUsersDAO instance = new SQLUsersDAO(new SQLConnectionUtility());;
         instance.getConnectionUtility().startTransaction();
         
-        instance.addUser();
+        instance.addUser(2,"kimberly","Jenkins");
         
         instance.getConnectionUtility().endTransaction();
 
@@ -71,11 +71,13 @@ public class SQLUsersDAOTest {
      */
     @Test
     public void testClearUsers() throws Exception {
-        System.out.println("clearUsers");
-        SQLUsersDAO instance = null;
+        System.out.println("addUser");
+        SQLUsersDAO instance = new SQLUsersDAO(new SQLConnectionUtility());;
+        instance.getConnectionUtility().startTransaction();
+        
         instance.clearUsers();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
+        instance.getConnectionUtility().endTransaction();
     }
 
     /**
@@ -83,13 +85,13 @@ public class SQLUsersDAOTest {
      */
     @Test
     public void testGetUsers() throws Exception {
-        System.out.println("getUsers");
-        SQLUsersDAO instance = null;
-        UserInfoBank expResult = null;
-        UserInfoBank result = instance.getUsers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("addUser");
+        SQLUsersDAO instance = new SQLUsersDAO(new SQLConnectionUtility());;
+        instance.getConnectionUtility().startTransaction();
+        UserInfoBank bank = new UserInfoBank();
+        bank = instance.getUsers();
+        
+        instance.getConnectionUtility().endTransaction();
     }
 
     /**
