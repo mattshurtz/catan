@@ -106,13 +106,13 @@ public class Persistence {
 		return true;
 	}
 	
-	public boolean addUser() {
+	public boolean addUser(int userID, String username, String password) {
 		if (!saving)
 			return false;
 		
 		try {
 			userDAO.getConnectionUtility().startTransaction();
-			userDAO.addUser();
+			userDAO.addUser(userID, username, password);
 			userDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
