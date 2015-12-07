@@ -155,8 +155,9 @@ public class SQLGamesDAO implements IGamesDAO {
     @Override
     public ModelBank getGames() throws Exception {
         CachedRowSet crs = new CachedRowSetImpl();
+        ResultSet rs;
         try ( Statement s = this.conn.createStatement() ) {
-            ResultSet rs = s.executeQuery( getAllGamesSql );
+            rs = s.executeQuery( getAllGamesSql );
             crs.populate( rs );
         }
         
@@ -167,9 +168,11 @@ public class SQLGamesDAO implements IGamesDAO {
             try ( ByteArrayInputStream bais = new ByteArrayInputStream( stateBytes ); 
                   ObjectInputStream ois = new ObjectInputStream( bais ) ) {
                 theModel = (Model) ois.readObject();
+                
             }
-            
+
             int id = crs.getInt("id");
+            theModel.setName(crs.getString("name"));
             ret.addGame( id, theModel );
         }
         
