@@ -11,8 +11,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import server.gameinfocontainer.GameInfoContainer;
+import server.gameinfocontainer.ModelBank;
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IConnections;
+import shared.model.Model;
 
 /**
  *
@@ -59,13 +62,17 @@ public class FileUsersDAOTest {
     @Test
     public void testAddUser() throws Exception {
         System.out.println("addUser");
-        int userID = 0;
-        String username = "";
-        String password = "";
-        FileUsersDAO instance = null;
-        instance.addUser(userID, username, password);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FileUsersDAO instance = new FileUsersDAO(new FileConnection());
+        GameInfoContainer gic = new GameInfoContainer(false);
+        
+        instance.getConnectionUtility().startTransaction();
+        UserInfoBank expected = gic.getUsers();
+        expected.addUser("testing", "password");
+        instance.addUser(0,"testing","password");
+        instance.getConnectionUtility().endTransaction();
+        
+        UserInfoBank actual = instance.getUsers();
+        assertEquals( expected, actual );
     }
 
     /**

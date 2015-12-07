@@ -110,10 +110,10 @@ public class FileGamesDAOTest {
         FileGamesDAO instance = new FileGamesDAO(new FileConnection());
         GameInfoContainer gic = GameInfoContainer.getInstance();
         
-//        instance.getConnectionUtility().startTransaction();
+        instance.getConnectionUtility().startTransaction();
         Model expected = gic.getModels().getGame(0);
         instance.addGame(0,expected);
-//        instance.getConnectionUtility().endTransaction();
+        instance.getConnectionUtility().endTransaction();
         
         ModelBank mb = instance.getGames();
         Model actual = mb.getGame(0);
