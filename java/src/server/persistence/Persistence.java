@@ -83,6 +83,7 @@ public class Persistence {
 			deltaCount.put(gameId, deltaCount.get(gameId) + 1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -105,8 +106,10 @@ public class Persistence {
 			gameDAO.getConnectionUtility().startTransaction();
 			gameDAO.addGame(gameId, game);
 			gameDAO.getConnectionUtility().endTransaction();
+			deltaCount.put(gameId, 0);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -126,6 +129,7 @@ public class Persistence {
 			userDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -146,6 +150,7 @@ public class Persistence {
 			gameDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -163,6 +168,7 @@ public class Persistence {
 			GameInfoContainer.getInstance().setUser(users);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -181,6 +187,7 @@ public class Persistence {
 			loadCommands(games);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -203,6 +210,7 @@ public class Persistence {
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
+				gameDAO.getConnectionUtility().rollBack();
 				e.printStackTrace();
 				return false;
 			}	
@@ -218,7 +226,7 @@ public class Persistence {
 	
 	private boolean saveGame(int gameId) {
 		
-		System.out.println("Saving Game: " + gameId);
+		System.out.println("Updating Game: " + gameId);
 		
 		try {
 			Model game = GameInfoContainer.getInstance().getGameModel(gameId);
@@ -227,6 +235,7 @@ public class Persistence {
 			gameDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
+			gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}

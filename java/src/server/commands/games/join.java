@@ -23,9 +23,8 @@ public class join extends Command{
     	JoinGameRequest request = (JoinGameRequest) this.getDeserializer().toClass(JoinGameRequest.class, json);
     	
     	if (GameInfoContainer.getInstance().joinGame(user, request.getColor(), request.getGameID())) {
-    		//Persistence.getInstance()
-    		Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
     		GameInfoContainer.getInstance().getGameModel(request.getGameID()).incrementVersion();
+    		Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, request.getGameID(), user,null);
     		return this.buildGameCookie(request.getGameID());
     	} else {
     		throw new HTTPBadRequest("Could not add player to game");
