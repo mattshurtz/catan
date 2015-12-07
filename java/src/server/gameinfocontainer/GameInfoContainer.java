@@ -4,7 +4,6 @@ import java.util.List;
 
 import shared.communication.responses.GameResponse;
 import shared.definitions.CatanColor;
-import shared.exceptions.GetPlayerException;
 import shared.model.Model;
 import shared.model.Player;
 
@@ -35,7 +34,7 @@ public class GameInfoContainer {
      */
     GameInfoContainer() {
         models = new ModelBank();
-        users = new UserInfoBank();
+        users = new UserInfoBank(true);
     }
     
     GameInfoContainer(ModelBank games, UserInfoBank users) {

@@ -37,7 +37,7 @@ public class SQLGamesDAO implements IGamesDAO {
     }
 //INSERT INTO CurrentGames (id,version,name,player0_id,player1_id,player2_id,player3_id,state) VALUES (0,0,"text",0,0,0,0,null)
     static final String addGameSql = "INSERT INTO currentGames(id,version,name,"+
-                "player0_id, player1_id, player2_id, player3_id,state) VAlues"+
+                "player0_id, player1_id, player2_id, player3_id,state) Values"+
                 "(?,?,?,?,?,?,?,?)";
     
     @Override
@@ -46,10 +46,10 @@ public class SQLGamesDAO implements IGamesDAO {
             ps.setInt(1,id);
             ps.setInt(2, model.getVersion());
             ps.setString(3, model.getName());
-            ps.setInt(4, model.getPlayers().get(0).getPlayerID());
-            ps.setInt(5, model.getPlayers().get(1).getPlayerID());
-            ps.setInt(6, model.getPlayers().get(2).getPlayerID());
-            ps.setInt(7, model.getPlayers().get(3).getPlayerID());
+            //ps.setInt(4, model.getPlayers().get(0).getPlayerID());
+            //ps.setInt(5, model.getPlayers().get(1).getPlayerID());
+            //ps.setInt(6, model.getPlayers().get(2).getPlayerID());
+            //ps.setInt(7, model.getPlayers().get(3).getPlayerID());
             
             // Get the blob
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -155,8 +155,9 @@ public class SQLGamesDAO implements IGamesDAO {
     @Override
     public ModelBank getGames() throws Exception {
         CachedRowSet crs = new CachedRowSetImpl();
+        ResultSet rs;
         try ( Statement s = this.conn.createStatement() ) {
-            ResultSet rs = s.executeQuery( getAllGamesSql );
+            rs = s.executeQuery( getAllGamesSql );
             crs.populate( rs );
         }
         
@@ -167,9 +168,11 @@ public class SQLGamesDAO implements IGamesDAO {
             try ( ByteArrayInputStream bais = new ByteArrayInputStream( stateBytes ); 
                   ObjectInputStream ois = new ObjectInputStream( bais ) ) {
                 theModel = (Model) ois.readObject();
+                
             }
-            
+
             int id = crs.getInt("id");
+            theModel.setName(crs.getString("name"));
             ret.addGame( id, theModel );
         }
         

@@ -26,7 +26,7 @@ public class FileUsersDAO implements IUsersDAO {
     }
 
     @Override
-    public void addUser() throws Exception {
+    public void addUser(int userID, String username, String password) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

@@ -108,7 +108,7 @@ public class SQLGamesDAOTest {
         
                 instance.getConnectionUtility().startTransaction();
 
-                instance.addCommand("hello","world",7,4,10,"eighty");
+                instance.addCommand("hello","world",2,3,9,"eighty");
         
                 instance.getConnectionUtility().endTransaction();
 
@@ -123,7 +123,7 @@ public class SQLGamesDAOTest {
         
                 instance.getConnectionUtility().startTransaction();
 
-                ArrayList<CommandParam> commandParams = instance.getCommands(4,5);
+                ArrayList<CommandParam> commandParams = instance.getCommands(3,3);
         
                 instance.getConnectionUtility().endTransaction();
 

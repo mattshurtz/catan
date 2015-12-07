@@ -103,7 +103,7 @@ public class Model implements Serializable{
     private int winner;
 
     private transient String name;
-
+    
     public Model() {
         bank = new ResourceList();
         bank.initializeBank();
