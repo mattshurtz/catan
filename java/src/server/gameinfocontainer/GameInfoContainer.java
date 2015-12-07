@@ -1,5 +1,6 @@
 package server.gameinfocontainer;
 
+import java.io.Serializable;
 import java.util.List;
 
 import shared.communication.responses.GameResponse;
@@ -11,13 +12,13 @@ import shared.model.Player;
  *
  * @author Scott
  */
-public class GameInfoContainer {
+public class GameInfoContainer implements Serializable {
 	
 	private static GameInfoContainer instance;
 	
 	public static GameInfoContainer getInstance() {
 		if (instance == null) {
-			instance = new GameInfoContainer();
+			instance = new GameInfoContainer( true );
 		}
 		return instance;
 	}
@@ -32,9 +33,9 @@ public class GameInfoContainer {
     /**
      * Constructs the GameInfoContainer Object
      */
-    public GameInfoContainer() {
-        models = new ModelBank();
-        users = new UserInfoBank(true);
+    public GameInfoContainer( boolean addDefaultModelAndUsers ){
+        models = new ModelBank( addDefaultModelAndUsers );
+        users = new UserInfoBank( addDefaultModelAndUsers );
     }
     
     public GameInfoContainer(ModelBank games, UserInfoBank users) {

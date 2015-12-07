@@ -5,9 +5,9 @@
  */
 package server.gameinfocontainer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import shared.model.User;
 
@@ -15,7 +15,7 @@ import shared.model.User;
  * 
  * @author Scott
  */
-public class UserInfoBank {
+public class UserInfoBank implements Serializable {
     
     private List<shared.model.User> users;
     

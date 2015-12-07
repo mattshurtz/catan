@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package server.gameinfocontainer;
+import java.io.Serializable;
 import shared.communication.params.moves.BuildRoadRequest;
 import shared.communication.params.moves.BuildSettlementRequest;
 import shared.communication.responses.GameResponse;
@@ -29,7 +30,7 @@ import javafx.util.Pair;
  *
  * @author Scott
  */
-public class ModelBank {
+public class ModelBank implements Serializable {
     
     // integer: game id. string: game name. model: game state
     private Map<Integer, Pair<String, Model>> games;
@@ -49,13 +50,13 @@ public class ModelBank {
 	private int nextGameId = 0;
     
     
-    
     /**
      * Constructor for ModelBank that holds all the games in the server
      */
-    public ModelBank() {
+    public ModelBank( boolean addDefaultGame ) {
     	games = new HashMap<>();
-    	addDefaultModel();
+        if ( addDefaultGame )
+            addDefaultModel();
     }
     
     public void addGame( int id, Model theModel ) {

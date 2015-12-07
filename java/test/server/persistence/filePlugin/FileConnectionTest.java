@@ -104,4 +104,20 @@ public class FileConnectionTest {
         assertTrue( cleared );
     }
     
+    @Test
+    public void testWritingOutsideTransaction() {
+        // init the files
+        byte[] oldBytes = new byte [] { 0, 1, 2, 3 };
+        instance.writeGamesBytes( oldBytes );
+        String oldCommands = "12345";
+        instance.writeCommandFile(oldCommands);
+        
+        byte[] newBytes = new byte[] { 4, 5, 6, 7, 8 };
+        instance.writeGamesBytes(newBytes);
+        String newCommands = "678";
+        instance.appendCommandString(newCommands);
+        
+        assertTrue( Arrays.equals( newBytes, instance.getGamesBytes() ) );
+        assertEquals( oldCommands + newCommands, instance.getCommandsString() );
+    }
 }

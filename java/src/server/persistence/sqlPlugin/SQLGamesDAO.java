@@ -159,7 +159,7 @@ public class SQLGamesDAO implements IGamesDAO {
             crs.populate( rs );
         }
         
-        ModelBank ret = new ModelBank();
+        ModelBank ret = new ModelBank( false );
         while ( crs.next() ) {
             byte[] stateBytes = (byte[]) crs.getObject("state");
             Model theModel = null;

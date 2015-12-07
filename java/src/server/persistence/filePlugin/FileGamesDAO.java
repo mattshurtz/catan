@@ -50,6 +50,9 @@ public class FileGamesDAO implements IGamesDAO {
     
     public static GameInfoContainer getGameInfoContainer( FileConnection fc ) {
         byte[] bytes = fc.getGamesBytes();
+        if ( bytes == null || bytes.length == 0 ) 
+            return new GameInfoContainer( false );
+        
         try ( ByteArrayInputStream bais = new ByteArrayInputStream( bytes ); 
             ObjectInputStream ois = new ObjectInputStream( bais ) ) {
             GameInfoContainer gic = (GameInfoContainer) ois.readObject();
@@ -59,7 +62,7 @@ public class FileGamesDAO implements IGamesDAO {
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FileGamesDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return null;
+        return new GameInfoContainer( false );
     }
 
     @Override
@@ -81,7 +84,7 @@ public class FileGamesDAO implements IGamesDAO {
 
     @Override
     public void clearGames() throws Exception {
-        GameInfoContainer gic = new GameInfoContainer();
+        GameInfoContainer gic = new GameInfoContainer( false );
         byte[] bytes = toBytes( gic );
         
         fc.writeGamesBytes(bytes);
@@ -100,6 +103,7 @@ public class FileGamesDAO implements IGamesDAO {
 
             return bytes;
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }

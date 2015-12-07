@@ -12,8 +12,11 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IConnections;
+import server.persistence.sqlPlugin.SQLConnectionUtility;
+import server.persistence.sqlPlugin.SQLGamesDAO;
 import shared.communication.params.CommandParam;
 import shared.model.Model;
 
@@ -75,20 +78,6 @@ public class FileGamesDAOTest {
     }
 
     /**
-     * Test of getConnectionUtility method, of class FileGamesDAO.
-     */
-    @Test
-    public void testGetConnectionUtility() {
-        System.out.println("getConnectionUtility");
-        FileGamesDAO instance = null;
-        IConnections expResult = null;
-        IConnections result = instance.getConnectionUtility();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of getGames method, of class FileGamesDAO.
      */
     @Test
@@ -108,12 +97,17 @@ public class FileGamesDAOTest {
     @Test
     public void testAddGame() throws Exception {
         System.out.println("addGame");
-        int id = 0;
-        Model model = null;
-        FileGamesDAO instance = null;
-        instance.addGame(id, model);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        FileGamesDAO instance = new FileGamesDAO(new FileConnection());
+        GameInfoContainer gic = GameInfoContainer.getInstance();
+        
+        instance.getConnectionUtility().startTransaction();
+        Model expected = gic.getModels().getGame(0);
+        instance.addGame(0,expected);
+        instance.getConnectionUtility().endTransaction();
+        
+        ModelBank mb = instance.getGames();
+        Model actual = mb.getGame(0);
+        assertEquals( expected, actual );
     }
 
     /**

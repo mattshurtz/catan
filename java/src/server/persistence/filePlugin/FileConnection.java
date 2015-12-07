@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.StandardOpenOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -159,6 +160,8 @@ public class FileConnection implements IConnections {
         try {
             byte[] array = Files.readAllBytes( f.toPath() );
             return array;
+        } catch ( NoSuchFileException e ) {
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -170,7 +173,8 @@ public class FileConnection implements IConnections {
     }
     
     public String getCommandsString() {
-        return new String( readBytes( this.inputCommandsFile ) );
+        byte[] bytes = readBytes( this.inputCommandsFile );
+        return bytes == null ? "" : new String( bytes );
     }
     
     public void writeGamesBytes( byte[] b ) {
