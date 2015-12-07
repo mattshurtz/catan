@@ -6,6 +6,7 @@
 package server.persistence.sqlPlugin;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.Statement;
 
 import server.gameinfocontainer.UserInfoBank;
@@ -22,6 +23,8 @@ public class SQLUsersDAO implements IUsersDAO {
         this.connectionUtility = connectionUtility;
         this.conn = connectionUtility.getConnection();
     }
+    
+    
 
     @Override
     public void addUser() throws Exception {
@@ -41,10 +44,11 @@ public class SQLUsersDAO implements IUsersDAO {
     @Override
     public UserInfoBank getUsers() throws Exception {
     	Statement s = this.conn.createStatement();
-        s.execute(selectUsers);
-        
+        ResultSet rs = s.executeQuery(selectUsers);
         UserInfoBank users = new UserInfoBank();
-        //users.addUser(username, password);
+        while(rs.next()){
+          users.addUser(rs.getString(1), rs.getString(2));  
+        }
         return users;
     }
     
