@@ -32,12 +32,12 @@ public class GameInfoContainer {
     /**
      * Constructs the GameInfoContainer Object
      */
-    GameInfoContainer() {
+    public GameInfoContainer() {
         models = new ModelBank();
         users = new UserInfoBank(true);
     }
     
-    GameInfoContainer(ModelBank games, UserInfoBank users) {
+    public GameInfoContainer(ModelBank games, UserInfoBank users) {
         models = games;
         users = users;
     }

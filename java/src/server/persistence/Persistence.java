@@ -3,7 +3,7 @@ package server.persistence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import static jdk.nashorn.internal.runtime.Version.version;
+import javafx.util.Pair;
 
 import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
@@ -192,7 +192,7 @@ public class Persistence {
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-		for(Entry<Integer,Model> game: games.getGames().entrySet()) {
+		for(Entry<Integer, Model> game: games.getGames().entrySet()) {
 			ArrayList<CommandParam> commands;			
 			try {
 				gameDAO.getConnectionUtility().startTransaction();

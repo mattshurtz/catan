@@ -6,7 +6,15 @@
 package server.persistence.filePlugin;
 
 import com.google.gson.reflect.TypeToken;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IConnections;
 import server.persistence.DAO.IGamesDAO;
@@ -37,32 +45,69 @@ public class FileGamesDAO implements IGamesDAO {
     
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
-//        SerializableCommand sc = 
+        
     }
-
+    
+    public static GameInfoContainer getGameInfoContainer( FileConnection fc ) {
+        byte[] bytes = fc.getGamesBytes();
+        try ( ByteArrayInputStream bais = new ByteArrayInputStream( bytes ); 
+            ObjectInputStream ois = new ObjectInputStream( bais ) ) {
+            GameInfoContainer gic = (GameInfoContainer) ois.readObject();
+            return gic;
+        } catch (IOException ex) {
+            Logger.getLogger(FileGamesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(FileGamesDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 
     @Override
     public IConnections getConnectionUtility() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.fc;
     }
 
     @Override
     public ModelBank getGames() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return getGameInfoContainer( fc ).getModels();
     }
 
     @Override
     public void addGame(int id, Model model) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameInfoContainer gic = getGameInfoContainer( fc );
+        gic.getModels().addGame(id, model);
+        fc.writeGamesBytes( toBytes(gic) );
     }
 
     @Override
     public void clearGames() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameInfoContainer gic = new GameInfoContainer();
+        byte[] bytes = toBytes( gic );
+        
+        fc.writeGamesBytes(bytes);
+        
+        fc.clearCommandsFile();
+    }
+    
+    public byte[] toBytes( Object o ) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream( baos );
+            oos.writeObject( o );
+            byte[] bytes = baos.toByteArray();
+            oos.close();
+            baos.close();
+
+            return bytes;
+        } catch (IOException e) {
+            return null;
+        }
     }
 
     @Override
     public void updateGame(int id, Model game) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        GameInfoContainer gic = getGameInfoContainer( fc );
+        gic.getModels().setGame(id, game);
+        fc.writeGamesBytes( toBytes(gic) );
     }
 }

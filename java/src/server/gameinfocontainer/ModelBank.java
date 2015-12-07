@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javafx.util.Pair;
 
 /**
  *
@@ -30,10 +31,19 @@ import java.util.Map;
  */
 public class ModelBank {
     
-    private Map<Integer, Model> games;
+    // integer: game id. string: game name. model: game state
+    private Map<Integer, Pair<String, Model>> games;
     
     public Map<Integer, Model> getGames() {
-		return games;
+        // go through and make sure each model is assigned the right name
+        Map<Integer, Model> modelMap = new HashMap<>();
+        for ( Integer gameId : games.keySet() ) {
+            Pair<String, Model> p = games.get( gameId );
+            Model m = p.getValue();
+            m.setName( p.getKey() );
+            modelMap.put( gameId, m );
+        }
+		return modelMap;
 	}
 
 	private int nextGameId = 0;
@@ -49,7 +59,7 @@ public class ModelBank {
     }
     
     public void addGame( int id, Model theModel ) {
-        games.put(id, theModel);
+        games.put(id, new Pair<>(theModel.getName(), theModel));
         if ( nextGameId <= id )
             nextGameId = ++id;
     }
@@ -181,7 +191,7 @@ public class ModelBank {
      * @return the game's id
      */
     public int addGame(Model game) {
-        this.games.put( nextGameId, game );
+        this.games.put( nextGameId, new Pair<>( game.getName(), game ) );
         int ret = nextGameId;
         nextGameId++;
         return ret;
@@ -202,7 +212,10 @@ public class ModelBank {
      */
     public Model getGame(int gameId) {
     	try {
-    		return this.games.get( gameId );
+    		Pair<String, Model> p = this.games.get( gameId );
+            Model m = p.getValue();
+            m.setName( p.getKey() );
+            return m;
     	} catch (Exception e) {
     		return null;
     	}
@@ -213,7 +226,7 @@ public class ModelBank {
 		List<GameResponse> g = new ArrayList<GameResponse>();
 		
 		for( Integer i : games.keySet() ) {
-			Model current = games.get(i);
+			Model current = games.get(i).getValue();
 			ArrayList<PlayerResponse> p = new ArrayList<PlayerResponse>();
 			for(int j=0;j<current.getPlayers().size();j++) {
 				Player player;
@@ -229,5 +242,9 @@ public class ModelBank {
 		
 		return g;
 	}
+
+    public void setGame(int id, Model game) {
+        this.games.put(id, new Pair<>( game.getName(), game ) );
+    }
 
 }

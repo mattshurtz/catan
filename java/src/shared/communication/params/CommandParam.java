@@ -1,5 +1,10 @@
 package shared.communication.params;
 
+/**
+ * No version ID -- used for writing commands
+ * 
+ * @author JanPaul
+ */
 public class CommandParam {
 	private String command;
 	private String json;
