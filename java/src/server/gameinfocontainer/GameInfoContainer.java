@@ -4,7 +4,6 @@ import java.util.List;
 
 import shared.communication.responses.GameResponse;
 import shared.definitions.CatanColor;
-import shared.exceptions.GetPlayerException;
 import shared.model.Model;
 import shared.model.Player;
 
