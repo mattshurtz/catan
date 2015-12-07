@@ -37,7 +37,7 @@ public class SQLGamesDAO implements IGamesDAO {
     }
 //INSERT INTO CurrentGames (id,version,name,player0_id,player1_id,player2_id,player3_id,state) VALUES (0,0,"text",0,0,0,0,null)
     static final String addGameSql = "INSERT INTO currentGames(id,version,name,"+
-                "player0_id, player1_id, player2_id, player3_id,state) VAlues"+
+                "player0_id, player1_id, player2_id, player3_id,state) Values"+
                 "(?,?,?,?,?,?,?,?)";
     
     @Override
