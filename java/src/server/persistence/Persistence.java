@@ -57,17 +57,23 @@ public class Persistence {
 	
 	public boolean loadData() {
 		this.saving = false;
-		if(loadUsers() && loadGames()) {
+		if(loadGames()) {
 			this.saving = true;
+			System.out.println("Persistence ON");
 			return true;
 		}
-		this.saving = true;
+		this.saving = false;
+		System.out.println("Persistence OFF");
 		return false;
 	}
 	
 	public boolean saveCommand(String command, String json, int gameId, int playerId, String randomResult) {
 		if (!saving)
 			return false;
+		
+		System.out.println("Saving Command: " + command);
+		
+		command = command.replace("server.commands.","");
 		
 		try {
 			int version = GameInfoContainer.getInstance().getGameModel(gameId).getVersion();
@@ -92,6 +98,8 @@ public class Persistence {
 		if (!saving)
 			return false;
 		
+		System.out.println("Adding Game: " + gameId);
+		
 		try {
 			Model game = GameInfoContainer.getInstance().getGameModel(gameId);
 			gameDAO.getConnectionUtility().startTransaction();
@@ -110,6 +118,8 @@ public class Persistence {
 		if (!saving)
 			return false;
 		
+		System.out.println("Adding User: " );
+		
 		try {
 			userDAO.getConnectionUtility().startTransaction();
 			userDAO.addUser();
@@ -125,12 +135,14 @@ public class Persistence {
 	}
 	
 	public boolean wipe() {
+		System.out.println("Wiping Database");
+		
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			userDAO.getConnectionUtility().startTransaction();
+			//userDAO.getConnectionUtility().startTransaction();
 			gameDAO.clearGames();
 			userDAO.clearUsers();
-			userDAO.getConnectionUtility().endTransaction();
+			//userDAO.getConnectionUtility().endTransaction();
 			gameDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -142,6 +154,8 @@ public class Persistence {
 	}	
 	
 	private boolean loadUsers() {
+		
+		System.out.println("Loading Users");
 		try {
 			userDAO.getConnectionUtility().startTransaction();
 			UserInfoBank users = userDAO.getUsers();
@@ -156,6 +170,8 @@ public class Persistence {
 	}
 	
 	private boolean loadGames() {
+		System.out.println("Loading Games");
+		
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
 			ModelBank games = gameDAO.getGames();
@@ -172,23 +188,25 @@ public class Persistence {
 	}
 	
 	private boolean loadCommands(ModelBank games) {
-		ArrayList<CommandParam> commands;
-		try {
-			gameDAO.getConnectionUtility().startTransaction();
-			//commands = gameDAO.getCommands(game_id, version);
-			gameDAO.getConnectionUtility().endTransaction();			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
+		System.out.println("Loading Commands");
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-//		for(CommandParam cmd:commands) {
-//			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
-//		}		
-		
+		for(Entry<Integer,Model> game: games.getGames().entrySet()) {
+			ArrayList<CommandParam> commands;			
+			try {
+				gameDAO.getConnectionUtility().startTransaction();
+				commands = gameDAO.getCommands(game.getKey(), game.getValue().getVersion());
+				gameDAO.getConnectionUtility().endTransaction();
+				for(CommandParam cmd:commands) {
+					serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return false;
+			}	
+		}	
 		return true;
 	}
 	
@@ -199,6 +217,8 @@ public class Persistence {
 	}
 	
 	private boolean saveGame(int gameId) {
+		
+		System.out.println("Saving Game: " + gameId);
 		
 		try {
 			Model game = GameInfoContainer.getInstance().getGameModel(gameId);

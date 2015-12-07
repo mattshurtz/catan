@@ -46,10 +46,10 @@ public class SQLGamesDAO implements IGamesDAO {
             ps.setInt(1,id);
             ps.setInt(2, model.getVersion());
             ps.setString(3, model.getName());
-            ps.setInt(4, model.getPlayers().get(0).getPlayerID());
-            ps.setInt(5, model.getPlayers().get(1).getPlayerID());
-            ps.setInt(6, model.getPlayers().get(2).getPlayerID());
-            ps.setInt(7, model.getPlayers().get(3).getPlayerID());
+            //ps.setInt(4, model.getPlayers().get(0).getPlayerID());
+            //ps.setInt(5, model.getPlayers().get(1).getPlayerID());
+            //ps.setInt(6, model.getPlayers().get(2).getPlayerID());
+            //ps.setInt(7, model.getPlayers().get(3).getPlayerID());
             
             // Get the blob
             ByteArrayOutputStream baos = new ByteArrayOutputStream();

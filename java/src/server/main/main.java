@@ -75,16 +75,16 @@ public class main{
 				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
 				if(args[2].toString().equals("wipe")) {
-					persis.wipe();
-					System.err.println("you can only 'wipe'");
+					persis.wipe();					
 				} else {
-					persis.loadData();
+					System.err.println("you can only 'wipe'");					
 				}
+				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
 				break;
 			case 2:
-				persistance_type = args[1].toString();
-				delta = Integer.parseInt(args[2]);
+				persistance_type = args[0].toString();
+				delta = Integer.parseInt(args[1]);
 				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
 				persis.loadData();
