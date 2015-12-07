@@ -6,6 +6,8 @@
 package server.persistence.sqlPlugin;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 
 import server.gameinfocontainer.UserInfoBank;
@@ -22,13 +24,23 @@ public class SQLUsersDAO implements IUsersDAO {
         this.connectionUtility = connectionUtility;
         this.conn = connectionUtility.getConnection();
     }
+    
+    
 
+    static final String addUser = "INSERT INTO Users VALUES (?,?,?)";//id username password
+    
     @Override
-    public void addUser() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void addUser(int userID, String username, String password) throws Exception {
+        try ( PreparedStatement ps = this.conn.prepareStatement(addUser)) {
+        	ps.setInt(1, userID);
+        	ps.setString(2, username);
+        	ps.setString(3, password);
+        	
+        	ps.execute();
+        }
     }
 
-    static final String clearUsers = "DELETE FROM users;";
+    static final String clearUsers = "DELETE FROM Users;";
     
     @Override
     public void clearUsers() throws Exception {
@@ -36,15 +48,16 @@ public class SQLUsersDAO implements IUsersDAO {
         s.execute(clearUsers);
     }
 
-    static final String selectUsers = "SELECT * FROM users;";
+    static final String selectUsers = "SELECT * FROM Users;";
     
     @Override
     public UserInfoBank getUsers() throws Exception {
     	Statement s = this.conn.createStatement();
-        s.execute(selectUsers);
-        
-        UserInfoBank users = new UserInfoBank();
-        //users.addUser(username, password);
+        ResultSet rs = s.executeQuery(selectUsers);
+        UserInfoBank users = new UserInfoBank(false);
+        while(rs.next()){
+          users.addUser(rs.getString(2), rs.getString(3));  
+        }
         return users;
     }
     
