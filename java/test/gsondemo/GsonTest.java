@@ -31,13 +31,13 @@ public class GsonTest {
 //        }
 //    }
 //    
-//    @Test
-//    public void testObjWithList() {
-//        String json = "{ \"id\" : \"5\", \"strings\" : [ \"string1\", \"string2\" ] }";
-//        Gson gson = new GsonBuilder().create();
-//        ObjectWithList owl = gson.fromJson( json, ObjectWithList.class );
-//        System.out.println( owl.toString() );
-//    }
+    @Test
+    public void testObjWithList() {
+        String json = "{ \"id\" : \"5\", \"strings\" : [ \"string1\", \"string2\" ] }";
+        Gson gson = new GsonBuilder().create();
+        ObjectWithList owl = gson.fromJson( json, ObjectWithList.class );
+        System.out.println( owl.toString() );
+    }
 //    
 //    @Test
 //    public void testObjWithListOfObjects() {

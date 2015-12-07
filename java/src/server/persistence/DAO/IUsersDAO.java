@@ -9,7 +9,7 @@ public interface IUsersDAO {
     
     public UserInfoBank getUsers() throws Exception;
     
-    public SQLConnectionUtility getConnectionUtility();
+    public IConnections getConnectionUtility();
 
 	public void addUser(int userID, String username, String password) throws Exception;
 
