@@ -73,36 +73,24 @@ public class FileConnection implements IConnections {
         if ( !isOldFile(f) ) {
             f = new File( f.getAbsolutePath() + tempOldFileSuffix );
         }
-        deleteFile(f);
-    }
-    
-    private void deleteFile( File f ) throws IOException {
-        boolean success = true;
-        success = f.delete();
-        if ( ! success ) 
-            throw new IOException("File " + f.toString() + " was not deleted!");
+        Files.deleteIfExists(f.toPath());
     }
     
     private void deleteTempFile( File f ) throws IOException {
         if ( isTempFile( f ) )
-            deleteFile( f );
+            Files.deleteIfExists( f.toPath() );
     }
     
     private void renameOld( File f ) throws IOException {
-        boolean success = f.renameTo(new File( f.getAbsolutePath() + tempOldFileSuffix ) );
-        if ( ! success ) {
-            throw new IOException("File could not be renamed!");
-        }
+        if ( Files.exists(f.toPath() ) )
+            Files.move( f.toPath(), new File( f.getAbsolutePath() + tempOldFileSuffix ).toPath() );
     }
     
     private void renameUnTemp( File f ) throws IOException {
         if ( ! isTempFile(f) )
             throw new IOException("The selected file is not a temp file!");
         
-        boolean success = f.renameTo(new File( f.getAbsolutePath().substring(0, f.getAbsolutePath().indexOf(tempOutputSuffix)) ) );
-        if ( ! success ) {
-            throw new IOException("File could not be renamed!");
-        }
+        Files.move( f.toPath(), new File( f.getAbsolutePath().substring(0, f.getAbsolutePath().indexOf(tempOutputSuffix))).toPath() );
     }
 
     @Override
