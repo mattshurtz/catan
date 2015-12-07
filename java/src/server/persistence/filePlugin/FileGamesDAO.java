@@ -84,7 +84,8 @@ public class FileGamesDAO implements IGamesDAO {
 
     @Override
     public void clearGames() throws Exception {
-        GameInfoContainer gic = new GameInfoContainer( false );
+        GameInfoContainer gic = getGameInfoContainer( fc );
+        gic.setGames(new ModelBank(false));
         byte[] bytes = toBytes( gic );
         
         fc.writeGamesBytes(bytes);

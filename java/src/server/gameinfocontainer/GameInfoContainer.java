@@ -132,6 +132,10 @@ public class GameInfoContainer implements Serializable {
         return users.addUser(username, password);
     }
     
+   public UserInfoBank getUsers(){
+       return users;
+   }
+    
     /**
      * 
      * @return ModelBank of game models currently being handled by the server.
