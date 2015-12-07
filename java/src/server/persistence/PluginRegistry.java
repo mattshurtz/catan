@@ -40,6 +40,7 @@ public class PluginRegistry {
 				System.exit(0);
 			}
 			
+			System.out.println(name + " plugin loaded!");
 			return (AbstractFactory) newFactory;		
 		}
 		else
