@@ -5,31 +5,44 @@
  */
 package server.persistence.filePlugin;
 
+import com.google.gson.reflect.TypeToken;
 import java.util.ArrayList;
 import server.gameinfocontainer.ModelBank;
+import server.persistence.DAO.IConnections;
 import server.persistence.DAO.IGamesDAO;
-import server.persistence.sqlPlugin.SQLConnectionUtility;
 import shared.communication.params.CommandParam;
+import shared.json.Deserializer;
 import shared.model.Model;
 
 /**
  *
  */
 public class FileGamesDAO implements IGamesDAO {
+    
+    FileConnection fc = null;
+    
+    Deserializer deserialize = new Deserializer();
+    
+    public FileGamesDAO( FileConnection fc ) {
+        this.fc = fc;
+    }
 
     @Override
     public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String commandsStr = this.fc.getCommandsString();
+        // what a freakin beast of a line. sorry
+        ArrayList<CommandParam> ret = (ArrayList<CommandParam>) deserialize.toClass( new TypeToken<ArrayList<CommandParam>>() {}.getType(), commandsStr );
+        return ret;
     }
     
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//        SerializableCommand sc = 
     }
 
 
     @Override
-    public SQLConnectionUtility getConnectionUtility() {
+    public IConnections getConnectionUtility() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -52,9 +65,4 @@ public class FileGamesDAO implements IGamesDAO {
     public void updateGame(int id, Model game) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
-
-	
-    
 }

@@ -13,15 +13,20 @@ import server.persistence.factory.AbstractFactory;
  *
  */
 public class FileFactory extends AbstractFactory {
+    
+    private FileConnection fc = new FileConnection();
+    
+    public FileFactory() {
+    }
 
     @Override
     public IGamesDAO getGameDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new FileGamesDAO(fc);
     }
 
     @Override
     public IUsersDAO getUserDAO() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new FileUsersDAO(fc);
     }
     
 }

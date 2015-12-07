@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,10 @@ public class Deserializer {
     	}
     	
     	return gson.fromJson(json, classType);
+    }
+    
+    public Object toClass(Type type, String json) {
+        return gson.fromJson(json, type);
     }
     
     public Credentials toCredentials(String json) {
