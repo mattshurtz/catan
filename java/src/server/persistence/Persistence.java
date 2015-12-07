@@ -2,8 +2,8 @@ package server.persistence;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Map.Entry;
+import static jdk.nashorn.internal.runtime.Version.version;
 
 import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
@@ -12,7 +12,6 @@ import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
-import shared.communication.params.Command;
 import shared.communication.params.CommandParam;
 import shared.model.Model;
 
