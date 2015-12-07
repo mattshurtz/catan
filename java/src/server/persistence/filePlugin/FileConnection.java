@@ -175,6 +175,7 @@ public class FileConnection implements IConnections {
     
     public void appendCommandString( String s ) {
         try {
+            
             // This could be slow because we're opening and closing the file each time we write to it.
             Files.write( this.outputCommandsFile.toPath(), s.getBytes(), StandardOpenOption.APPEND);
         }catch (IOException ex) {

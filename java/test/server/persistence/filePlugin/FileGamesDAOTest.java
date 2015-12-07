@@ -25,13 +25,6 @@ import shared.model.Model;
  */
 public class FileGamesDAOTest {
     
-    
-//    private FileGamesDAO instance;
-//    private GameInfoContainer gic;
-//    private Serializer serializer;
-//    private SQLFactory factory;
-    
-    
     public FileGamesDAOTest() {
     }
     
@@ -45,10 +38,6 @@ public class FileGamesDAOTest {
     
     @Before
     public void setUp() {
-//        factory = new Factory();
-//        instance = (FileGamesDAO) factory.getGameDAO();
-//        gic = GameInfoContainer.getInstance();
-//        serializer = new Serializer();
     }
     
     @After
@@ -60,13 +49,6 @@ public class FileGamesDAOTest {
      */
     @Test
     public void testGetCommands() throws Exception {
-        System.out.println("getCommands");
-        int game_id = 0;
-        int version = 0;
-        FileGamesDAO instance = null;
-        ArrayList<CommandParam> expResult = null;
-        ArrayList<CommandParam> result = instance.getCommands(game_id, version);
-        assertEquals(expResult, result);
     }
 
     /**
@@ -74,31 +56,6 @@ public class FileGamesDAOTest {
      */
     @Test
     public void testAddCommand() throws Exception {
-        System.out.println("addCommand");
-        String command = "";
-        String json = "";
-        int player_id = 0;
-        int game_id = 0;
-        int version = 0;
-        String randomValue = "";
-        FileGamesDAO instance = null;
-        instance.addCommand(command, json, player_id, game_id, version, randomValue);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getGames method, of class FileGamesDAO.
-     */
-    @Test
-    public void testGetGames() throws Exception {
-        System.out.println("getGames");
-        FileGamesDAO instance = null;
-        ModelBank expResult = null;
-        ModelBank result = instance.getGames();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -126,10 +83,10 @@ public class FileGamesDAOTest {
     @Test
     public void testClearGames() throws Exception {
         System.out.println("clearGames");
-        FileGamesDAO instance = null;
+        FileGamesDAO instance = new FileGamesDAO(new FileConnection());
         instance.clearGames();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ModelBank games = instance.getGames();
+        assertTrue( games.getGames().isEmpty() );
     }
 
     /**
@@ -137,13 +94,21 @@ public class FileGamesDAOTest {
      */
     @Test
     public void testUpdateGame() throws Exception {
-        System.out.println("updateGame");
-        int id = 0;
-        Model game = null;
-        FileGamesDAO instance = null;
-        instance.updateGame(id, game);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        System.out.println("addGame");
+        FileGamesDAO instance = new FileGamesDAO(new FileConnection());
+        GameInfoContainer gic = GameInfoContainer.getInstance();
+        
+        instance.getConnectionUtility().startTransaction();
+        Model expected = gic.getModels().getGame(0);
+        instance.addGame(0,expected);
+        expected.incrementVersion();
+        instance.updateGame(0, expected);
+        instance.getConnectionUtility().endTransaction();
+        
+        ModelBank mb = instance.getGames();
+        Model actual = mb.getGame(0);
+        // checks version number
+        assertEquals( expected, actual );
     }
     
 }

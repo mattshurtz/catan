@@ -19,7 +19,9 @@ import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IConnections;
 import server.persistence.DAO.IGamesDAO;
 import shared.communication.params.CommandParam;
+import shared.communication.params.SerializableCommand;
 import shared.json.Deserializer;
+import shared.json.Serializer;
 import shared.model.Model;
 
 /**
@@ -30,6 +32,7 @@ public class FileGamesDAO implements IGamesDAO {
     FileConnection fc = null;
     
     Deserializer deserialize = new Deserializer();
+    Serializer serialize = new Serializer();
     
     public FileGamesDAO( FileConnection fc ) {
         this.fc = fc;
@@ -38,14 +41,28 @@ public class FileGamesDAO implements IGamesDAO {
     @Override
     public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
         String commandsStr = this.fc.getCommandsString();
+        String processed = "[" + commandsStr.substring(1) + "]";
         // what a freakin beast of a line. sorry
-        ArrayList<CommandParam> ret = (ArrayList<CommandParam>) deserialize.toClass( new TypeToken<ArrayList<CommandParam>>() {}.getType(), commandsStr );
+        ArrayList<SerializableCommand> com = (ArrayList<SerializableCommand>) deserialize.toClass( new TypeToken<ArrayList<SerializableCommand>>() {}.getType(), processed );
+        
+        // Only return the ones from that list for the right game id & version
+        ArrayList<CommandParam> ret = new ArrayList<>();
+        for ( SerializableCommand sc : com ) {
+            if ( sc.getGameId() == game_id && sc.getVersion() > version ) {
+                ret.add( sc.toCommandParam() );
+            }
+        }
+        
         return ret;
     }
     
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
-        
+        SerializableCommand sc = new SerializableCommand( command, json, player_id, game_id, version, randomValue );
+        String fileAppend = serialize.toJson(sc);
+        // Add a comma on the front of it to make it a real JSON list.
+        fileAppend = "," + fileAppend;
+        fc.appendCommandString(fileAppend);
     }
     
     public static GameInfoContainer getGameInfoContainer( FileConnection fc ) {
