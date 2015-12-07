@@ -34,7 +34,7 @@ public class SQLUsersDAO implements IUsersDAO {
         try ( PreparedStatement ps = this.conn.prepareStatement(addUser)) {
         	ps.setInt(1, userID);
         	ps.setString(2, username);
-        	ps.setString(2, password);
+        	ps.setString(3, password);
         	
         	ps.execute();
         }
