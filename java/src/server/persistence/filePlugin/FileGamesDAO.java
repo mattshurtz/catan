@@ -21,13 +21,12 @@ public class FileGamesDAO implements IGamesDAO {
     public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
-
+    
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
 
     @Override
     public SQLConnectionUtility getConnectionUtility() {
@@ -53,5 +52,9 @@ public class FileGamesDAO implements IGamesDAO {
     public void updateGame(int id, Model game) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+
+
+	
     
 }

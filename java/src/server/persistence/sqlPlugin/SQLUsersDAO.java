@@ -6,6 +6,7 @@
 package server.persistence.sqlPlugin;
 
 import java.sql.Connection;
+import java.sql.Statement;
 
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IUsersDAO;
@@ -27,14 +28,24 @@ public class SQLUsersDAO implements IUsersDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    static final String clearUsers = "DELETE FROM users;";
+    
     @Override
     public void clearUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	Statement s = this.conn.createStatement();
+        s.execute(clearUsers);
     }
 
+    static final String selectUsers = "SELECT * FROM users;";
+    
     @Override
     public UserInfoBank getUsers() throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	Statement s = this.conn.createStatement();
+        s.execute(selectUsers);
+        
+        UserInfoBank users = new UserInfoBank();
+        //users.addUser(username, password);
+        return users;
     }
     
     @Override

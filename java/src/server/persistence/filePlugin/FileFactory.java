@@ -7,12 +7,12 @@ package server.persistence.filePlugin;
 
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
-import server.persistence.factory.IFactory;
+import server.persistence.factory.AbstractFactory;
 
 /**
  *
  */
-public class FileFactory implements IFactory {
+public class FileFactory extends AbstractFactory {
 
     @Override
     public IGamesDAO getGameDAO() {

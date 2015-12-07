@@ -51,13 +51,13 @@ public class Persistence {
 		this.delta = delta;
 		this.plugin = plugin;
 		AbstractFactory factory = this.registry.CreateFactory(plugin);
-		gameDAO = factory.getGamesDAO();
-		userDAO = factory.getUsersDAO();
+		gameDAO = factory.getGameDAO();
+		userDAO = factory.getUserDAO();
 	}
 	
 	public boolean loadData() {
 		this.saving = false;
-		if(loadUsers() && loadGames() && loadCommands()) {
+		if(loadUsers() && loadGames()) {
 			this.saving = true;
 			return true;
 		}
@@ -175,7 +175,7 @@ public class Persistence {
 		ArrayList<CommandParam> commands;
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			commands = gameDAO.getCommands(game_id, version);
+			//commands = gameDAO.getCommands(game_id, version);
 			gameDAO.getConnectionUtility().endTransaction();			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -185,9 +185,9 @@ public class Persistence {
 		
 		ResponderFacade serverFacade = new ResponderFacade();
 		
-		for(CommandParam cmd:commands) {
-			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
-		}		
+//		for(CommandParam cmd:commands) {
+//			serverFacade.doFunction(cmd.getCommand(), cmd.getJson(), cmd.getGameId(), cmd.getPlayerId(), cmd.getRandom());
+//		}		
 		
 		return true;
 	}
