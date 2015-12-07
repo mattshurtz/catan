@@ -23,10 +23,6 @@ import shared.model.Model;
  *
  */
 public class SQLGamesDAO implements IGamesDAO {
-
-
-
-
     
     private SQLConnectionUtility connectionUtility;
     private Connection conn;
@@ -103,11 +99,13 @@ public class SQLGamesDAO implements IGamesDAO {
     
     
     static final String clearGames = "DELETE FROM currentGames;";
+    static final String clearCommands = "DELETE FROM commands;";
 
     @Override
     public void clearGames() throws Exception {
         Statement s = this.conn.createStatement();
         s.execute(clearGames);
+        s.execute(clearCommands);
     }
     
     static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";

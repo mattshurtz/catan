@@ -93,9 +93,9 @@ public class SQLGamesDAOTest {
     public void testClearGames() throws Exception {
         System.out.println("clearGames");
         SQLGamesDAO instance = null;
+        instance = new SQLGamesDAO(new SQLConnectionUtility());
         instance.clearGames();
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
