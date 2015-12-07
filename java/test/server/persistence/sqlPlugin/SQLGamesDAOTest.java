@@ -49,7 +49,7 @@ public class SQLGamesDAOTest {
     
     @After
     public void tearDown() {
-                instance.getConnectionUtility().closeConnection();
+        instance.getConnectionUtility().closeConnection();
     }
 
     /**

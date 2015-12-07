@@ -24,7 +24,7 @@ public class SQLConnectionUtility implements IConnections {
     
     static final String createCurrentGamesSql = 
             "create table if not exists CurrentGames (\n" +
-            "	id int,\n" +
+            "	id INTEGER PRIMARY KEY,\n" +
             "	version int,\n" +
             "	name text,\n" +
             "	player0_id int,\n" +

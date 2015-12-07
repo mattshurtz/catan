@@ -108,7 +108,7 @@ public class SQLGamesDAO implements IGamesDAO {
         s.execute(clearCommands);
     }
     
-    static final String addCommand = "INSERT INTO commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
+    static final String addCommand = "INSERT INTO OR IGNORE commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
 
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {

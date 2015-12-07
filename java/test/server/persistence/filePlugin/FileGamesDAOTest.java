@@ -16,8 +16,10 @@ import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
 import server.persistence.DAO.IConnections;
 import server.persistence.sqlPlugin.SQLConnectionUtility;
+import server.persistence.sqlPlugin.SQLFactory;
 import server.persistence.sqlPlugin.SQLGamesDAO;
 import shared.communication.params.CommandParam;
+import shared.json.Serializer;
 import shared.model.Model;
 
 /**
@@ -25,6 +27,13 @@ import shared.model.Model;
  * @author JanPaul
  */
 public class FileGamesDAOTest {
+    
+    
+    private FileGamesDAO instance;
+    private GameInfoContainer gic;
+    private Serializer serializer;
+    private SQLFactory factory;
+    
     
     public FileGamesDAOTest() {
     }
@@ -39,6 +48,10 @@ public class FileGamesDAOTest {
     
     @Before
     public void setUp() {
+        factory = new SQLFactory();
+        instance = (FileGamesDAO) factory.getGameDAO();
+        gic = GameInfoContainer.getInstance();
+        serializer = new Serializer();
     }
     
     @After
