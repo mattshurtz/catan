@@ -44,7 +44,7 @@ public class Persistence {
 		this.delta = 0;
 		this.plugin = null;	
 		registry = new PluginRegistry();
-		this.saving = false;
+		this.saving = true;
 	}
 	
 	public void set(String plugin, int delta) {
@@ -59,6 +59,8 @@ public class Persistence {
 		this.saving = false;
 		if(loadGames()) {
 			this.saving = true;
+			//addGame(0);
+			//addGame(1);
 			System.out.println("Persistence ON");
 			return true;
 		}
@@ -71,9 +73,11 @@ public class Persistence {
 		if (!saving)
 			return false;
 		
+		command = command.replace("server.commands.","");
+		
 		System.out.println("Saving Command: " + command);
 		
-		command = command.replace("server.commands.","");
+		
 		
 		try {
 			int version = GameInfoContainer.getInstance().getGameModel(gameId).getVersion();

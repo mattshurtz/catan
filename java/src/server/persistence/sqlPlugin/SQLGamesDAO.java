@@ -3,6 +3,7 @@ package server.persistence.sqlPlugin;
 import com.sun.rowset.CachedRowSetImpl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.sql.Blob;
@@ -48,17 +49,21 @@ public class SQLGamesDAO implements IGamesDAO {
             //ps.setInt(7, model.getPlayers().get(3).getPlayerID());
             
             // Get the blob
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream( baos );
-            oos.writeObject( model );
-            byte[] bytes = baos.toByteArray();
-            oos.close();
-            baos.close();
-            
-            ps.setBytes(8, bytes);
+                       
+            ps.setBytes(8, createBLOB(model));
             
             ps.execute();
         }
+    }
+    
+    private byte[] createBLOB(Model model) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream( baos );
+        oos.writeObject( model );
+        byte[] bytes = baos.toByteArray();
+        oos.close();
+        baos.close();
+        return bytes;
     }
 
     static final String updateGamesSql = "update CurrentGames set \n" +
@@ -75,23 +80,23 @@ public class SQLGamesDAO implements IGamesDAO {
         try ( PreparedStatement ps = this.conn.prepareStatement( updateGamesSql ) ) {
             // update the game
             ps.setInt( 1, game.getVersion() ); // version
-            ps.setInt( 2, game.getPlayer( 0 ).getPlayerID() );
-            ps.setInt( 3, game.getPlayer( 1 ).getPlayerID() );
-            ps.setInt( 4, game.getPlayer( 2 ).getPlayerID() );
-            ps.setInt( 5, game.getPlayer( 3 ).getPlayerID() );
+            
+            switch (game.getPlayers().size()) {
+	            case 4:
+	            	ps.setInt( 5, game.getPlayer( 3 ).getPlayerID() );
+	            case 3:
+	            	ps.setInt( 4, game.getPlayer( 2 ).getPlayerID() );
+	            case 2:
+	            	ps.setInt( 3, game.getPlayer( 1 ).getPlayerID() );
+	            case 1:
+	            	ps.setInt( 2, game.getPlayer( 0 ).getPlayerID() );
+	            default:
+	            	break;
+            }
+            
             ps.setInt( 7, id );
             
-            // Get the blob
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream( baos );
-            oos.writeObject( game );
-            byte[] bytes = baos.toByteArray();
-            oos.close();
-            baos.close();
-            
-            Blob blob = conn.createBlob();
-            blob.setBytes( 0, bytes );
-            ps.setBlob(6, blob);
+            ps.setBytes(6, createBLOB(game));
             
             ps.execute();
         }
@@ -108,7 +113,7 @@ public class SQLGamesDAO implements IGamesDAO {
         s.execute(clearCommands);
     }
     
-    static final String addCommand = "INSERT INTO OR IGNORE commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
+    static final String addCommand = "INSERT OR IGNORE INTO commands (command,json,player_id,game_id, version, randomValue) Values (?,?,?,?,?,?)";
 
     @Override
     public void addCommand(String command, String json, int player_id, int game_id, int version, String randomValue) throws Exception {
