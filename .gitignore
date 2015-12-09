@@ -17,3 +17,7 @@ java/dist/
 /dist/
 tester.zip
 persistence/**
+java/persistence/**
+**/*.dat
+**/*.tmp
+**/*.old
