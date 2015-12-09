@@ -99,12 +99,8 @@ public class FileGamesDAO implements IGamesDAO {
     @Override
     public void addGame(int id, Model model) throws Exception {
         GameInfoContainer gic = getGameInfoContainer( fc );
-        if(gic.getGameModel(id) == null)
-        {
-            gic.getModels().addGame(id, model);
-        }
-        fc.writeGamesBytes( toBytes("adding cool stuff."));
-        //fc.writeGamesBytes( toBytes(gic) );
+        gic.getModels().addGame(id, model);
+        fc.writeGamesBytes( toBytes(gic) );
     }
 
     @Override
