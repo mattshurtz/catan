@@ -9,6 +9,7 @@ import server.commands.Command;
 import server.data.PlayerInfoCookie;
 import shared.exceptions.HTTPBadRequest;
 import server.gameinfocontainer.GameInfoContainer;
+import server.persistence.Persistence;
 import shared.communication.params.Credentials;
 import shared.json.Serializer;
 
@@ -28,6 +29,7 @@ public class register extends Command{
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {
+        	Persistence.getInstance().addUser(result, creds.getUsername(), creds.getPassword());
         	return buildUserCookie( creds, result );
         } else {
         	throw new HTTPBadRequest("Could not add user");

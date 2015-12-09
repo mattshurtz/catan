@@ -44,7 +44,7 @@ public class Persistence {
 		this.delta = 0;
 		this.plugin = null;	
 		registry = new PluginRegistry();
-		this.saving = true;
+		this.saving = false;
 	}
 	
 	public void set(String plugin, int delta) {
@@ -57,7 +57,7 @@ public class Persistence {
 	
 	public boolean loadData() {
 		this.saving = false;
-		if(loadGames()) {
+		if(loadGames() && loadUsers()) {
 			this.saving = true;
 			//addGame(0);
 			//addGame(1);
@@ -125,7 +125,7 @@ public class Persistence {
 		if (!saving)
 			return false;
 		
-		System.out.println("Adding User: " );
+		System.out.println("Adding User: " + username );
 		
 		try {
 			userDAO.getConnectionUtility().startTransaction();
@@ -133,7 +133,7 @@ public class Persistence {
 			userDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			userDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -147,14 +147,15 @@ public class Persistence {
 		
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			//userDAO.getConnectionUtility().startTransaction();
+			userDAO.getConnectionUtility().startTransaction();
 			gameDAO.clearGames();
 			userDAO.clearUsers();
-			//userDAO.getConnectionUtility().endTransaction();
+			userDAO.getConnectionUtility().endTransaction();
 			gameDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			//userDAO.getConnectionUtility().rollBack();
+			//gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -172,7 +173,7 @@ public class Persistence {
 			GameInfoContainer.getInstance().setUser(users);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			userDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}

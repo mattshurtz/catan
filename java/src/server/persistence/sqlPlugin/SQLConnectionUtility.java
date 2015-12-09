@@ -67,7 +67,9 @@ public class SQLConnectionUtility implements IConnections {
 
     @Override
     public void endTransaction() {
-        try {
+    	try {
+    		if(conn.getAutoCommit())
+            	return;
             conn.commit();
             conn.setAutoCommit(true);
         } catch (SQLException ex) {
