@@ -28,7 +28,7 @@ public class FileConnection implements IConnections {
     
     private final String defaultGamesFile = "persistence/games.dat";
     private final String defaultCommandsFile = "persistence/commands.dat";
-    
+
     private final String tempOutputSuffix = ".tmp";
     
     private final String tempOldFileSuffix = ".old";
@@ -46,6 +46,8 @@ public class FileConnection implements IConnections {
 
     @Override
     public void startTransaction() {
+        this.inTransaction = true;
+        
         this.outputGamesFile = getTempFile( this.inputGamesFile.getAbsolutePath() );
         this.outputCommandsFile = getTempFile( this.inputCommandsFile.getAbsolutePath() );
         
@@ -61,7 +63,6 @@ public class FileConnection implements IConnections {
 //            Logger.getLogger(FileConnection.class.getName()).log(Level.SEVERE, null, ex);
 //        }
         
-        this.inTransaction = true;
     }
     
     private File getTempFile( String name ) {
@@ -109,7 +110,7 @@ public class FileConnection implements IConnections {
     @Override
     public void endTransaction() {
         if ( ! inTransaction )
-            throw new IllegalStateException( "No transaction to commit!" );
+            return;
         
         try {
             // Rename old input files
