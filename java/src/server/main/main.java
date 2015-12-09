@@ -72,10 +72,15 @@ public class main{
 		if (args.length >= 2 && args.length < 4) {
 		//if (!args[2].equals("${wipe}")) {
 			if(!args[0].equals("${persist}") && !args[1].equals("${delta}")) {	
-				persistance_type = args[0].toString();
-				delta = Integer.parseInt(args[1]);
-				persis = Persistence.getInstance();
-				persis.set(persistance_type, delta);
+				persistance_type = args[0].toString();				
+				if (Integer.parseInt(args[1]) >=0) {
+					delta = Integer.parseInt(args[1]);
+					persis = Persistence.getInstance();
+					persis.set(persistance_type, delta);
+				} else {
+					System.err.println("delta must be 0 or greater");
+					return;
+				}								
 				if(args.length == 3 && args[2].toString().equals("wipe")) {
 					persis.wipe();					
 				} else if (args.length == 3 && args[2].equals("${wipe}")) {

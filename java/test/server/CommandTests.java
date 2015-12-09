@@ -476,7 +476,7 @@ public class CommandTests {
             int versionNumber = model.getVersion();
             assertEquals(model.getVersion(),0);
             //Test while is not players turn
-            cmd.execute(serializer.toJson(request),1,testPlayerHasResources);
+            cmd.execute(serializer.toJson(request),1,testPlayerHasResources,null);
             //Version number is the same because it was not the players turn. 
             assertTrue(versionNumber==0);
             
