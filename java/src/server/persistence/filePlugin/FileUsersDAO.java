@@ -37,7 +37,10 @@ public class FileUsersDAO implements IUsersDAO {
     @Override
     public void addUser(int userID, String username, String password) throws Exception {
         GameInfoContainer gic = getGameInfoContainer( fc );
-        gic.getUsers().addUser(username, password);
+        if( userID >= gic.getUsers().getUsers().size())
+        {
+            gic.getUsers().addUser(username, password);
+        }
         fc.writeGamesBytes( toBytes(gic) );    
     }
 
