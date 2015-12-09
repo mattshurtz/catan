@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -38,15 +39,21 @@ public class PluginRegistry {
 			try {
 				
 				File jarFile = new File(data.getPath());
-				String absPath = jarFile.getAbsolutePath();
+//				String absPath = jarFile.getAbsolutePath();
 //				if (!jarFile.isFile()){
 //					throw new FileNotFoundException("Missing required JAR: " + data.getPath());
 //				}
-				URL jarURL = jarFile.toURI().toURL();
+//				URL jarURL = jarFile.toURI().toURL();
+//				
+//				URLClassLoader loader = new URLClassLoader(new URL[] {jarURL}, this.getClass().getClassLoader());
+//				Class clazz = Class.forName(data.getName(), true, loader);
+//				newFactory = clazz.newInstance();
 				
-				URLClassLoader loader = new URLClassLoader(new URL[] {jarURL}, this.getClass().getClassLoader());
-				Class clazz = Class.forName(data.getName(), true, loader);
-				newFactory = clazz.newInstance();
+				ClassLoader child = URLClassLoader.newInstance(
+						new URL[]{jarFile.toURI().toURL()},
+						getClass().getClassLoader());
+				Class classToLoad = Class.forName (data.getName(), true, child);
+				newFactory = classToLoad.newInstance ();
 				
 			} catch(Exception e) {
 				e.printStackTrace();

@@ -2,7 +2,6 @@ package server.persistence.DAO;
 
 import java.util.ArrayList;
 import server.gameinfocontainer.ModelBank;
-import server.persistence.sqlPlugin.SQLConnectionUtility;
 import shared.communication.params.CommandParam;
 import shared.model.Model;
 

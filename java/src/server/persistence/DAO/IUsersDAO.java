@@ -1,7 +1,6 @@
 package server.persistence.DAO;
 
 import server.gameinfocontainer.UserInfoBank;
-import server.persistence.sqlPlugin.SQLConnectionUtility;
 
 public interface IUsersDAO {
     
