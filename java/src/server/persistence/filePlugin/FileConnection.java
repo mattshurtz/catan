@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +52,13 @@ public class FileConnection implements IConnections {
         // Write new temp outputCommandsFile with current contents of inputCommandsFile
         // so that append() can be used
         writeCommandFile(getCommandsString());
+        try {
+            // Create the games temp file
+            Files.deleteIfExists( this.outputGamesFile.toPath() );
+            Files.createFile( this.outputGamesFile.toPath() );
+        } catch (IOException ex) {
+            Logger.getLogger(FileConnection.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         this.inTransaction = true;
     }
@@ -82,8 +90,12 @@ public class FileConnection implements IConnections {
     }
     
     private void renameOld( File f ) throws IOException {
+        Path newFileName = new File( f.getAbsolutePath() + tempOldFileSuffix ).toPath();
+        Files.deleteIfExists(newFileName);
+        
+        // Move file if it exists
         if ( Files.exists(f.toPath() ) )
-            Files.move( f.toPath(), new File( f.getAbsolutePath() + tempOldFileSuffix ).toPath() );
+            Files.move( f.toPath(), newFileName );
     }
     
     private void renameUnTemp( File f ) throws IOException {
