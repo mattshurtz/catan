@@ -1,0 +1,1 @@
+,{"command":"games.join","json":"{\"id\":2,\"color\":\"green\"}","playerId":5,"gameId":2,"version":1},{"command":"games.join","json":"{\"id\":2,\"color\":\"blue\"}","playerId":0,"gameId":2,"version":2},{"command":"games.join","json":"{\"id\":3,\"color\":\"white\"}","playerId":0,"gameId":3,"version":1}
