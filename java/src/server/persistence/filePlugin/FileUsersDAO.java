@@ -5,9 +5,13 @@
  */
 package server.persistence.filePlugin;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.UserInfoBank;
 import server.persistence.DAO.IConnections;
@@ -47,7 +51,8 @@ public class FileUsersDAO implements IUsersDAO {
 
     @Override
     public UserInfoBank getUsers() throws Exception {
-            return getGameInfoContainer( fc ).getUsers();
+            GameInfoContainer gic = getGameInfoContainer( fc );
+            return gic.getUsers();
     }
     
     public byte[] toBytes( Object o ) {
@@ -65,6 +70,8 @@ public class FileUsersDAO implements IUsersDAO {
             return null;
         }
     }
+    
+
     
     
 }

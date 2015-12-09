@@ -41,6 +41,9 @@ public class FileGamesDAO implements IGamesDAO {
     @Override
     public ArrayList<CommandParam> getCommands(int game_id, int version) throws Exception {
         String commandsStr = this.fc.getCommandsString();
+        if(commandsStr.length()==0){
+            return new ArrayList<>();
+        }
         String processed = "[" + commandsStr.substring(1) + "]";
         // what a freakin beast of a line. sorry
         ArrayList<SerializableCommand> com = (ArrayList<SerializableCommand>) deserialize.toClass( new TypeToken<ArrayList<SerializableCommand>>() {}.getType(), processed );
@@ -52,7 +55,6 @@ public class FileGamesDAO implements IGamesDAO {
                 ret.add( sc.toCommandParam() );
             }
         }
-        
         return ret;
     }
     
