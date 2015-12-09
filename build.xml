@@ -144,10 +144,19 @@
  		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="server.main.main"/>
-				<attribute name="Class-Path" 
-					value="lib/gson-2.2.4.jar" />
 			</manifest>
+            <zipgroupfileset dir="${java.dir}/lib/">
+                <include name="**/*.jar"/>
+            </zipgroupfileset>
 		</jar>
+        <!-- Copy the persistence config file -->
+        <mkdir dir="${java.dist}/persistence" />
+        <mkdir dir="${java.dist}/src/server/persistence" />
+        <copy todir="${java.dist}/src/server/persistence">
+            <fileset dir="${java.dir}/src/server/persistence">
+                <include name="**"/>
+            </fileset>
+        </copy>
 	</target>
 	
 	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
