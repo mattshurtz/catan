@@ -1,4 +1,10 @@
 {
-    "file" : "server.persistence.filePlugin.FileFactory",
-    "sql" : "server.persistence.sqlPlugin.SQLFactory"
+	"file": {
+    	"path": "lib\/file-plugin.jar",
+    	"name": "server.persistence.filePlugin.FileFactory"
+  	},
+  	"sql": {
+    	"path": "lib\/sql-plugin.jar",
+    	"name": "server.persistence.sqlPlugin.SQLFactory"
+  	}
 }

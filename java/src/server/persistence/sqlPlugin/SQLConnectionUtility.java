@@ -93,7 +93,7 @@ public class SQLConnectionUtility implements IConnections {
 
         try {
             Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection("jdbc:sqlite:persistence/test.db");
+            conn = DriverManager.getConnection("jdbc:sqlite:java/persistence/test.db");
             
             // Create CurrentGames table
             createTable();
