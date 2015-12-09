@@ -1,4 +1,4 @@
-package server.persistence;
+package shared.communication.params;
 
 public class PluginData {
 	private String path;

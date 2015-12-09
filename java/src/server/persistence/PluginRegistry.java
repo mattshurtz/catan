@@ -3,22 +3,17 @@ package server.persistence;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.internal.LinkedTreeMap;
 import com.google.gson.reflect.TypeToken;
 
 import server.persistence.factory.AbstractFactory;
-import shared.json.Serializer;
+import shared.communication.params.PluginData;
 
 public class PluginRegistry {
 	private final String CONFIG_PATH = "src/server/persistence/config.json";
