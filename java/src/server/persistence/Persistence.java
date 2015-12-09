@@ -58,7 +58,7 @@ public class Persistence {
 	public boolean loadData() {
 		this.saving = false;
 		addDefaultGamesUsers();
-		if(loadGames() && loadUsers()) {
+		if(loadUsers() && loadGames()) {
 			this.saving = true;			
 			System.out.println("Persistence ON");
 			return true;
