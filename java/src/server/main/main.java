@@ -68,8 +68,7 @@ public class main{
 		String persistance_type;
 		int delta;
 		
-		switch (args.length) {
-			case 3:
+		if (!args[2].equals("${wipe}")) {
 				persistance_type = args[0].toString();
 				delta = Integer.parseInt(args[1]);
 				persis = Persistence.getInstance();
@@ -81,17 +80,17 @@ public class main{
 				}
 				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
-				break;
-			case 2:
+                }
+                else if(!args[0].equals("${persist}") && !args[1].equals("${delta}")) {
 				persistance_type = args[0].toString();
 				delta = Integer.parseInt(args[1]);
 				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
 				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
-				break;
-			default:
-				persis = Persistence.getInstance();
+                }
+                else {
+                                persis = Persistence.getInstance();
 				persis.set(DEFAULT_PLUGIN, DEFAULT_DELTA);
 				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
