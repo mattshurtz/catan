@@ -5,6 +5,11 @@
  */
 package server.persistence.filePlugin;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -12,10 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import server.gameinfocontainer.GameInfoContainer;
-import server.gameinfocontainer.ModelBank;
 import server.gameinfocontainer.UserInfoBank;
-import server.persistence.DAO.IConnections;
-import shared.model.Model;
 
 /**
  *
@@ -32,6 +34,16 @@ public class FileUsersDAOTest {
     
     @AfterClass
     public static void tearDownClass() {
+        try {
+            Files.deleteIfExists( Paths.get( "persistence/games.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.old" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.old" ) );
+        } catch (IOException ex) {
+            Logger.getLogger(FileConnectionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Before
@@ -40,20 +52,6 @@ public class FileUsersDAOTest {
     
     @After
     public void tearDown() {
-    }
-
-    /**
-     * Test of getConnectionUtility method, of class FileUsersDAO.
-     */
-    @Test
-    public void testGetConnectionUtility() {
-        System.out.println("getConnectionUtility");
-        FileUsersDAO instance = null;
-        IConnections expResult = null;
-        IConnections result = instance.getConnectionUtility();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -80,40 +78,17 @@ public class FileUsersDAOTest {
      */
     @Test
     public void testClearUsers() throws Exception {
-        System.out.println("clearUsers");
-        FileUsersDAO instance = null;
+        FileUsersDAO instance = new FileUsersDAO(new FileConnection());
+        GameInfoContainer gic = new GameInfoContainer(false);
+        
+        instance.getConnectionUtility().startTransaction();
+        instance.addUser(0,"testing","password");
         instance.clearUsers();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getUsers method, of class FileUsersDAO.
-     */
-    @Test
-    public void testGetUsers() throws Exception {
-        System.out.println("getUsers");
-        FileUsersDAO instance = null;
-        UserInfoBank expResult = null;
-        UserInfoBank result = instance.getUsers();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of toBytes method, of class FileUsersDAO.
-     */
-    @Test
-    public void testToBytes() {
-        System.out.println("toBytes");
-        Object o = null;
-        FileUsersDAO instance = null;
-        byte[] expResult = null;
-        byte[] result = instance.toBytes(o);
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        instance.getConnectionUtility().endTransaction();
+        
+        UserInfoBank expected = new UserInfoBank(false);
+        UserInfoBank actual = instance.getUsers();
+        assertEquals( expected, actual );
     }
     
 }

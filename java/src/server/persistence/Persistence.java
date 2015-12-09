@@ -13,6 +13,7 @@ import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;
 import shared.communication.params.CommandParam;
 import shared.model.Model;
+import shared.model.User;
 
 public class Persistence {
 
@@ -43,7 +44,7 @@ public class Persistence {
 		this.delta = 0;
 		this.plugin = null;	
 		registry = new PluginRegistry();
-		this.saving = true;
+		this.saving = false;
 	}
 	
 	public void set(String plugin, int delta) {
@@ -56,16 +57,28 @@ public class Persistence {
 	
 	public boolean loadData() {
 		this.saving = false;
-		if(loadGames()) {
-			this.saving = true;
-			//addGame(0);
-			//addGame(1);
+		addDefaultGamesUsers();
+		if(loadGames() && loadUsers()) {
+			this.saving = true;			
 			System.out.println("Persistence ON");
 			return true;
 		}
 		this.saving = false;
 		System.out.println("Persistence OFF");
 		return false;
+	}
+	
+	private void addDefaultGamesUsers() {
+		this.saving = true;
+		GameInfoContainer.getInstance();
+		addGame(0);
+		addGame(1);
+		addUser(0);
+		addUser(1);
+		addUser(2);
+		addUser(3);
+		addUser(4);
+		this.saving = false;
 	}
 	
 	public boolean saveCommand(String command, String json, int gameId, int playerId, String randomResult) {
@@ -118,19 +131,22 @@ public class Persistence {
 		return true;
 	}
 	
-	public boolean addUser(int userID, String username, String password) {
+	public boolean addUser(int userID) {
 		if (!saving)
 			return false;
 		
-		System.out.println("Adding User: " );
+		User user = GameInfoContainer.getInstance().getUsers().getUsers().get(userID);
+		
+		
+		System.out.println("Adding User: " + user.getUsername() );
 		
 		try {
 			userDAO.getConnectionUtility().startTransaction();
-			userDAO.addUser(userID, username, password);
+			userDAO.addUser(userID, user.getUsername(), user.getPassword());
 			userDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			userDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -144,14 +160,15 @@ public class Persistence {
 		
 		try {
 			gameDAO.getConnectionUtility().startTransaction();
-			//userDAO.getConnectionUtility().startTransaction();
+			userDAO.getConnectionUtility().startTransaction();
 			gameDAO.clearGames();
 			userDAO.clearUsers();
-			//userDAO.getConnectionUtility().endTransaction();
+			userDAO.getConnectionUtility().endTransaction();
 			gameDAO.getConnectionUtility().endTransaction();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			//userDAO.getConnectionUtility().rollBack();
+			//gameDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}
@@ -168,7 +185,7 @@ public class Persistence {
 			GameInfoContainer.getInstance().setUser(users);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			gameDAO.getConnectionUtility().rollBack();
+			userDAO.getConnectionUtility().rollBack();
 			e.printStackTrace();
 			return false;
 		}

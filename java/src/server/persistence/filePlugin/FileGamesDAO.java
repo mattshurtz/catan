@@ -132,4 +132,8 @@ public class FileGamesDAO implements IGamesDAO {
         gic.getModels().setGame(id, game);
         fc.writeGamesBytes( toBytes(gic) );
     }
+
+    void clearCommands() {
+        fc.clearCommandsFile();
+    }
 }

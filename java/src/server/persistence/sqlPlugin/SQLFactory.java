@@ -5,9 +5,6 @@
  */
 package server.persistence.sqlPlugin;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import server.persistence.DAO.IGamesDAO;
 import server.persistence.DAO.IUsersDAO;
 import server.persistence.factory.AbstractFactory;

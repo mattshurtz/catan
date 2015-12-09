@@ -33,7 +33,7 @@ public class SQLGamesDAO implements IGamesDAO {
         this.conn = c.getConnection();
     }
 //INSERT INTO CurrentGames (id,version,name,player0_id,player1_id,player2_id,player3_id,state) VALUES (0,0,"text",0,0,0,0,null)
-    static final String addGameSql = "INSERT INTO currentGames(id,version,name,"+
+    static final String addGameSql = "INSERT OR IGNORE INTO currentGames(id,version,name,"+
                 "player0_id, player1_id, player2_id, player3_id,state) Values"+
                 "(?,?,?,?,?,?,?,?)";
     

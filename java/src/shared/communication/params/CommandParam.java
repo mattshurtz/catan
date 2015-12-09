@@ -60,6 +60,6 @@ public class CommandParam {
 	public void setRandom(String random) {
 		this.random = random;
 	}
-	
-	
+
+
 }

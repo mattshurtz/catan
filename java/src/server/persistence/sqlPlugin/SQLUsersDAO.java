@@ -27,7 +27,7 @@ public class SQLUsersDAO implements IUsersDAO {
     
     
 
-    static final String addUser = "INSERT INTO Users VALUES (?,?,?)";//id username password
+    static final String addUser = "INSERT OR IGNORE INTO Users VALUES (?,?,?)";//id username password
     
     @Override
     public void addUser(int userID, String username, String password) throws Exception {
@@ -56,7 +56,9 @@ public class SQLUsersDAO implements IUsersDAO {
         ResultSet rs = s.executeQuery(selectUsers);
         UserInfoBank users = new UserInfoBank(false);
         while(rs.next()){
-          users.addUser(rs.getString(2), rs.getString(3));  
+        	String user = rs.getString(2);
+        	String password = rs.getString(3);
+          users.addUser(user, password);  
         }
         return users;
     }
