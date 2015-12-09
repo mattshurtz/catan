@@ -39,9 +39,9 @@ public class FileConnection implements IConnections {
         
     private void initFileNames() {
         this.inputGamesFile = new File( defaultGamesFile );
-        this.outputGamesFile = this.inputGamesFile;
+        this.outputGamesFile = new File( defaultGamesFile );
         this.inputCommandsFile = new File( defaultCommandsFile );
-        this.outputCommandsFile = this.inputCommandsFile;
+        this.outputCommandsFile = new File( defaultCommandsFile );
     }
 
     @Override
@@ -50,15 +50,16 @@ public class FileConnection implements IConnections {
         this.outputCommandsFile = getTempFile( this.inputCommandsFile.getAbsolutePath() );
         
         // Write new temp outputCommandsFile with current contents of inputCommandsFile
-        // so that append() can be used
+        // so that append() can be used        
         writeCommandFile(getCommandsString());
-        try {
-            // Create the games temp file
-            Files.deleteIfExists( this.outputGamesFile.toPath() );
-            Files.createFile( this.outputGamesFile.toPath() );
-        } catch (IOException ex) {
-            Logger.getLogger(FileConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this.writeGamesBytes(this.getGamesBytes());
+//        try {
+//            // Create the games temp file
+//            Files.deleteIfExists( this.outputGamesFile.toPath() );
+//            Files.createFile( this.outputGamesFile.toPath() );
+//        } catch (IOException ex) {
+//            Logger.getLogger(FileConnection.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
         this.inTransaction = true;
     }
