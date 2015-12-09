@@ -40,11 +40,7 @@ public class robPlayer extends Command{
 				
                 currentModel.incrementVersion();
                 
-                if(success == null){
-                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
-                }else{
-                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,success.toString());
-                }
+                
                 String recipientName = null;
 		        
                 if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
@@ -56,6 +52,12 @@ public class robPlayer extends Command{
 		            }
 		            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
 	            }
+                
+                if(success == null){
+                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
+                }else{
+                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,success.toString());
+                }
                 
 			} catch (Exception e) {
 			}

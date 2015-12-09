@@ -33,10 +33,10 @@ public class rollNumber extends Command{
             
             //rollNumber was successful - increment version and add statement to log, and return updated model
             currentModel.incrementVersion();
-            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
+            
             int theNum = rollNumberRequest.getNumber();
             this.addHistoryMessage(gameID, "rolled " + getArticle( theNum ) + " " + theNum, user);
-            
+            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
             return this.getSerializer().toJson(currentModel);
         }else{
             return null;
