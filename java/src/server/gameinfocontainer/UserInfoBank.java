@@ -8,6 +8,7 @@ package server.gameinfocontainer;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import shared.model.User;
 
@@ -18,6 +19,23 @@ import shared.model.User;
 public class UserInfoBank implements Serializable {
     
     private List<shared.model.User> users;
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final UserInfoBank other = (UserInfoBank) obj;
+        if (!Objects.equals(this.users, other.users)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     /**
      * Creates the UserInfoBank. Contains user information such as usernames,

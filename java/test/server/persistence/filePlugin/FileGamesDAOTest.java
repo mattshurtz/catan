@@ -5,7 +5,12 @@
  */
 package server.persistence.filePlugin;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,9 +19,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import server.gameinfocontainer.GameInfoContainer;
 import server.gameinfocontainer.ModelBank;
-import server.persistence.sqlPlugin.SQLFactory;
 import shared.communication.params.CommandParam;
-import shared.json.Serializer;
 import shared.model.Model;
 
 /**
@@ -34,6 +37,16 @@ public class FileGamesDAOTest {
     
     @AfterClass
     public static void tearDownClass() {
+        try {
+            Files.deleteIfExists( Paths.get( "persistence/games.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.old" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.old" ) );
+        } catch (IOException ex) {
+            Logger.getLogger(FileConnectionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Before
@@ -45,17 +58,35 @@ public class FileGamesDAOTest {
     }
 
     /**
-     * Test of getCommands method, of class FileGamesDAO.
-     */
-    @Test
-    public void testGetCommands() throws Exception {
-    }
-
-    /**
      * Test of addCommand method, of class FileGamesDAO.
      */
     @Test
     public void testAddCommand() throws Exception {
+        FileGamesDAO instance = new FileGamesDAO(new FileConnection());
+        GameInfoContainer gic = GameInfoContainer.getInstance();
+        
+        Model model = gic.getModels().getGame(0);
+        instance.addGame(0,model);
+        instance.clearCommands();
+        
+        instance.addCommand("hey", "json", 1, 0, 1, "random");
+        instance.addCommand("hey2", "json2", 2, 0, 2, "random2");
+        
+        ArrayList<CommandParam> list = instance.getCommands(0, 0);
+        
+        assertTrue( "command list size",  list.size() == 2 );
+        
+        CommandParam cp = list.get(0);
+        assertEquals( "hey", cp.getCommand() );
+        assertEquals( "json", cp.getJson());
+        assertEquals( 1, cp.getPlayerId() );
+        assertEquals( "random", cp.getRandom());
+        
+        cp = list.get(1);
+        assertEquals( "hey2", cp.getCommand() );
+        assertEquals( "json2", cp.getJson());
+        assertEquals( 2, cp.getPlayerId() );
+        assertEquals( "random2", cp.getRandom());
     }
 
     /**

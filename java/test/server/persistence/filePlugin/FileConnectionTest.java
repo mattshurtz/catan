@@ -5,7 +5,12 @@
  */
 package server.persistence.filePlugin;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -30,6 +35,16 @@ public class FileConnectionTest {
     
     @AfterClass
     public static void tearDownClass() {
+        try {
+            Files.deleteIfExists( Paths.get( "persistence/games.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/games.dat.old" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.tmp" ) );
+            Files.deleteIfExists( Paths.get( "persistence/commands.dat.old" ) );
+        } catch (IOException ex) {
+            Logger.getLogger(FileConnectionTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     @Before

@@ -55,16 +55,21 @@ public class PluginRegistry {
 	void loadFile(File config)
 	{
 		//Load the file
+        FileReader in = null;
 		try {
-			FileReader in = new FileReader(config);
-			Gson gson = new GsonBuilder().create();
-			
-			//Store map of all configurations
-			this.pluginMap = gson.fromJson(in, HashMap.class);
-			
+			in = new FileReader(config);
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			try {
+                in = new FileReader("java/"+config);
+            } catch ( FileNotFoundException eX ) {
+                eX.printStackTrace();
+            }
 		}
+        Gson gson = new GsonBuilder().create();
+
+        //Store map of all configurations
+        this.pluginMap = gson.fromJson(in, HashMap.class);
+			
 		
 	}
 	
