@@ -46,8 +46,9 @@ public class FileUsersDAO implements IUsersDAO {
 
     @Override
     public void clearUsers() throws Exception {
-        GameInfoContainer gic = getGameInfoContainer( fc );
-        gic.setUser(new UserInfoBank(false));
+        //GameInfoContainer gic = getGameInfoContainer( fc );
+        GameInfoContainer gic = new GameInfoContainer(false);
+    	//gic.setUser(new UserInfoBank(false));
         byte[] bytes = toBytes( gic );
         fc.writeGamesBytes(bytes);
     }
