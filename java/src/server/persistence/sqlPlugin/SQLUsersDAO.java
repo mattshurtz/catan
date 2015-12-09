@@ -27,7 +27,7 @@ public class SQLUsersDAO implements IUsersDAO {
     
     
 
-    static final String addUser = "INSERT INTO Users VALUES (?,?,?)";//id username password
+    static final String addUser = "INSERT OR IGNORE INTO Users VALUES (?,?,?)";//id username password
     
     @Override
     public void addUser(int userID, String username, String password) throws Exception {

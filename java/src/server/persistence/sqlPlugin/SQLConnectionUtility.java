@@ -36,7 +36,7 @@ public class SQLConnectionUtility implements IConnections {
     
     static final String createUsersSql = 
             "create table if not exists Users (\n" +
-            "	id int,\n" +
+            "	id INTEGER PRIMARY KEY,\n" +
             "	username text,\n" +
             "	password text\n" +
             ");";
