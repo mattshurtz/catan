@@ -29,7 +29,7 @@ public class register extends Command{
         int result = container.register(creds.getUsername(), creds.getPassword());
         
         if(result > -1) {
-        	Persistence.getInstance().addUser(result, creds.getUsername(), creds.getPassword());
+        	Persistence.getInstance().addUser(result);
         	return buildUserCookie( creds, result );
         } else {
         	throw new HTTPBadRequest("Could not add user");

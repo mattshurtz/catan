@@ -37,7 +37,12 @@ public class UserInfoBank implements Serializable {
     
     
     
-    /**
+    public List<shared.model.User> getUsers() {
+		return users;
+	}
+
+
+	/**
      * Creates the UserInfoBank. Contains user information such as usernames,
      * passwords, userIDs, currentGames.
      */
@@ -49,7 +54,6 @@ public class UserInfoBank implements Serializable {
                     addDefaultUsers();
         }
     }
-    
     
     
     public void addDefaultUsers() {
@@ -71,7 +75,7 @@ public class UserInfoBank implements Serializable {
     		return -1;
     	}
     	
-    	if(!(username == "Matt" || username=="Jan" || username=="Alex")) {
+    	if(!(username.equals("Matt") || username.equals("Jan") || username.equals("Alex"))) {
     		//check if valid username
         	if(username.length() < 3 || username.length() > 7){
         		return -1;
