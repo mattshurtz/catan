@@ -6,14 +6,11 @@
 package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import server.facade.IServerFacade;
 
 import java.io.IOException;
 import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import shared.exceptions.HTTPBadRequest;
 
 /**

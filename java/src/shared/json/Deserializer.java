@@ -7,17 +7,14 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import server.data.PlayerInfoCookie;
 
 import shared.communication.params.Credentials;
-import shared.communication.params.SerializableCommand;
 import shared.communication.params.moves.BuildRoadRequest;
 
 import shared.communication.responses.CreateGameResponse;

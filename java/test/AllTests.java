@@ -37,11 +37,11 @@ public class AllTests {
             "shared.model.ResourceListTest",
             "shared.model.UserTest",
             "server.CommandTests",
-            "server.persistence.filePlugin.FileConnectionTest",
-            "server.persistence.filePlugin.FileGamesDAOTest",
-            "server.persistence.filePlugin.FileUsersDAOTest",
-            "server.persistence.sqlPlugin.SQLGamesDAOTest",
-            "server.persistence.sqlPlugin.SQLUsersDAOTest"
+//            "server.persistence.filePlugin.FileConnectionTest",
+//            "server.persistence.filePlugin.FileGamesDAOTest",
+//            "server.persistence.filePlugin.FileUsersDAOTest",
+//            "server.persistence.sqlPlugin.SQLGamesDAOTest",
+//            "server.persistence.sqlPlugin.SQLUsersDAOTest"
         };
         
         org.junit.runner.JUnitCore.main( testClasses );

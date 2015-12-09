@@ -11,7 +11,6 @@ import server.persistence.Persistence;
 import shared.communication.params.CreateGameRequest;
 import shared.communication.responses.CreateGameResponse;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.HTTPBadRequest;
 
 /**
  *

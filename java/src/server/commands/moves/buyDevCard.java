@@ -8,7 +8,6 @@ package server.commands.moves;
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
 import server.persistence.Persistence;
-import shared.communication.params.moves.MaritimeTradeRequest;
 import shared.communication.params.moves.MoveRequest;
 import shared.definitions.DevCardType;
 import shared.exceptions.HTTPBadRequest;

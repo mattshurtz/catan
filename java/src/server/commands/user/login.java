@@ -7,7 +7,6 @@ package server.commands.user;
 
 import server.commands.Command;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.*;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.params.Credentials;
 

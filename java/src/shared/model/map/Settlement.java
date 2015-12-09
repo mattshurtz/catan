@@ -6,8 +6,6 @@
 package shared.model.map;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import shared.locations.HexLocation;
 
 import shared.locations.VertexLocation;
 

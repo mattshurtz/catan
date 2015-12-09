@@ -6,7 +6,6 @@
 package server.HTTPhandlers;
 
 import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
 
 import server.facade.IServerFacade;
 import shared.exceptions.HTTPBadRequest;

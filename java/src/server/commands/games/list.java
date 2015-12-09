@@ -11,7 +11,6 @@ import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
 import shared.communication.responses.GameResponse;
 import shared.exceptions.HTTPBadRequest;
-import shared.exceptions.HTTPBadRequest;
 
 /**
  *

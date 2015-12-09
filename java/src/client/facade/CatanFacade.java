@@ -13,8 +13,6 @@ import shared.definitions.CatanColor;
 import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
-import shared.locations.EdgeLocation;
-import shared.model.DevCardList;
 import shared.model.Model;
 import shared.model.Player;
 import shared.model.ResourceList;

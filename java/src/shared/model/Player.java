@@ -9,8 +9,6 @@ import java.io.Serializable;
 import java.util.Objects;
 import shared.definitions.CatanColor;
 import shared.definitions.DevCardType;
-import shared.definitions.ResourceType;
-import shared.locations.HexLocation;
 
 /**
  * cities (number): How many cities this player has left to play, color

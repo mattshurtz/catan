@@ -6,9 +6,6 @@ import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
 import client.base.*;
 import client.facade.CatanFacade;
-import client.resources.ResourceBarElement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**

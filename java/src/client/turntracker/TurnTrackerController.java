@@ -1,6 +1,5 @@
 package client.turntracker;
 
-import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
 import shared.model.Player;
 import client.base.*;

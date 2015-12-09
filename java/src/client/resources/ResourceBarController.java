@@ -7,7 +7,6 @@ import client.facade.CatanFacade;
 import client.misc.MessageView;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shared.definitions.TurnStatus;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
 import shared.model.Player;

@@ -3,8 +3,6 @@ package client.maritime;
 import shared.definitions.*;
 import shared.exceptions.GetPlayerException;
 import shared.exceptions.ServerException;
-import shared.model.ResourceList;
-import shared.model.map.Port;
 
 import java.util.ArrayList;
 

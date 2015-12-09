@@ -6,7 +6,6 @@
 package server.commands.user;
 
 import server.commands.Command;
-import server.data.PlayerInfoCookie;
 import shared.exceptions.HTTPBadRequest;
 import server.gameinfocontainer.GameInfoContainer;
 import server.persistence.Persistence;

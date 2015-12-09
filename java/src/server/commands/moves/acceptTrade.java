@@ -9,7 +9,6 @@ import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
 import server.persistence.Persistence;
 import shared.communication.params.moves.AcceptTradeRequest;
-import shared.communication.params.moves.OfferTradeRequest;
 import shared.exceptions.HTTPBadRequest;
 import shared.model.Model;
 

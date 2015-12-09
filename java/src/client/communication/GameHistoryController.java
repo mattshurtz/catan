@@ -4,7 +4,6 @@ import java.util.*;
 import java.util.List;
 
 import client.base.*;
-import client.data.PlayerInfo;
 import client.facade.CatanFacade;
 import shared.definitions.*;
 import shared.model.MessageLine;

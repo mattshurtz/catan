@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import server.data.PlayerInfoCookie;
 
 import server.facade.IServerFacade;
-import server.facade.ResponderFacade;
 import shared.exceptions.HTTPBadRequest;
 import shared.json.Deserializer;
 
@@ -69,7 +68,8 @@ public class catanHTTPHandler implements HttpHandler{
 	}
 	
 	static String convertStreamToString(java.io.InputStream is) {
-	    java.util.Scanner s = new java.util.Scanner(is,"UTF-8").useDelimiter("\\A");
+	    @SuppressWarnings("resource")
+		java.util.Scanner s = new java.util.Scanner(is,"UTF-8").useDelimiter("\\A");
 	    return s.hasNext() ? s.next() : "";
 	}
 	

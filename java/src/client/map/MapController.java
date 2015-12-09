@@ -12,7 +12,6 @@ import client.facade.CatanFacade;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import shared.communication.params.moves.BuildRoadRequest;
 import shared.exceptions.GetPlayerException;
 
 import shared.exceptions.ServerException;

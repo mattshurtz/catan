@@ -5,6 +5,8 @@
  */
 package server.commands.moves;
 
+import java.util.HashMap;
+
 import server.commands.Command;
 import server.gameinfocontainer.GameInfoContainer;
 import server.persistence.Persistence;
@@ -23,6 +25,8 @@ public class Monopoly extends Command{
         if(isUserInGame(gameID, user)) {
             PlayMonopolyRequest request = (PlayMonopolyRequest)this.getDeserializer()
                                                 .toClass(PlayMonopolyRequest.class, json);
+            
+            HashMap<String,String> list = (HashMap<String,String>) this.getDeserializer().toClass(HashMap.class,json);
             
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
             currentModel.playMonopoly(request);

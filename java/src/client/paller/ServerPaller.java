@@ -2,7 +2,6 @@ package client.paller;
 
 import client.facade.CatanFacade;
 import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A class to poll the server for changes, pull the changed data, and take care of 

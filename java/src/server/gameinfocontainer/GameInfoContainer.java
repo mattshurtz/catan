@@ -40,7 +40,7 @@ public class GameInfoContainer implements Serializable {
     
     public GameInfoContainer(ModelBank games, UserInfoBank users) {
         models = games;
-        users = users;
+        this.users = users;
     }
     
     

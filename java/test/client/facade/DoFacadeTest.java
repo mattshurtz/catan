@@ -1,3 +1,6 @@
+package client.facade;
+
+
 
 import client.facade.CatanFacade;
 import client.facade.StateBase;
@@ -9,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import shared.communication.params.Credentials;
 import shared.communication.params.JoinGameRequest;
 import shared.definitions.CatanColor;
