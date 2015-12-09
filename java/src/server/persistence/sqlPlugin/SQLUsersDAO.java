@@ -56,7 +56,9 @@ public class SQLUsersDAO implements IUsersDAO {
         ResultSet rs = s.executeQuery(selectUsers);
         UserInfoBank users = new UserInfoBank(false);
         while(rs.next()){
-          users.addUser(rs.getString(2), rs.getString(3));  
+        	String user = rs.getString(2);
+        	String password = rs.getString(3);
+          users.addUser(user, password);  
         }
         return users;
     }
