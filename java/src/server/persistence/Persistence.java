@@ -3,7 +3,6 @@ package server.persistence;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import javafx.util.Pair;
 
 import server.facade.ResponderFacade;
 import server.gameinfocontainer.GameInfoContainer;
@@ -75,9 +74,7 @@ public class Persistence {
 		
 		command = command.replace("server.commands.","");
 		
-		System.out.println("Saving Command: " + command);
-		
-		
+		System.out.println("Saving Command: " + command+" delta: "+deltaCount.get(gameId));
 		
 		try {
 			int version = GameInfoContainer.getInstance().getGameModel(gameId).getVersion();
@@ -159,7 +156,6 @@ public class Persistence {
 			return false;
 		}
 		return true;
-		
 	}	
 	
 	private boolean loadUsers() {

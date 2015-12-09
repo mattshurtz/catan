@@ -32,12 +32,22 @@ public class robPlayer extends Command{
 				//returns resource if got one
 				//returns null if did not get one
 				//throws exception if unable to rob player
-				success = currentModel.robPlayer(robPlayerRequest,ResourceType.valueOf(random));
-	            	
-				currentModel.incrementVersion();
-	            Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
-		        String recipientName = null;
-		        if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
+                if(random==null){
+                    success = currentModel.robPlayer(robPlayerRequest,null);
+                }else{
+                    success = currentModel.robPlayer(robPlayerRequest,ResourceType.valueOf(random));
+                }
+				
+                currentModel.incrementVersion();
+                
+                if(success == null){
+                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,null);
+                }else{
+                    Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,success.toString());
+                }
+                String recipientName = null;
+		        
+                if(robPlayerRequest.getVictimIndex() >=0 && robPlayerRequest.getVictimIndex() < currentModel.getPlayers().size()
 		            			&& currentModel.getPlayers().get(robPlayerRequest.getVictimIndex()).getResources().getTotalResources() > 0) {
 	            	try {
 		                recipientName = currentModel.getPlayer( robPlayerRequest.getVictimIndex() ).getName();
@@ -46,6 +56,7 @@ public class robPlayer extends Command{
 		            }
 		            this.addHistoryMessage(gameID, "robbed" + (( recipientName == null ) ? "" : " " + recipientName), user);
 	            }
+                
 			} catch (Exception e) {
 			}
 

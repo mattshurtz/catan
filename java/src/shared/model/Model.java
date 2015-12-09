@@ -1440,7 +1440,7 @@ public class Model implements Serializable{
         //do they have resources
         if(victimIndex != -1 && players.get(victimIndex).getResources().getTotalResources() > 0) {
         	ResourceType robbed;
-        	if(resource != null) {
+        	if(resource == null) {
         		robbed = players.get(victimIndex).getResources().robResource();
             	players.get(robberIndex).getResources().addResource(robbed, 1);
         	} else {

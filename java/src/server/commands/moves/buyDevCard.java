@@ -28,8 +28,12 @@ public class buyDevCard extends Command{
         if(isUserInGame(gameID, user)){
             MoveRequest moveRequest = (MoveRequest)this.getDeserializer().toClass(MoveRequest.class, json);
             Model currentModel = GameInfoContainer.getInstance().getGameModel(gameID);
-            DevCardType card = currentModel.buyDevCard(moveRequest,DevCardType.valueOf(random));
-            
+            DevCardType card;
+            if(random == null){
+                card = currentModel.buyDevCard(moveRequest,null);
+            }else{
+                card = currentModel.buyDevCard(moveRequest,DevCardType.valueOf(random));
+            }
             this.addHistoryMessage(gameID, "bought a development card", user);
             Persistence.getInstance().saveCommand(this.getClassName(this.getClass()), json, gameID, user,card.toString());
             return this.getSerializer().toJson(currentModel);
