@@ -68,29 +68,26 @@ public class main{
 		String persistance_type;
 		int delta;
 		
-		if (!args[2].equals("${wipe}")) {
+		
+		if (args.length >= 2 && args.length < 4) {
+		//if (!args[2].equals("${wipe}")) {
+			if(!args[0].equals("${persist}") && !args[1].equals("${delta}")) {	
 				persistance_type = args[0].toString();
 				delta = Integer.parseInt(args[1]);
 				persis = Persistence.getInstance();
 				persis.set(persistance_type, delta);
-				if(args[2].toString().equals("wipe")) {
+				if(args.length == 3 && args[2].toString().equals("wipe")) {
 					persis.wipe();					
-				} else {
+				} else if (args.length == 3 && args[2].equals("${wipe}")) {
+				} else if (args.length == 3){
 					System.err.println("you can only 'wipe'");					
 				}
 				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
-                }
-                else if(!args[0].equals("${persist}") && !args[1].equals("${delta}")) {
-				persistance_type = args[0].toString();
-				delta = Integer.parseInt(args[1]);
-				persis = Persistence.getInstance();
-				persis.set(persistance_type, delta);
-				persis.loadData();
-				new main().run(DEFAULT_SERVER_PORT_NUMBER);
-                }
-                else {
-                                persis = Persistence.getInstance();
+			}
+        }
+        else {
+                persis = Persistence.getInstance();
 				persis.set(DEFAULT_PLUGIN, DEFAULT_DELTA);
 				persis.loadData();
 				new main().run(DEFAULT_SERVER_PORT_NUMBER);
