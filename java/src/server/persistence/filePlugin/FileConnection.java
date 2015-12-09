@@ -42,6 +42,24 @@ public class FileConnection implements IConnections {
         this.outputGamesFile = new File( defaultGamesFile );
         this.inputCommandsFile = new File( defaultCommandsFile );
         this.outputCommandsFile = new File( defaultCommandsFile );
+        
+        if ( !Files.exists(inputGamesFile.toPath() ) ) {
+			try {
+				Files.createFile( this.inputGamesFile.toPath() );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+        
+        if ( !Files.exists(inputCommandsFile.toPath() ) ) {
+			try {
+				Files.createFile( this.inputCommandsFile.toPath() );
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
     }
 
     @Override
